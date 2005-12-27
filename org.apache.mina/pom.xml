@@ -3,7 +3,7 @@
 <!-- TODO: have a directory wide parent that defines common elements -->
 <!-- TODO: some of maven.xml still needs to be incorporated -->
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.apache.directory.network</groupId>
+  <groupId>org.apache.mina</groupId>
   <artifactId>mina</artifactId>
   <name>MINA</name>
   <version>0.9.1-SNAPSHOT</version>
@@ -51,7 +51,7 @@
   <description>
     MINA (Multipurpose Infrastructure for Network Applications) is a
     network application framework which helps users develop high
-    performance and high scalability network applications easily.
+    performance and highly scalable network applications easily.
   </description>
 
   <mailingLists>
