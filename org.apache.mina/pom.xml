@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project>
-<!-- TODO: have a directory wide parent that defines common elements -->
-<!-- TODO: some of maven.xml still needs to be incorporated -->
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.mina</groupId>
   <artifactId>mina</artifactId>
@@ -21,29 +19,19 @@
       <id>apache.websites</id>
       <url>scp://minotaur.apache.org/www/directory.apache.org/subprojects/network</url>
     </site>
-<!-- TODO: these don't yet exist
-    <repository>
-      <id>apache.releases</id>
-      <url>scp://minotaur.apache.org/www/www.apache.org/dist/maven-repository</url>
-    </repository>
-    <snapshotRepository>
-      <id>apache.snapshots</id>
-      <url>scp://minotaur.apache.org/www/cvs.apache.org/maven-repository</url>
-    </snapshotRepository>
--->
   </distributionManagement>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/directory/network/trunk</connection>
-    <url>http://svn.apache.org/viewcvs.cgi/directory/network/trunk/?root=Apache-SVN</url>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory/network/trunk</developerConnection>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/directory/trunk/org.apache.mina</connection>
+    <url>http://svn.apache.org/viewcvs.cgi/directory/trunk/org.apache.mina/?root=Apache-SVN</url>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory/trunk/org.apache.mina</developerConnection>
   </scm>
 
   <ciManagement>
     <notifiers>
       <notifier>
         <type>mail</type>
-        <address>dev@directory.apache.org</address>
+        <address>mina-dev@directory.apache.org</address>
       </notifier>
     </notifiers>
   </ciManagement>
@@ -56,12 +44,12 @@
 
   <mailingLists>
     <mailingList>
-      <name>Apache Directory Developement - use [mina] prefix</name>
-      <subscribe>dev-subscribe@directory.apache.org</subscribe>
-      <unsubscribe>dev-unsubscribe@directory.apache.org</unsubscribe>
-      <archive>http://mail-archives.apache.org/mod_mbox/directory-dev/</archive>
+      <name>Apache MINA Developement</name>
+      <subscribe>mina-dev-subscribe@directory.apache.org</subscribe>
+      <unsubscribe>mina-dev-unsubscribe@directory.apache.org</unsubscribe>
+      <archive>http://mail-archives.apache.org/mod_mbox/mina-dev/</archive>
       <otherArchives>
-        <otherArchive>http://www.archivum.info/dev@directory.apache.org/</otherArchive>
+        <otherArchive>http://www.archivum.info/mina-dev@directory.apache.org/</otherArchive>
       </otherArchives>
     </mailingList>
   </mailingLists>
@@ -76,28 +64,9 @@
 
   <dependencies>
     <dependency>
-      <groupId>springframework</groupId>
-      <artifactId>spring-beans</artifactId>
-      <version>1.2.5</version>
-    </dependency>
-
-    <dependency>
-      <groupId>springframework</groupId>
-      <artifactId>spring-core</artifactId>
-      <version>1.2.5</version>
-    </dependency>
-
-    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
       <version>1.0-beta9</version>
-    </dependency>
-
-    <dependency>
-      <groupId>commons-net</groupId>
-      <artifactId>commons-net</artifactId>
-      <version>1.3.0</version>
-      <scope>test</scope>
     </dependency>
 
     <dependency>
@@ -113,42 +82,9 @@
       <version>1.2_Java1.3</version>
       <scope>test</scope>
     </dependency>
-    
-    <dependency>
-      <groupId>easymock</groupId>
-      <artifactId>easymockclassextension</artifactId>
-      <version>1.1</version>
-      <scope>test</scope>
-    </dependency>
-    
   </dependencies>
 
   <build>
-    <sourceDirectory>src/java</sourceDirectory>
-<!-- TODO: we may need a profile for this (but would require source exclusions, but would be better to make a subproject
-    <sourceModifications>
-      <sourceModification>
-        <className>javax.swing.SwingGraphics</className>
-        <excludes>
-          <exclude>org/apache/mina/io/filter/SSLFilter.java</exclude>
-          <exclude>org/apache/mina/io/filter/SSLHandler.java</exclude>
-          <exclude>org/apache/mina/io/filter/SSLByteBufferPool.java</exclude>
-        </excludes>
-      </sourceModification>
-    </sourceModifications>
--->
-    <testSourceDirectory>src/test</testSourceDirectory>
-
-<!-- TODO: Why are examples in the JAR?
-    <resources>
-      <resource>
-        <directory>${basedir}/src/examples</directory>
-        <includes>
-          <include>**/*.cert</include>
-        </includes>
-      </resource>
-    </resources>
--->
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -159,31 +95,13 @@
           <debug>true</debug>
           <optimize>true</optimize>
           <showDeprecations>true</showDeprecations>
-          <!-- These rely on example classes -->
-          <testExcludes>
-            <testExclude>**/AcceptorTest.*</testExclude>
-            <testExclude>**/ConnectorTest.*</testExclude>
-            <testExclude>**/*BindTest.*</testExclude>
-            <testExclude>**/Abstract*</testExclude>
-          </testExcludes>
         </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <excludes>
-            <exclude>**/Abstract*</exclude>
-            <exclude>**/DatagramBindTest*</exclude>
-            <exclude>**/*RegressionTest*</exclude>
-          </excludes>
         </configuration>
       </plugin>
-
-<!-- TODO
-# Eclipse settings.
-maven.eclipse.junit=3.8.1
-maven.eclipse.classpath.include=${basedir}/src/examples
--->
     </plugins>
   </build>
 
@@ -200,10 +118,6 @@ maven.eclipse.classpath.include=${basedir}/src/examples
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-<!-- TODO:
-maven.javadoc.links = http://java.sun.com/j2se/1.5.0/docs/api/, http://www.junit.org/junit/javadoc/3.8.1/
-maven.javadoc.package = false
--->
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -213,29 +127,11 @@ maven.javadoc.package = false
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>jxr-maven-plugin</artifactId>
       </plugin>
-<!-- Not compatible with current JIRA URL
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>changes-maven-plugin</artifactId>
-      </plugin>
--->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>surefire-report-maven-plugin</artifactId>
       </plugin>
-<!-- TODO: Not released 
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>jdepend-maven-plugin</artifactId>
-      </plugin>
--->
     </plugins>
   </reporting>
-
-<!-- TODO: don't exist yet
-    <report>maven-emma-plugin</report>
-    <report>maven-simian-plugin</report>
-  </reports>
--->
 </project>
 
