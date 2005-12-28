@@ -93,7 +93,9 @@ public class BlacklistFilter extends IoFilterAdapter
         {
             String msg = "Collection of addresses must contain only InetAddress instances";
             log.error( msg, ase );
-            throw new IllegalArgumentException( msg );
+            IllegalArgumentException iae = new IllegalArgumentException( msg );
+            iae.initCause( ase );
+            throw iae;
         }
     }
     
