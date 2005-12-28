@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="akarasulu@apache.org">Alex Karasulu</author>
+    <title>ASN.1 and BER Information</title>
+  </properties>
+  <body>
+
+    <section name="ASN.1 and BER Information">
+      <subsection name="Background">
+        <p>
+          The BER encoding for ASN.1 was defined within ITU specification
+          X.690 along with the Canonical and Distinguished Encoding Rules.
+          A copy of this document along with other useful documents and books
+          on ASN.1 and its encodings can be obtained for free here:
+        </p>
+      </subsection>
+
+      <subsection>
+        <table>
+        <tr><th>Document</th><th>Description</th></tr>
+        <tr>
+          <td>
+            <a href="http://lesbeshy.notlong.com">X.690 (07/02)</a>
+          </td>
+          <td>
+            Information technology - ASN.1 encoding rules: Specification of
+            Basic Encoding Rules (BER), Canonical Encoding Rules (CER) and
+            Distinguished Encoding Rules (DER)
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <a href="http://offburie.notlong.com">X.680 (07/02)</a>
+          </td>
+          <td>
+            Information technology - Abstract Syntax Notation One (ASN.1):
+            Specification of basic notation
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <a href="http://www.oss.com/asn1/bookreg.html">ASN.1 Complete</a>
+          </td>
+          <td>
+            A verbose yet truely complete book on ASN.1 and various encoding
+            mechanisms.  Easy to read since the author takes almost a
+            conversational tone.
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <a href="http://www.oss.com/asn1/bookreg2.html">
+              ASN.1 - Communication between heterogeneous systems</a>
+          </td>
+          <td>
+            Also a very complete book on ASN.1 and various encoding mechanisms.
+            A little more difficult to read but seems to be much better
+            organized and more exacting.  I use both books in conjunction
+            often switching between the two based on my mood :-).  Both are
+            most excellent - thanks to both authors for graciously providing
+            their books online.
+          </td>
+        </tr>
+        </table>
+      </subsection>
+
+      <subsection name="BER Tag, Value, Length Tuples">
+        <p>
+          BER stands for Basic Encoding Rules.  These rules describe how to
+          encode and decode basic data types and composite data structures
+          to and from TLV streams.  A TLV hence may be primitive (atomic) or
+          constructed (nested) where the value component contains other TLVs.
+          The T is for the Tag a numeric type identifier, the L is for the
+          length of the data carried in the third V component, the value.
+          Outside of this very trivial introduction there is very little to
+          the encoding.  Readers should look at the relatively short
+          specification for referrence regarding the exact encoding for
+          various data types using TLV tuples.  The books above also have
+          appendices for the various encodings which are longer than the
+          actual specification yet more explanitory.
+        </p>
+      </subsection>
+    </section>
+  </body>
+</document>

@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="akarasulu@apache.org">Alex Karasulu</author>
+    <title>BER Digester Design</title>
+  </properties>
+  <body>
+    <section name="Introduction">
+
+      <subsection name="What is it?">
+        <p>
+          The digester is a high level decoder that builds object
+          containment trees from a stream of events it receives via callback
+          events.  These callbacks notify of the start and end of BER tuples
+          composed of a Tag, a Length and a Value within the underlying stream.
+          Rules, registered with Tag nesting patterns are used to build
+          containment trees using an object stack.  Rules are triggered when
+          Tag nesting patterns match the patterns registered with the rule.
+        </p>
+      </subsection>
+
+      <subsection name="Why is it called a digester?">
+        <p>
+          The idea for a higher level decoder that builds object containment
+          trees through the action of rules came when I was looking at the
+          Jakarta Commons (SAX event) Digester.  SAX events are very similar
+          to the TLV callback events that are emminated by the BERDecoder.
+          The Commons Digester consumed these events.  While processing these
+          events it tracked the nesting of XML elements and fired registered
+          rules when nesting patterns were matched.  These rules performed
+          operations on the Digester's stack: objects were instantiated and
+          pushed, or populated and then popped to build the containment tree.
+        </p>
+
+        <p>
+          The BERDigester applies the same pattern as does the Common's
+          Digester on a similar underlying event stream.  Although BER Tuple
+          events carry completely different peices of information, like SAX
+          event streams BER TLV event streams signal the nesting pattern of
+          underlying constructs within the stream.  This hence reviels the
+          structure of an ASN.1 data type or in the case of SAX the structure
+          of an XML document.  Both digesters consume events emminating from
+          some event source to build object containment trees based on the
+          nesting pattern revieled by those events.  The containment trees are
+          built through the action of rules triggered by matching nesting
+          patterns.  Just like the Commons Digester, the BERDigester uses
+          stacks to share objects across rule firings.
+        </p>
+
+        <p>
+          It's safe to say that there is such a thing as a digester pattern.
+          What better way exists to refer to the pattern and those peices of
+          software implementing it, than to just call them digesters?  I could
+          not think of any and that's why we call it the BERDigester.  The BER
+          simply distinguishes it from the Commons Digester so there is no
+          confusion. (Note: BERDigester may be renamed to TupleDigester)
+        </p>
+      </subsection>
+
+      <subsection name="Rules and Stacks Are Good">
+        <p>
+          Our ultimate goal is to build a stub compiler that generates
+          encoder/decoder pairs for the various ASN.1 encodings: BER, DER, XER,
+          and PER.  The compiler also generates the classes used by a digester
+          to build the containment tree of the ASN.1 data structures
+          transmitted.  Generation of the stubs is not that hard to do.
+          However building a decoder that assembles containment trees using
+          those stubs and an encoded stream is not easy to do.
+        </p>
+
+        <p>
+          Stacks help out by reducing the complexity of the problem.  A stack
+          can be used first of all to share objects across rule firings.
+          Secondly its a perfect data structure for tracking nesting patterns
+          or managing operations on object containment trees.  State and scope
+          are maintained easily using a stack.
+        </p>
+
+        <p>
+          If simple stack based instructions are devised to instantiate stub
+          objects, push them and pop them, along with primitives and other
+          classes, then the complexity involved with generating decoders
+          diminishes greatly.  Furthermore, if those instructions were
+          declaritive rules triggered based on nesting patterns then decoder
+          generation is well a cake walk.  All a decoder needs to do is
+          register rules based on tag nesting patterns associated with the
+          ASN.1 modules with a BERDigester.  A generic set of rules may be
+          created or rules can be generated to be registered.  The generated
+          decoder would hence be the setup of the BERDigester by registering
+          rules with it for tag patterns.  Code would also be added to funnel
+          data into the underlying BERDecoder as well as code to respond to
+          the callbacks generated by the top level PDU decoder.
+        </p>
+      </subsection>
+    </section>
+
+    <section name="BERDigester Design">
+      <subsection name="Nesting Stack">
+        <p>
+          The design documentation for the BERDecoder discusses an encoding
+          for Tags using the first four octets of a Tag field.  These four
+          octets are stored within a primitive Java int.  These ints represent
+          the raw Tag of a TLV tuple.  We could push these raw Tag ints onto
+          an stack: let's for the time being call this primitive Java int stack
+          the tagStack.  Every time a new TLV Tuple is delivered, the digester
+          pushes the Tag int onto the tagStack.  When processing of the TLV
+          Tuple is finished, the tagStack is popped removing the Tag int for
+          the Tuple.  The sequence of Tag ints within the tagStack represent
+          the reverse nesting order of TLV Tuples.  Rule's are registered with
+          the digester using int[]s for patterns, these int[]s are compared
+          against the sequence of ints within the tagStack, hence the tag
+          nesting pattern.  All rules registered with a matching pattern of
+          Tag ints are fired in the order they were registered.
+        </p>
+        <p>
+	        This sounds pretty simple and straight forward at first glance but
+          there are complications.  The BER encoding, provides for two ways in
+          which string types can be encoded: as a primitive TLV or as a
+          constructed TLV.  By string types, we refer to all character based
+          string types like IA5String as well as bit strings and octet strings.
+          String types can be encoded using a single TLV as a primitive type.
+          This way the entire string is kept within the value field.  The
+          designers of BER were smart enough to realize that value chunking
+          would need to occur for large strings to enable efficient decoding
+          and encoding.  Hence these string types can optionally be encoded as
+          constructed TLV tuples with smaller nested tuples carrying fragments
+          of the string.  This way encoders would not need to calculate the
+          length of a large strings in advance or keep the entire string in
+          memory.  The value can be fragmented and chucked explicitly by the
+          encoding.  This is great, however the Tag int for a primitive TLV of
+          a string type will not equal the Tag int for the constructed TLV of
+          the same string type.  Pattern matching cannot occur under these
+          circumstances.
+        </p>
+        <p>
+	        This complication forced me to rethink the use of raw tag integers.
+          Instead of pushing the tag int as is onto the tagStack we could
+          always reduce the raw tag to some canonical form then push that int
+          instead.  Furthermore, all patterns supplied to register rules must
+          also have their ints scrubbed within the int[] pattern, so pattern
+          matching will occur using only the canonical representation of Tag
+          ints rather than actual Tag integers.
+        </p>
+        <p>
+	        The primitive/constructed flag exists on a Tag's first octet as a
+          single bit.  We want to prevent variations in this bit from throwing
+          off our pattern matching.  Choosing a canonical form is like picking
+          whether or not to lower case or to upper case letters before
+          attempting a comparison.  In our case :-), we have chosen the
+          canonical form to be the tag with this primitive/constructed bit
+          turned off.  So before any comparison occurs all tag integers will
+          be guaranteed to have this bit flag turned off.  In fact all TagEnum
+          int values prefabricated by the compiler will have the Tag int
+          scrubbed.  Meaning the primitive/constructed bit will be in the off
+          position and hence in the canonical form.
+        </p>
+      </subsection>
+
+      <subsection name="Pattern Matching">
+        <p>
+          To trigger rules the digester checks every new tag nesting pattern
+          to see if it matches any of the patterns registered with a rule.
+          Multiple patterns may be registered with a rule to allow it to fire
+          under different contexts.  With every in coming event which changes
+          the tag nesting pattern, the digester must see if the tag nesting
+          pattern matches any of the patterns for every registered rule.  This
+          could be an expensive operation to have to perform with every event
+          if the rule and pattern base is large.  Every registered rule pattern
+          would have to be tested for equality with the tag nesting pattern to
+          determine if the corresponding rule needs to fire.
+        </p>
+
+        <p>
+          To keep pattern matching overheads constant regardless of the number
+          of rules registered, a special data structure, a search tree called
+          the TagTree is used.  The tree is composed of TagNodes and is built
+          as rules and their patterns are registered.  The tree's tag nodes
+          simply correspond to a tag value, and have a list of rules.  Tag
+          nodes maintain a hash of children keyed by their tag value.  Here's
+          an example of a TagTree for the following rule pattern registrations:
+        </p>
+
+        <table>
+          <tr>
+            <th>Rule</th>
+            <th>Pattern</th>
+          </tr>
+
+          <tr>
+            <td>R0</td>
+            <td>[1,2,3,4,5]</td>
+          </tr>
+
+          <tr>
+            <td>R1</td>
+            <td>[1,2,5]</td>
+          </tr>
+
+          <tr>
+            <td>R2</td>
+            <td>[1,2,3]</td>
+          </tr>
+
+          <tr>
+            <td>R3</td>
+            <td>[4,4,5]</td>
+          </tr>
+
+          <tr>
+            <td>R0</td>
+            <td>[4,1,2,4]</td>
+          </tr>
+        </table>
+
+        <br></br>
+
+        <center>
+          <img src="../images/TagTree.png"/>
+        </center>
+
+        <p>
+          Whenever possible nodes in the tree are reused while adding new
+          patterns and rules to the tree.  Each new pattern added to the tree
+          corresponds to a new unique path within the tree.  Rule registration
+          is where the true cost of the tree's construction is incurred.  In
+          the solid state the tree is only used to rapidly search for the set
+          of rules to fire based on the current nesting pattern.  The search
+          occurs by walking the tree with the current nesting pattern.  For
+          example a walk using the [1,2,3] nesting pattern takes us from the
+          root to tag node 1, then 2 and finally tag node 3.  Once the pattern
+          is exhausted, meaning all tag values are consumed in the walk, the
+          rules at the final node are returned as the matching set that need to
+          be fired.  If there are no rules at that node, then the set is empty.
+          If the pattern "walks off the tree", where no child with a tag value
+          is available to continue the walk on the tree, the search ends
+          returning the empty set.
+        </p>
+
+        <p>
+          Without the tag tree every pattern registered with a rule would have
+          to be compared.  This is an O(nm) operation where n is the number of
+          pattern registrations and m is the size of the pattern.  With the tag
+          tree the search time is only O(m) where only the size of the pattern
+          determine the search time.  This is much more acceptable.
+        </p>
+
+        <p>
+          The only remaining problem at this point is how to implement wild
+          cards with pattern matching.  First of all a special reserved tag
+          int value must be selected as the wild card ("*") value so it does
+          not conflict with any valid tags we might encounter.  I think any of
+          the UNIVERSAL tags above 32 can be used for this but I would have to
+          check.  Plus there are four kinds of wildcard use cases which are
+          possible:
+        </p>
+
+        <ol>
+          <li>wildcard at the front of the pattern</li>
+          <li>wildcard at the end of the pattern</li>
+          <li>wildcard in the middle of the pattern</li>
+          <li>two or more wildcards in a pattern</li>
+        </ol>
+
+        <p>
+          There is no way we would accomodate all these use cases.  First off
+          some of them will be rarely if ever used.  Secondly their
+          implementation would either be impossible or too difficult to
+          implement for the return in expressivity.  At this point I plan to
+          implement any of these use cases on an as needed basis.  However
+          the two noteworthy use cases that stick out are use case #1 and #2.
+          #2 is useful for rule used to build ASN.1 strings that are broken
+          apart using the constructed BER encoding.  #1 will be useful as well.
+          Sometimes a pattern may occur multiple times in different contexts
+          and you want to detect them all using a single rule.  In this case,
+          a pattern with a wildcard at the front (case #1) does the job.
+          Furthermore recursive ASN.1 definitions as those found with the
+          LDAP SearchRequest, will require wildcard use case #1.
+          Use cases #3 and #4 are very difficult to implement not to mention
+          expensive in terms of processing.  They just don't seem worth it.
+        </p>
+      </subsection>
+
+      <subsection name="Pattern Matching with Wild Cards">
+        <p>
+          The LDAP SearchRequest requires the use case where the wild card is
+          in the middle of the rule matching pattern because of a recursive
+          ASN.1 definition for Filter expressions.  This means the nesting could
+          be arbitrarily deep so long as the end sequence of tag nesting
+          matches the tail of the pattern and the start sequences matches the
+          front.  The use of a wild card at the front of the pattern would
+          also satisfy this use case although with less specificity.  However
+          it would be easier to implement so we're going to shoot for wild
+          cards in the front of a pattern first which corresponds to use case
+          #1 above.
+        </p>
+
+        <p>
+          Matching for patterns with wild cards in front requires the use of
+          another searchable TagTree similar to the one used for patterns
+          without wild cards.  This new TagTree is built using the reverse
+          sequence of the wild card pattern's tail.  So if a rule is added using
+          the wild card pattern, [*,6,3,9], a branch is created in an empty
+          TagTree in the order 9-3-6.  Besides just adding the reverse
+          branch the tree must be searched for any existing branches that
+          end with 9, 3 and 6.  So if there was a branch 9-3-6-4 based on the
+          pattern [*,4,6,3,9] we would add the rule to node 4 in this branch
+          as well as to node 6 in branch 9-3-6 created by pattern [6,3,9].
+          The fact that node 9-3-6-4 contains the rule can be inferred from
+          it being a child of 9-3-6 while conducting a search to return both
+          rules.  The addition of the rule to both nodes 6 and 4 is a bit
+          redundant, however this is done during rule addition, so we do not
+          have to compute this and collect extra rules while walking the tree
+          to find all matching rules.  We want to follow a strategy where the
+          amount of object creation, and computation is minimal while search.
+          What ever needs to be calculated to avoid the penalty during a search
+          we do during rule pattern registration.  This strategy is followed
+          to conduct searches for matching rules as fast as possible requiring
+          the minimum amount of work.  Here's an example of what a tree with
+          wild cards might look like when registrations with the following
+          patterns and rules are applied:
+        </p>
+
+        <table>
+          <tr>
+            <th>Rule</th>
+            <th>Wild Carded Pattern</th>
+          </tr>
+
+          <tr>
+            <td>R0</td>
+            <td>[*,6,3,9]</td>
+          </tr>
+
+          <tr>
+            <td>R1</td>
+            <td>[*,4,3,9]</td>
+          </tr>
+
+          <tr>
+            <td>R2</td>
+            <td>[*,1,2,5]</td>
+          </tr>
+
+          <tr>
+            <td>R3</td>
+            <td>[*,1,2]</td>
+          </tr>
+
+          <tr>
+            <td>R4</td>
+            <td>[*,3,1,2]</td>
+          </tr>
+
+        </table>
+
+        <br></br>
+
+        <center>
+          <img src="../images/WildTagTree.png"/>
+        </center>
+
+        <p>
+          Furthermore rules added via wild cards are also added to all nodes
+          satisfying the pattern in the primary tag tree used for patterns
+          without wild card patterns.  This is done again to avoid having to
+          gather rules while conducting the search.  It also avoids having to
+          instantiate a List for every event if we are not gathering rules but
+          just returning an existing list from one of the trees.  By adding the
+          rule with the wild card to the tree of patterns without wild cards
+          any node that is selected already accounts for firing rules
+          registered using patterns with wild cards.  Hence the other tree with
+          wild cards does not need to be searched.  Again this is somewhat
+          redundant to do but it allows the return of the List at a single node
+          without having to gather rules into a newly instantiated List.  This
+          all makes more sense when we look at the modified matching algorithm
+          used:
+        </p>
+
+        <ol>
+          <li>walk TagTree without wild cards with nesting pattern</li>
+          <li>if we find a TagNode for the pattern return rules and be done</li>
+          <li>if no match, take the reverse pattern and walk wild tag tree</li>
+          <li>last node before falling off of tree is the matching node</li>
+          <li>if no node matched before walking off then return empty set</li>
+          <li>otherwise return the rules in this last node</li>
+        </ol>
+
+        <p>
+          The way we match is different for both TagTrees.  In the first we're
+          walking the tree using the pattern and if we fall off then we return
+          the empty set.  In the second tree with the wild cards, called the
+          WildTagTree, we walk the tree using the reversed pattern tail without
+          the wild card.  We also consider our selves matching if we can start
+          a walk at all into some node.  Walking off of the WildTagTree selects
+          the last node we were on as the matching node.  This nodes rules need
+          to be fired.  Furthermore in the WildTagTree search we return the
+          empty set only if we cannot even begin a search.
+        </p>
+
+        <p>
+          Also note that since rules for wild card patterns are added to
+          the matching nodes of the regular TagTree, a match in the first
+          TagTree shorts the search into the second WildTagTree.  Another walk
+          in the WildTagTree is not necessary.  However, if the walk on the
+          first TagTree falls off, then a search on the WildTagTree is
+          required.  By taking this approach we're either returning the list of
+          rules for a TagTree node or returning the list of rules for a
+          WildTagTree node.  We never need to create a new list to collect
+          rules in it this way.  The final result set equals the list of rules
+          for some node in any of the two trees.
+        </p>
+      </subsection>
+
+      <subsection name="Composition Stacks">
+        <p>
+	        When rules fire they do something either to a stack or to an object
+          on a stack.  Either way rules pop, push or peek onto digester stacks
+          to do their bidding.  These stacks are used to build the final
+          product  which is a containment tree and hence are referred to as
+          composition stacks.
+        </p>
+        <p>
+	        The digester contains several stacks.  It contains a primitive Java
+          type stack for every Java primitive type.  There is a stack for
+          booleans, bytes, chars, shorts, ints, longs, floats, and doubles.
+          In addition to these stacks there is another Object stack.  Multiple
+          primitive stacks were used to avoid having to wrap primitive types
+          in their object wrappers just to push them onto an Object stack.
+          Some might think this is excessive, and others may think it
+          increases complexity.  If the use of a single Object stack is
+          thought through then it becomes apparent that neither is the case.
+        </p>
+        <p>
+          If a single Object stack were to be used then rules dealing with
+          primitive types would need to wrap them with their respective Object
+          wrappers before pushing them onto the stack.  When popping Objects
+          from the stack rules must know what type the popped object is
+          expected to be.  If multiple stacks were used it would be much
+          easier to just get the primitive from another stack rather than
+          popping the Object stack and casting the popped Object to the Object
+          wrapper just to extract the primitive value.  Having a primitive
+          stack for each Java primitive type is a PITA for the developer, but
+          it simplifies things for the user.  Plus theres the advantage of not
+          having to wrap and extract primitive types just to pass them around
+          in the stack.
+        </p>
+      </subsection>
+
+      <subsection name="Decoder Chaining/Stacking">
+        <p>
+          If one looks closely the digester contains a BERDecoder member.  This
+          decoder is the source of all TLV Tuple events.  The digester is
+          designed as a decoder itself that feeds incoming byte buffers to this
+          underlying BERDecoder.  An inner class, DigesterCallback, is used to
+          implement a BERDecoderCallback.  This inner class bridges BERDecoder
+          TLV Tuple events delivering them to the digester.  The digester in
+          turn updates its tag nesting stack, and processes the new TLV
+          announced with the event.  The digester detects the end of a
+          Protocol Data Unit (PDU) when it pops the last TLV tuple off of the
+          tagStack.  When this happens the constructed object which should
+          have been popped off of the Object stack is returned using a
+          callback as the root of the containment tree.
+        </p>
+
+        <p>
+          The digester is a great example of how decoders can be chained or
+          stacked together in almost a linear combination.  It's like stacking
+          filters on top of one another.
+        </p>
+      </subsection>
+
+    </section>
+  </body>
+</document>
