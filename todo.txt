@@ -1,0 +1,5 @@
+ o create new repository and add easymock easymockclassextension 1.2 to it
+ o fix SSL problems in mina-examples: need to move bogus.cert to resources
+ o add top level pom
+ o work on profiles for building projects separately (mina build rather 
+   than whole trunk for example).
