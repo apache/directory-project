@@ -44,7 +44,8 @@ public class BogusTrustManagerFactory extends TrustManagerFactory
     public BogusTrustManagerFactory()
     {
         super( new BogusTrustManagerFactorySpi(), 
-               new Provider("MinaBogus", 1.0, "") {}, "MinaBogus" );
+               new Provider("MinaBogus", 1.0, "") {
+                private static final long serialVersionUID = -4024169055312053827L;}, "MinaBogus" );
     }
     
     private static final X509TrustManager X509 = new X509TrustManager()
