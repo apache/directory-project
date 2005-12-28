@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="akarasulu@apache.org">Alex Karasulu</author>
+    <title>Stateful Codecs</title>
+  </properties>
+  <body>
+    <section>
+    <subsection name="Introduction">
+      <p>
+        Codecs are bidirectional data transformations.  The data transformed,
+        often referred to as the substrate, may be [en]coded or decoded hence
+        the word codec.  The word codec also refers to the actual software
+        used to encode and decode data.  We use the term stateful codec for
+        lack of a better description for encoder/decoder pairs possessing
+        certain abilities and exhibiting the following behavoirs:
+      </p>
+
+      <ul>
+        <li>the ability to interrupt and resume operation without loosing
+            state</li>
+        <li>the ability to process a substrate in one or more steps operating
+            on small chunks rather than all of it in one large operation</li>
+        <li>free up resources while not actively processing perhaps until more
+            of the substrate is available, or just to multiplex limited
+            resources</li>
+        <li>use a small fixed size chunk buffer rather than a variable sized
+            buffer equal to the entire size of the substrate what ever that
+            may be</li>
+      </ul>
+    </subsection>
+
+    <subsection name="Advantages">
+      <p>
+        The abilities or behavoirs listed above make stateful codecs ideal for
+        use in resource critical situations.  Servers for example based on
+        codecs may have to perform several thousand concurrent encode/decode
+        operations.  The resources required for such operations, namely threads
+        and memory buffers will be limited.  Most of the time these operations
+        will be waiting for IO to complete so they can free up resources to
+        allow other operations to proceed.  Stateful codecs make this possible
+        and complement servers designed using non-blocking IO constructs.
+      </p>
+
+      <p>
+        Servers cannot afford to allocate variable sized buffers for arriving
+        data.  Allowing variable sized buffers based on incoming data
+        sizes opens the door for DoS attacks where malicious clients can
+        cripple or crash servers, by pumping in massive or never ending
+        data streams.  Stateful codecs enable fixed size processing overheads
+        regardless of the size of the data unit transmitted to the server.
+        Smaller codec footprints lead to smaller server process memory
+        footprints.
+      </p>
+
+      <p>
+        These advantages also make stateful codecs ideal for use in resource
+        limited environments like embedded systems, PDAs or cellular phones
+        which use ASN.1 and one of its encoding schemes to control data
+        transmission.  These systems all run on limited resources where the
+        codec's operational footprint will have dramatic effects on the
+        performance of the device.
+      </p>
+    </subsection>
+
+    <subsection name="How is a stateful codec defined?">
+      <p>
+        There are several ways to skin this cat.  To this day discussions are
+        underway at the ASF to determine the best approach.  Until a consensus
+        is reached we have decided to use an event driven approach where the
+        events are modelled as callbacks.  To better explain the approach we
+        need to discuss it within the context of encoding/decoding.
+      </p>
+
+      <p>
+        Depending on the operation being performed, available chunks of the
+        substrate are are processed using either the <code>encode()</code> or
+        the <code>decode()</code> method.  These methods hence are presumed
+        to process small chunks of the substrate.  The specific codec
+        implementation should know how to maintain state based on the encoding
+        between these calls to process a unit of substrate which likewise is
+        determined by the encoding.  So the encoding (a.k.a. codec) defines
+        what a unit of substrate is as well as any state information required
+        while peice-meal processing the substrate.  Several calls to these two
+        methods may be required to process a unit of the substrate.  When the
+        entire unit has been processed an event is fired.  Again the specific
+        codec detects the compete processing of a unit of substrate so it
+        knows when to fire this event.
+      </p>
+
+      <p>
+        Going back to our approach for defining a stateful codec, we modeled
+        the event as a callback to a specific interface.  For decoders this
+        would be a <code>DecoderCallback.decodeOccurred()</code> and for
+        encoders it would be an <code>EncoderCallback.encodeOccurred()</code>
+        method call.  These interface methods are called when an entire unit
+        of substrate is respectively decoded or encoded.
+      </p>
+
+      <p>
+        This approach also allows for codec chaining in a pipeline where
+        codecs may be stacked on top of one another.  The callback interfaces
+        are used to bridge together codecs by feeding the output of one codec
+        operation into the input of another.  Specific classes have been
+        included in the API to accomodate this usage pattern.
+      </p>
+
+      <center>
+        <img src="../images/all-uml.gif"/>
+      </center>
+
+    </subsection>
+
+    <subsection name="StatefulDecoder Usage">
+      <p>
+        StatefulDecoders use callbacks to notify the successful decode of a
+        unit of encoded substrate.  Other than this, the definition of what a
+        'unit of encoded substrate' is, depends on the codec's decoder
+        implementation.  The definition may be size constrained or be a
+        function of context.
+      </p>
+      
+      <p>
+        Basically you give a decoder some of the substrate every so often
+        as more of the substrate is made available, then when a unit of 
+        encoded substrate has been decoded, the decoder notifies those 
+        concerned by invoking the callback.  
+      </p>
+      
+      <p>
+        A demonstration of how a StatefulDecoder works is illustrated below:
+      </p>
+      
+      <source>
+StatefulDecoder decoder = new SomeConcreteDecoder( 512 ) ;
+DecoderCallback cb = new DecoderCallback() {
+  decodeOccurred( StatefulDecoder decoder, Object decoded ) {
+      // do something with the decoded object
+  }
+};
+decoder.setCallback( cb ) ;
+      </source>
+      
+      <p>
+        The StatefulDecoder uses a callback to deliver decoded objects which 
+        are the decoded 'unit of encoded substrate'.  StatefulDecoders are ideal
+        for use in high performance servers based on non-blocking IO.   Often
+        StatefulDecoders will be used with a Selector in a loop to detect input
+        as it is made available.  As the substrate arrives, it is be fed to
+        the decoder intermittantly.  Finally the callback delivers the decoded
+        units of encoded substrate.  Below there is a trivialized example of
+        how a StatefulDecoder can be used to decoded the substrate as it
+        arrives fragmented by the tcp/ip stack:
+      </p>
+      
+      <source>
+while ( true ) {
+  ...
+  SelectionKey key = ( SelectionKey ) list.next() ;
+  if ( key.isReadable() ) {
+    SocketChannel channel = ( SocketChannel ) l_key.channel() ;
+    channel.read( buf ) ;
+    buf.flip() ;
+    decoder.decode( buf ) ;
+  }
+  ...
+}
+      </source>
+      
+      <p>
+        As you can see from the code fragment the decode() returns nothing
+        since it has a void return type.  Because the callback is used to
+        deliver the finished product when it is ready, the decode operation
+        can occur asynchronously in another thread or stage of a server if
+        desired.
+      </p>
+    </subsection>
+    
+    <subsection name="Strengths and Weaknesses">
+      <p>
+        As can be seen from the section above and some of the characteristics 
+        of StatefulDecoders, they are ideal for building network servers.  These
+        decoders waste very little memory per request, cannot be overloaded by
+        massive requests which may be used for DoS attacks, and they process the
+        substrate as it arrives in chucks instead of in one prolonged CPU and 
+        memory intensive step.
+      </p>
+      
+      <p>
+        Servers with a high degree of concurrency need to keep overheads low.
+        StatefulDecoders certainly help achieve that end by keeping the
+        active processing footprint low with a constant size regardless of the 
+        size of the substrate.
+      </p>
+      
+      <p>
+        The cost of creating a decoder for every new connection is usually
+        very minimal however we cannot forsee every possible implementation.
+        Regardless of the cost associated with dedicating a StatefulDecoder
+        to each new connection, stateful protocol servers will often benefit
+        most, as opposed to a stateless server.  The reasoning is as follows:
+        the longer the life of the connection, the more worth while it
+        is to create a StatefulDecoder and thereby have it amortize over the 
+        life of the connection.
+      </p>
+      
+      <p>
+        The primary drawback is that StatefulDecoders are much more complex to
+        implement.  They are basically state driven automata which change
+        their state with the arrival of data.  Furthermoe it is very difficult
+        for StatefulDecoders to gracefully recover from corrupt or lost input.
+      </p>
+    </subsection>
+    
+    <subsection name="StatefulDecoder Chaining/Stacking">
+      <p>
+        StatefulDecoders can easily be chained or stacked to operate on a 
+        substrate stream.  This is achieved by having the callback of one 
+        decoder feed the <code>decode(Object)</code> method of another.  Hence
+        the decoded byproduct of one decoder is the encoded substrate of 
+        another.
+      </p>
+      
+      <p>
+        Because the occurence of chaining may be common and several folks have
+        already expressed their interest in it, we have devised a special
+        StatefulDecoder implementation called a DecoderStack.  It itself is 
+        a decoder however other decoders can be pushed onto it.  When empty
+        without any decoders in the stack it operates in pass-thro mode.  The
+        decode operation is basically the identity transformation.  When
+        StatefulDecoders are pushed, decode operations invoke a chain of
+        decoders starting with the bottom most in the stack going up to the
+        top.  The final callback invoked is the callback registered with the
+        DecoderStack.
+      </p>
+      
+      <p>
+        Below is an example of how this DecoderStack is used.  The example is
+        taken from one of the JUnit test cases for DecoderStack:
+      </p>
+
+      <source>
+public void testDecode() {
+  DecoderStack stack = new DecoderStack() ;
+  CallbackHistory history = new CallbackHistory() ;
+  stack.setCallback( history ) ;
+  stack.push( decoder ) ;
+  stack.decode( new Integer(0) ) ;
+  assertEquals( new Integer(0), history.getMostRecent() ) ;
+        
+  stack.push( new IncrementingDecoder() ) ;
+  stack.decode( new Integer(0) ) ;
+  assertEquals( new Integer(1), history.getMostRecent() ) ;
+
+  stack.push( new IncrementingDecoder() ) ;
+  stack.decode( new Integer(0) ) ;
+  assertEquals( new Integer(2), history.getMostRecent() ) ;
+}
+...
+
+class IncrementingDecoder extends AbstractStatefulDecoder
+{
+  public void decode( Object encoded ) throws DecoderException
+  {
+    Integer value = ( Integer ) encoded ;
+    value = new Integer( value.intValue() + 1 ) ;
+    super.decodeOccurred( value ) ;
+  }
+}
+      </source>      
+    </subsection>
+    
+    <subsection name="Recommendations to Implementors">
+      <p>
+        Keep it simple and rely on chaining to divide and concur complex 
+        decoders into several trivial decoders.  Besides simple chaining,  
+        situations will warrent the use of a choice driven decoder.  Such a 
+        decoder chooses which subordinate decoder to use based on its
+        current state.  For example in the simple BER byte stream to TLV 
+        decoder in Snickers, their is a TagDecoder, a LengthDecoder and
+        several Value decoders that are swapped in and out when the top 
+        BERDecoder switches state or detects a new primitive datatype.
+      </p>
+      
+      <p>
+        When reading encoded data from buffers, keep in mind that there are 
+        5 different possible configurations to the contents of arriving data 
+        with respect to the unit of encoded substrate:
+      </p>
+
+      <!--
+        todo add illustrations using images here - its not that hard
+        might want to turn this into a table instead of a ul if we decide
+        to do that
+      -->
+
+      <ul>
+        <li>
+          it contains a single complete discrete unit of encoded substrate
+        </li>
+        <li>
+          it contains many discrete and complete units of encoded substrate
+        </li>
+        <li>
+          it contains a partial fragment of a unit of encoded substrate
+        </li>
+        <li>
+          it contains two partial fragments of a unit of encoded substrate with
+          the start of one and the end of another
+        </li>
+        <li>
+          it contains one or more fragments with one or more units of encoded 
+          substrate
+        </li>
+      </ul>
+      
+      <p>
+        When fragments arrive they are either head or tail fragments.  Head
+        fragments are those that start a unit and they are found at the end 
+        of the buffer.  Tail fragments end a unit of encoded substrate and are
+        found at the front of the buffer.
+      </p>
+    </subsection>
+    </section>
+  </body>
+</document>

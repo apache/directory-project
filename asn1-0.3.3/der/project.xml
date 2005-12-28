@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <extend>${basedir}/../project.xml</extend>
+  <pomVersion>3</pomVersion>
+  <artifactId>asn1-der</artifactId>
+  <name>ASN.1 DER Runtime</name>
+  <package>org.apache.asn1.der</package>
+  <inceptionYear>2005</inceptionYear>
+  <shortDescription>ASN.1 DER Runtime</shortDescription>
+  <description>
+    API containing functionality used for encoding and decoding DER 
+    streams in blocking mode.  This is stepping-stone code meant to
+    facilitate the migration of Kerberos, which was developed outside of
+    the ASF, to the Apache Directory project's ASN.1 Runtime.
+  </description>
+</project>
+

@@ -1,0 +1,18 @@
+Here is a list of things that has to be done :
+
+ * write tests !
+ * add the streaming of big objects
+ * deal with memory exhaustion
+ * extend a DER and CER decoder from the BER decoder
+ * add JMX manageability
+ * start to think about how this can be use in the ASN.1 compiler
+ * - ... (add your TODO !)
+
+ 
+Things in progress :
+
+ * describe the inner mechanism on wiki, explaining the choices
+ * start to think about PER
+ * write a tester that eat some XML and do the decode. (Being able to encode,
+   then decode and having the same result means that the codec works)
+ 

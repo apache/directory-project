@@ -1,0 +1,929 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="akarasulu@apache.org">Alex Karasulu</author>
+    <title>Eureka!</title>
+  </properties> 
+  
+ <body>
+
+  <section name="And we saw the light ... ">
+     <p>
+       One day Wes and Alex started talking about going to town on a new 
+       ASN.1 BER Library and here's what happened ...
+     </p>    
+     <subsection name="The Conversation">
+      <source>
+[SNIP]
+
+Wes says:
+I've been thinking about the decoding process a bit over the weekend.
+
+Alex Karasulu says:
+k I'm listening
+
+Wes says:
+and encoding.
+
+Wes says:
+I'm not sure at the initial stage there will be *one* decoder.
+
+Wes says:
+We will need some place to hold our TLV tree.
+
+Wes says:
+and also, I was thinking about really long messages.
+
+Alex Karasulu says:
+you need multiple codecs (coder decoders)
+
+Alex Karasulu says:
+right
+
+[SNIP]
+
+Wes says:
+We got one part that builds the tree
+
+Wes says:
+part two should be the translation.
+
+[SNIP]
+
+Wes says:
+I think the only issue we have is how to handle chunking, and blocking versus 
+non-blocking code.
+
+Wes says:
+And also, dealing with really huge messages.
+
+Wes says:
+It obviously won't make sense to build a TLV tree in its entirety for a huge 
+search result.
+
+Alex Karasulu says:
+right I agree
+
+Alex Karasulu says:
+for encoding there is a mechanism for breaking down large TLVs of simple types 
+down 
+
+Wes says:
+encoding is a non issue as far as chunking goes.
+
+Alex Karasulu says:
+basically in the book they talk about 3 ways of specifying length
+
+Alex Karasulu says:
+the L part
+
+Alex Karasulu says:
+right but it effects decoding
+
+Alex Karasulu says:
+but if another provider is doing encoding I see what you mean
+
+Alex Karasulu says:
+basically we can break stuff down by injecting the 3rd indeterminate length form
+
+Alex Karasulu says:
+follow me out
+
+Wes says:
+You give the encoder an output interface, and every time it fills up the byte 
+bufffer, it spits it out.
+
+Alex Karasulu says:
+Strictly talking about decoding and chunk sizes for now.
+
+Wes says:
+K.  decoding then.
+
+Alex Karasulu says:
+just for background - you read the section on the 3 different modes for 
+specifying length right: short, long and indeterminant?
+
+[SNIP]
+
+Alex Karasulu says:
+Your reading and encounter a really big simple type using the long encoding for 
+L.  So you know what you have to read is a hugh blob of data in one big hunk.  
+Basically there is some threashold u use to judge whether or not the blob is too
+big and needs to be chopped up.
+
+Wes says:
+I did read the section the length.
+
+Alex Karasulu says:
+cool
+
+Wes says:
+I actually printed the whole appendix out and read it.
+
+Wes says:
+on BER.
+
+Alex Karasulu says:
+cool that's what I was reffering to
+
+Wes says:
+An encoder can choose any one he wants.
+
+Alex Karasulu says:
+Now your decoder can break down the long format into the indeterminate format 
+nesting smaller TLVs inside the TLV.  Hence converting the simple TLV into a 
+constructed one.
+
+Alex Karasulu says:
+The key here is not to keep all the tlvs in memory or the entire encoded buffer 
+in memory
+
+Wes says:
+For decoding, there are messages where keeping the intermediate form in memory 
+is not an issue, and with others, there are.
+
+Wes says:
+issues.
+
+Alex Karasulu says:
+Right depends on the message size
+
+Wes says:
+The client will want to process most of the messages as a complete object.
+
+Wes says:
+By definition, it will be in memory.
+
+Alex Karasulu says:
+Yeah I know what you are saying.  We need to make the library not do this 
+though.  Then there would be more than one copy in memory.  Leave it upto the 
+user to determine how the data is dealt with.  Eventually we can take messures 
+to stream data if we want instead of having it all in memory.
+
+Wes says:
+Back up just a second.
+
+Alex Karasulu says:
+There are funky tactics we can employ way down the road - but for the time 
+being lets make it so our codecs dont need massive footprints 
+
+Alex Karasulu says:
+sure talk to me
+
+Wes says:
+I used this technique in a Btrieve interface I wrote for U. S. South...
+
+Wes says:
+which I stole from OpenTDS.
+
+Alex Karasulu says:
+Btrieve?
+
+Wes says:
+Yea, an ISAM database.
+
+Alex Karasulu says:
+oh ok
+
+Wes says:
+It used byte buffers to send and retrieve records.
+
+Wes says:
+I wrote a java class that basically treated the byte array as primitives.
+
+Alex Karasulu says:
+cool so you're already of the mindset to keeping the decoding and encoding 
+memory footprints small
+
+Wes says:
+That might not work with us though.
+
+Wes says:
+It might.
+
+Wes says:
+All we need to know
+
+Wes says:
+is that this field goes with this TLV.
+
+Wes says:
+and convert it on the fly.
+
+Wes says:
+Also, we an simply dump the TLVs when we are done.
+
+Alex Karasulu says:
+yeah that's part of some tables we may need to maintain with a mappiung
+
+Alex Karasulu says:
+right I think we're on the same page
+
+Alex Karasulu says:
+I have a small idea though
+
+Alex Karasulu says:
+Basically wrt the codec's interfaces
+
+Alex Karasulu says:
+To me you give an array of bytes in a byte[] or a ByteBuffer (this is the 
+delivered partial chunk) and you get back a set of TLVs for that chunk.
+
+Alex Karasulu says:
+or take it in the opposite direction for a encoder
+
+Alex Karasulu says:
+this is your stage 1 (BER bytes ->TLVs)
+
+Alex Karasulu says:
+now we need to find a way to represent TLVs in a linear fashion and still 
+maintain the tree structure.  However we don't want direct back references 
+to where the list of TLVs plug into the entire tree because this would mean 
+we have to have the whole tree in memory.
+
+Alex Karasulu says:
+does that make sense I know its a lil nebulous
+
+Wes says:
+Keep it simple  
+
+Alex Karasulu says:
+ok in decoding bytes go in and TLVs come out
+
+Wes says:
+Right.
+
+Alex Karasulu says:
+state is maintained between times u pump in bytes
+
+Alex Karasulu says:
+wit me?
+
+Wes says:
+Yup.
+
+Alex Karasulu says:
+now the TLVs comming out are a peice of the TLV tree
+
+Wes says:
+You got to be able to handle partial Ts, Ls, and Vs.
+
+Alex Karasulu says:
+right that's part of the state stuff
+
+Alex Karasulu says:
+if you're stuck in the middle of a simple tlv then you don't pump it out until 
+the chunks to complete it have arrived
+
+Alex Karasulu says:
+wit me?
+
+Wes says:
+right.
+
+Alex Karasulu says:
+So the key here is to have the right TLV represntation or data structure.  We 
+have some requirements on this.
+
+Alex Karasulu says:
+the TLVs that come out of the decoder cannot directly, with java references, 
+refer to other TLVs  that came out before.  Because these references would 
+require the entire TLV tree in memory.
+
+Alex Karasulu says:
+This is one of those requirements you agree?
+
+Wes says:
+I don't see that being an issue.
+
+Wes says:
+The parent needs to know about the children, but not vis a versa.
+
+Alex Karasulu says:
+right
+
+Wes says:
+and I don't see how you are going to be able to assemble an ASN.1 message in a 
+state driven fashion without making it very complicated.
+
+Alex Karasulu says:
+that's our primary issue here
+
+Wes says:
+and have two decoders hooked together as well.
+
+Alex Karasulu says:
+its a big problem to overcome
+
+Alex Karasulu says:
+and do it elegantly
+
+Alex Karasulu says:
+If we do this then our BER ASN.1 codec will be hot working in a non-blocking 
+fashion and being very efficient.  It's like the way SAX is used for reading 
+XML for our ASN.1 messages instead of using DOM.
+
+Alex Karasulu says:
+the ideas are similar
+
+Alex Karasulu says:
+you didn't think this was gonna be a cake walk did ya  
+
+Wes says:
+Hmmmm.
+
+Alex Karasulu says:
+you do understand where I was coming from wit the sax and dom stuff right?
+
+Wes says:
+yea.
+
+Wes says:
+That I understand.
+
+Alex Karasulu says:
+do you think its possible?
+
+Wes says:
+So you have an event driven ASN.1 parser.
+
+Wes says:
+I think that's still easy.
+
+Wes says:
+However, assembling them into the messages is still complicated.
+
+Wes says:
+every ASN.1 message type would have to be derived from our parser.
+
+Wes says:
+Then a factory could create the message type based on the application type.
+
+Alex Karasulu says:
+hmmm
+
+Alex Karasulu says:
+what do you mean by: "every ASN.1 message type would have to be derived from 
+our parser.
+
+Wes says:
+You want the ASN.1 messages to be able to assemble themselves? or no.
+
+Alex Karasulu says:
+Now you're talking about using the ASN.1 specification like a DTD to drive the 
+decoding
+
+Alex Karasulu says:
+?
+
+Alex Karasulu says:
+Yep I see yes
+
+Alex Karasulu says:
+u use the ASN.1 spec or a set of classes generated by an ASN.1 spec compiler
+
+Alex Karasulu says:
+question is do we need a compiler now?
+
+Wes says:
+Right.
+
+Wes says:
+Factory returns the ASN.1 message on the application tag.
+
+Alex Karasulu says:
+right I see where your going with the design
+
+Wes says:
+the parser then passes everything to the ASN.reader interface,
+
+Wes says:
+SAX like.
+
+Alex Karasulu says:
+Hmm sounds like it should be very possible
+
+Wes says:
+of the application object.
+
+Wes says:
+who knows how to assemble himself.
+
+Alex Karasulu says:
+right
+
+Alex Karasulu says:
+This is huge
+
+Alex Karasulu says:
+I wonder if other ASN.1 tools have this sax like mechanism already in place.
+
+Wes says:
+But how do we handle ASN.1 messages which need to be streamed.
+
+Wes says:
+like a huge search result.
+
+Alex Karasulu says:
+that's not so much the issue 
+
+Alex Karasulu says:
+a large result set takes n+2 messages
+
+Alex Karasulu says:
+sorry n+1
+
+Wes says:
+You have a search result tight.
+
+Wes says:
+Tag = Applicationz
+Length = 00
+Value = Search Results
+
+Wes says:
+Now V is made up of thousands of result messages.
+
+Alex Karasulu says:
+In the LDAP protocol a search result is returned as n+1 messages.
+
+Alex Karasulu says:
+each result is an SearchEntryResponse for the 'n' and one SearchDoneResponse 
+PDU to end the resultset
+
+Alex Karasulu says:
+n+1 messages
+
+Wes says:
+Ah.
+
+Wes says:
+But are they wrapped in an application TLV?
+
+Alex Karasulu says:
+but think of a large blob of data
+
+Wes says:
+or is it just one stream of TLVs.
+
+Alex Karasulu says:
+like say some binary chunk
+
+Alex Karasulu says:
+the application TLV for each response type is in the LDAP message envelope.  
+There is a top level LDAP message type which is a TLV then the different 
+response types have you know some enumeration values to determine which 
+response type the top level envelope or application TLV represents
+
+Wes says:
+Right.
+
+Alex Karasulu says:
+but your question is valid for say a single SearchEntryResponse where one of 
+the attributes is a huge binary chunk
+
+Wes says:
+So the event firing for the top level envelope will be different than the TLVs 
+which are part of the envelope.
+
+Alex Karasulu says:
+the top level LDAPMessage envelope defined for the LDAP asn.1 will be a 
+constructred TLV
+
+Alex Karasulu says:
+event might fire for it
+
+Alex Karasulu says:
+same one every time
+
+Wes says:
+Right, but not after the entire TLV is read into memry.
+
+Wes says:
+that would defeat our SAX based parser.
+
+Alex Karasulu says:
+but its constitution will change depending on the type of message it is
+
+Alex Karasulu says:
+right
+
+Alex Karasulu says:
+exactly
+
+Wes says:
+I'm with you.
+
+Alex Karasulu says:
+you would get a start_ldap_message event
+
+Wes says:
+Actually,
+
+Wes says:
+for the envelope, you would need to hit the factory.
+
+Wes says:
+to get the appropriate LDAP message.
+
+Alex Karasulu says:
+then perhaps the message_type_event will fire to note the contained TLV that 
+specifies the LDAP application's message type.
+
+Alex Karasulu says:
+et. cetera. see where i'm going with it - you don't need the entire message to 
+fire its arrival.  Like sax where you say start tag for this element then the 
+contained elemenets then close tags etc.
+
+Wes says:
+Got ya.
+
+Wes says:
+I think that's pretty cool.
+
+Alex Karasulu says:
+I think we're getting somewhere cool here I'm very excited.  I need to take 
+another look at a sax implementation again out there.  It will give me some 
+insight into some possible general architecture for us.
+
+Alex Karasulu says:
+Now going back to the massive chunk of binary.  So we have a 
+SearchEntryResponse with an entry of the result set containing an attribute 
+that is a huge binary chunk.  How do we stream it out right?  Then we can 
+talk about how we stream it in.
+
+Alex Karasulu says:
+Streaming it out is easy.  Let's for a moment presume that we can actually 
+stream out of the jdbm stuff.  You basically convert the long known length BER 
+encoding to the indeterminant encoding.  Then send out individual chunks of 
+this binary attribute in separate TLVs.  So you're turning big assed primitive 
+TLVs into constructed TLVs chunking out the content hence not needing the 
+entire V in memor
+
+Alex Karasulu says:
+y.
+
+Wes says:
+That's fine for us.  We have control over the encoding.
+
+Wes says:
+We won't be so lucky on the inbound side.
+
+Alex Karasulu says:
+Right
+
+Alex Karasulu says:
+Now let's think about that beast.
+
+Alex Karasulu says:
+We have a binary -> tlv encoder spitting out tlvs with each bit of input
+
+Alex Karasulu says:
+meant decoder above sorry
+
+Alex Karasulu says:
+now if the indeterminate length is used by the client when encoding and 
+sending to the server the server is ok the data is already chopped up and 
+its all good.  If not and the long length encoding is used then the data 
+comes into the server's decoder in chunks but the decoder sees a hugh 
+long length. 
+
+Alex Karasulu says:
+Based on some threshold the decoder translates the incoming long length and 
+values for the simple type (primitive TLV) into a constructed TLV breaking 
+up the large know length TLV into the indeterminant form which can be spit 
+out with a few nested TLVs at a time (with each input chunk going into the 
+decoder).
+
+Alex Karasulu says:
+You follow? Decoder automatically breaks up large primitive long length encoded 
+TLVs into the indeterminate form and spits those out in peices rather than the 
+one large primitive TLV.
+
+Wes says:
+What does that buy us?
+
+Alex Karasulu says:
+streaming
+
+Wes says:
+Is not the ASN message gonna re-assemble it anyways.
+
+Wes says:
+Do you still end up with 200K picture in the ASN.1 message.
+
+Alex Karasulu says:
+yeah that's application specific - remember we're talking just the BER->TLV 
+codec
+
+Alex Karasulu says:
+the other codec is Type to TLV
+
+Wes says:
+If we are using a SAX based parser, then the Type will be assembling itself as 
+the TLVs are decoded and fired.
+
+Alex Karasulu says:
+keeping it streaming means you don't have 2X the data or 400K in use just to 
+get the 200K picture
+
+Alex Karasulu says:
+right
+
+Wes says:
+At some point, you are going to have to put your faith in the garbage collector.
+
+Alex Karasulu says:
+right but that's not in the codec BER to TLV code
+
+Alex Karasulu says:
+keep that lean and mean - why you ask
+
+Wes says:
+Also, if you want a truly small memory footprint, then you could put stuff like 
+that in a small embedded database.
+
+Alex Karasulu says:
+well the TLV to Type code can be made lean and mean too
+
+Wes says:
+I just don't think at this stage that we need to be all that worried about huge 
+blocks of binary data.
+
+Alex Karasulu says:
+right we use referrals to data on disk to manage large peices of data that 
+needsto be streamed but this we can do later.
+
+Wes says:
+Exactly.
+
+Alex Karasulu says:
+yes but we want the options to be open - right now we can just design the 
+interfaces so all this can be added later.
+
+Alex Karasulu says:
+Interfaces and contracts should be designed to allow these very low memory 
+footprints.  Thinking through the process and what it takes to get there 
+makes us understand better what the design and interfaces should look like.
+
+Alex Karasulu says:
+I don't care if the first implementation is a hog
+
+Wes says:
+The BER stuff today doesn't deal with this.
+
+Wes says:
+It doesn't care.
+
+Alex Karasulu says:
+for large peices of data
+
+Wes says:
+It's an application issue.
+
+Alex Karasulu says:
+right
+
+Alex Karasulu says:
+what the app does with it is upto the app but lets keep the ber codecs low in 
+memory image regardless of the fact that some app will be a pig and stream the 
+data into memory anyway.  This is all that I'm trying to say.
+
+Alex Karasulu says:
+wit me?
+
+Wes says:
+K.
+
+Alex Karasulu says:
+cool we're tight on this but I think it will take more research on both our 
+parts - anyway apache is back up again after a power failure.  Here's the new 
+stuff I created for ya:   
+http://cvs.apache.org/viewcvs.cgi/incubator/directory/snickers/?root=Apache-SVN
+
+Alex Karasulu says:
+that's the top level of the snickers (snacc replacement) subproject
+
+Alex Karasulu says:
+that's all you and Jeff with the C based version of this thang
+
+Wes says:
+Right.
+
+Wes says:
+You won't find much other ASN.1 stuff out there.
+
+Wes says:
+I'm comfortable that no one is doing it this way, either.
+
+Wes says:
+It will make it unqiuely, Apache.
+
+Alex Karasulu says:
+Ok. Let's touch base in a day or two to regroup
+
+Wes says:
+Do you think ASN.1 is going to die?
+
+Alex Karasulu says:
+this is all good stuff and I'll try to get it out there.
+
+Alex Karasulu says:
+no way
+
+Alex Karasulu says:
+ASN.1 is awesome stuff
+
+Wes says:
+We'll see.
+
+Alex Karasulu says:
+SNMP is based on it and so is Kerberose
+
+Alex Karasulu says:
+what's the alternative?
+
+Wes says:
+XML is what everyone is using now.
+
+Alex Karasulu says:
+well there is XER for ASN.1 
+
+Alex Karasulu says:
+XML Encoding Rules
+
+Alex Karasulu says:
+ASN.1 can go to BER, PER, XER, and DER
+
+Wes says:
+Yes.
+
+Alex Karasulu says:
+the encoding does not effect the ASN.1 specification and that is what makes 
+ASN.1 a winner always.
+
+Wes says:
+Slapping XML on ASN.1 ain't the same.
+
+Alex Karasulu says:
+the XML format is just for the encoding of the data types 
+
+Wes says:
+I agree that ASN.1 is a good protocol.
+
+Alex Karasulu says:
+protocol specification syntax
+
+Alex Karasulu says:
+it kicks ass I think and is here to stay.
+
+Wes says:
+If we do this, we are going to go backwards right?
+
+Wes says:
+Do the compiler last.
+
+Alex Karasulu says:
+go backwards?
+
+Alex Karasulu says:
+yeah that might be the case or we can work it together.
+
+Wes says:
+You need to let me work this.
+
+Alex Karasulu says:
+I can do the compiler with you and you can handle the runtime
+
+Wes says:
+You got other things to do.
+
+Alex Karasulu says:
+ok its all you then 
+
+Alex Karasulu says:
+I'm just a follower
+
+Wes says:
+I won't mind help with the compiler.
+
+Wes says:
+Just don't get going on it any time soon  
+
+Alex Karasulu says:
+sure I have extensive javacc and antlr experience
+
+Wes says:
+Deal.
+
+Alex Karasulu says:
+hehe no worries with that my plate as you know is overflowing.
+
+Alex Karasulu says:
+my bladder too
+
+Alex Karasulu says:
+I'll catch ya later I need to hit the head
+
+Wes says:
+Talk about the decoder's stream.
+
+Wes says:
+K
+
+Alex Karasulu says:
+ttyl
+
+Wes says:
+Talk later then.
+
+Alex Karasulu says:
+ok gimme 45 seconds
+
+Alex Karasulu says:
+I'm back
+
+Alex Karasulu says:
+what about the decoder's stream.
+
+Wes says:
+So, how do we feed the decoder then.
+
+Alex Karasulu says:
+Its all about how we design our interfaces.  You know I've been looking at 
+commons-codec and see some potential but changes will be needed.
+
+Alex Karasulu says:
+Follow me for a sec.
+
+Alex Karasulu says:
+Now the codec interfaces are designed to convert stuff in one shot.  
+bytes in bytes out sort of thang.  Very blocking dependent stuff and not very 
+cool for us with a SEDA and NIO based server.  
+
+Alex Karasulu says:
+wit me?
+
+Wes says:
+right.
+
+Alex Karasulu says:
+As you might have guessed this is not good for servers that need to keep 
+memory footprints low while servicing possible serveral hundred requests 
+per second.
+
+Alex Karasulu says:
+So what do we do? We design new non-blocking and NIO based interfaces for the 
+codec API and submit them.  
+
+Alex Karasulu says:
+its down again damn
+
+Wes says:
+I got my update  
+
+Alex Karasulu says:
+cool
+
+Wes says:
+Must of brought it down.
+
+Alex Karasulu says:
+yeah maybe it will be up soon
+
+Alex Karasulu says:
+anyway
+
+Alex Karasulu says:
+We redesign these codec interfaces to manage an encoding session and a decoding
+session so chunks can be process in a stateful manner to be conducive to 
+non-blocking use.
+
+Alex Karasulu says:
+Or we use events like you said
+
+Alex Karasulu says:
+Basically we contribute this to the commons stuff and make sure the community 
+understands why and what we're doing.  That way they can double check us.
+
+Alex Karasulu says:
+Then we use those interfaces to implement the ASN.1 stuff.
+
+Wes says:
+Right.
+
+Alex Karasulu says:
+We do this in the snickers area but put back as much into the commons codec as 
+we can.  You game with this strategy?
+
+Wes says:
+Yea, that's fine.
+
+Wes says:
+I'll check out commons code as soon as it comes up.      
+
+</source>
+     </subsection>
+   </section>
+  </body>
+</document>
