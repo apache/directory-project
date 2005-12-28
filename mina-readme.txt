@@ -29,3 +29,13 @@ deleted on: Nov 5, 2005
 delete rev: 331028
 resusitate: svn cp -r 331027 https://svn.apache.org/repos/asf/directory/network/tags/release-0.7.4 release-0.7.4
 
+tag: release-0.8.0
+deleted on: Dec 28, 2005
+delete rev: 359573
+resusitate: svn cp -r 359572 https://svn.apache.org/repos/asf/directory/network/tags/release-0.8.0 release-0.8.0
+
+tag: release-0.8.1
+deleted on: Dec 28, 2005
+delete rev: 359573
+resusitate: svn cp -r 359572 https://svn.apache.org/repos/asf/directory/network/tags/release-0.8.1 release-0.8.1
+
