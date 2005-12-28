@@ -16,6 +16,8 @@ Building
    issue a mvn eclipse:eclipse or a mvn idea:idea respectively in
    the trunk.  For subproject IDE descriptor generation cd into
    <subproject-prefix>-build and issue one of these commands.
+ o If a project does not have subprojects list asn1 then just 
+   cd into it and issue mvn package or mvn install.
 
 Conventions
 -----------

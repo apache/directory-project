@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.apache.mina</groupId>
+  <parent>
+    <groupId>org.apache.mina</groupId>
+    <artifactId>build</artifactId>
+    <version>0.9.1-SNAPSHOT</version>
+  </parent>
   <artifactId>org.apache.mina.asn1</artifactId>
   <name>mina-asn1</name>
   <packaging>jar</packaging>
-  <version>0.9.1-SNAPSHOT</version>
   <dependencies>
 
     <dependency>

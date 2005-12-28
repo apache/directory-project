@@ -1,3 +1,8 @@
  o create new repository and add easymock easymockclassextension 1.2 to it
+   (push to maven-snapshot-repository temporarily until we get this up on
+   ibiblio).
+ o get snapshots deployed to maven-snapshot-repository
  o need a profile for mina build to make sure we do not attempt to build 
    things that depend on jdk 1.5 when building with jdk 1.4.
+ o figure out what we're going to do with sitedocs and how we're going to
+   build and deploy them
