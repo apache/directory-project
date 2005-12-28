@@ -27,8 +27,8 @@ import org.apache.asn1new.ber.tlv.Tag;
 import org.apache.asn1new.ber.tlv.UniversalTag;
 import org.apache.asn1new.ber.tlv.Value;
 import org.apache.asn1.codec.util.Asn1StringUtils;
-
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
 
@@ -46,7 +46,7 @@ public class Asn1Decoder implements ITLVBerDecoderMBean
     //~ Static fields/initializers -----------------------------------------------------------------
 
     /** The logger */
-    private static final Logger log = Logger.getLogger( Asn1Decoder.class );
+    private static final Logger log = LoggerFactory.getLogger( Asn1Decoder.class );
     
     /** A speedup for logs */
     private static boolean DEBUG;

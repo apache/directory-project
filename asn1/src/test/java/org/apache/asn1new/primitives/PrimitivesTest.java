@@ -22,7 +22,6 @@ import junit.framework.TestCase;
 import org.apache.asn1new.ber.tlv.Value;
 import org.apache.asn1new.util.IntegerDecoder;
 import org.apache.asn1new.util.IntegerDecoderException;
-import org.apache.log4j.PropertyConfigurator;
 
 /**
  * Test the Primitives
@@ -32,15 +31,6 @@ import org.apache.log4j.PropertyConfigurator;
  */
 public class PrimitivesTest extends TestCase
 {
-    //~ Static fields/initializers -----------------------------------------------------------------
-
-    static
-    {
-        PropertyConfigurator.configure( "conf/log4j.conf" );
-    }
-
-    //~ Methods ------------------------------------------------------------------------------------
-
     /**
      * Test the Integer Primitive
      */
