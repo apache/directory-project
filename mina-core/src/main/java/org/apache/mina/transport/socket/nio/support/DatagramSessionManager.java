@@ -18,7 +18,6 @@
  */
 package org.apache.mina.transport.socket.nio.support;
 
-import org.apache.mina.common.IoSessionManager;
 
 /**
  * A base interface for {@link DatagramAcceptorDelegate} and {@link DatagramConnectorDelegate}.
@@ -26,7 +25,7 @@ import org.apache.mina.common.IoSessionManager;
  * @author The Apache Directory Project (dev@directory.apache.org)
  * @version $Rev$, $Date$
  */
-interface DatagramSessionManager extends IoSessionManager
+interface DatagramSessionManager extends org.apache.mina.transport.socket.nio.DatagramSessionManager
 {
     /**
      * Requests this processor to flush the write buffer of the specified

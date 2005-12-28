@@ -171,4 +171,33 @@ class DatagramSessionImpl extends BaseIoSession implements DatagramSession
     {
         managerDelegate.updateTrafficMask( this );
     }
+
+	public int getReceiveBufferSize() throws SocketException {
+		return ch.socket().getReceiveBufferSize();
+	}
+
+	public void setReceiveBufferSize( int receiveBufferSize ) throws SocketException
+	{
+		ch.socket().setReceiveBufferSize( receiveBufferSize );
+	}
+
+	public boolean getBroadcast() throws SocketException
+	{
+		return ch.socket().getBroadcast();
+	}
+
+	public void setBroadcast( boolean broadcast ) throws SocketException
+	{
+		ch.socket().setBroadcast( broadcast );
+	}
+
+	public int getSendBufferSize() throws SocketException
+	{
+		return ch.socket().getSendBufferSize();
+	}
+
+	public void setSendBufferSize( int sendBufferSize ) throws SocketException
+	{
+		ch.socket().setSendBufferSize( sendBufferSize );
+	}
 }

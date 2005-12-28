@@ -203,16 +203,6 @@ public class SocketAcceptorDelegate extends BaseIoAcceptor implements SocketSess
         }
     }
     
-    public int getProcessors()
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    public void setProcessors( int nProcessor )
-    {
-        throw new UnsupportedOperationException();
-    }
-
     private class Worker extends Thread
     {
         public Worker()

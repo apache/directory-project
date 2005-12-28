@@ -70,14 +70,4 @@ public class SocketAcceptor extends DelegatedIoAcceptor implements SocketSession
     {
         ( ( SocketAcceptorDelegate ) delegate ).setBacklog( backlog );
     }
-
-    public int getProcessors()
-    {
-        return ( ( SocketAcceptorDelegate ) delegate ).getProcessors();
-    }
-
-    public void setProcessors( int nProcessor )
-    {
-        ( ( SocketAcceptorDelegate ) delegate ).setProcessors( nProcessor );
-    }
 }

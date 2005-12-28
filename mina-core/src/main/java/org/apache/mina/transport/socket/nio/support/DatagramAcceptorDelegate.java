@@ -53,6 +53,11 @@ public class DatagramAcceptorDelegate extends BaseIoAcceptor implements IoAccept
     private final IoAcceptor wrapper;
     private final int id = nextId ++ ;
     private Selector selector;
+    private boolean broadcast;
+    private boolean reuseAddress;
+    private int receiveBufferSize = -1;
+    private int sendBufferSize = -1;
+    private int trafficClass = -1;
     private final Map channels = new HashMap();
     private final Queue registerQueue = new Queue();
     private final Queue cancelQueue = new Queue();
@@ -209,8 +214,59 @@ public class DatagramAcceptorDelegate extends BaseIoAcceptor implements IoAccept
         
         return s;
     }
+    
+    public boolean getBroadcast()
+    {
+    	return broadcast;
+    }
+    
+    public void setBroadcast( boolean broadcast )
+    {
+    	this.broadcast = broadcast;
+    }
+    
+    public boolean getReuseAddress()
+    {
+    	return reuseAddress;
+    }
+    
+    public void setReuseAddress( boolean reuseAddress )
+    {
+    	this.reuseAddress = reuseAddress;
+    }
 
-    private synchronized void startupWorker() throws IOException
+
+	public int getReceiveBufferSize()
+	{
+		return receiveBufferSize;
+	}
+
+	public void setReceiveBufferSize( int receiveBufferSize )
+	{
+		this.receiveBufferSize = receiveBufferSize;
+	}
+
+	public int getSendBufferSize()
+	{
+		return sendBufferSize;
+	}
+
+	public void setSendBufferSize( int sendBufferSize )
+	{
+		this.sendBufferSize = sendBufferSize;
+	}
+
+	public int getTrafficClass()
+	{
+		return trafficClass;
+	}
+
+	public void setTrafficClass( int trafficClass )
+	{
+		this.trafficClass = trafficClass;
+	}
+
+	private synchronized void startupWorker() throws IOException
     {
         if( worker == null )
         {
@@ -495,6 +551,20 @@ public class DatagramAcceptorDelegate extends BaseIoAcceptor implements IoAccept
             try
             {
                 ch = DatagramChannel.open();
+                ch.socket().setReuseAddress( reuseAddress );
+                ch.socket().setBroadcast( broadcast );
+                if( receiveBufferSize > 0 )
+                {
+                	ch.socket().setReceiveBufferSize( receiveBufferSize );
+                }
+                if( sendBufferSize > 0 )
+                {
+                	ch.socket().setSendBufferSize( sendBufferSize );
+                }
+                if( trafficClass > 0 )
+                {
+                	ch.socket().setTrafficClass( trafficClass );
+                }
                 ch.configureBlocking( false );
                 ch.socket().bind( req.address );
                 ch.register( selector, SelectionKey.OP_READ, req );
@@ -516,6 +586,7 @@ public class DatagramAcceptorDelegate extends BaseIoAcceptor implements IoAccept
                 {
                     try
                     {
+                    	ch.disconnect();
                         ch.close();
                     }
                     catch( Throwable e )
@@ -559,6 +630,7 @@ public class DatagramAcceptorDelegate extends BaseIoAcceptor implements IoAccept
                     SelectionKey key = ch.keyFor( selector );
                     key.cancel();
                     selector.wakeup(); // wake up again to trigger thread death
+                	ch.disconnect();
                     ch.close();
                 }
             }

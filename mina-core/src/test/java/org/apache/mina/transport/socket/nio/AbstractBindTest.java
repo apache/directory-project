@@ -50,9 +50,11 @@ public abstract class AbstractBindTest extends TestCase
         this.acceptor = acceptor;
     }
     
-    public void setUp() throws IOException
-    {
-        // Find an availble test port and bind to it.
+	private void bind( boolean reuseAddress ) throws IOException
+	{
+		setReuseAddress( reuseAddress );
+
+    	// Find an availble test port and bind to it.
         boolean socketBound = false;
 
         // Let's start from port #1 to detect possible resource leak
@@ -80,7 +82,19 @@ public abstract class AbstractBindTest extends TestCase
         }
 
         //System.out.println( "Using port " + port + " for testing." );
-    }
+	}
+
+	private void setReuseAddress( boolean reuseAddress )
+	{
+		if( acceptor instanceof DatagramAcceptor )
+		{
+			( ( DatagramAcceptor ) acceptor ).setReuseAddress( reuseAddress );
+		}
+		else if( acceptor instanceof SocketAcceptor )
+		{
+			( ( SocketAcceptor ) acceptor ).setReuseAddress( reuseAddress );
+		}
+	}
     
     public void tearDown()
     {
@@ -94,8 +108,10 @@ public abstract class AbstractBindTest extends TestCase
         }
     }
     
-    public void testDuplicateBind()
+    public void testDuplicateBind() throws IOException
     {
+    	bind( false );
+    	
         try
         {
             acceptor.bind( new InetSocketAddress( port ), new EchoProtocolHandler() );
@@ -106,8 +122,10 @@ public abstract class AbstractBindTest extends TestCase
         }
     }
 
-    public void testDuplicateUnbind()
+    public void testDuplicateUnbind() throws IOException
     {
+    	bind( false );
+    	
         // this should succeed
         acceptor.unbind( new InetSocketAddress( port ) );
         
@@ -124,6 +142,8 @@ public abstract class AbstractBindTest extends TestCase
     
     public void testManyTimes() throws IOException
     {
+    	bind( true );
+    	
         InetSocketAddress addr = new InetSocketAddress( port );
         EchoProtocolHandler handler = new EchoProtocolHandler();
         for( int i = 0; i < 1024; i++ ) 
@@ -135,7 +155,7 @@ public abstract class AbstractBindTest extends TestCase
     
     public void _testRegressively() throws IOException
     {
-        tearDown();
+    	setReuseAddress( true );
 
         InetSocketAddress addr = new InetSocketAddress( port );
         EchoProtocolHandler handler = new EchoProtocolHandler();
@@ -149,7 +169,7 @@ public abstract class AbstractBindTest extends TestCase
                 System.out.println( i + " (" + new Date() + ")" );
             }
         }
-        setUp();
+        bind( false );
     }
 
     

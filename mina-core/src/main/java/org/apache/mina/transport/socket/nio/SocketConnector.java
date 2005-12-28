@@ -37,15 +37,4 @@ public class SocketConnector extends DelegatedIoConnector implements SocketSessi
     {
         init( new SocketConnectorDelegate( this ) );
     }
-
-
-    public int getProcessors()
-    {
-        return ( ( SocketConnectorDelegate ) delegate ).getProcessors();
-    }
-
-    public void setProcessors( int nProcessor )
-    {
-        ( ( SocketConnectorDelegate ) delegate ).setProcessors( nProcessor );
-    }
 }

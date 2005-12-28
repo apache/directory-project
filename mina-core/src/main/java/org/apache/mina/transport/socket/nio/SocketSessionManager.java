@@ -21,24 +21,13 @@ package org.apache.mina.transport.socket.nio;
 import org.apache.mina.common.IoSessionManager;
 
 /**
- * An {@link IoSessionManager} which provides some properties related with
- * NIO sockets.
+ * An {@link IoSessionManager} which provides some common properties related with
+ * NIO TCP/IP sockets.
  *
  * @author The Apache Directory Project (dev@directory.apache.org)
  * @version $Rev$, $Date$
  *
  */
-public interface SocketSessionManager
+public interface SocketSessionManager extends IoSessionManager
 {
-    /**
-     * Returns the number of worker threads assigned to perform socket I/O.
-     */
-    int getProcessors();
-    
-    /**
-     * Sets the number of worker threads assigned to perform socket I/O.
-     * Decreasing this number won't stop threads immediately.  It will
-     * not stop until all sessions assigned to it are closed.
-     */
-    void setProcessors( int nProcessor );
 }

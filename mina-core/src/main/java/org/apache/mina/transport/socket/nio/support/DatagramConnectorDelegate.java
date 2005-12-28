@@ -50,6 +50,11 @@ public class DatagramConnectorDelegate extends BaseIoConnector implements Datagr
     private final IoConnector wrapper;
     private final int id = nextId ++ ;
     private Selector selector;
+    private boolean broadcast;
+    private boolean reuseAddress;
+    private int receiveBufferSize = -1;
+    private int sendBufferSize = -1;
+    private int trafficClass = -1;
     private final Queue registerQueue = new Queue();
     private final Queue cancelQueue = new Queue();
     private final Queue flushingSessions = new Queue();
@@ -97,7 +102,20 @@ public class DatagramConnectorDelegate extends BaseIoConnector implements Datagr
         try
         {
             ch = DatagramChannel.open();
-            ch.socket().setReuseAddress( true );
+            ch.socket().setReuseAddress( reuseAddress );
+            ch.socket().setBroadcast( broadcast );
+            if( receiveBufferSize > 0 )
+            {
+            	ch.socket().setReceiveBufferSize( receiveBufferSize );
+            }
+            if( sendBufferSize > 0 )
+            {
+            	ch.socket().setSendBufferSize( sendBufferSize );
+            }
+            if( trafficClass > 0 )
+            {
+            	ch.socket().setTrafficClass( trafficClass );
+            }
             if( localAddress != null )
             {
                 ch.socket().bind( localAddress );
@@ -116,6 +134,7 @@ public class DatagramConnectorDelegate extends BaseIoConnector implements Datagr
             {
                 try
                 {
+                	ch.disconnect();
                     ch.close();
                 }
                 catch( IOException e )
@@ -136,6 +155,7 @@ public class DatagramConnectorDelegate extends BaseIoConnector implements Datagr
             {
                 try
                 {
+                	ch.disconnect();
                     ch.close();
                 }
                 catch( IOException e2 )
@@ -156,7 +176,57 @@ public class DatagramConnectorDelegate extends BaseIoConnector implements Datagr
         return request;
     }
     
-    private synchronized void startupWorker() throws IOException
+    public boolean getBroadcast()
+    {
+    	return broadcast;
+    }
+    
+    public void setBroadcast( boolean broadcast )
+    {
+    	this.broadcast = broadcast;
+    }
+    
+    public boolean getReuseAddress()
+    {
+    	return reuseAddress;
+    }
+    
+    public void setReuseAddress( boolean reuseAddress )
+    {
+    	this.reuseAddress = reuseAddress;
+    }
+
+	public int getReceiveBufferSize()
+	{
+		return receiveBufferSize;
+	}
+
+	public void setReceiveBufferSize( int receiveBufferSize )
+	{
+		this.receiveBufferSize = receiveBufferSize;
+	}
+
+	public int getSendBufferSize()
+	{
+		return sendBufferSize;
+	}
+
+	public void setSendBufferSize( int sendBufferSize )
+	{
+		this.sendBufferSize = sendBufferSize;
+	}
+
+	public int getTrafficClass()
+	{
+		return trafficClass;
+	}
+
+	public void setTrafficClass( int trafficClass )
+	{
+		this.trafficClass = trafficClass;
+	}
+
+	private synchronized void startupWorker() throws IOException
     {
         if( worker == null )
         {
@@ -540,6 +610,7 @@ public class DatagramConnectorDelegate extends BaseIoConnector implements Datagr
                 {
                     try
                     {
+                    	req.channel.disconnect();
                         req.channel.close();
                     }
                     catch (IOException e)
@@ -572,6 +643,7 @@ public class DatagramConnectorDelegate extends BaseIoConnector implements Datagr
                 DatagramChannel ch = ( DatagramChannel ) key.channel();
                 try
                 {
+                	ch.disconnect();
                     ch.close();
                 }
                 catch( IOException e )
