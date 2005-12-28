@@ -7,6 +7,15 @@ Building
 --------
 
  o Maven 2.0.1 is used for the build at this point in time.
+ o To build subprojects like mina just cd into 
+   <subproject-prefix>-build and do a mvn package or mvn install.
+   So to build all of mina just cd into mina-build and issue any
+   one of these commands.
+ o To build all issue a mvn package or mvn install inside trunk.
+ o To generate eclipse or idea descriptors for entire trunk just
+   issue a mvn eclipse:eclipse or a mvn idea:idea respectively in
+   the trunk.  For subproject IDE descriptor generation cd into
+   <subproject-prefix>-build and issue one of these commands.
 
 Conventions
 -----------
@@ -21,3 +30,16 @@ Conventions
    building only the subset of projects within that POM.  An example
    of this is mina-build.  To build and install it just cd into this
    directory and issue a mvn install.
+
+Branches
+--------
+
+ o Take a look at the README.txt in the branches folder under the
+   directory svn repo base.
+
+Releases
+--------
+
+ o Tagged releases are contained under the releases folder under
+   directory svn repo base.  Take a look at the README.txt file
+   there for more info.
