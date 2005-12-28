@@ -7,9 +7,9 @@
   <version>0.3.3-SNAPSHOT</version>
   <dependencies>
     <dependency>
-      <groupId>org.apache.mina</groupId>
-      <artifactId>mina</artifactId>
-      <version>0.9.1-SNAPSHOT</version>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>1.0-beta9</version>
     </dependency>
 
     <dependency>
