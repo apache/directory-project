@@ -1,3 +1,6 @@
+                  W O R K   I N   P R O G R E S S
+                  ===============================
+
 This is the trunk for all directory projects.  
 
 Building

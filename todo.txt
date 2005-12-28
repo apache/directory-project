@@ -1,5 +1,4 @@
  o create new repository and add easymock easymockclassextension 1.2 to it
  o fix SSL problems in mina-examples: need to move bogus.cert to resources
- o add top level pom
- o work on profiles for building projects separately (mina build rather 
-   than whole trunk for example).
+ o need a profile for mina build to make sure we do not attempt to build 
+   things that depend on jdk 1.5 when building with jdk 1.4.
