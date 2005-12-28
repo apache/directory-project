@@ -11,7 +11,7 @@
     <dependency>
       <groupId>org.apache.asn1</groupId>
       <artifactId>org.apache.asn1</artifactId>
-      <version>0.3.3-SNAPSHOT</version>
+      <version>0.3.4-SNAPSHOT</version>
     </dependency>
 
     <dependency>
