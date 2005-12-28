@@ -2,7 +2,7 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.mina</groupId>
-  <artifactId>mina</artifactId>
+  <artifactId>org.apache.mina</artifactId>
   <name>MINA</name>
   <version>0.9.1-SNAPSHOT</version>
   <inceptionYear>2004</inceptionYear>

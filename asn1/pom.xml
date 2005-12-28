@@ -2,7 +2,7 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.asn1</groupId>
-  <artifactId>asn1</artifactId>
+  <artifactId>org.apache.asn1</artifactId>
   <packaging>jar</packaging>  
   <version>0.3.3-SNAPSHOT</version>
   <dependencies>
