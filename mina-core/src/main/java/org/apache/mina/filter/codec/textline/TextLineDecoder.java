@@ -27,6 +27,7 @@ import org.apache.mina.common.ByteBuffer;
 import org.apache.mina.common.IoSession;
 import org.apache.mina.filter.codec.ProtocolDecoder;
 import org.apache.mina.filter.codec.ProtocolDecoderOutput;
+import org.apache.mina.util.CharsetUtil;
 
 /**
  * A {@link ProtocolDecoder} which decodes a text line into a string.
@@ -49,7 +50,7 @@ public class TextLineDecoder implements ProtocolDecoder
      */
     public TextLineDecoder()
     {
-        this( Charset.defaultCharset(), LineDelimiter.AUTO );
+        this( CharsetUtil.getDefaultCharset(), LineDelimiter.AUTO );
     }
     
     /**
