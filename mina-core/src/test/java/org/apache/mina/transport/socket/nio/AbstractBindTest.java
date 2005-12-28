@@ -25,8 +25,13 @@ import java.util.Date;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
+import org.apache.mina.common.ByteBuffer;
+import org.apache.mina.common.IdleStatus;
 import org.apache.mina.common.IoAcceptor;
-import org.apache.mina.examples.echoserver.EchoProtocolHandler;
+import org.apache.mina.common.IoHandlerAdapter;
+import org.apache.mina.common.IoSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Tests {@link IoAcceptor} resource leakage by repeating bind and unbind.
@@ -166,4 +171,44 @@ public abstract class AbstractBindTest extends TestCase
         bind( false );
     }
 
+    static class EchoProtocolHandler extends IoHandlerAdapter
+    {
+        private static final Logger log = LoggerFactory.getLogger( EchoProtocolHandler.class );
+
+        public void sessionCreated( IoSession session )
+        {
+            if( session instanceof SocketSession )
+            {
+                ( ( SocketSession ) session ).setSessionReceiveBufferSize( 2048 );
+            }
+
+            session.setIdleTime( IdleStatus.BOTH_IDLE, 10 );
+        }
+
+        public void sessionIdle( IoSession session, IdleStatus status )
+        {
+            log.info( "*** IDLE #" + session.getIdleCount( IdleStatus.BOTH_IDLE ) + " ***" );
+        }
+
+        public void exceptionCaught( IoSession session, Throwable cause )
+        {
+            cause.printStackTrace();
+            session.close();
+        }
+
+        public void messageReceived( IoSession session, Object message ) throws Exception
+        {
+            if( !( message instanceof ByteBuffer ) )
+            {
+                return;
+            }
+
+            ByteBuffer rb = ( ByteBuffer ) message;
+            // Write the received data back to remote peer
+            ByteBuffer wb = ByteBuffer.allocate( rb.remaining() );
+            wb.put( rb );
+            wb.flip();
+            session.write( wb );
+        }
+    }
 }
