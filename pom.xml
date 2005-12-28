@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.apache.directory</groupId>
+  <version>1.0</version>
+  <artifactId>build</artifactId>
+  <name>build</name>
+  <packaging>pom</packaging>
+  <modules>
+    <module>mina-build</module>
+    <module>asn1</module>
+  </modules>
+</project>

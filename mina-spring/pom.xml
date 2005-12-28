@@ -3,6 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.mina</groupId>
   <artifactId>org.apache.mina.integration.spring</artifactId>
+  <name>mina-spring</name>
   <packaging>jar</packaging>  
   <version>0.9.1-SNAPSHOT</version>
   <dependencies>
