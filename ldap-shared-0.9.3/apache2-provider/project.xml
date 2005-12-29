@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+    <extend>../project.xml</extend>
+    <pomVersion>3</pomVersion>
+    <artifactId>apache-new-ldapber-provider</artifactId>
+    <name>Apache's new ASN.1 based LDAP BER Message Provider</name>
+    <package>org.apache.asn1new.ldap</package>
+    <build />
+    <developers>
+        <developer>
+            <name>Emmanuel Lécharny</name>
+            <id>elecharny</id>
+            <email>elecharny at apache.org</email>
+        </developer>
+    </developers>
+    <inceptionYear>2005</inceptionYear>
+    <shortDescription>Apache's new LDAP BER Message Provider</shortDescription>
+    <description>A new provider for the LDAP message framework (in LDAP commons) based on the
+    Apache ASN.1 BER Runtime.</description>
+    <dependencies>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.0</version>
+            <type>jar</type>
+            <url>http://jakarta.apache.org/commons/lang/api</url>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>directory-asn1</groupId>
+            <artifactId>asn1-codec</artifactId>
+            <version>0.3.3</version>
+            <url>http://directory.apache.org/subprojects/asn1/codec</url>
+        </dependency>
+        <dependency>
+            <groupId>directory-asn1</groupId>
+            <artifactId>asn1-new-ber</artifactId>
+            <version>0.3.3</version>
+            <type>jar</type>
+            <url>http://directory.apache.org/subprojects/asn1/ber</url>
+        </dependency>
+        <dependency>
+            <groupId>regexp</groupId>
+            <artifactId>regexp</artifactId>
+            <version>1.2</version>
+            <type>jar</type>
+            <url>http://jakarta.apache.org/regexp/index.html</url>
+            <properties>
+                <gump.project>jakarta-regexp</gump.project>
+            </properties>
+        </dependency>
+        <dependency>
+            <groupId>antlr</groupId>
+            <artifactId>antlr</artifactId>
+            <version>2.7.2</version>
+            <type>jar</type>
+            <url>http://antlr.org</url>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <type>jar</type>
+            <url>http://junit.org</url>
+        </dependency>
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>2.0.2</version>
+            <type>jar</type>
+            <url>http://jakarta.apache.org/commons/httpclient/apidocs</url>
+        </dependency>
+        <dependency>
+            <groupId>directory-shared</groupId>
+            <artifactId>ldap-common</artifactId>
+            <version>${pom.currentVersion}</version>
+        </dependency>
+    </dependencies>
+</project>
+
