@@ -1,0 +1,305 @@
+<?xml version="1.0"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V4.1.2.5//EN"
+	"http://www.oasis-open.org/docbook/xml/simple/4.1.2.5/sdocbook.dtd">
+
+<article class="whitepaper">
+	<title>LDAPd Common API</title>
+    
+    <articleinfo>
+        <author><othername>akarasulu</othername></author>
+        <editor><othername>$Author: akarasulu $</othername></editor>
+        <revhistory>
+            <revision>
+                <revnumber>$Revision: 1.3 $</revnumber>
+                <date>$Date: 2003/04/10 21:02:43 $</date>
+                <revdescription>
+                    <para>
+$Log: front-page.xml,v $
+Revision 1.3  2003/04/10 21:02:43  akarasulu
+Added BER encoder decoder service provider interfaces (spi) used to
+marshal and demarshal messages as well as transform them to the
+cannonical library independant forms within the message package.
+
+Revision 1.2  2003/04/10 02:45:24  akarasulu
+Adding more documentation.
+
+Revision 1.1  2003/04/09 20:34:50  akarasulu
+Started working on common subproject documentation.
+
+Revision 1.2  2003/04/09 15:51:25  akarasulu
+Moved some common classes sitting in ldapd package to ldapd.common pkg.
+
+                    </para>
+                </revdescription>
+            </revision>
+        </revhistory>
+    </articleinfo>
+
+	<abstract>
+		<para>
+            Common functionality across LDAP clients and servers are kept within
+            the CVS ldapd-common subproject.  The functionality includes filter,
+            URL, and DN parsing and the binary encoders and decoders used to
+            marshal and demarshal LDAP ASN.1 defined structures used for message 
+            transmission via this line protocol.  Other miscellaneous classes
+            used by both clients and the server are kept as utility classes 
+            under the ldapd.common top level package.
+		</para>
+	</abstract>
+    
+    <section>
+        <title>Document TODOs:</title>
+        <itemizedlist>
+            <listitem><para>
+                Add diagrams.
+            </para></listitem>
+        </itemizedlist>
+    </section>
+    
+    <section>
+        <title>Background</title>
+        
+        <para>
+            Throughout various RFCs and ISO standards directory concepts and 
+            constructs are clearly defined.  For example <ulink 
+            url="http://www.faqs.org/rfcs/rfc2253.html">RFC 2253</ulink> defines
+            the syntax for distinguished names and <ulink 
+            url="http://www.faqs.org/rfcs/rfc2254.html">RFC 2254</ulink> defines
+            the representation of filters.  Other specifications exist for the
+            representation of LDAPv3 message envelope datatypes based on ASN.1 
+            and the representation of LDAP URLs etcetera.  The constructs 
+            defined by each of these standards are used in one way or another by
+            both clients and servers.
+        </para>
+        
+        <para>
+            To enable both clients and servers in for example parsing search 
+            filters, a common filter expression tree generating parser package
+            resides within the ldapd-common subproject.  Likewise parsers for
+            LDAP URLs and distinguished names are also present within other
+            packages of the subproject.  These common APIs form the cornerstone
+            of client and server implementations because they define interfaces
+            and classes used to represent these objects on both the client and 
+            server side.
+        </para>
+    </section>
+    
+    <section>
+        <title>Subproject Packages</title>
+        
+        <para>
+            The common subproject can be broken down into areas of functionality
+            based on package structure.  Below we tabulate packages summarizing
+            their purpose.  Specific package details are provided in subsections
+            to follow.
+        </para>
+        
+        <table frame='all'><title></title>
+            <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                <colspec colname="Package"/>
+                <colspec colname="ContentPurpose"/>
+                <thead>
+                    <row>
+                        <entry>Package</entry>
+                        <entry>Contents and Purpose</entry>
+                    </row>
+                </thead>
+                
+                <tbody>
+                    <row>
+                        <entry>ldapd.common.ber</entry>
+                        <entry>
+                            Contains ASN.1 stub compiler specific binary 
+                            encoding and decoding objects.  The stub classes 
+                            represent the ASN.1 defined structures for the LDAP 
+                            protocol.
+                        </entry>
+                    </row>
+                    <row>
+                        <entry>ldapd.common.filter</entry>
+                        <entry>
+                            Contains an LDAPv3 filter parser and a set of 
+                            interfaces and classes used to build the abstract 
+                            syntax tree of a filter expression.
+                        </entry>
+                    </row>
+                    <row>
+                        <entry>ldapd.common.ldif</entry>
+                        <entry>
+                            Contains an LDAP Data Interchange Format (LDIF) 
+                            parser and composer for round trip manipulation.
+                        </entry>
+                    </row>
+                    <row>
+                        <entry>ldapd.common.message</entry>
+                        <entry>
+                            Contains ASN.1 stub compiler independant interfaces
+                            and classes used to represent LDAPv3 ASN.1 defined 
+                            structures.
+                        </entry>
+                    </row>
+                    <row>
+                        <entry>ldapd.common.name</entry>
+                        <entry>
+                            Contains a LDAP specific javax.naming.NameParser,
+                            which generates LDAP specific javax.naming.Names in
+                            normalized and denormalized modes.</entry>
+                    </row>
+                    <row>
+                        <entry>ldapd.common.util</entry>
+                        <entry>
+                            Contains miscellaneous LDAP utility class used by
+                            both clients and servers.
+                        </entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+    </section>
+        
+    <section>
+        <title>ldapd.common.ber: ASN.1 BER Based Java Stubs</title>
+            
+        <para>
+            The ldapd.common.ber package contains the Java classes and 
+            interfaces generated by specific ASN.1 stub compilers.  Presently,
+            only Snacc4J stubs exist here generated from the LDAPv3 ASN.1 
+            specification contained in Appendix A of <ulink 
+            url="http://www.faqs.org/rfcs/rfc2251.html">RFC 2251</ulink>.  
+            Without getting into Abstract Syntax Notation One (ASN.1) we'll just
+            state that it is a way to describe data structures using an abstract
+            notation or grammer.  The ASN.1 structures defined for LDAPv3 
+            represent the contents of messages used for both requests and 
+            responses in the protocol.  The manner in which these structures are
+            [de]serialized to and from a socket stream are dictated by encoding 
+            rules.  Encoding rules determine how a specific data type or 
+            structure (group of data types) is marshaled and demarshaled.  
+            Specifically, Binary Encoding Rules (BER) are used to encode 
+            (demarshal) and decode (marshal) these data types and structures 
+            from socket streams as binary bytes.  These encoding rules 
+            standardize the means used to transmit data on the wire without the
+            custom handling of transmittion controls, message termination 
+            signals, delimiters or anything else associated with the 
+            transmission of Protocol Data Units (PDU)s.
+        </para>
+        
+        <para>
+            These stub classes and interfaces represent the stuctures defined
+            in Appendix A of RFC 2251 which is the complete ASN.1 definition for
+            LDAPv3.  Structures in these definitions contain other structures as
+            well as fundimental data types like INTEGER, TRUE or FALSE etcetera.
+            The set of generated stubs represent value objects of these 
+            structures.  Instances of these stubs within a containment heirarchy
+            represent a marshalled LDAPv3 PDU.  Servers and clients access the
+            parameters within these messages and compose them to implement the
+            request response protocol.  The stubs provide an API for 
+            manipulating these structures.  Stub compilers usually come with 
+            runtime BER libraries which marshal and demarshal these PDU 
+            containment trees.  The stubs know how to serialize themselves using
+            these runtime BER libraries and are highly dependant on them.  Hence
+            stub APIs representing LDAPv3 ASN.1 definitions are very specific to
+            the stub compiler and its encoding libraries.
+        </para>
+        
+        <para>
+            LDAPd makes an attempt to decouple client's and server from these
+            stub implementations using an intermediate BER library independant 
+            representation for LDAPv3 message structures.  These interfaces are
+            defined within the ldapd.common.message package and are described
+            in detail within its section below.
+        </para>
+    </section>
+        
+    <section>
+        <title>
+            ldapd.common.message: Intermediate ASN.1 Message Structures
+        </title>
+            
+        <para>
+            As mentioned in the section above, these interfaces define BER 
+            library or ASN.1 compiler independant message structures.  They are
+            hand coded interfaces used to represent LDAPv3 message structures.
+            Besides being agnostic these interfaces unlike the Snacc4J generated
+            stubs are designed with object orientation in mind.  The message 
+            structures are designed as interfaces.  Designing message structures
+            as interfaces rather than classes provides a greater degree of 
+            freedom for implementing classes.  These interfaces expose only 
+            those APIs used to access PDU content using the proper member 
+            accessor methods where appropriate.  The interfaces model the 
+            heirarchical relationships between messages, requests, and responses
+            with query methods to suite.  Rather than using a union with the 
+            choice enumeration inheritance is used to model the containment tree 
+            greatly simplifying it.  With the Snacc4J LDAPMessage envelope a 
+            public member to every possible message type (requests as well as 
+            responses) is exposed.  Based on the value of the choice enumeration
+            parameter within the message envelope only one of these public 
+            message type member will be non-null.  The mechanism implements an
+            ugly union without regard to OOP principals.  Finally the various 
+            enumerated types are made type safe using enumeration class types 
+            instead of using integer values.
+        </para>
+        
+        <para>
+            The Snacc compiler generates stub classes without creating accessors
+            and mutators for stub class members.  Infact all members are public.
+            The compiler excessively generates data types for sets and sequences 
+            as well as enumerations.  Containers use old Vector APIs rather than
+            the new collection APIs.  The stub generator uses an awkward class
+            naming scheme which concatentates the path to structural objects 
+            within the containment tree.  As a consequence several unnecessary 
+            classes are generated with long appended names making them difficult
+            to use.  Utimately the containment model exposed by the Snacc 
+            generated stubs is very cumbersome and difficult to use.  Code 
+            within the protocol module's processors uses Snacc generated stubs 
+            at the present moment and as a result the processors are very 
+            difficult to read or manage.
+        </para>
+        
+        <para>
+            There are obvious hygenic benefits to code when these agnostic 
+            message structure interfaces are used.  The reduction of Snacc4J 
+            dependance is another major benefit.  By using these agnostic API's 
+            the implementations underneath the message structure interfaces can
+            be swapped to accomodate any ASN.1 stub and BER library.  Processors
+            in the protocol engine would then depend on these agnostic 
+            interfaces rather than on the Snacc4J classes.  Other modules like
+            the Decoder and the Encoder when refactored to use these API's would
+            no longer depend on Snacc4J.  Eventually, BER library and compiler 
+            stub dependencies can be removed from any client or server 
+            implementation.
+        </para>
+        
+        <para>
+            Greater focus is given to the design patterns used to achieve the
+            goals of this package and other packages building on the agnostic
+            message framework in the design document for <ulink 
+            url="/design/intermediate-asn1-structures.html">Intermediate ASN.1 
+            Structures</ulink>.
+        </para>
+    </section>
+    
+    <section>
+        <title>Future</title>
+        
+        <para>
+        </para>
+
+        <para>
+        </para>
+    </section>
+
+    <section>
+        <title>Faults</title>
+        
+        <para>
+        </para>
+        
+        <para>
+        </para>
+        
+        <para>
+        </para>
+    </section>
+    
+</article>    
+

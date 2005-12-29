@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="maven-project.xsd">
+    <extend>../project.xml</extend>
+    <artifactId>ldap-snacc-provider</artifactId>
+    <name>ldap-snacc-provider</name>
+    <package>org.apache.ldap.common.berlib</package>
+    <shortDescription>Snacc based LDAP message codec provider.</shortDescription>
+    <dependencies>
+        <dependency>
+            <groupId>${pom.groupId}</groupId>
+            <artifactId>ldap-common</artifactId>
+            <version>${pom.currentVersion}</version>
+            <type>jar</type>
+            <properties>
+              <eclipse.dependency>true</eclipse.dependency>
+            </properties>
+        </dependency>
+        <dependency>
+            <groupId>directory-asn1</groupId>
+            <artifactId>asn1-codec</artifactId>
+            <version>0.3.4-SNAPSHOT</version>
+            <type>jar</type>
+            <properties>
+              <eclipse.dependency>true</eclipse.dependency>
+            </properties>
+        </dependency>
+        <dependency>
+            <groupId>snacc4j</groupId>
+            <artifactId>snacc</artifactId>
+            <version>2.3</version>
+            <type>jar</type>
+            <url>http://www.alphaworks.ibm.com/tech/snaccforjava</url>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.0</version>
+            <type>jar</type>
+            <url>http://jakarta.apache.org/commons/collections.html</url>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.0</version>
+            <type>jar</type>
+            <url>http://jakarta.apache.org/commons/lang</url>
+        </dependency>
+    </dependencies>
+    <reports>
+        <report>maven-changelog-plugin</report>
+        <report>maven-developer-activity-plugin</report>
+        <report>maven-file-activity-plugin</report>
+        <report>maven-javadoc-plugin</report>
+        <report>maven-changes-plugin</report>
+        <report>maven-checkstyle-plugin</report>
+        <report>maven-file-activity-plugin</report>
+        <report>maven-javadoc-plugin</report>
+        <report>maven-jdepend-plugin</report>
+        <report>maven-jxr-plugin</report>
+        <report>maven-license-plugin</report>
+        <report>maven-tasklist-plugin</report>
+    </reports>
+</project>
+

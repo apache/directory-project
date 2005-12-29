@@ -1,4 +1,3 @@
- o get snapshots deployed to maven-snapshot-repository
  o need a profile for mina build to make sure we do not attempt to build 
    things that depend on jdk 1.5 when building with jdk 1.4.
  o figure out what we're going to do with sitedocs and how we're going to

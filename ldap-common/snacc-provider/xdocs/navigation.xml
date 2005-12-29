@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<project name="LDAPd">
+    <title>Home</title>
+    <body>
+        <links>
+            <item name="Avalon" href="http://avalon.apache.org"/>
+            <item name="Phoenix" href="http://avalon.apache.org/phoenix"/>
+        </links>
+        <menu name="Overview">
+            <item name="Home" href="/../../"/>
+        </menu>
+        <menu name="Design Documentation">
+        </menu>
+        <menu name="LDAPd Subprojects">
+            <item name="Berkeley" href="/../../backend-blank.html"/>
+            <item name="Common" href="/../../modules/ldapd-common"/>
+            <item name="JDBC" href="/../../modules/ldapd-modjdbc"/>
+            <item name="JDBM" href="/../../modules/ldapd-modjdbm"/>
+            <item name="Replication" href="/../../module-blank.html"/>
+            <item name="Server" href="/../../modules/ldapd-server"/>
+        </menu>
+
+    <menu name="ApacheCon Europe 2005"> 	 
+      <item name="ApacheCon Europe 2005" href="http://www.apachecon.com/"
+            img="http://apache.org/images/ac2005eu_135x50.gif" />
+    </menu>
+    </body>
+</project>
