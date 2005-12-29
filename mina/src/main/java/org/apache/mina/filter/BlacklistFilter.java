@@ -30,8 +30,6 @@ import org.apache.mina.common.IoFilter;
 import org.apache.mina.common.IoFilterAdapter;
 import org.apache.mina.common.IoSession;
 import org.apache.mina.util.SessionLog;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * A {@link IoFilter} which blocks connections from blacklisted remote
@@ -42,8 +40,6 @@ import org.slf4j.LoggerFactory;
  */
 public class BlacklistFilter extends IoFilterAdapter
 {
-    private static final Logger log = LoggerFactory.getLogger( BlacklistFilter.class );
-    
     private final Set blacklist = new HashSet();
 
     /**
@@ -91,9 +87,8 @@ public class BlacklistFilter extends IoFilterAdapter
         }
         catch ( ArrayStoreException ase )
         {
-            String msg = "Collection of addresses must contain only InetAddress instances";
-            log.error( msg, ase );
-            IllegalArgumentException iae = new IllegalArgumentException( msg );
+            IllegalArgumentException iae = new IllegalArgumentException(
+                    "Collection of addresses must contain only InetAddress instances." );
             iae.initCause( ase );
             throw iae;
         }
