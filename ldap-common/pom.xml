@@ -117,6 +117,21 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antlr-plugin</artifactId>
+        <configuration>
+          <grammars>valuelexer.g valueparser.g typelexer.g dnparser.g filter-value-lexer.g filter-lexer.g filter-lexer.g filter-value-parser.g filter-parser.g subtree-specification.g ACIItem.g</grammars>
+        </configuration>
+        <executions>
+           <execution>
+              <goals>
+                 <goal>generate</goal>
+              </goals>
+           </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
           <source>1.4</source>
