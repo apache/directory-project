@@ -85,9 +85,6 @@ public class DirectorySchemaToolMojo extends AbstractMojo
      */
     private boolean verboseOutput;
     
-    // Need to figure this out from the pom - maybe make it a parameter for mojoj and set expression for pom element
-    private String javaSrcDir = "src/main/java";
-
     /**
      * @parameter expression="${project}"
      * @required
@@ -101,24 +98,21 @@ public class DirectorySchemaToolMojo extends AbstractMojo
     }
 
 
-    private void generate( Schema schema ) throws Exception
+    private void generate( BootstrapSchema schema ) throws Exception
     {
-        BootstrapSchema bootstrapSchema = new AbstractBootstrapSchema( schema.getOwner(), 
-            schema.getName(), schema.getPkg(), schema.getDependencies() ){};
-
         if ( schema == null )
         {
             throw new NullPointerException( "the schema property must be set" );
         }
 
-        String filePath = sourceDirectory + File.separator + schema.getName() + ".schema";
+        String filePath = sourceDirectory + File.separator + schema.getSchemaName() + ".schema";
         InputStream in = new FileInputStream( filePath );
         OpenLdapSchemaParser parser = new OpenLdapSchemaParser();
         parser.parse( in );
-        generateSchema( bootstrapSchema );
-        generateAttributeTypes( parser, bootstrapSchema );
-        generateObjectClasses( parser, bootstrapSchema );
-        generateRest( bootstrapSchema );
+        generateSchema( schema );
+        generateAttributeTypes( parser, schema );
+        generateObjectClasses( parser, schema );
+        generateRest( schema );
     }
 
 
@@ -325,7 +319,8 @@ public class DirectorySchemaToolMojo extends AbstractMojo
     {
         // check to see if any of the classes are available in the java 
         // source directory, if so we return true
-        File defaultFile = new File( javaSrcDir + File.separator + getFilePath( defaultClass ) );
+        File defaultFile = new File( project.getBuild().getSourceDirectory() 
+            + File.separator + getFilePath( defaultClass ) );
         return defaultFile.exists();
     }
 
@@ -335,6 +330,22 @@ public class DirectorySchemaToolMojo extends AbstractMojo
         String path = fqcn.replace( '.', File.separatorChar );
         path += ".java";
         return path;
+    }
+    
+    
+    private boolean isStale( BootstrapSchema schema )
+    {
+        String pkgPath = schema.getPackageName().replace( '.', File.separatorChar );
+        File dir = new File( outputDirectory, pkgPath );
+        File schemaClassFile = new File( dir, schema.getUnqualifiedClassName() + ".java" );
+        
+        if ( ! schemaClassFile.exists() )
+        {
+            return true;
+        }
+        
+        File schemaFile = new File( sourceDirectory, schema.getSchemaName() + ".schema" );
+        return schemaFile.lastModified() > schemaClassFile.lastModified();
     }
     
     
@@ -369,7 +380,7 @@ public class DirectorySchemaToolMojo extends AbstractMojo
             {
                 schema.setOwner( defaultOwner );
             }
-        }        
+        } 
        
         // Report configuration if verbose output is enabled
         if ( verboseOutput )
@@ -388,7 +399,18 @@ public class DirectorySchemaToolMojo extends AbstractMojo
         {
             try
             {
-                generate( schemas[ii] );
+                BootstrapSchema bootstrapSchema = new AbstractBootstrapSchema( schemas[ii].getOwner(), 
+                    schemas[ii].getName(), schemas[ii].getPkg(), schemas[ii].getDependencies() ){};
+
+                if ( isStale( bootstrapSchema ) )
+                {
+                    getLog().info( "Generating " + schemas[ii].getName() + " schema." );
+                    generate( bootstrapSchema );
+                }
+                else
+                {
+                    getLog().info( schemas[ii].getName() + " schema is up to date." );
+                }
             }
             catch ( Exception e )
             {
