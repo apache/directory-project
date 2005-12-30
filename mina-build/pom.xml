@@ -11,6 +11,10 @@
   <artifactId>build</artifactId>
   <name>mina-build</name>
   <packaging>pom</packaging>
+
+  <dependencies>
+  </dependencies>
+
   <modules>
     <module>../mina</module>
     <module>../mina-asn1</module>

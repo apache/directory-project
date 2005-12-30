@@ -10,7 +10,6 @@
   <name>mina-asn1</name>
   <packaging>jar</packaging>
   <dependencies>
-
     <dependency>
       <groupId>org.apache.asn1</groupId>
       <artifactId>org.apache.asn1</artifactId>
@@ -27,13 +26,7 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
       <version>1.0-beta9</version>
-    </dependency>
-
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
   <build>
