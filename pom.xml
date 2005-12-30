@@ -18,6 +18,7 @@
     <module>dns-protocol</module>
     <module>kerberos-protocol</module>
     <module>ldap-protocol</module>
+    <module>ntp-protocol</module>
   </modules>
   <repositories>
     <!-- For ibiblio standard: might want to add a mirror as well later            
