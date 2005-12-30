@@ -16,6 +16,7 @@
     <module>changepw-protocol</module>
     <module>dhcp-protocol</module>
     <module>dns-protocol</module>
+    <module>kerberos-protocol</module>
   </modules>
   <repositories>
     <!-- For ibiblio standard: might want to add a mirror as well later            
