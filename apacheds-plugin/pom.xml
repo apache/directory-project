@@ -40,23 +40,6 @@
     <plugins>
 
       <plugin>
-        <groupId>org.apache.ldap.server</groupId>
-        <artifactId>org.apache.ldap.server.plugin</artifactId>
-        <configuration>
-          <schemaSourcesDir>src/main/schema</schemaSourcesDir>
-        </configuration>
-
-        <executions>
-          <execution>
-            <phase>compile</phase>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antlr-plugin</artifactId>
         <configuration>

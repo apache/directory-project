@@ -6,34 +6,14 @@
     <artifactId>build</artifactId>
     <version>0.9.4-SNAPSHOT</version>
   </parent>
-  <artifactId>org.apache.ldap.server.plugin</artifactId>
-  <name>apacheds-plugin</name>
-  <packaging>maven-plugin</packaging>  
+  <artifactId>org.apache.ldap.server.plugintest</artifactId>
+  <name>apacheds-plugin-test</name>
+  <packaging>jar</packaging>  
   <dependencies>
     <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-plugin-api</artifactId>
-      <version>2.0</version>
-    </dependency>
-    <dependency>
-      <groupId>ant</groupId>
-      <artifactId>ant</artifactId>
-      <version>1.5.3-1</version>
-    </dependency>
-    <dependency>
-      <groupId>antlr</groupId>
-      <artifactId>antlr</artifactId>
-      <version>2.7.2</version>
-    </dependency>
-    <dependency>
       <groupId>org.apache.ldap.server</groupId>
-      <artifactId>org.apache.ldap.server.shared</artifactId>
+      <artifactId>org.apache.ldap.server.plugin</artifactId>
       <version>0.9.4-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>velocity</groupId>
-      <artifactId>velocity-dep</artifactId>
-      <version>1.4</version>
     </dependency>
   </dependencies>
   <build>
@@ -44,6 +24,30 @@
         <artifactId>org.apache.ldap.server.plugin</artifactId>
         <configuration>
           <schemaSourcesDir>src/main/schema</schemaSourcesDir>
+          <schemas>
+            <schema>
+              <name>core</name>
+              <owner>uid=testuser</owner>
+              <dependencies>
+                <dependency>system</dependency>
+              </dependencies>
+            </schema>
+            <schema>
+              <name>java</name>
+              <owner>uid=testuser2</owner>
+              <dependencies>
+                <dependency>system</dependency>
+                <dependency>core</dependency>
+              </dependencies>
+            </schema>
+            <schema>
+              <name>inetorgperson</name>
+              <dependencies>
+                <dependency>system</dependency>
+                <dependency>core</dependency>
+              </dependencies>
+            </schema>
+          </schemas>
         </configuration>
 
         <executions>
@@ -53,21 +57,6 @@
               <goal>generate</goal>
             </goals>
           </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-antlr-plugin</artifactId>
-        <configuration>
-          <grammars>openldap.g</grammars>
-        </configuration>
-        <executions>
-           <execution>
-              <goals>
-                 <goal>generate</goal>
-              </goals>
-           </execution>
         </executions>
       </plugin>
 
