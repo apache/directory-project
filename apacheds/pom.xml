@@ -10,13 +10,12 @@
   <name>apacheds</name>
   <packaging>jar</packaging>  
   <dependencies>
-<!--
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <version>1.0</version>
+      <scope>test</scope>
     </dependency>
--->
     <dependency>
       <groupId>org.apache.asn1</groupId>
       <artifactId>org.apache.asn1</artifactId>
