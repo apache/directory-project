@@ -13,6 +13,7 @@
     <module>protocol-common</module>
     <module>kerberos-common</module>
     <module>ldap-common</module>
+    <module>changepw-protocol</module>
   </modules>
   <repositories>
     <!-- For ibiblio standard: might want to add a mirror as well later            
