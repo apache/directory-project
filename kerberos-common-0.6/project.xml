@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project>
+  <pomVersion>3</pomVersion>
+  <groupId>directory-shared</groupId>
+  <currentVersion>0.6</currentVersion>
+  <name>Kerberos Shared</name>
+  
+  <inceptionYear>2003</inceptionYear>
+  <package>org.apache.directory.sitedocs</package>
+  <logo>http://directory.apache.org/images/apache-directory-logo.png</logo>
+  <url>http://directory.apache.org/subprojects/shared/kerberos</url>
+
+  <siteAddress>minotaur.apache.org</siteAddress>
+  <siteDirectory>
+    /www/directory.apache.org/subprojects/shared/kerberos
+  </siteDirectory>
+  <distributionDirectory>
+    /www/cvs.apache.org/dist/directory
+  </distributionDirectory>
+  
+  <gumpRepositoryId>directory</gumpRepositoryId>
+  <repository>
+    <connection>
+      scm:svn:http://svn.apache.org/repos/asf/directory:shared/${module.path}
+    </connection>
+
+    <url>
+      http://svn.apache.org/viewcvs.cgi/directory/shared/${module.path}/?root=Apache-SVN
+    </url>
+    
+    <developerConnection>
+      https://svn.apache.org/repos/asf/directory/shared/${module.path}
+    </developerConnection>
+  </repository>
+  
+  <shortDescription>Shared Kerberos API</shortDescription>
+  
+  <description>
+    Shared Kerberos API for ApacheDS Provider and clients.
+  </description>
+  
+  <mailingLists>
+    <mailingList>
+      <name>Directory Developer List</name>
+      <subscribe>
+            dev@directory.apache.org
+      </subscribe>
+      <unsubscribe>
+            dev-unsubscribe@directory.apache.org
+      </unsubscribe>
+      <archive>
+            http://issues.apache.org/eyebrowse/SummarizeList?listId=181
+      </archive>
+    </mailingList>
+  </mailingLists>
+  
+  <licenses>
+    <license>
+      <name>Apache 2.0 License</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <build>
+    <nagEmailAddress>dev@directory.apache.org</nagEmailAddress>
+    <sourceDirectory>${basedir}/src/java</sourceDirectory>
+    <unitTestSourceDirectory>${basedir}/src/test</unitTestSourceDirectory>
+                                                                              
+    <unitTest>
+      <includes>
+        <include>**/*Test.java</include>
+      </includes>
+    </unitTest>
+  </build>
+
+  <reports>
+    <report>maven-license-plugin</report>
+  </reports>
+</project>
