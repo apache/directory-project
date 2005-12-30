@@ -55,7 +55,7 @@ public abstract class Provider
 {
     /** Default BER Library provider class name */
     public static final String DEFAULT_PROVIDER =
-        "org.apache.ldap.common.berlib.asn1.SnickersProvider" ;
+        "org.apache.asn1new.ldap.TwixProvider" ;
 
     /** BER Library provider class name property */
     public static final String BERLIB_PROVIDER =
