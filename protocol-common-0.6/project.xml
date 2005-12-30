@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project>
+  <pomVersion>3</pomVersion>
+  <groupId>directory-shared</groupId>
+  <currentVersion>0.6</currentVersion>
+  <name>Protocol Shared</name>
+  
+  <inceptionYear>2005</inceptionYear>
+  <package>org.apache.directory.sitedocs</package>
+  <logo>http://directory.apache.org/images/apache-directory-logo.png</logo>
+  <url>http://directory.apache.org/subprojects/shared/protocol</url>
+
+  <siteAddress>minotaur.apache.org</siteAddress>
+  <siteDirectory>
+    /www/directory.apache.org/subprojects/shared/protocol
+  </siteDirectory>
+  <distributionDirectory>
+    /www/cvs.apache.org/dist/directory
+  </distributionDirectory>
+  
+  <gumpRepositoryId>directory</gumpRepositoryId>
+  <repository>
+    <connection>
+      scm:svn:http://svn.apache.org/repos/asf/directory:shared/${module.path}
+    </connection>
+
+    <url>
+      http://svn.apache.org/viewcvs.cgi/directory/shared/${module.path}/?root=Apache-SVN
+    </url>
+    
+    <developerConnection>
+      https://svn.apache.org/repos/asf/directory/shared/${module.path}
+    </developerConnection>
+  </repository>
+  
+  <shortDescription>Shared Protocol API</shortDescription>
+  
+  <description>
+    Shared Protocol API for ApacheDS Provider and clients.
+  </description>
+  
+  <mailingLists>
+    <mailingList>
+      <name>Directory Developer List</name>
+      <subscribe>
+            dev@directory.apache.org
+      </subscribe>
+      <unsubscribe>
+            dev-unsubscribe@directory.apache.org
+      </unsubscribe>
+      <archive>
+            http://issues.apache.org/eyebrowse/SummarizeList?listId=181
+      </archive>
+    </mailingList>
+  </mailingLists>
+  
+  <licenses>
+    <license>
+      <name>Apache 2.0 License</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <build>
+    <nagEmailAddress>dev@directory.apache.org</nagEmailAddress>
+    <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
+    <unitTestSourceDirectory>${basedir}/src/test</unitTestSourceDirectory>
+
+    <unitTest>
+      <includes>
+        <include>**/*Test*</include>
+        <include>**/*TestCase*</include>
+      </includes>
+      <excludes>
+        <exclude>**/Abstract*Test*</exclude>
+        <exclude>**/*TestUtils*</exclude>
+      </excludes>
+      <resources>
+        <resource>
+          <directory>${basedir}/src/test</directory>
+          <includes>
+            <include>**/*.dtd</include>
+            <include>**/*.ldif</include>
+            <include>**/*.properties</include>
+            <include>**/*.x*</include>
+            <include>**/*.mf</include>
+            <include>**/*.jar</include>
+            <include>**/*.pdu</include>
+          </includes>
+          <filtering>false</filtering>
+        </resource>
+      </resources>
+    </unitTest>
+    <resources>
+      <resource>
+        <directory>${basedir}/src/main/java</directory>
+        <includes>
+          <include>**/*.dtd</include>
+          <include>**/*.properties</include>
+          <include>**/*.ldif</include>
+          <include>**/*.x*</include>
+        </includes>
+        <filtering>false</filtering>
+      </resource>
+    </resources>
+  </build>
+
+  <reports>
+    <report>maven-license-plugin</report>
+  </reports>
+</project>
