@@ -8,10 +8,11 @@
   <packaging>pom</packaging>
   <modules>
     <module>mina-build</module>
-    <module>asn1</module>
-    <module>ldap-common</module>
     <module>apacheds-build</module>
+    <module>asn1</module>
     <module>protocol-common</module>
+    <module>kerberos-common</module>
+    <module>ldap-common</module>
   </modules>
   <repositories>
     <!-- For ibiblio standard: might want to add a mirror as well later            

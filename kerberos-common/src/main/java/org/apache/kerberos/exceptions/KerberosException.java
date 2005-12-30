@@ -24,6 +24,8 @@ package org.apache.kerberos.exceptions;
  */
 public class KerberosException extends Exception
 {
+    private static final long serialVersionUID = 2968072183596955597L;
+
     /**
      * The Kerberos error code associated with this exception
      */

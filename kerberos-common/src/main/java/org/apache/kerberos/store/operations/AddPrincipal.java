@@ -21,11 +21,15 @@ import javax.naming.Name;
 import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.DirContext;
-import javax.naming.ldap.LdapName;
+
+// this is a jdk 1.5 dep which would make us 1.4 incompatible 
+// reverted to using LdapName for now until a better alt is found
+// import javax.naming.ldap.LdapName;
 import javax.naming.spi.DirStateFactory;
 import javax.naming.spi.DirStateFactory.Result;
 
 import org.apache.kerberos.store.PrincipalStoreEntry;
+import org.apache.ldap.common.name.LdapName;
 import org.apache.protocol.common.store.ContextOperation;
 
 /**
