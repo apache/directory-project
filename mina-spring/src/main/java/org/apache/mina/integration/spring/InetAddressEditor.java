@@ -50,7 +50,8 @@ public class InetAddressEditor extends PropertyEditorSupport
         }
         catch( UnknownHostException uhe )
         {
-            throw new IllegalArgumentException( uhe );
+            IllegalArgumentException iae = new IllegalArgumentException();
+            iae.initCause( uhe );
         }
     }
 }

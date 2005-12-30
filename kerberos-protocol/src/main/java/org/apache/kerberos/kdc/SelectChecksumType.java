@@ -19,7 +19,6 @@ package org.apache.kerberos.kdc;
 import org.apache.kerberos.crypto.checksum.ChecksumType;
 import org.apache.kerberos.exceptions.ErrorType;
 import org.apache.kerberos.exceptions.KerberosException;
-import org.apache.kerberos.kdc.ticketgrant.TicketGrantingContext;
 import org.apache.protocol.common.chain.Context;
 import org.apache.protocol.common.chain.impl.CommandBase;
 
@@ -27,13 +26,6 @@ public class SelectChecksumType extends CommandBase
 {
     public boolean execute( Context context ) throws Exception
     {
-        TicketGrantingContext tgsContext = (TicketGrantingContext) context;
-        KdcConfiguration config = tgsContext.getConfig();
-
-        ChecksumType requestedType = tgsContext.getAuthenticator().getChecksum().getChecksumType();
-
-        //boolean isAllowedChecksumType = isAllowedChecksumType( requestedType, config.getChecksumTypes() );
-
         boolean isAllowedChecksumType = true;
 
         if ( !isAllowedChecksumType )
