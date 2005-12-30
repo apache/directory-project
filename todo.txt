@@ -2,3 +2,5 @@
    things that depend on jdk 1.5 when building with jdk 1.4.
  o figure out what we're going to do with sitedocs and how we're going to
    build and deploy them
+ o need to designate deps as transitive verses test for most
+   projects
