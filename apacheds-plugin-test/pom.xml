@@ -11,6 +11,16 @@
   <packaging>jar</packaging>  
   <dependencies>
     <dependency>
+      <groupId>org.apache.ldap.common</groupId>
+      <artifactId>org.apache.ldap.common</artifactId>
+      <version>0.9.4-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.ldap.server</groupId>
+      <artifactId>org.apache.ldap.server.shared</artifactId>
+      <version>0.9.4-SNAPSHOT</version>
+    </dependency>
+    <dependency>
       <groupId>org.apache.ldap.server</groupId>
       <artifactId>org.apache.ldap.server.plugin</artifactId>
       <version>0.9.4-SNAPSHOT</version>
@@ -52,7 +62,6 @@
 
         <executions>
           <execution>
-            <phase>compile</phase>
             <goals>
               <goal>generate</goal>
             </goals>

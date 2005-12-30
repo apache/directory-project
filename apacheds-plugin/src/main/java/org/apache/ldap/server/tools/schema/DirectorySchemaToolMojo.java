@@ -33,6 +33,7 @@ import org.apache.ldap.server.schema.bootstrap.BootstrapSchema;
 import org.apache.ldap.server.schema.bootstrap.ProducerTypeEnum;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.project.MavenProject;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
@@ -42,6 +43,7 @@ import org.apache.velocity.app.Velocity;
  * 
  * @goal generate
  * @description Generates ApacheDS schema classes from OpenLDAP schema files
+ * @phase generate-sources
  * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Rev$
  */
@@ -85,6 +87,12 @@ public class DirectorySchemaToolMojo extends AbstractMojo
     
     // Need to figure this out from the pom - maybe make it a parameter for mojoj and set expression for pom element
     private String javaSrcDir = "src/main/java";
+
+    /**
+     * @parameter expression="${project}"
+     * @required
+     */
+    private MavenProject project;
 
 
     public DirectorySchemaToolMojo() throws Exception
@@ -386,7 +394,9 @@ public class DirectorySchemaToolMojo extends AbstractMojo
             {
                 throw new MojoExecutionException( "Failed while generating sources for " + schemas[ii].getName(), e );
             }
-        }        
+        }
+        
+        project.addCompileSourceRoot( outputDirectory.getPath() );
     }
 
     private void report()
