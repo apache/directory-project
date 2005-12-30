@@ -26,7 +26,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import java.util.Map.Entry;
 
 import org.apache.protocol.common.chain.Context;
 
@@ -50,6 +49,8 @@ import org.apache.protocol.common.chain.Context;
 public class ContextBase extends HashMap implements Context
 {
     // ------------------------------------------------------------ Constructors
+
+    private static final long serialVersionUID = 5536081240350960868L;
 
     /**
      * Default, no argument constructor.

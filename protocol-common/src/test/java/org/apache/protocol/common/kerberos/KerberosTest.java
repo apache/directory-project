@@ -18,8 +18,6 @@
 package org.apache.protocol.common.kerberos;
 
 import javax.naming.Context;
-import javax.naming.Name;
-import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
@@ -56,13 +54,8 @@ public class KerberosTest extends AbstractBackingStoreTest
         env.put( Context.PROVIDER_URL, "dc=example,dc=com" );
         DirContext ctx = (DirContext) factory.getInitialContext( env );
 
-        String[] attrIDs = { "krb5PrincipalName" };
-
         Attributes matchAttrs = new BasicAttributes( true );
-
         matchAttrs.put( new BasicAttribute( "krb5PrincipalName", "kadmin/changepw@EXAMPLE.COM" ) );
-
-        NamingEnumeration answer = ctx.search( "ou=users", matchAttrs, attrIDs );
 
         Attributes attributes = ctx.getAttributes( "ou=users" );
         System.out.println( attributes );

@@ -38,6 +38,7 @@ import org.apache.protocol.common.store.ContextOperation;
  */
 public class GetCatalog implements ContextOperation
 {
+    private static final long serialVersionUID = -6657995003127926278L;
     private static final String ENTRY = "apacheCatalogEntry";
     private static final String ENTRY_NAME = "apacheCatalogEntryName";
     private static final String ENTRY_BASEDN = "apacheCatalogEntryBaseDn";
