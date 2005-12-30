@@ -11,6 +11,7 @@
     <module>asn1</module>
     <module>ldap-common</module>
     <module>apacheds-build</module>
+    <module>protocol-common</module>
   </modules>
   <repositories>
     <!-- For ibiblio standard: might want to add a mirror as well later            
