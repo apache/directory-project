@@ -48,18 +48,20 @@
                 <phase>validate</phase>
                 <configuration>
                   <tasks>
-                    <echo>===============================================</echo>
-                    <echo>                  W A R N I N G</echo>
-                    <echo>                  -------------</echo>
-                    <echo/>
-                    <echo>Build with 1.4 jvm will not include modules:</echo>
-                    <echo/>
-                    <echo>mina-ssl</echo>
-                    <echo>mina-spring</echo>
-                    <echo>mina-examples</echo>
-                    <echo/>
-                    <echo>Switch to 1.5 JDK to build all modules!</echo>
-                    <echo>===============================================</echo>
+                    <echo>
+====================================================================
+                       W A R N I N G
+                       -------------
+
+Build with 1.4 jvm will not include modules:
+ 
+ o mina-ssl
+ o mina-spring
+ o mina-examples
+
+Use JDK 1.5 to make sure these modules build.
+====================================================================
+                    </echo>
                   </tasks>
                 </configuration>
                 <goals>
