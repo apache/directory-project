@@ -39,6 +39,39 @@
         <module>../mina</module>
         <module>../mina-asn1</module>
       </modules>
+    <build>
+      <pluginManagement>
+        <plugins>
+          <plugin>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+              <execution>
+                <phase>validate</phase>
+                <configuration>
+                  <tasks>
+                    <echo>===============================================</echo>
+                    <echo>                  W A R N I N G</echo>
+                    <echo>                  -------------</echo>
+                    <echo/>
+                    <echo>Build with 1.4 jvm will not include modules:</echo>
+                    <echo/>
+                    <echo>mina-ssl</echo>
+                    <echo>mina-spring</echo>
+                    <echo>mina-examples</echo>
+                    <echo/>
+                    <echo>Switch to 1.5 JDK to build all modules!</echo>
+                    <echo>===============================================</echo>
+                  </tasks>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </pluginManagement>
+    </build>
     </profile>
   </profiles>
 
