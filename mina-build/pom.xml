@@ -39,8 +39,7 @@
         <module>../mina</module>
         <module>../mina-asn1</module>
       </modules>
-    <build>
-      <pluginManagement>
+      <build>
         <plugins>
           <plugin>
             <artifactId>maven-antrun-plugin</artifactId>
@@ -70,8 +69,7 @@
             </executions>
           </plugin>
         </plugins>
-      </pluginManagement>
-    </build>
+      </build>
     </profile>
   </profiles>
 
