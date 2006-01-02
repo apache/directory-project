@@ -484,7 +484,7 @@ public class FilterGrammar extends AbstractGrammar implements IGrammar
                         TLV tlv            = ldapMessageContainer.getCurrentTLV();
                         
                         // The value can be null.
-                        Object assertionValue = "";
+                        Object assertionValue = StringTools.EMPTY_BYTES;
 
                         if ( tlv.getLength().getLength() != 0 )
                         {
