@@ -4,3 +4,6 @@
    build and deploy them
  o need to designate deps as transitive verses test for most
    projects
+ o the plugin list is inherited so we do not need to keep telling poms how to
+   compile for jdk 1.4 - we do this all over and can delete these lines if
+   we include this info in the top level pom
