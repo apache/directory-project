@@ -39,7 +39,7 @@
  
     <!-- For our snapshots (do not upload release jars or non-apache jars here)    -->
     <repository>
-      <id>apachecvs</id>
+      <id>apache.snapshots</id>
       <name>Apache Snapshot Repository</name>
       <url>http://cvs.apache.org/maven-snapshot-repository</url>
     </repository>
@@ -54,9 +54,17 @@
     </repository>
   </repositories>
 
+  <pluginRepositories>
+    <pluginRepository>
+      <id>snapshots</id>
+      <name>snapshot plugins</name>
+      <url>http://snapshots.maven.codehaus.org/maven2</url>
+    </pluginRepository>
+  </pluginRepositories>
+
   <distributionManagement>
     <snapshotRepository>
-      <id>apachecvs</id>
+      <id>apache.snapshots</id>
       <url>scpexe://cvs.apache.org/www/cvs.apache.org/maven-snapshot-repository</url>
     </snapshotRepository>
   </distributionManagement>
