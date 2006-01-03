@@ -194,6 +194,16 @@ public class ModifyRequest extends LdapMessage
     }
 
     /**
+     * Return the current attribute's type
+     * 
+     * @param value The current attribute's type
+     */
+    public String getCurrentAttributeType()
+    {
+        return currentAttribute.getID();
+    }
+
+    /**
      * Get the modification's DN
      * 
      * @return Returns the object.
@@ -550,11 +560,11 @@ public class ModifyRequest extends LdapMessage
                         
                         if ( attributeValue instanceof String )
                         {
-                            sb.append( StringTools.utf8ToString( (byte[])attributeValue ) ).append( "' \n" );
+                            sb.append( attributeValue ).append( "' \n" );
                         }
                         else
                         {
-                            sb.append( attributeValue ).append( "' \n" );
+                            sb.append( StringTools.utf8ToString( (byte[])attributeValue ) ).append( "' \n" );
                         }
                     }
                 }

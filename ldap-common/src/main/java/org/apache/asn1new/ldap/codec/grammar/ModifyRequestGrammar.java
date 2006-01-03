@@ -451,12 +451,20 @@ public class ModifyRequestGrammar extends AbstractGrammar implements IGrammar
                         
                         if ( tlv.getLength().getLength() == 0 )
                         {
-                            modifyRequest.addAttributeValue( value );
+                            modifyRequest.addAttributeValue( "" );
                         }
                         else
                         {
                             value = tlv.getValue().getData();
-                            modifyRequest.addAttributeValue( value );
+                            
+                            if ( ldapMessageContainer.isBinary( modifyRequest.getCurrentAttributeType() ) )
+                            {
+	                            modifyRequest.addAttributeValue( value );
+                            }
+					        else
+					        {
+                                modifyRequest.addAttributeValue( StringTools.utf8ToString( (byte[])value ) );
+					        }
                         }
                         
                         if ( log.isDebugEnabled() )
