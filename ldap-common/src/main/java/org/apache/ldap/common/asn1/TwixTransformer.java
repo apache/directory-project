@@ -14,7 +14,7 @@
  *   limitations under the License.
  *
  */
-package org.apache.ldap.common;
+package org.apache.ldap.common.asn1;
 
 
 import java.util.ArrayList;

@@ -14,18 +14,18 @@
  *   limitations under the License.
  *
  */
-package org.apache.ldap.common;
+package org.apache.ldap.common.asn1;
 
 
 import java.util.Set;
 
+import org.apache.ldap.common.asn1.TwixDecoder;
+import org.apache.ldap.common.asn1.TwixEncoder;
 import org.apache.ldap.common.message.spi.Provider;
 import org.apache.ldap.common.message.spi.ProviderDecoder;
 import org.apache.ldap.common.message.spi.ProviderEncoder;
 import org.apache.ldap.common.message.spi.ProviderException;
 import org.apache.ldap.common.message.spi.TransformerSpi;
-import org.apache.ldap.common.TwixDecoder;
-import org.apache.ldap.common.TwixEncoder;
 
 
 /**

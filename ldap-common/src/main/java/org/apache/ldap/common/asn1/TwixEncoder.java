@@ -14,7 +14,7 @@
  *   limitations under the License.
  *
  */
-package org.apache.ldap.common;
+package org.apache.ldap.common.asn1;
 
 import org.apache.asn1.codec.EncoderException;
 import org.apache.asn1.codec.stateful.EncoderCallback;

@@ -1,4 +1,4 @@
-package org.apache.ldap.common;
+package org.apache.ldap.common.asn1;
 
 import java.io.InputStream;
 import java.nio.ByteBuffer;
