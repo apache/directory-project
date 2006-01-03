@@ -13,7 +13,7 @@
   <packaging>jar</packaging>  
   <dependencies>
     <dependency>
-      <groupId>org.apache.mina</groupId>
+      <groupId>org.apache.directory.mina</groupId>
       <artifactId>org.apache.mina</artifactId>
       <version>0.9.1-SNAPSHOT</version>
     </dependency>

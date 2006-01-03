@@ -7,9 +7,9 @@
   <name>build</name>
   <packaging>pom</packaging>
   <modules>
+    <module>asn1</module>
     <module>mina-build</module>
     <module>apacheds-build</module>
-    <module>asn1</module>
     <module>protocol-common</module>
     <module>kerberos-common</module>
     <module>ldap-common</module>
@@ -44,9 +44,9 @@
       <url>http://cvs.apache.org/maven-snapshot-repository</url>
     </repository>
     
-    <!-- Temporary repo for 3rd party release jars that are not in ibiblio.org yet.-->
-    <!-- Artifacts in this repo should be requested for ibiblio upload then        -->
-    <!-- removed from this repository - this repo will disappear eventually.       -->
+    <!-- Temp repo for 3rd party jars that are not in ibiblio.org yet.-->
+    <!-- Artifacts in repo should be requested for ibiblio upload &   -->
+    <!-- removed from this repository - this repo will disappear.     -->
     <repository>
       <id>safehaus</id>
       <name>Alternate Repository for Missing Ibiblio Artifacts</name>

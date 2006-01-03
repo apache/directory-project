@@ -32,7 +32,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.apache.ldap.server</groupId>
+      <groupId>org.apache.directory.server</groupId>
       <artifactId>org.apache.ldap.server.core</artifactId>
       <version>0.9.4-SNAPSHOT</version>
     </dependency>

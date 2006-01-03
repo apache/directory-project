@@ -2,8 +2,8 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.apache.ldap.server</groupId>
-    <artifactId>build</artifactId>
+    <groupId>org.apache.directory.server</groupId>
+    <artifactId>apacheds-build</artifactId>
     <version>0.9.4-SNAPSHOT</version>
   </parent>
   <artifactId>org.apache.ldap.server.core.unit</artifactId>
@@ -31,7 +31,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.apache.ldap.server</groupId>
+      <groupId>org.apache.directory.server</groupId>
       <artifactId>org.apache.ldap.server.core</artifactId>
       <version>0.9.4-SNAPSHOT</version>
     </dependency>  

@@ -2,8 +2,8 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.apache.mina</groupId>
-    <artifactId>build</artifactId>
+    <groupId>org.apache.directory.mina</groupId>
+    <artifactId>mina-build</artifactId>
     <version>0.9.1-SNAPSHOT</version>
   </parent>
   <artifactId>org.apache.mina.filter.ssl</artifactId>
@@ -11,7 +11,7 @@
   <packaging>jar</packaging>  
   <dependencies>
     <dependency>
-      <groupId>org.apache.mina</groupId>
+      <groupId>org.apache.directory.mina</groupId>
       <artifactId>org.apache.mina</artifactId>
       <version>0.9.1-SNAPSHOT</version>
     </dependency>
