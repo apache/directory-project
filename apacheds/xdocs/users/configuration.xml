@@ -145,7 +145,7 @@ file:
     &lt;property name="properties"&gt;
       &lt;props&gt;
     	  &lt;prop key="asn.1.berlib.provider"&gt;org.apache.ldap.common.berlib.asn1.SnickersProvider&lt;/prop&gt;
-    	  &lt;!--prop key="asn.1.berlib.provider"&gt;org.apache.asn1new.ldap.TwixProvider&lt;/prop--&gt;
+    	  &lt;!--prop key="asn.1.berlib.provider"&gt;org.apache.ldap.common.TwixProvider&lt;/prop--&gt;
     	  &lt;prop key="java.naming.security.authentication"&gt;simple&lt;/prop&gt;
     	  &lt;prop key="java.naming.security.principal"&gt;uid=admin,ou=system&lt;/prop&gt;
           &lt;prop key="java.naming.security.credentials"&gt;secret&lt;/prop&gt;
