@@ -1,16 +1,13 @@
 package org.apache.ldap.common.asn1.pojo.psearch;
 
-import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
-import java.util.Iterator;
 
 import org.apache.asn1.Asn1Object;
 import org.apache.asn1.ber.tlv.Length;
 import org.apache.asn1.ber.tlv.UniversalTag;
 import org.apache.asn1.ber.tlv.Value;
 import org.apache.asn1.codec.EncoderException;
-import org.apache.ldap.common.asn1.codec.LdapConstants;
-import org.apache.ldap.common.asn1.pojo.Control;
+import org.apache.ldap.common.util.StringTools;
 
 
 public class PSearchControl extends Asn1Object
@@ -116,5 +113,21 @@ public class PSearchControl extends Asn1Object
         Value.encode( bb, changesOnly );
         Value.encode( bb, returnECs );
         return bb;
+    }
+
+
+    /**
+     * Return a String representing this PSearchControl.
+     */
+    public String toString()
+    {
+        StringBuffer sb = new StringBuffer();
+        
+        sb.append("    Persistant Search Control\n");
+        sb.append("        changeTypes : '").append( changeTypes ).append("'\n");
+        sb.append("        changesOnly : '").append( changesOnly ).append( "'\n") ;
+        sb.append("        returnECs   : '").append( returnECs ).append( "'\n") ;
+        
+        return sb.toString();
     }
 }
