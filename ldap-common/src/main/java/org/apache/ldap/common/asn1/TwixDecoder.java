@@ -95,18 +95,21 @@ public class TwixDecoder implements ProviderDecoder {
     		}
     	}
     	
-       	ldapDecoder.decode( buf, ldapMessageContainer );
-       	
-       	if ( ldapMessageContainer.getState() == TLVStateEnum.PDU_DECODED )
-       	{
-       		if ( log.isDebugEnabled() )
-       		{
-       			log.debug( "Decoded LdapMessage : " + ldapMessageContainer.getLdapMessage() );
-       		}
-       		
-       		decoderCallback.decodeOccurred( null, ldapMessageContainer.getLdapMessage() );
-       		ldapMessageContainer.clean();
-       	}
+    	while ( buf.hasRemaining() )
+    	{
+	       	ldapDecoder.decode( buf, ldapMessageContainer );
+	       	
+	       	if ( ldapMessageContainer.getState() == TLVStateEnum.PDU_DECODED )
+	       	{
+	       		if ( log.isDebugEnabled() )
+	       		{
+	       			log.debug( "Decoded LdapMessage : " + ldapMessageContainer.getLdapMessage() );
+	       		}
+	       		
+	       		decoderCallback.decodeOccurred( null, ldapMessageContainer.getLdapMessage() );
+	       		ldapMessageContainer.clean();
+	       	}
+    	}
     }
     
     /**
