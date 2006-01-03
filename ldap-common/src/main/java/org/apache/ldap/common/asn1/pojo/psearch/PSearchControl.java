@@ -34,14 +34,19 @@ public class PSearchControl
 
     /**
      * Compute the PSearchControl length
+     * 0x30 L1
+     *  |
+     *  +--> 0x02 0x0(1-4) [0..2^31-1] (changeTypes)
+     *  +--> 0x01 0x01 [0x00 | 0xFF] (changeOnly)
+     *  +--> 0x01 0x01 [0x00 | 0xFF] (returnRCs)
      */
     public int computeLength()
     {
         int changeTypesLength = 1 + 1 + Value.getNbBytes( changeTypes );
         int changesOnlyLength = 1 + 1 + 1;
-        int returRCsLength = 1 + 1 + 1;
+        int returnRCsLength = 1 + 1 + 1;
 
-        int psearchSeqLength = changeTypesLength + changesOnlyLength + returRCsLength;
+        int psearchSeqLength = changeTypesLength + changesOnlyLength + returnRCsLength;
         
         return  1 + Length.getNbBytes( psearchSeqLength ) + psearchSeqLength;
     }
