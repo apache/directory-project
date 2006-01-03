@@ -37,10 +37,13 @@ public class PSearchControl
      */
     public int computeLength()
     {
-        int changeTypesLength = 2 + Value.getNbBytes( changeTypes );
-        return  1 + Length.getNbBytes( changeTypesLength + 6 ) +
-                changeTypesLength + // for changeTypes 
-                6;                  // for two boolean values 
+        int changeTypesLength = 1 + 1 + Value.getNbBytes( changeTypes );
+        int changesOnlyLength = 1 + 1 + 1;
+        int returRCsLength = 1 + 1 + 1;
+
+        int psearchSeqLength = changeTypesLength + changesOnlyLength + returRCsLength;
+        
+        return  1 + Length.getNbBytes( psearchSeqLength ) + psearchSeqLength;
     }
 
     
