@@ -22,11 +22,11 @@
         <jdk>1.5</jdk>
       </activation>
       <modules>
-        <module>../mina</module>
-        <module>../mina-asn1</module>
-        <module>../mina-ssl</module>
-        <module>../mina-examples</module>
-        <module>../mina-spring</module>
+        <module>mina</module>
+        <module>mina-asn1</module>
+        <module>mina-ssl</module>
+        <module>mina-examples</module>
+        <module>mina-spring</module>
       </modules>
     </profile>
 
