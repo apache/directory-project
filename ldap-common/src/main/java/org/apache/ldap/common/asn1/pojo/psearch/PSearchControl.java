@@ -1,6 +1,7 @@
 package org.apache.ldap.common.asn1.pojo.psearch;
 
 import org.apache.asn1.ber.tlv.Length;
+import org.apache.asn1.ber.tlv.Value;
 
 
 public class PSearchControl
@@ -30,18 +31,16 @@ public class PSearchControl
      */
     private int changeTypes;
 
-    /** temporarily holds computed length */
-    private transient int length;
-    
-    
+
     /**
      * Compute the PSearchControl length
      */
     public int computeLength()
     {
-
-        length = 1 + 1 + 1; 
-        return 1 + Length.getNbBytes( length ) + length;
+        int changeTypesLength = 2 + Value.getNbBytes( changeTypes );
+        return  1 + Length.getNbBytes( changeTypesLength + 6 ) +
+                changeTypesLength + // for changeTypes 
+                6;                  // for two boolean values 
     }
 
     
