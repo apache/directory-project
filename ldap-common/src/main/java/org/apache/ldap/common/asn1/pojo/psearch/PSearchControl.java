@@ -1,10 +1,19 @@
 package org.apache.ldap.common.asn1.pojo.psearch;
 
+import java.nio.BufferOverflowException;
+import java.nio.ByteBuffer;
+import java.util.Iterator;
+
+import org.apache.asn1.Asn1Object;
 import org.apache.asn1.ber.tlv.Length;
+import org.apache.asn1.ber.tlv.UniversalTag;
 import org.apache.asn1.ber.tlv.Value;
+import org.apache.asn1.codec.EncoderException;
+import org.apache.ldap.common.asn1.codec.LdapConstants;
+import org.apache.ldap.common.asn1.pojo.Control;
 
 
-public class PSearchControl
+public class PSearchControl extends Asn1Object
 {
     /** 
      * If changesOnly is TRUE, the server MUST NOT return any existing
@@ -31,6 +40,7 @@ public class PSearchControl
      */
     private int changeTypes;
 
+    private transient int psearchSeqLength;
 
     /**
      * Compute the PSearchControl length
@@ -46,7 +56,7 @@ public class PSearchControl
         int changesOnlyLength = 1 + 1 + 1;
         int returnRCsLength = 1 + 1 + 1;
 
-        int psearchSeqLength = changeTypesLength + changesOnlyLength + returnRCsLength;
+        psearchSeqLength = changeTypesLength + changesOnlyLength + returnRCsLength;
         
         return  1 + Length.getNbBytes( psearchSeqLength ) + psearchSeqLength;
     }
@@ -85,5 +95,26 @@ public class PSearchControl
     public int getChangeTypes()
     {
         return changeTypes;
+    }
+
+
+    /**
+     * Encodes the persistent search control.
+     * 
+     * @param buffer The encoded sink
+     * @return A ByteBuffer that contains the encoded PDU
+     * @throws EncoderException If anything goes wrong.
+     */
+    public ByteBuffer encode( ByteBuffer buffer ) throws EncoderException
+    {
+        // Allocate the bytes buffer.
+        ByteBuffer bb = ByteBuffer.allocate( computeLength() );
+        bb.put( UniversalTag.SEQUENCE_TAG );
+        bb.put( Length.getBytes( psearchSeqLength ) );
+
+        Value.encode( bb, changeTypes);
+        Value.encode( bb, changesOnly );
+        Value.encode( bb, returnECs );
+        return bb;
     }
 }
