@@ -21,12 +21,12 @@
   </dependencies>
   
   <modules>
-    <module>../apacheds</module>
-    <module>../apacheds-shared</module>
-    <module>../apacheds-plugin</module>
-    <module>../apacheds-core-unit</module>
-    <module>../apacheds-server</module>
-    <module>../apacheds-server-unit</module>
-    <module>../apacheds-server-main</module>
+    <module>apacheds</module>
+    <module>apacheds-shared</module>
+    <module>apacheds-plugin</module>
+    <module>apacheds-core-unit</module>
+    <module>apacheds-server</module>
+    <module>apacheds-server-unit</module>
+    <module>apacheds-server-main</module>
   </modules>
 </project>
