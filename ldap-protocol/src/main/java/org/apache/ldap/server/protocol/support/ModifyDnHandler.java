@@ -28,6 +28,7 @@ import org.apache.ldap.common.message.ModifyDnResponseImpl;
 import org.apache.ldap.common.message.ResultCodeEnum;
 import org.apache.ldap.common.name.LdapName;
 import org.apache.ldap.common.util.ExceptionUtils;
+import org.apache.ldap.common.util.StringTools;
 import org.apache.ldap.server.protocol.SessionRegistry;
 import org.apache.mina.common.IoSession;
 import org.apache.mina.handler.demux.MessageHandler;
@@ -74,7 +75,19 @@ public class ModifyDnHandler implements MessageHandler
                 if (req.isMove())
                 {
                     LdapName oldDn = new LdapName( req.getName() );
-                    LdapName newDn = new LdapName( req.getNewSuperior() );
+                    LdapName newDn = null;
+                    
+                    String newSuperior = req.getNewSuperior();
+                    
+                    if ( StringTools.isEmpty( newSuperior ) )
+                    {
+                    	newDn = (LdapName)oldDn.getPrefix( 1 );
+                    }
+                    else
+                    {
+                    	newDn = new LdapName( req.getNewSuperior() );
+                    }
+                    
 
                     if (req.getNewRdn() != null)
                     {
