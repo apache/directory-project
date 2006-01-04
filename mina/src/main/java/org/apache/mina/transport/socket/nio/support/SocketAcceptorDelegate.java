@@ -25,7 +25,11 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -33,10 +37,14 @@ import java.util.Set;
 import org.apache.mina.common.ExceptionMonitor;
 import org.apache.mina.common.IoAcceptor;
 import org.apache.mina.common.IoFilterChainBuilder;
+import org.apache.mina.common.IoFuture;
 import org.apache.mina.common.IoHandler;
+import org.apache.mina.common.IoSession;
 import org.apache.mina.common.support.BaseIoAcceptor;
 import org.apache.mina.transport.socket.nio.SocketSessionManager;
 import org.apache.mina.util.Queue;
+
+import com.sun.org.apache.xalan.internal.xsltc.runtime.Hashtable;
 
 /**
  * {@link IoAcceptor} for socket transport (TCP/IP).
@@ -56,6 +64,7 @@ public class SocketAcceptorDelegate extends BaseIoAcceptor implements SocketSess
     private int receiveBufferSize = -1;
     private Selector selector;
     private final Map channels = new HashMap();
+    private final Hashtable sessions = new Hashtable();
 
     private final Queue registerQueue = new Queue();
     private final Queue cancelQueue = new Queue();
@@ -149,14 +158,31 @@ public class SocketAcceptorDelegate extends BaseIoAcceptor implements SocketSess
         }
     }
 
+    public Collection getManagedSessions( SocketAddress address )
+    {
+        if( address == null )
+        {
+            throw new NullPointerException( "address" );
+        }
+        
+        Set managedSessions = ( Set ) sessions.get( address );
+        
+        if( managedSessions == null )
+        {
+            throw new IllegalArgumentException( "Address not bound: " + address );
+        }
+        
+        return Collections.unmodifiableCollection( Arrays.asList( managedSessions.toArray() ) );
+    }
+    
     public void unbind( SocketAddress address )
     {
-        // TODO: DIRMINA-93
         if( address == null )
         {
             throw new NullPointerException( "address" );
         }
 
+        final Set managedSessions = ( Set ) sessions.get( address );
         CancellationRequest request = new CancellationRequest( address );
         synchronized( this )
         {
@@ -201,6 +227,52 @@ public class SocketAcceptorDelegate extends BaseIoAcceptor implements SocketSess
 
             throw request.exception;
         }
+        
+        
+        // Disconnect all clients
+        if( isDisconnectClientsOnUnbind() && managedSessions != null )
+        {
+            IoSession[] tempSessions = ( IoSession[] ) 
+                                  managedSessions.toArray( new IoSession[ 0 ] );
+            
+            final Object lock = new Object();
+            
+            for( int i = 0; i < tempSessions.length; i++ )
+            {
+                if( !managedSessions.contains( tempSessions[ i ] ) )
+                {
+                    // The session has already been closed and have been 
+                    // removed from managedSessions by the SocketIoProcessor.
+                    continue;
+                }
+                tempSessions[ i ].close().setCallback( new IoFuture.Callback()
+                {
+                    public void operationComplete( IoFuture future )
+                    {
+                        synchronized( lock )
+                        {
+                            lock.notify();
+                        }
+                    }
+                } );
+            }
+
+            try
+            {
+                synchronized( lock )
+                {
+                    while( !managedSessions.isEmpty() )
+                    {
+                        lock.wait( 1000 );
+                    }
+                }
+            }
+            catch( InterruptedException ie )
+            {
+                // Ignored
+            }
+            
+        }        
     }
     
     private class Worker extends Thread
@@ -291,13 +363,16 @@ public class SocketAcceptorDelegate extends BaseIoAcceptor implements SocketSess
                 }
    
                 boolean success = false;
+                SocketSessionImpl session = null;
                 try
                 {
                     RegistrationRequest req = ( RegistrationRequest ) key.attachment();
-                    SocketSessionImpl session = new SocketSessionImpl( SocketAcceptorDelegate.this.wrapper, ch, req.handler );
+                    session = new SocketSessionImpl( SocketAcceptorDelegate.this.wrapper, 
+                            ( Set ) sessions.get( req.address ), ch, req.handler );
                     SocketAcceptorDelegate.this.filterChainBuilder.buildFilterChain( session.getFilterChain() );
                     req.filterChainBuilder.buildFilterChain( session.getFilterChain() );
                     ( ( SocketFilterChain ) session.getFilterChain() ).sessionCreated( session );
+                    session.getManagedSessions().add( session );
                     session.getIoProcessor().addNew( session );
                     success = true;
                 }
@@ -309,6 +384,10 @@ public class SocketAcceptorDelegate extends BaseIoAcceptor implements SocketSess
                 {
                     if( !success )
                     {
+                        if( session != null )
+                        {
+                            session.getManagedSessions().remove( session );
+                        }
                         ch.close();
                     }
                 }
@@ -357,6 +436,7 @@ public class SocketAcceptorDelegate extends BaseIoAcceptor implements SocketSess
                 ssc.register( selector, SelectionKey.OP_ACCEPT, req );
 
                 channels.put( req.address, ssc );
+                sessions.put( req.address, Collections.synchronizedSet( new HashSet() ) );
             }
             catch( IOException e )
             {
@@ -408,6 +488,7 @@ public class SocketAcceptorDelegate extends BaseIoAcceptor implements SocketSess
                 break;
             }
 
+            sessions.remove( request.address );
             ServerSocketChannel ssc = ( ServerSocketChannel ) channels.remove( request.address );
             
             // close the channel

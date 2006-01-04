@@ -22,6 +22,7 @@ import java.net.SocketAddress;
 import java.net.SocketException;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
+import java.util.Set;
 
 import org.apache.mina.common.CloseFuture;
 import org.apache.mina.common.IoFilterChain;
@@ -52,6 +53,7 @@ class SocketSessionImpl extends BaseIoSession implements SocketSession
     private final IoHandler handler;
     private final SocketAddress remoteAddress;
     private final SocketAddress localAddress;
+    private final Set managedSessions;    
     private SelectionKey key;
     private int readBufferSize = DEFAULT_READ_BUFFER_SIZE;
 
@@ -59,10 +61,11 @@ class SocketSessionImpl extends BaseIoSession implements SocketSession
      * Creates a new instance.
      */
     public SocketSessionImpl(
-            IoSessionManager manager,
+            IoSessionManager manager, Set managedSessions,
             SocketChannel ch, IoHandler defaultHandler )
     {
         this.manager = manager;
+        this.managedSessions = managedSessions;
         this.ioProcessor = SocketIoProcessor.getInstance();
         this.filterChain = new SocketFilterChain( this );
         this.ch = ch;
@@ -90,6 +93,11 @@ class SocketSessionImpl extends BaseIoSession implements SocketSession
     SocketChannel getChannel()
     {
         return ch;
+    }
+
+    Set getManagedSessions()
+    {
+        return managedSessions;
     }
 
     SelectionKey getSelectionKey()

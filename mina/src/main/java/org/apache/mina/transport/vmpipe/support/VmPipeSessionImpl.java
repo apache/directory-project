@@ -5,6 +5,7 @@ package org.apache.mina.transport.vmpipe.support;
 
 import java.io.IOException;
 import java.net.SocketAddress;
+import java.util.Set;
 
 import org.apache.mina.common.CloseFuture;
 import org.apache.mina.common.ExceptionMonitor;
@@ -35,6 +36,7 @@ public class VmPipeSessionImpl extends BaseIoSession implements VmPipeSession
     private final SocketAddress remoteAddress;
     private final IoHandler handler;
     private final VmPipeFilterChain filterChain;
+    private final Set managedSessions;
     final VmPipeSessionImpl remoteSession;
     final Object lock;
     final Queue pendingDataQueue;
@@ -54,6 +56,8 @@ public class VmPipeSessionImpl extends BaseIoSession implements VmPipeSession
         this.filterChain = new VmPipeFilterChain( this );
         this.pendingDataQueue = new Queue();
 
+        this.managedSessions = remoteEntry.getManagedClientSessions();
+        
         remoteSession = new VmPipeSessionImpl( manager, this, remoteEntry );
         
         // initialize remote session
@@ -86,6 +90,9 @@ public class VmPipeSessionImpl extends BaseIoSession implements VmPipeSession
         VmPipeIdleStatusChecker.getInstance().addSession( remoteSession );
         VmPipeIdleStatusChecker.getInstance().addSession( this );
         
+        remoteSession.managedSessions.add( remoteSession );
+        this.managedSessions.add( this );
+        
         ( ( VmPipeFilterChain ) remoteSession.getFilterChain() ).sessionOpened( remoteSession );
         filterChain.sessionOpened( this );
     }
@@ -103,8 +110,14 @@ public class VmPipeSessionImpl extends BaseIoSession implements VmPipeSession
         this.filterChain = new VmPipeFilterChain( this );
         this.remoteSession = remoteSession;
         this.pendingDataQueue = new Queue();
+        this.managedSessions = entry.getManagedServerSessions();
     }
     
+    Set getManagedSessions()
+    {
+        return managedSessions;
+    }
+
     public IoSessionManager getManager()
     {
         return manager;

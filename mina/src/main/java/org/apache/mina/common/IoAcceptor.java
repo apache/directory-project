@@ -20,6 +20,7 @@ package org.apache.mina.common;
 
 import java.io.IOException;
 import java.net.SocketAddress;
+import java.util.Collection;
 
 /**
  * Accepts incoming connection, communicates with clients, and fires events to
@@ -68,6 +69,20 @@ public interface IoAcceptor extends IoSessionManager
     void unbind( SocketAddress address );
     
     /**
+     * Returns all sessions currently connected to the specified local address.
+     * 
+     * @param address the local address to return all sessions for. Must have
+     *        been bound previously.
+     * @return the sessions.
+     * @throws IllegalArgumentException if the specified <tt>address</tt> has 
+     *         not been bound.
+     * @throws UnsupportedOperationException if this operation isn't supported
+     *         for the particular transport type implemented by this 
+     *         {@link IoAcceptor}.
+     */
+    Collection getManagedSessions( SocketAddress address );
+    
+    /**
      * (Optional) Returns an {@link IoSession} that is bound to the specified
      * <tt>localAddress</tt> and <tt>remoteAddress</tt> which reuses
      * the <tt>localAddress</tt> that is already bound by {@link IoAcceptor}
@@ -83,16 +98,15 @@ public interface IoAcceptor extends IoSessionManager
      */
     IoSession newSession( SocketAddress remoteAddress, SocketAddress localAddress );
     
-    // TODO: DIRMINA-93
     /**
      * Returns <tt>true</tt> if and only if all clients are disconnected
      * when this acceptor unbinds the related local address.
      */
-    //boolean isDisconnectClientsOnUnbind();
+    boolean isDisconnectClientsOnUnbind();
     
     /**
-     * Sets whether all clients are disconnected from this acceptor unbinds the
+     * Sets whether all clients are disconnected when this acceptor unbinds the
      * related local address.  The default value is <tt>true</tt>.
      */
-    //void setDisconnectClientsOnUnbind( boolean disconnectClientsOnUnbind );
+    void setDisconnectClientsOnUnbind( boolean disconnectClientsOnUnbind );
 }

@@ -18,6 +18,10 @@
  */
 package org.apache.mina.transport.socket.nio;
 
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
+
+import org.apache.mina.transport.AbstractBindTest;
 
 /**
  * Tests {@link DatagramAcceptor} resource leakage.
@@ -33,4 +37,8 @@ public class DatagramBindTest extends AbstractBindTest
         super( new DatagramAcceptor() );
     }
 
+    protected SocketAddress createSocketAddress( int port )
+    {
+        return new InetSocketAddress( port );
+    }    
 }

@@ -20,6 +20,7 @@ package org.apache.mina.common.support;
 
 import java.io.IOException;
 import java.net.SocketAddress;
+import java.util.Collection;
 
 import org.apache.mina.common.DefaultIoFilterChainBuilder;
 import org.apache.mina.common.IoAcceptor;
@@ -68,6 +69,11 @@ public class DelegatedIoAcceptor implements IoAcceptor
         delegate.unbind( address );
     }
 
+    public Collection getManagedSessions( SocketAddress address )
+    {
+        return delegate.getManagedSessions( address );
+    }
+
     public IoSession newSession( SocketAddress remoteAddress, SocketAddress localAddress )
     {
         return delegate.newSession( remoteAddress, localAddress );
@@ -88,7 +94,6 @@ public class DelegatedIoAcceptor implements IoAcceptor
         return delegate.getFilterChain();
     }
 
-    /* TODO: DIRMINA-93
     public boolean isDisconnectClientsOnUnbind()
     {
         return delegate.isDisconnectClientsOnUnbind();
@@ -98,5 +103,4 @@ public class DelegatedIoAcceptor implements IoAcceptor
     {
         delegate.setDisconnectClientsOnUnbind( disconnectClientsOnUnbind );
     }
-    */
 }

@@ -25,6 +25,8 @@ import java.net.SocketAddress;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -53,6 +55,7 @@ public class SocketConnectorDelegate extends BaseIoConnector implements SocketSe
     private final String threadName = "SocketConnector-" + id;
     private Selector selector;
     private final Queue connectQueue = new Queue();
+    private final Set managedSessions = Collections.synchronizedSet( new HashSet() );
     private Worker worker;
 
     /**
@@ -270,7 +273,7 @@ public class SocketConnectorDelegate extends BaseIoConnector implements SocketSe
 
     private SocketSessionImpl newSession( SocketChannel ch, IoHandler handler, IoFilterChainBuilder filterChainBuilder ) throws IOException
     {
-        SocketSessionImpl session = new SocketSessionImpl( wrapper, ch, handler );
+        SocketSessionImpl session = new SocketSessionImpl( wrapper, managedSessions, ch, handler );
         try
         {
             this.filterChainBuilder.buildFilterChain( session.getFilterChain() );
@@ -281,6 +284,7 @@ public class SocketConnectorDelegate extends BaseIoConnector implements SocketSe
         {
             ExceptionUtil.throwException( e );
         }
+        session.getManagedSessions().add( session );
         session.getIoProcessor().addNew( session );
         return session;
     }

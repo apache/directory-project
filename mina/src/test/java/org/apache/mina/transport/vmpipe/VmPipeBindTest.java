@@ -16,9 +16,8 @@
  *   limitations under the License.
  *
  */
-package org.apache.mina.transport.socket.nio;
+package org.apache.mina.transport.vmpipe;
 
-import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.util.Collection;
 
@@ -31,32 +30,32 @@ import org.apache.mina.common.IoSession;
 import org.apache.mina.transport.AbstractBindTest;
 
 /**
- * Tests {@link SocketAcceptor} resource leakage.
+ * Tests {@link VmPipeAcceptor} bind and unbind.
  * 
  * @author The Apache Directory Project (dev@directory.apache.org)
  * @version $Rev$, $Date$ 
  */
-public class SocketBindTest extends AbstractBindTest
+public class VmPipeBindTest extends AbstractBindTest
 {
 
-    public SocketBindTest()
+    public VmPipeBindTest()
     {
-        super( new SocketAcceptor() );
+        super( new VmPipeAcceptor() );
     }
-    
+
     protected SocketAddress createSocketAddress( int port )
     {
-        return new InetSocketAddress( port );
+        return new VmPipeAddress( port );
     }
     
     public void testUnbindDisconnectsClients() throws Exception
     {
-        // TODO: This test is almost identical to the test with the same name in VmPipeBindTest
+        // TODO: This test is almost identical to the test with the same name in SocketBindTest
         bind( false );
         
         SocketAddress addr = createSocketAddress( port );
      
-        IoConnector connector = new SocketConnector();
+        IoConnector connector = new VmPipeConnector();
         IoSession[] sessions = new IoSession[ 5 ];
         for( int i = 0; i < sessions.length; i++ )
         {
@@ -71,6 +70,11 @@ public class SocketBindTest extends AbstractBindTest
         
         Collection managedSessions = acceptor.getManagedSessions( addr );
         Assert.assertEquals( 5, managedSessions.size() );
+        // Make sure it's the server side sessions we get when calling getManagedSessions()
+        for( int i = 0; i < sessions.length; i++ )
+        {
+            Assert.assertFalse( managedSessions.contains( sessions[ i ] ) );
+        }
         
         acceptor.unbind( addr );
         

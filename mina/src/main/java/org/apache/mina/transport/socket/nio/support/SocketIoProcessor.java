@@ -189,6 +189,7 @@ class SocketIoProcessor
             }
             catch( IOException e )
             {
+                session.getManagedSessions().remove( session );
                 registered = false;
                 ( ( SocketFilterChain ) session.getFilterChain() ).exceptionCaught( session, e );
             }
@@ -244,6 +245,7 @@ class SocketIoProcessor
             finally
             {
                 releaseWriteBuffers( session );
+                session.getManagedSessions().remove( session );
 
                 ( ( SocketFilterChain ) session.getFilterChain() ).sessionClosed( session );
                 session.getCloseFuture().setClosed();

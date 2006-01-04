@@ -20,6 +20,7 @@ package org.apache.mina.common.support;
 
 import java.io.IOException;
 import java.net.SocketAddress;
+import java.util.Collection;
 
 import org.apache.mina.common.IoAcceptor;
 import org.apache.mina.common.IoFilterChainBuilder;
@@ -34,9 +35,7 @@ import org.apache.mina.common.IoSession;
  */
 public abstract class BaseIoAcceptor extends BaseIoSessionManager implements IoAcceptor
 {
-    /* TODO: DIRMINA-93
     private boolean disconnectClientsOnUnbind = true;
-    */
     
     protected BaseIoAcceptor()
     {
@@ -47,7 +46,11 @@ public abstract class BaseIoAcceptor extends BaseIoSessionManager implements IoA
         this.bind( address, handler, IoFilterChainBuilder.NOOP );
     }
 
-    /* TODO: DIRMINA-93
+    public Collection getManagedSessions( SocketAddress address )
+    {
+        throw new UnsupportedOperationException();
+    }
+
     public boolean isDisconnectClientsOnUnbind()
     {
         return disconnectClientsOnUnbind;
@@ -57,7 +60,7 @@ public abstract class BaseIoAcceptor extends BaseIoSessionManager implements IoA
     {
         this.disconnectClientsOnUnbind = disconnectClientsOnUnbind;
     }
-    */
+    
     public IoSession newSession( SocketAddress remoteAddress, SocketAddress localAddress )
     {
         throw new UnsupportedOperationException();

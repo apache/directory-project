@@ -3,6 +3,10 @@
  */
 package org.apache.mina.transport.vmpipe.support;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.apache.mina.common.IoFilterChainBuilder;
 import org.apache.mina.common.IoHandler;
 import org.apache.mina.transport.vmpipe.VmPipeAcceptor;
@@ -14,6 +18,8 @@ public class VmPipe
     private final VmPipeAddress address;
     private final IoHandler handler;
     private final IoFilterChainBuilder filterChainBuilder;
+    private final Set managedClientSessions = Collections.synchronizedSet( new HashSet() );
+    private final Set managedServerSessions = Collections.synchronizedSet( new HashSet() );
     
     public VmPipe( VmPipeAcceptor acceptor,
                    VmPipeAddress address,
@@ -44,5 +50,15 @@ public class VmPipe
     public IoFilterChainBuilder getFilterChainBuilder()
     {
         return filterChainBuilder;
+    }
+
+    public Set getManagedClientSessions()
+    {
+        return managedClientSessions;
+    }
+    
+    public Set getManagedServerSessions()
+    {
+        return managedServerSessions;
     }
 }

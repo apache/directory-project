@@ -16,10 +16,10 @@
  *   limitations under the License.
  *
  */
-package org.apache.mina.transport.socket.nio;
+package org.apache.mina.transport;
 
 import java.io.IOException;
-import java.net.InetSocketAddress;
+import java.net.SocketAddress;
 import java.util.Date;
 
 import junit.framework.Assert;
@@ -30,6 +30,9 @@ import org.apache.mina.common.IdleStatus;
 import org.apache.mina.common.IoAcceptor;
 import org.apache.mina.common.IoHandlerAdapter;
 import org.apache.mina.common.IoSession;
+import org.apache.mina.transport.socket.nio.DatagramAcceptor;
+import org.apache.mina.transport.socket.nio.SocketAcceptor;
+import org.apache.mina.transport.socket.nio.SocketSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,7 +52,9 @@ public abstract class AbstractBindTest extends TestCase
         this.acceptor = acceptor;
     }
     
-    private void bind( boolean reuseAddress ) throws IOException
+    protected abstract SocketAddress createSocketAddress( int port );
+    
+    protected void bind( boolean reuseAddress ) throws IOException
     {
         setReuseAddress( reuseAddress );
 
@@ -64,7 +69,7 @@ public abstract class AbstractBindTest extends TestCase
             socketBound = false;
             try
             {
-                acceptor.bind( new InetSocketAddress( port ),
+                acceptor.bind( createSocketAddress( port ),
                         new EchoProtocolHandler() );
                 socketBound = true;
                 break;
@@ -99,7 +104,7 @@ public abstract class AbstractBindTest extends TestCase
     {
         try
         {
-            acceptor.unbind( new InetSocketAddress( port ) );
+            acceptor.unbind( createSocketAddress( port ) );
         }
         catch( Exception e )
         {
@@ -113,7 +118,7 @@ public abstract class AbstractBindTest extends TestCase
         
         try
         {
-            acceptor.bind( new InetSocketAddress( port ), new EchoProtocolHandler() );
+            acceptor.bind( createSocketAddress( port ), new EchoProtocolHandler() );
             Assert.fail( "IOException is not thrown" );
         }
         catch( IOException e )
@@ -126,12 +131,12 @@ public abstract class AbstractBindTest extends TestCase
         bind( false );
         
         // this should succeed
-        acceptor.unbind( new InetSocketAddress( port ) );
+        acceptor.unbind( createSocketAddress( port ) );
         
         try
         {
             // this should fail
-            acceptor.unbind( new InetSocketAddress( port ) );
+            acceptor.unbind( createSocketAddress( port ) );
             Assert.fail( "Exception is not thrown" );
         }
         catch( Exception e )
@@ -143,7 +148,7 @@ public abstract class AbstractBindTest extends TestCase
     {
         bind( true );
         
-        InetSocketAddress addr = new InetSocketAddress( port );
+        SocketAddress addr = createSocketAddress( port );
         EchoProtocolHandler handler = new EchoProtocolHandler();
         for( int i = 0; i < 1024; i++ ) 
         {
@@ -156,7 +161,7 @@ public abstract class AbstractBindTest extends TestCase
     {
         setReuseAddress( true );
 
-        InetSocketAddress addr = new InetSocketAddress( port );
+        SocketAddress addr = createSocketAddress( port );
         EchoProtocolHandler handler = new EchoProtocolHandler();
         for( int i = 0; i < 1048576; i++ )
         {
