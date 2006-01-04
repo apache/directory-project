@@ -48,6 +48,7 @@ public abstract class AbstractIoAcceptorFactoryBean extends
 {
 
     protected Binding[] bindings = new Binding[ 0 ];
+    protected boolean disconnectClientsOnUnbind = true;
 
     /**
      * Creates the {@link IoAcceptor} configured by this factory bean.
@@ -69,6 +70,8 @@ public abstract class AbstractIoAcceptorFactoryBean extends
     {
         IoAcceptor acceptor = createIoAcceptor();
 
+        acceptor.setDisconnectClientsOnUnbind( disconnectClientsOnUnbind );
+        
         initIoSessionManager( acceptor );
         initIoAcceptor( acceptor );
 
@@ -172,6 +175,18 @@ public abstract class AbstractIoAcceptorFactoryBean extends
     {
         Assert.notNull( bindings, "Property 'bindings' may not be null" );
         this.bindings = bindings;
+    }
+
+    /**
+     * Sets the <code>disconnectClientsOnUnbind</code> property of the
+     * {@link IoAcceptor} this factory bean will create.
+     * 
+     * @param disconnectClientsOnUnbind the property value.
+     * @see IoAcceptor#setDisconnectClientsOnUnbind(boolean)
+     */
+    public void setDisconnectClientsOnUnbind( boolean disconnectClientsOnUnbind )
+    {
+        this.disconnectClientsOnUnbind = disconnectClientsOnUnbind;
     }
 
     /**

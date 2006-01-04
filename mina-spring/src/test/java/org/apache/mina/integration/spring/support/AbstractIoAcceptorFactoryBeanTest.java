@@ -124,6 +124,7 @@ public class AbstractIoAcceptorFactoryBeanTest extends TestCase
          */
         factory.createIoAcceptor();
         mockFactory.setReturnValue( ioAcceptor );
+        ioAcceptor.setDisconnectClientsOnUnbind( true );
         factory.initIoSessionManager( ioAcceptor );
         ioAcceptor.bind( new DummySocketAddress( ":110" ), popHandler, builder1 );
         mockIoAcceptor.setMatcher( new IoAcceptorBindArgumentsMatcher() );
@@ -137,6 +138,7 @@ public class AbstractIoAcceptorFactoryBeanTest extends TestCase
         mockIoAcceptor.replay();
         mockFactory.replay();
 
+        factory.setDisconnectClientsOnUnbind( true );
         factory.setBindings( bindings );
         Object o = factory.createInstance();
 
