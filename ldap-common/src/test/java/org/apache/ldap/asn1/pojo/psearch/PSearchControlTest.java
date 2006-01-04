@@ -22,9 +22,9 @@ import javax.naming.NamingException;
 
 import org.apache.asn1.codec.DecoderException;
 import org.apache.asn1.ber.Asn1Decoder;
-import org.apache.ldap.common.asn1.codec.LdapDecoder;
-import org.apache.ldap.common.asn1.pojo.psearch.PSearchControl;
-import org.apache.ldap.common.asn1.pojo.psearch.PSearchControlContainer;
+import org.apache.ldap.common.codec.LdapDecoder;
+import org.apache.ldap.common.codec.search.controls.PSearchControl;
+import org.apache.ldap.common.codec.search.controls.PSearchControlContainer;
 import org.apache.ldap.common.util.StringTools;
 
 import junit.framework.Assert;

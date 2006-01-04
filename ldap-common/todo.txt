@@ -6,11 +6,6 @@
  o remove old provider architecture structures since we now have only one 
    asn1 provider library
  o make sure logging properties files are being picked up for tests
- o reorg package structure for codec
-   - blow away all this grammar, and pojo stuff 
-   - create codec.<operation> based packages like codec.add and codec.search
-   - put controls under operation the request or reponse control is for
-   - remove this asn1 pkg component to have org.apache.ldap.common.codec base
  o delete unneeded tag transitions that don't have actions
  o remove Assert.assertXXX lines in test cases
  o move out GrammarAction for LdapControlGrammar into its own class and setup
