@@ -7,7 +7,6 @@ import org.apache.asn1.ber.tlv.Length;
 import org.apache.asn1.ber.tlv.UniversalTag;
 import org.apache.asn1.ber.tlv.Value;
 import org.apache.asn1.codec.EncoderException;
-import org.apache.ldap.common.util.StringTools;
 
 
 public class PSearchControl extends Asn1Object
