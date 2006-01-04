@@ -46,6 +46,9 @@ public class Control extends Asn1Object
     /** Optionnal control value */
     private Object controlValue;
     
+    /** Optionnal control value in encoded form */
+    private byte[] encodedValue;
+    
     /** The control length */
     private transient int controlLength;
     
@@ -78,7 +81,7 @@ public class Control extends Asn1Object
      *
      * @return The control value
      */
-    public byte[] getControlValue()
+    public Object getControlValue()
     {
         if ( controlValue == null )
         {
@@ -90,8 +93,33 @@ public class Control extends Asn1Object
         }
         else
         {
-            return (byte[])controlValue;
+            return controlValue;
         }
+    }
+
+    /**
+     * Set the encoded control value
+     *
+     * @param encodedValue The encoded control value to store
+     */
+    public void setEncodedValue( byte[] encodedValue )
+    {
+        this.encodedValue = encodedValue;
+    }
+
+    /**
+     * Get the raw control encoded bytes
+     *
+     * @return the encoded bytes for the control
+     */
+    public byte[] getEnodedValue()
+    {
+        if ( encodedValue == null )
+        {
+            return EMPTY_BYTES;
+        }
+        
+        return encodedValue;
     }
 
     /**
@@ -155,11 +183,32 @@ public class Control extends Asn1Object
         // The control value, if any
         if (controlValue != null)
         {
-            controlLength += 1 + Length.getNbBytes( getControlValue().length ) + getControlValue().length;
+            byte[] controlBytes;
+            if ( controlValue instanceof byte[] )
+            {
+                controlBytes = ( byte[] ) controlValue;
+                controlLength += 1 + Length.getNbBytes( controlBytes.length ) + controlBytes.length;
+            }
+            else if ( controlValue instanceof String )
+            {
+                controlBytes = StringTools.getBytesUtf8( ( String ) controlValue );
+                controlLength += 1 + Length.getNbBytes( controlBytes.length ) + controlBytes.length;
+            }
+            else if ( controlValue instanceof Asn1Object )
+            {
+                int length = ( ( Asn1Object ) controlValue ).computeLength();
+                controlLength += 1 + Length.getNbBytes( length ) + length;
+            }
+            else
+            {
+                throw new IllegalStateException( "Don't know how to handle control value class " 
+                    + controlValue.getClass() );
+            }
         }
         
         return 1 + Length.getNbBytes( controlLength ) + controlLength;
     }
+    
     
     /**
      * Generate the PDU which contains the Control.
@@ -201,7 +250,29 @@ public class Control extends Asn1Object
         // The control value, if any
         if ( controlValue != null )
         {
-            Value.encode( buffer, getControlValue() );
+            byte[] controlBytes;
+            if ( controlValue instanceof byte[] )
+            {
+                controlBytes = ( byte[] ) controlValue;
+                encodedValue = controlBytes;
+            }
+            else if ( controlValue instanceof String )
+            {
+                controlBytes = StringTools.getBytesUtf8( ( String ) controlValue );
+                encodedValue = controlBytes;
+            }
+            else if ( controlValue instanceof Asn1Object )
+            {
+                controlBytes = ( ( Asn1Object ) controlValue ).encode( null ).array();
+                encodedValue = controlBytes;
+            }
+            else
+            {
+                throw new IllegalStateException( "Don't know how to handle control value class " 
+                    + controlValue.getClass() );
+            }
+
+            Value.encode( buffer, controlBytes );
         }
 
         return buffer;

@@ -30,11 +30,11 @@ import org.apache.ldap.common.AbstractLockable ;
 public abstract class ControlImpl extends AbstractLockable implements Control
 {
     /** Unique object identifier for this control */
-    private String m_oid ;
+    private String oid ;
     /** Control ASN.1 encoded parameters */
-    private byte [] m_value ;
+    private byte [] value ;
     /** Flag for control criticality */
-    private boolean m_isCritical ;
+    private boolean isCritical ;
     private String id;
 
 
@@ -47,11 +47,11 @@ public abstract class ControlImpl extends AbstractLockable implements Control
      * Creates a non-root Lockable Control implementation whose state is
      * overriden by a parent Lockable.
      *
-     * @param a_parent the overriding parent Lockable.
+     * @param parent the overriding parent Lockable.
      */
-    public ControlImpl( final Lockable a_parent )
+    public ControlImpl( final Lockable parent )
     {
-        super( a_parent, false ) ;
+        super( parent, false ) ;
     }
 
 
@@ -79,7 +79,7 @@ public abstract class ControlImpl extends AbstractLockable implements Control
      */
     public boolean isCritical()
     {
-        return m_isCritical ;
+        return this.isCritical ;
     }
 
 
@@ -88,12 +88,12 @@ public abstract class ControlImpl extends AbstractLockable implements Control
      * critical for the correct operation of a request or response message.  The
      * default for this value should be false.
      *
-     * @param a_isCritical true if the control is critical false otherwise.
+     * @param isCritical true if the control is critical false otherwise.
      */
-    public void setCritical( boolean a_isCritical )
+    public void setCritical( boolean isCritical )
     {
         lockCheck( "Attempt to alter criticality flag of locked Control!" ) ;
-        m_isCritical = a_isCritical ;
+        this.isCritical = isCritical ;
     }
 
 
@@ -104,19 +104,19 @@ public abstract class ControlImpl extends AbstractLockable implements Control
      */
     public String getType()
     {
-        return m_oid ;
+        return this.oid ;
     }
 
 
     /**
      * Sets the OID of the Control to identify the control type.
      *
-     * @param a_oid the OID of this Control.
+     * @param oid the OID of this Control.
      */
-    public void setType( String a_oid )
+    public void setType( String oid )
     {
         lockCheck( "Attempt to alter OID of locked Control!" ) ;
-        m_oid = a_oid ;
+        this.oid = oid ;
     }
 
 
@@ -128,7 +128,7 @@ public abstract class ControlImpl extends AbstractLockable implements Control
      */
     public byte [] getValue()
     {
-        return m_value ;
+        return this.value ;
     }
 
 
@@ -136,12 +136,12 @@ public abstract class ControlImpl extends AbstractLockable implements Control
      * Sets the ASN.1 BER encoded value of the control which would have its own
      * custom ASN.1 defined structure based on the nature of the control.
      *
-     * @param a_value ASN.1 BER encoded value as binary data.
+     * @param value ASN.1 BER encoded value as binary data.
      */
-    public void setValue( byte [] a_value )
+    public void setValue( byte [] value )
     {
         lockCheck( "Attempt to alter encoded values of locked Control!" ) ;
-        m_value = a_value ;
+        this.value = value ;
     }
 
 

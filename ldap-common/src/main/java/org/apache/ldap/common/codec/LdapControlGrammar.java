@@ -298,39 +298,6 @@ public class LdapControlGrammar extends AbstractGrammar implements IGrammar
         //    controlValue            OCTET STRING OPTIONAL } (Value)
         // Store the value in the control object created before
         super.transitions[LdapStatesEnum.CONTROL_VALUE_VALUE][UniversalTag.OCTET_STRING_TAG] = new GrammarTransition(
-                LdapStatesEnum.CONTROL_VALUE_VALUE, LdapStatesEnum.CONTROL_LOOP_OR_END_TAG, 
-                new GrammarAction( "Set Control value" )
-                {
-                    public void action( IAsn1Container container )
-                    {
-                        LdapMessageContainer ldapMessageContainer = ( LdapMessageContainer )
-                            container;
-                        LdapMessage          ldapMessage          =
-                            ldapMessageContainer.getLdapMessage();
-                        
-                        TLV tlv = ldapMessageContainer.getCurrentTLV();
-                        
-                        // Get the current control
-                        Control control = ldapMessage.getCurrentControl();
-                        
-                        Value value        = tlv.getValue();
-
-                        // Store the value
-                        // We have to handle the special case of a 0 length value
-                        if ( tlv.getLength().getLength() == 0 )
-                        {
-                            control.setControlValue( new byte[]{} );
-                        }
-                        else
-                        {
-                            control.setControlValue( value.getData() );
-                        }
-                        
-                        if ( log.isDebugEnabled() )
-                        {
-                            log.debug( "Control value : " + StringTools.dumpBytes( control.getControlValue() ) );
-                        }
-                    }
-                });
+                LdapStatesEnum.CONTROL_VALUE_VALUE, LdapStatesEnum.CONTROL_LOOP_OR_END_TAG, new ControlValueAction() );
     }
 }

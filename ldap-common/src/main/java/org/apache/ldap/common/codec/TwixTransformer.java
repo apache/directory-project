@@ -60,6 +60,7 @@ import org.apache.ldap.common.codec.search.SearchResultDone;
 import org.apache.ldap.common.codec.search.SearchResultEntry;
 import org.apache.ldap.common.codec.search.SearchResultReference;
 import org.apache.ldap.common.codec.search.SubstringFilter;
+import org.apache.ldap.common.codec.search.controls.PSearchControl;
 import org.apache.ldap.common.codec.util.LdapDN;
 import org.apache.ldap.common.codec.util.LdapString;
 import org.apache.ldap.common.codec.util.LdapStringEncodingException;
@@ -93,6 +94,7 @@ import org.apache.ldap.common.message.ModifyDnRequestImpl;
 import org.apache.ldap.common.message.ModifyDnResponseImpl;
 import org.apache.ldap.common.message.ModifyRequestImpl;
 import org.apache.ldap.common.message.ModifyResponseImpl;
+import org.apache.ldap.common.message.PersistentSearchControl;
 import org.apache.ldap.common.message.Referral;
 import org.apache.ldap.common.message.ReferralImpl;
 import org.apache.ldap.common.message.ScopeEnum;
@@ -676,30 +678,45 @@ public class TwixTransformer implements TransformerSpi
         	
         	while ( controls.hasNext() )
         	{
+                ControlImpl neutralControl = null;
         		Control twixControl = (Control)controls.next();
-        		
-                ControlImpl snickersControl = new ControlImpl( snickersMessage )
+                
+                if ( twixControl.getControlValue() instanceof PSearchControl )
                 {
-                	// Just to avoid a compilation warning !!!
-                	public static final long serialVersionUID = 1L;
-                	
-                	
-                    public byte[] getEncodedValue()
+                    PersistentSearchControl neutralPsearch = new PersistentSearchControl(); 
+                    neutralControl = neutralPsearch;
+                    PSearchControl twixPsearch = ( PSearchControl ) twixControl.getControlValue();
+                    neutralPsearch.setChangeTypes( twixPsearch.getChangeTypes() );
+                    neutralPsearch.setChangesOnly( twixPsearch.isChangesOnly() );
+                    neutralPsearch.setReturnECs( twixPsearch.isReturnECs() );
+                    neutralPsearch.setCritical( twixControl.getCriticality() );
+                    neutralPsearch.setValue( twixControl.getEnodedValue() );
+                }
+                else if ( twixControl.getControlValue() instanceof byte[] )
+                {
+                    neutralControl = new ControlImpl( snickersMessage )
                     {
-                        return null;
-                    }        	
-                };
-                
-            	// Twix : boolean criticality -> Snickers : boolean m_isCritical
-                snickersControl.setCritical( twixControl.getCriticality() );
-
-            	// Twix : OID controlType -> Snickers : String m_oid
-                snickersControl.setType( twixControl.getControlType() );
-                
-            	// Twix : OctetString controlValue -> Snickers : byte [] m_value
-                snickersControl.setValue( twixControl.getControlValue() );
-                
-                snickersMessage.add( snickersControl );
+                    	// Just to avoid a compilation warning !!!
+                    	public static final long serialVersionUID = 1L;
+                    	
+                    	
+                        public byte[] getEncodedValue()
+                        {
+                            return null;
+                        }        	
+                    };
+                    
+                	// Twix : boolean criticality -> Snickers : boolean m_isCritical
+                    neutralControl.setCritical( twixControl.getCriticality() );
+    
+                	// Twix : OID controlType -> Snickers : String m_oid
+                    neutralControl.setType( twixControl.getControlType() );
+                    
+                	// Twix : OctetString controlValue -> Snickers : byte [] m_value
+                    neutralControl.setValue( ( byte[] ) twixControl.getControlValue() );
+                }
+                    
+                snickersMessage.add( neutralControl );
         	}
         }
 

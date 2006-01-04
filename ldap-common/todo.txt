@@ -5,8 +5,5 @@
  o reduce footprint
  o remove old provider architecture structures since we now have only one 
    asn1 provider library
- o make sure logging properties files are being picked up for tests
  o delete unneeded tag transitions that don't have actions
  o remove Assert.assertXXX lines in test cases
- o move out GrammarAction for LdapControlGrammar into its own class and setup
-   an extension point where we can plugin different control codec extensions 

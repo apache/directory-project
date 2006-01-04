@@ -38,9 +38,9 @@ public interface Control extends Lockable, javax.naming.ldap.Control
     /**
      * Sets the OID of the Control to identify the control type.
      *
-     * @param a_oid the OID of this Control.
+     * @param oid the OID of this Control.
      */
-    void setType( String a_oid ) ;
+    void setType( String oid ) ;
 
     /**
      * Gets the ASN.1 BER encoded value of the control which would have its own
@@ -54,9 +54,9 @@ public interface Control extends Lockable, javax.naming.ldap.Control
      * Sets the ASN.1 BER encoded value of the control which would have its own
      * custom ASN.1 defined structure based on the nature of the control.
      *
-     * @param a_value ASN.1 BER encoded value as binary data.
+     * @param value ASN.1 BER encoded value as binary data.
      */
-    void setValue( byte [] a_value ) ;
+    void setValue( byte [] value ) ;
 
     /**
      * Determines whether or not this control is critical for the correct
@@ -72,7 +72,7 @@ public interface Control extends Lockable, javax.naming.ldap.Control
      * critical for the correct operation of a request or response message.  The
      * default for this value should be false.
      *
-     * @param a_isCritical true if the control is critical false otherwise.
+     * @param isCritical true if the control is critical false otherwise.
      */
-    void setCritical( boolean a_isCritical ) ;
+    void setCritical( boolean isCritical ) ;
 }
