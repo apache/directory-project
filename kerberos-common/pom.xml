@@ -19,8 +19,8 @@
     </dependency>
     <dependency>
       <groupId>bouncycastle</groupId>
-      <artifactId>bcprov-jdk14</artifactId>
-      <version>124</version>
+      <artifactId>lcrypto-jdk14</artifactId>
+      <version>131</version>
     </dependency>
   </dependencies>
   <build>

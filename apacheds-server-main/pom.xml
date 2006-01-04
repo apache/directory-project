@@ -57,9 +57,9 @@
       	  <archive>
       	    <manifest>
       	      <mainClass>org.apache.ldap.server.ServerMain</mainClass>
-      	    </manifest>
+      	    </manifest> 
       	  </archive>
-          <descriptorId>jar-with-dependencies</descriptorId>
+          <descriptor>src/main/assembly/apacheds-main.xml</descriptor>
           <classifier>app</classifier>
           <appendAssemblyId>false</appendAssemblyId>
       	</configuration>

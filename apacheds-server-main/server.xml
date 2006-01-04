@@ -7,8 +7,7 @@
   <bean id="environment" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
     <property name="properties">
       <props>
-        <prop key="asn.1.berlib.provider">org.apache.ldap.common.berlib.asn1.SnickersProvider</prop>
-        <!--prop key="asn.1.berlib.provider">org.apache.ldap.common.TwixProvider</prop-->
+        <prop key="asn.1.berlib.provider">org.apache.ldap.common.asn1.TwixProvider</prop>
         <prop key="java.naming.security.authentication">simple</prop>
         <prop key="java.naming.security.principal">uid=admin,ou=system</prop>
         <prop key="java.naming.security.credentials">secret</prop>

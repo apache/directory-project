@@ -1,10 +1,17 @@
  o cleanup all the noise from tests
  o figure out a way to export DnCommonTokenTypes.txt so we don't need antrun
- o figure out what needs to be done with stuff in old directory
  o place xdocs in the right place to properly build the site
  o cleanup dependencies
  o reduce footprint
  o remove old provider architecture structures since we now have only one 
    asn1 provider library
- o change packages for asn1new to common.ber or something like that
  o make sure logging properties files are being picked up for tests
+ o reorg package structure for codec
+   - blow away all this grammar, and pojo stuff 
+   - create codec.<operation> based packages like codec.add and codec.search
+   - put controls under operation the request or reponse control is for
+   - remove this asn1 pkg component to have org.apache.ldap.common.codec base
+ o delete unneeded tag transitions that don't have actions
+ o remove Assert.assertXXX lines in test cases
+ o move out GrammarAction for LdapControlGrammar into its own class and setup
+   an extension point where we can plugin different control codec extensions 
