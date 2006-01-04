@@ -27,7 +27,7 @@ import javax.naming.InvalidNameException;
 
 import org.apache.commons.collections.MultiHashMap;
 import org.apache.ldap.common.util.StringTools;
-import org.apache.ldap.common.codec.util.AttributeTypeAndValue;
+import org.apache.ldap.common.codec.AttributeTypeAndValue;
 
 
 /**

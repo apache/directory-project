@@ -14,7 +14,7 @@
  *   limitations under the License.
  *
  */
-package org.apache.ldap.common.codec.util;
+package org.apache.ldap.common.codec;
 
 import javax.naming.InvalidNameException;
 
