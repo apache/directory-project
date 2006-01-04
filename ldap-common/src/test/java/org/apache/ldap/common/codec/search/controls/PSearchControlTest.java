@@ -14,7 +14,7 @@
  *   limitations under the License.
  *
  */
-package org.apache.ldap.asn1.pojo.psearch;
+package org.apache.ldap.common.codec.search.controls;
 
 import java.nio.ByteBuffer;
 
