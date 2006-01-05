@@ -1073,6 +1073,12 @@ public class JdbmDirectoryPartition extends BTreeDirectoryPartition
             {
                 entryAttr.remove( values.next() );
             }
+            
+            // if nothing is left just remove empty attribute
+            if ( entryAttr.size() == 0 )
+            {
+                entry.remove( entryAttr.getID() );
+            }
         }
 
         // Aliases->single valued comp/partial attr removal is not relevant here

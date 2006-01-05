@@ -129,6 +129,13 @@
               <name>system</name>
             </schema>
             <schema>
+              <name>mozilla</name>
+              <dependencies>
+                <dependency>system</dependency>
+                <dependency>core</dependency>
+              </dependencies>
+            </schema>
+            <schema>
               <name>dhcp</name>
               <dependencies>
                 <dependency>system</dependency>
