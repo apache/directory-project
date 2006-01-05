@@ -239,6 +239,7 @@ public class SearchResultEntry extends LdapMessage
             while ( attributes.hasMoreElements() )
             {
                 Attribute attribute = (Attribute)attributes.nextElement();
+                if ( attribute.size() == 0 ) continue;
                 int localAttributeLength = 0;
                 int localValuesLength = 0;
                 
@@ -360,6 +361,7 @@ public class SearchResultEntry extends LdapMessage
                 while ( attributes.hasMoreElements() )
                 {
                     Attribute attribute = (Attribute)attributes.nextElement();
+                    if ( attribute.size() == 0 ) continue;
                     
                     // The partial attribute list sequence
                     buffer.put( UniversalTag.SEQUENCE_TAG );
