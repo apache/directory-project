@@ -129,6 +129,11 @@ public class DefaultDirectoryPartitionNexus extends DirectoryPartitionNexus
         rootDSE.put( attr );
         attr.add( "1.3.6.1.4.1.4203.1.5.1" );
 
+        attr = new LockableAttributeImpl( "supportedControls" );
+        rootDSE.put( attr );
+        attr.add( "2.16.840.1.113730.3.4.3" );  // PersistentSearch control
+        attr.add( "2.16.840.1.113730.3.4.7" );  // EntryChangeNotification control
+
         attr = new LockableAttributeImpl( "objectClass" );
         rootDSE.put( attr );
         attr.add( "top" );
