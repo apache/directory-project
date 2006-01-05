@@ -276,6 +276,14 @@ public class SearchResultEntry extends LdapMessage
 
                         localAttributeLength += 1 + Length.getNbBytes( localValuesLength ) + localValuesLength; 
 	                }
+	                else
+	                {
+	                	// We have to deal with the special wase where
+	                	// we don't have a value.
+	                	// It will be encoded as an empty OCTETSTRING,
+	                	// so it will be two byte slong (0x04 0x00)
+	                	localAttributeLength += 1 + 1;
+	                }
 	                
                 }
                 catch (NamingException ne)
@@ -425,7 +433,7 @@ public class SearchResultEntry extends LdapMessage
         }
         else
         {
-            AttributeUtils.toString( "            ", partialAttributeList );
+            sb.append( AttributeUtils.toString( "            ", partialAttributeList ) );
         }
 
         return sb.toString();
