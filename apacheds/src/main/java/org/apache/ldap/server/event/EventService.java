@@ -162,7 +162,7 @@ public class EventService extends BaseInterceptor
                 NamespaceChangeListener nclistener = ( NamespaceChangeListener ) listener;
                 Binding binding = new Binding( upName, entry, false );
                 nclistener.objectAdded( new NamingEvent( rec.getEventContext(),
-                        NamingEvent.OBJECT_ADDED, null, binding, entry ) );
+                        NamingEvent.OBJECT_ADDED, binding, null, entry ) );
             }
         }
     }
@@ -170,8 +170,8 @@ public class EventService extends BaseInterceptor
 
     public void delete( NextInterceptor next, Name name ) throws NamingException
     {
-        super.delete( next, name );
         Attributes entry = nexus.lookup( name );
+        super.delete( next, name );
         Set selecting = getSelectingSources( name, entry );
         if ( selecting.isEmpty() )
         {
@@ -189,7 +189,7 @@ public class EventService extends BaseInterceptor
                 NamespaceChangeListener nclistener = ( NamespaceChangeListener ) listener;
                 Binding binding = new Binding( name.toString(), entry, false );
                 nclistener.objectRemoved( new NamingEvent( rec.getEventContext(),
-                        NamingEvent.OBJECT_REMOVED, binding, null, entry ) );
+                        NamingEvent.OBJECT_REMOVED, null, binding, entry ) );
             }
         }
     }

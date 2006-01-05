@@ -30,6 +30,8 @@ import javax.naming.ldap.InitialLdapContext;
 import javax.naming.ldap.LdapContext;
 
 import org.apache.ldap.common.message.PersistentSearchControl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -40,11 +42,11 @@ import org.apache.ldap.common.message.PersistentSearchControl;
  */
 public class PersistentSearchTest extends AbstractServerTest
 {
+    public static final Logger log = LoggerFactory.getLogger( PersistentSearchTest.class );
+    public static final String PERSON_DESCRIPTION = "an American singer-songwriter";
+    public static final String RDN = "cn=Tori Amos";
     private LdapContext ctx = null;
 
-    public static final String RDN = "cn=Tori Amos";
-
-    public static final String PERSON_DESCRIPTION = "an American singer-songwriter";
 
 
     /**
@@ -103,30 +105,127 @@ public class PersistentSearchTest extends AbstractServerTest
     }
 
 
-    public void testPsearchSend() throws Exception
+    public void testPsearchModify() throws Exception
+    {
+        PSearchListener listener = new PSearchListener();
+        Thread t = new Thread( listener, "PSearchListener" );
+        t.start();
+        
+        while( ! listener.isReady )
+        {
+            Thread.sleep( 100 );
+        }
+        Thread.sleep( 250 );
+
+        ctx.modifyAttributes( RDN, DirContext.REMOVE_ATTRIBUTE, 
+            new BasicAttributes( "description", PERSON_DESCRIPTION, true ) );
+        long start = System.currentTimeMillis();
+        while ( t.isAlive() )
+        {
+            Thread.sleep( 200 );
+            if ( System.currentTimeMillis() - start > 3000 )
+            {
+                System.out.println( "PSearchListener thread not dead yet" );
+                break;
+            }
+        }
+        
+        assertNotNull( listener.result );
+    }
+
+
+    public void testPsearchModifyDn() throws Exception
     {
         PSearchListener listener = new PSearchListener();
         Thread t = new Thread( listener );
         t.start();
         
-        Thread.sleep( 3000 );
+        while( ! listener.isReady )
+        {
+            Thread.sleep( 100 );
+        }
+        Thread.sleep( 250 );
 
-        System.out.println( "--------------------------------------------------------------" );
-        ctx.modifyAttributes( RDN, DirContext.REMOVE_ATTRIBUTE, 
-            new BasicAttributes( "description", PERSON_DESCRIPTION, true ) );
-        Thread.sleep( 3000 );
+        ctx.rename( RDN, "cn=Jack Black" );
         
-        // Create a person with description
-        System.out.println( "--------------------------------------------------------------" );
-        Attributes attributes = this.getPersonAttributes( "Black", "Jack Black" );
-        attributes.put( "description", PERSON_DESCRIPTION );
-        ctx.createSubcontext( "cn=Jack Black", attributes );
-        Thread.sleep( 3000 );
+        long start = System.currentTimeMillis();
+        while ( t.isAlive() )
+        {
+            Thread.sleep( 100 );
+            if ( System.currentTimeMillis() - start > 3000 )
+            {
+                System.out.println( "PSearchListener thread not dead yet" );
+                break;
+            }
+        }
+        
+        assertNotNull( listener.result );
     }
+
     
+    public void testPsearchDelete() throws Exception
+    {
+        PSearchListener listener = new PSearchListener();
+        Thread t = new Thread( listener );
+        t.start();
+        
+        while( ! listener.isReady )
+        {
+            Thread.sleep( 100 );
+        }
+        Thread.sleep( 250 );
+
+        ctx.destroySubcontext( RDN );
+        
+        long start = System.currentTimeMillis();
+        while ( t.isAlive() )
+        {
+            Thread.sleep( 100 );
+            if ( System.currentTimeMillis() - start > 3000 )
+            {
+                System.out.println( "PSearchListener thread not dead yet" );
+                break;
+            }
+        }
+        
+        assertNotNull( listener.result );
+    }
+
+    
+    public void testPsearchAdd() throws Exception
+    {
+        PSearchListener listener = new PSearchListener();
+        Thread t = new Thread( listener );
+        t.start();
+        
+        while( ! listener.isReady )
+        {
+            Thread.sleep( 100 );
+        }
+        Thread.sleep( 250 );
+
+        ctx.createSubcontext( "cn=Jack Black", getPersonAttributes( "Black", "Jack Black" ) );
+        
+        long start = System.currentTimeMillis();
+        while ( t.isAlive() )
+        {
+            Thread.sleep( 100 );
+            if ( System.currentTimeMillis() - start > 3000 )
+            {
+                System.out.println( "PSearchListener thread not dead yet" );
+                break;
+            }
+        }
+        
+        assertNotNull( listener.result );
+    }
+        
     
     class PSearchListener implements Runnable
     {
+        boolean isReady = false;
+        SearchResult result;
+        
         public void run()
         {
             PersistentSearchControl control = new PersistentSearchControl();
@@ -136,11 +235,13 @@ public class PersistentSearchTest extends AbstractServerTest
             try
             {
                 ctx.setRequestControls( ctxCtls );
+                isReady = true;
                 NamingEnumeration list = ctx.search( "", "objectClass=*", null );
                 while( list.hasMore() )
                 {
-                    SearchResult result = ( SearchResult ) list.next();
-                    System.out.print( "got entry: " + result );
+                    result = ( SearchResult ) list.next();
+                    System.out.println( "got notifiaction for entry: " + result.getName() );
+                    break;
                 }
             }
             catch( Exception e ) 
