@@ -48,7 +48,7 @@ public class EntryChangeControlStatesEnum implements IStates
     public static int CHANGE_TYPE_VALUE = 3;
 
     /** previousDN Tag */
-    public static int PREVIOUS_DN_TAG = 4;
+    public static int CHANGE_NUMBER_OR_PREVIOUS_DN_TAG = 4;
 
     /** previousDN Value */
     public static int PREVIOUS_DN_VALUE = 5;
@@ -90,7 +90,7 @@ public class EntryChangeControlStatesEnum implements IStates
         "EC_SEQUENCE_VALUE",
         "CHANGE_TYPE_TAG",
         "CHANGE_TYPE_VALUE",
-        "PREVIOUS_DN_TAG",
+        "CHANGE_NUMBER_OR_PREVIOUS_DN_TAG",
         "PREVIOUS_DN_VALUE",
         "CHANGE_NUMBER_TAG",
         "CHANGE_NUMBER_VALUE"

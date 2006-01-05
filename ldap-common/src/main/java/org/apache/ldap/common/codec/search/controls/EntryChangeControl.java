@@ -98,18 +98,25 @@ public class EntryChangeControl extends Asn1Object
      */
     public int computeLength()
     {
-        int changeTypesLength = 1 + 1 + Value.getNbBytes( changeType.getValue() );
+        int changeTypesLength = 1 + 1 + 1;
+
         int previousDnLength = 0;
         int changeNumberLength = 0;
         
-        if ( previousDn != null ) previousDnLength += previousDn.getNbBytes();
-        if ( changeNumber != UNDEFINED_CHANGE_NUMBER ) changeNumberLength += Value.getNbBytes( changeNumber );
+        if ( previousDn != null ) 
+        {
+            previousDnLength = 1 + Length.getNbBytes( previousDn.getNbBytes() ) + previousDn.getNbBytes();
+        }
+
+        if ( changeNumber != UNDEFINED_CHANGE_NUMBER ) 
+        {
+            changeNumberLength = 1 + 1 + Value.getNbBytes( changeNumber );
+        }
 
         eccSeqLength = changeTypesLength + previousDnLength + changeNumberLength;
         
         return  1 + Length.getNbBytes( eccSeqLength ) + eccSeqLength;
     }
-
 
     /**
      * Encodes the entry change control.
@@ -125,7 +132,10 @@ public class EntryChangeControl extends Asn1Object
         bb.put( UniversalTag.SEQUENCE_TAG );
         bb.put( Length.getBytes( eccSeqLength ) );
 
-        Value.encode( bb, changeType.getValue() );
+        bb.put( UniversalTag.ENUMERATED_TAG );
+        bb.put( (byte)1 );
+        bb.put( Value.getBytes( changeType.getValue() ) );
+        
         if ( previousDn != null )
         {
             Value.encode( bb, previousDn.getBytes() );
@@ -174,7 +184,7 @@ public class EntryChangeControl extends Asn1Object
     
     public String getPreviousDn()
     {
-        return previousDn.getString();
+    	return previousDn == null ? "" : previousDn.getString();
     }
     
     

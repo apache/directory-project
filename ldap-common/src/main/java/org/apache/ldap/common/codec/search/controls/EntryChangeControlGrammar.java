@@ -17,6 +17,8 @@
 package org.apache.ldap.common.codec.search.controls;
 
 
+import javax.naming.InvalidNameException;
+
 import org.apache.asn1.ber.IAsn1Container;
 import org.apache.asn1.ber.grammar.AbstractGrammar;
 import org.apache.asn1.ber.grammar.GrammarAction;
@@ -27,9 +29,8 @@ import org.apache.asn1.ber.tlv.Value;
 import org.apache.asn1.codec.DecoderException;
 import org.apache.asn1.util.IntegerDecoder;
 import org.apache.asn1.util.IntegerDecoderException;
-import org.apache.ldap.common.codec.LdapStatesEnum;
-import org.apache.ldap.common.codec.util.LdapString;
-import org.apache.ldap.common.codec.util.LdapStringEncodingException;
+import org.apache.ldap.common.codec.util.LdapDN;
+import org.apache.ldap.common.util.StringTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,10 +61,22 @@ public class EntryChangeControlGrammar extends AbstractGrammar implements IGramm
         // Create the transitions table
         super.transitions = new GrammarTransition[EntryChangeControlStatesEnum.LAST_EC_STATE][256];
 
+        //============================================================================================
+        // Entry Change Control
+        //============================================================================================
+        // EntryChangeNotification ::= SEQUENCE { (Tag)
+        //    ...
+        // Nothing to do
         super.transitions[EntryChangeControlStatesEnum.EC_SEQUENCE_TAG][UniversalTag.SEQUENCE_TAG] =
             new GrammarTransition( EntryChangeControlStatesEnum.EC_SEQUENCE_TAG,
                 EntryChangeControlStatesEnum.EC_SEQUENCE_VALUE, null );
 
+        //============================================================================================
+        // Entry Change Control
+        //============================================================================================
+        // EntryChangeNotification ::= SEQUENCE { (Value)
+        //    ...
+        // Initialization of the structure
         super.transitions[EntryChangeControlStatesEnum.EC_SEQUENCE_VALUE][UniversalTag.SEQUENCE_TAG] =
             new GrammarTransition( EntryChangeControlStatesEnum.EC_SEQUENCE_VALUE,
                 EntryChangeControlStatesEnum.CHANGE_TYPE_TAG, 
@@ -71,34 +84,67 @@ public class EntryChangeControlGrammar extends AbstractGrammar implements IGramm
                 {
                     public void action( IAsn1Container container ) 
                     {
-                        EntryChangeControlContainer EntryChangeContainer = ( EntryChangeControlContainer ) container;
+                        EntryChangeControlContainer entryChangeContainer = ( EntryChangeControlContainer ) container;
                         EntryChangeControl control = new EntryChangeControl();
-                        EntryChangeContainer.setEntryChangeControl( control );
+                        entryChangeContainer.setEntryChangeControl( control );
                     }
                 }
             );
 
+        //============================================================================================
+        // Change Type
+        //============================================================================================
+        // EntryChangeNotification ::= SEQUENCE {
+        //    changeType ENUMERATED { (Tag) },
+        //    ...
+        //
+        // Nothing to do
         super.transitions[EntryChangeControlStatesEnum.CHANGE_TYPE_TAG][UniversalTag.ENUMERATED_TAG] =
             new GrammarTransition( EntryChangeControlStatesEnum.CHANGE_TYPE_TAG,
                 EntryChangeControlStatesEnum.CHANGE_TYPE_VALUE, null );
 
+        //============================================================================================
+        // Change Type
+        //============================================================================================
+        // EntryChangeNotification ::= SEQUENCE {
+        //    changeType ENUMERATED { (Value)  },
+        //    ...
+        //
+        // Evaluates the changeType
+        
+        // Action associated with the ChangeType transition
         GrammarAction setChangeTypeAction = new GrammarAction( "Set EntryChangeControl changeType" )
         {
             public void action( IAsn1Container container ) throws DecoderException
             {
-                EntryChangeControlContainer EntryChangeContainer = ( EntryChangeControlContainer ) container;
-                Value value = EntryChangeContainer.getCurrentTLV().getValue();
+                EntryChangeControlContainer entryChangeContainer = ( EntryChangeControlContainer ) container;
+                Value value = entryChangeContainer.getCurrentTLV().getValue();
                 
                 try
                 {
-                    ChangeType changeType = ChangeType.getChangeType( IntegerDecoder.parse( value ) );
-                    
-                    if ( log.isDebugEnabled() )
-                    {
-                        log.debug( "changeType = " + changeType );
-                    }
-                    
-                    EntryChangeContainer.getEntryChangeControl().setChangeType( changeType );
+                	int change = IntegerDecoder.parse( value, 1, 8 );
+                	
+                	switch ( change )
+                	{
+	                	case ChangeType.ADD_VALUE :
+	                	case ChangeType.DELETE_VALUE :
+	                	case ChangeType.MODDN_VALUE :
+	                	case ChangeType.MODIFY_VALUE :
+	                        ChangeType changeType = ChangeType.getChangeType( change );
+	                        
+	                        if ( log.isDebugEnabled() )
+	                        {
+	                            log.debug( "changeType = " + changeType );
+	                        }
+	                        
+	                        entryChangeContainer.getEntryChangeControl().setChangeType( changeType );
+	                        break;
+
+	                	default :
+	                        String msg = "failed to decode the changeType for EntryChangeControl";
+	                		log.error( msg );
+	                    	throw new DecoderException( msg );
+                	}
                 }
                 catch ( IntegerDecoderException e )
                 {
@@ -109,96 +155,147 @@ public class EntryChangeControlGrammar extends AbstractGrammar implements IGramm
             }
         };
         
-        // transition for when we have a previousDN value
+        // ChangeType Transition 
         super.transitions[EntryChangeControlStatesEnum.CHANGE_TYPE_VALUE][UniversalTag.ENUMERATED_TAG] =
             new GrammarTransition( EntryChangeControlStatesEnum.CHANGE_TYPE_VALUE, 
-                EntryChangeControlStatesEnum.PREVIOUS_DN_TAG, setChangeTypeAction );
+                EntryChangeControlStatesEnum.CHANGE_NUMBER_OR_PREVIOUS_DN_TAG, setChangeTypeAction );
 
-        // transition for when we do not have a previousDN value but we do have a changeNumber
-        super.transitions[EntryChangeControlStatesEnum.CHANGE_TYPE_VALUE][UniversalTag.ENUMERATED_TAG] =
-            new GrammarTransition( EntryChangeControlStatesEnum.CHANGE_TYPE_VALUE, 
-                EntryChangeControlStatesEnum.CHANGE_NUMBER_TAG, setChangeTypeAction );
-        
-        // transition for when we do not have a previousDN value nor do we have a changeNumber
-        super.transitions[EntryChangeControlStatesEnum.CHANGE_TYPE_VALUE][UniversalTag.ENUMERATED_TAG] =
-            new GrammarTransition( EntryChangeControlStatesEnum.CHANGE_TYPE_VALUE, 
-                EntryChangeControlStatesEnum.GRAMMAR_END, setChangeTypeAction );
-
-        super.transitions[EntryChangeControlStatesEnum.PREVIOUS_DN_TAG][UniversalTag.OCTET_STRING_TAG] =
-            new GrammarTransition( EntryChangeControlStatesEnum.PREVIOUS_DN_TAG,
+        //============================================================================================
+        // Previous DN (We have a OCTET_STRING Tag)
+        //============================================================================================
+        // EntryChangeNotification ::= SEQUENCE {
+        //    ...
+        //    previousDN   LDAPDN OPTIONAL, (Tag)
+        //    ...
+        //
+        // Nothing to do
+        super.transitions[EntryChangeControlStatesEnum.CHANGE_NUMBER_OR_PREVIOUS_DN_TAG][UniversalTag.OCTET_STRING_TAG] =
+            new GrammarTransition( EntryChangeControlStatesEnum.CHANGE_NUMBER_OR_PREVIOUS_DN_TAG,
                 EntryChangeControlStatesEnum.PREVIOUS_DN_VALUE, null );
 
+        //============================================================================================
+        // Previous DN 
+        //============================================================================================
+        // EntryChangeNotification ::= SEQUENCE {
+        //    ...
+        //    previousDN   LDAPDN OPTIONAL, (Value)
+        //    ...
+        //
+        // Set the previousDN into the structure. We first check that it's a valid DN
+
+        // Action associated with the PreviousDN transition
         GrammarAction setPreviousDnAction = new GrammarAction( "Set EntryChangeControl previousDN" )
         {
             public void action( IAsn1Container container ) throws DecoderException
             {
-                EntryChangeControlContainer EntryChangeContainer = ( EntryChangeControlContainer ) container;
-                Value value = EntryChangeContainer.getCurrentTLV().getValue();
-                LdapString previousDn;
-                try
-                {
-                    previousDn = new LdapString( value.getData() );
-                }
-                catch ( LdapStringEncodingException e )
-                {
-                    throw new DecoderException( "failed to encode string data" );
-                }
+                EntryChangeControlContainer entryChangeContainer = ( EntryChangeControlContainer ) container;
                 
-                if ( log.isDebugEnabled() )
-                {
-                    log.debug( "previousDN = " + previousDn );
-                }
+                ChangeType changeType = entryChangeContainer.getEntryChangeControl().getChangeType();
                 
-                EntryChangeContainer.getEntryChangeControl().setPreviousDn( previousDn );
+                if ( changeType != ChangeType.MODDN )
+                {
+                	log.error( "The previousDN field should not contain anything if the changeType is not MODDN" );
+                	throw new DecoderException( "Previous DN is not allowed for this change type" );
+                }
+                else
+                {
+	                Value value = entryChangeContainer.getCurrentTLV().getValue();
+	                String previousDn;
+	                
+	                try
+	                {
+	                	previousDn = StringTools.utf8ToString( value.getData() );
+	                    new LdapDN( previousDn );
+	                }
+	                catch ( InvalidNameException ine )
+	                {
+	                	log.error( "Bad Previous DN : '" + StringTools.dumpBytes( value.getData() ) ); 
+	                    throw new DecoderException( "failed to decode the previous DN" );
+	                }
+	                
+	                if ( log.isDebugEnabled() )
+	                {
+	                    log.debug( "previousDN = " + previousDn );
+	                }
+	                
+	                entryChangeContainer.getEntryChangeControl().setPreviousDn( previousDn );
+                }
             }
         };
 
-        // transition if we do have an optional changeNumber after this previousDN
+        // PreviousDN transition 
         super.transitions[EntryChangeControlStatesEnum.PREVIOUS_DN_VALUE][UniversalTag.OCTET_STRING_TAG] =
             new GrammarTransition( EntryChangeControlStatesEnum.PREVIOUS_DN_VALUE, 
                 EntryChangeControlStatesEnum.CHANGE_NUMBER_TAG, setPreviousDnAction );
 
-        // transition if we do *NOT* have an optional changeNumber after this previousDN
-        super.transitions[EntryChangeControlStatesEnum.PREVIOUS_DN_VALUE][UniversalTag.OCTET_STRING_TAG] =
-            new GrammarTransition( EntryChangeControlStatesEnum.PREVIOUS_DN_VALUE, 
-                EntryChangeControlStatesEnum.GRAMMAR_END, setPreviousDnAction );
+        //============================================================================================
+        // Change Number from Change Type 
+        //============================================================================================
+        // EntryChangeNotification ::= SEQUENCE {
+        //    ...
+        // changeNumber INTEGER OPTIONAL (Tag)
+        // }
+        //
+        // Nothing to do
+        super.transitions[EntryChangeControlStatesEnum.CHANGE_NUMBER_OR_PREVIOUS_DN_TAG][UniversalTag.INTEGER_TAG] =
+            new GrammarTransition( EntryChangeControlStatesEnum.CHANGE_NUMBER_OR_PREVIOUS_DN_TAG,
+                EntryChangeControlStatesEnum.CHANGE_NUMBER_VALUE, null );
 
-        // transition for processing changeNumber
+        //============================================================================================
+        // Change Number from PreviousDN
+        //============================================================================================
+        // EntryChangeNotification ::= SEQUENCE {
+        //    ...
+        // changeNumber INTEGER OPTIONAL (Tag)
+        // }
+        //
+        // Nothing to do
         super.transitions[EntryChangeControlStatesEnum.CHANGE_NUMBER_TAG][UniversalTag.INTEGER_TAG] =
             new GrammarTransition( EntryChangeControlStatesEnum.CHANGE_NUMBER_TAG,
                 EntryChangeControlStatesEnum.CHANGE_NUMBER_VALUE, null );
 
-        // transition to finish grammar and set the changeNumber
-        super.transitions[EntryChangeControlStatesEnum.CHANGE_NUMBER_VALUE][UniversalTag.INTEGER_TAG] =
-            new GrammarTransition( EntryChangeControlStatesEnum.CHANGE_NUMBER_VALUE, 
-                LdapStatesEnum.GRAMMAR_END, 
-                new GrammarAction( "Set EntryChangeControl changeNumber" )
+        //============================================================================================
+        // Change Number
+        //============================================================================================
+        // EntryChangeNotification ::= SEQUENCE {
+        //    ...
+        // changeNumber INTEGER OPTIONAL (Value)
+        // }
+        //
+        // Set the changeNumber into the structure
+        
+        // Change Number action
+        GrammarAction setChangeNumberAction = new GrammarAction( "Set EntryChangeControl changeNumber" )
+        {
+            public void action( IAsn1Container container ) throws DecoderException
+            {
+                EntryChangeControlContainer entryChangeContainer = ( EntryChangeControlContainer ) container;
+                Value value = entryChangeContainer.getCurrentTLV().getValue();
+                
+                try
                 {
-                    public void action( IAsn1Container container ) throws DecoderException
+                    int changeNumber = IntegerDecoder.parse( value );
+                    
+                    if ( log.isDebugEnabled() )
                     {
-                        EntryChangeControlContainer EntryChangeContainer = ( EntryChangeControlContainer ) container;
-                        Value value = EntryChangeContainer.getCurrentTLV().getValue();
-                        
-                        try
-                        {
-                            int changeNumber = IntegerDecoder.parse( value );
-                            
-                            if ( log.isDebugEnabled() )
-                            {
-                                log.debug( "changeNumber = " + changeNumber );
-                            }
-                            
-                            EntryChangeContainer.getEntryChangeControl().setChangeNumber( changeNumber );
-                        }
-                        catch ( IntegerDecoderException e )
-                        {
-                            String msg = "failed to decode the changeNumber for EntryChangeControl";
-                            log.error( msg, e );
-                            throw new DecoderException( msg );
-                        }
+                        log.debug( "changeNumber = " + changeNumber );
                     }
+                    
+                    entryChangeContainer.getEntryChangeControl().setChangeNumber( changeNumber );
                 }
-            );
+                catch ( IntegerDecoderException e )
+                {
+                    String msg = "failed to decode the changeNumber for EntryChangeControl";
+                    log.error( msg, e );
+                    throw new DecoderException( msg );
+                }
+            }
+        };
+
+        // Transition
+        super.transitions[EntryChangeControlStatesEnum.CHANGE_NUMBER_VALUE][UniversalTag.INTEGER_TAG] =
+            new GrammarTransition( EntryChangeControlStatesEnum.CHANGE_NUMBER_VALUE,
+                EntryChangeControlStatesEnum.GRAMMAR_END, setChangeNumberAction );
     }
 
     /**
