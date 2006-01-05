@@ -35,7 +35,6 @@ public abstract class ControlImpl extends AbstractLockable implements Control
     private byte [] value ;
     /** Flag for control criticality */
     private boolean isCritical ;
-    private String id;
 
 
     // ------------------------------------------------------------------------
@@ -152,6 +151,6 @@ public abstract class ControlImpl extends AbstractLockable implements Control
       */
     public String getID()
     {
-        return id;
+        return this.oid;
     }
 }

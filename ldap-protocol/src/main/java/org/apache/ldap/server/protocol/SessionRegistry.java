@@ -17,6 +17,7 @@
 package org.apache.ldap.server.protocol;
 
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
@@ -29,6 +30,7 @@ import javax.naming.ldap.LdapContext;
 import javax.naming.spi.InitialContextFactory;
 
 import org.apache.ldap.common.exception.LdapNoPermissionException;
+import org.apache.ldap.common.message.Request;
 import org.apache.ldap.server.configuration.Configuration;
 import org.apache.ldap.server.configuration.StartupConfiguration;
 import org.apache.ldap.server.jndi.ServerLdapContext;
@@ -48,6 +50,9 @@ public class SessionRegistry
 
     /** the set of client contexts */
     private final Map contexts = new HashMap();
+    
+    /** outstanding requests for a session */
+    private final Map requests = new HashMap();
 
     /** the properties associated with this SessionRegistry */
     private Hashtable env;
@@ -91,15 +96,12 @@ public class SessionRegistry
         if ( env == null )
         {
             this.env = new Hashtable();
-
             this.env.put( Context.PROVIDER_URL, "" );
-
             this.env.put( Context.INITIAL_CONTEXT_FACTORY, "org.apache.ldap.server.jndi.ServerContextFactory" );
         }
         else
         {
             this.env = env;
-
             this.env.put( Context.PROVIDER_URL, "" );
         }
     }
@@ -117,9 +119,81 @@ public class SessionRegistry
 
 
     /**
+     * Adds a request to the map of outstanding requests for a session.
+     * 
+     * @param session the session the request was issued on
+     * @param req the request to add
+     */
+    public void addOutstandingRequest( IoSession session, Request req )
+    {
+        // pull out the map of requests by id
+        synchronized ( requests )
+        {
+            Map reqmap = ( Map ) requests.get( session );
+            if ( reqmap == null )
+            {
+                reqmap = new HashMap();
+            }
+            reqmap.put( new Integer( req.getMessageId() ), req );
+        }
+    }
+    
+
+    /**
+     * Removes an outstanding request from the session's outstanding request map.
+     * 
+     * @param session the session the request is removed from
+     * @param id the messageId of the request to remove
+     * @return the Request if it is removed or null if no such request was mapped as outstanding
+     */
+    public Request removeOutstandingRequest( IoSession session, Integer id )
+    {
+        // pull out the map of requests by id
+        synchronized ( requests )
+        {
+            Map reqmap = ( Map ) requests.get( session );
+            if ( reqmap == null ) return null;
+            return ( Request ) reqmap.remove( id );
+        }
+    }
+
+    
+    /**
+     * Returns a shallow copied map of all outstanding requests for an IoSession.
+     * 
+     * @param session the session to get outstanding requests for
+     * @return a map by message id as an Integer to Request objects
+     */
+    public Map getOutstandingRequests( IoSession session )
+    {
+        Map reqmap = ( Map ) requests.get( session );
+        if ( reqmap == null )
+        {
+            return Collections.EMPTY_MAP;
+        }
+        return new HashMap( reqmap );
+    }
+    
+    
+    /**
+     * Gets an outstanding request by messageId for a session.
+     * 
+     * @param session the LDAP session 
+     * @param id the message id of the request
+     * @return the request in session for id or null if request has completed
+     */
+    public Request getOutstandingRequest( IoSession session, Integer id )
+    {
+        Map reqmap = ( Map ) requests.get( session );
+        if ( reqmap == null ) return null;
+        return ( Request ) reqmap.get( id );
+    }
+    
+    
+    /**
      * Gets the InitialContext to the root of the system that was gotten for
      * client.  If the context is not present then there was no bind operation
-     * that set it.  Hence this operation requesting the IC is anonymous.
+     * that set it.  Hence this operation requesting the context is anonymous.
      *
      * @todo this allowAnonymous parameter is a bit confusing - figure out
      * something better to call it.  I think only bind requests a context

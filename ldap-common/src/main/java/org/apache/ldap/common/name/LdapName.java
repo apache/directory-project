@@ -928,11 +928,7 @@ public class LdapName implements Name
         return a_dn.get( a_dn.size() - 1 ) ;
     }
     
-    private static String getRdn( String nameComponent, int start )
-    {
-    	return "";
-    }
-    
+
     public static LdapName toOidName( LdapName dn, Map oids ) throws InvalidNameException
     {
     	if ( ( dn == null ) || ( dn.size() == 0 ) )

@@ -16,6 +16,11 @@
  */
 package org.apache.ldap.common.message;
 
+import org.apache.asn1.codec.EncoderException;
+import org.apache.ldap.common.codec.search.controls.PSearchControl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * The control for a persistent search operation.
@@ -26,7 +31,9 @@ package org.apache.ldap.common.message;
 public class PersistentSearchControl extends ControlImpl
 {
     private static final long serialVersionUID = -2356861450876343999L;
-
+    private static final Logger log = LoggerFactory.getLogger( PersistentSearchControl.class );
+    public static final String CONTROL_ID = "2.16.840.1.113730.3.4.3";
+    
     /** 
      * If changesOnly is TRUE, the server MUST NOT return any existing
      * entries that match the search criteria.  Entries are only
@@ -52,13 +59,14 @@ public class PersistentSearchControl extends ControlImpl
      */
     private int changeTypes;
 
-    
-    public byte[] getEncodedValue()
+
+    public PersistentSearchControl()
     {
-        return null;
+        super();
+        setType( CONTROL_ID );
     }
-
-
+    
+    
     public void setChangesOnly( boolean changesOnly )
     {
         this.changesOnly = changesOnly;
@@ -92,5 +100,28 @@ public class PersistentSearchControl extends ControlImpl
     public int getChangeTypes()
     {
         return changeTypes;
+    }
+
+
+    public byte[] getEncodedValue()
+    {
+        if ( getValue() == null )
+        {
+            PSearchControl psearchCtl = new PSearchControl();
+            psearchCtl.setChangesOnly( isChangesOnly() );
+            psearchCtl.setChangeTypes( getChangeTypes() );
+            psearchCtl.setReturnECs( isReturnECs() );
+
+            try
+            {
+                setValue( psearchCtl.encode( null ).array() );
+            }
+            catch ( EncoderException e )
+            {
+                log.error( "Failed to encode psearch control", e );
+            }
+        }
+        
+        return getValue();
     }
 }

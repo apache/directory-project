@@ -47,9 +47,6 @@ public class LdifEntry
     /** the version of the ldif */
     private int m_version ;
 
-    /** the control attribute list */
-    private LinkedList m_controlList ;
-
     /** the modification type */
     private String m_modType ;
 
@@ -68,7 +65,6 @@ public class LdifEntry
      */
     public LdifEntry()
     {
-        m_controlList = new LinkedList() ;
         m_modType = "add" ; // Default LDIF content
         m_itemList = new LinkedList() ;
         m_dn = null ;
@@ -190,5 +186,11 @@ public class LdifEntry
     public String getDn()
     {
         return m_dn ;
+    }
+
+
+    public int getVersion()
+    {
+        return this.m_version;
     }
 }

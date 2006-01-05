@@ -21,16 +21,26 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import javax.naming.Binding;
+import javax.naming.Context;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
+import javax.naming.directory.Attributes;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
+import javax.naming.event.NamespaceChangeListener;
+import javax.naming.event.NamingEvent;
+import javax.naming.event.NamingExceptionEvent;
+import javax.naming.event.NamingListener;
+import javax.naming.event.ObjectChangeListener;
 import javax.naming.ldap.LdapContext;
 
 import org.apache.ldap.common.exception.LdapException;
 import org.apache.ldap.common.filter.PresenceNode;
+import org.apache.ldap.common.message.Control;
 import org.apache.ldap.common.message.LdapResultImpl;
+import org.apache.ldap.common.message.PersistentSearchControl;
 import org.apache.ldap.common.message.ReferralImpl;
 import org.apache.ldap.common.message.ResultCodeEnum;
 import org.apache.ldap.common.message.ScopeEnum;
@@ -53,6 +63,8 @@ import org.apache.mina.handler.demux.MessageHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.sun.corba.se.spi.ior.iiop.JavaCodebaseComponent;
+
 /**
  * A handler for processing search requests.
  *
@@ -61,13 +73,13 @@ import org.slf4j.LoggerFactory;
  */
 public class SearchHandler implements MessageHandler
 {
-    private static final Logger LOG = LoggerFactory.getLogger( SearchHandler.class );
+    private static final Logger log = LoggerFactory.getLogger( SearchHandler.class );
     private static final String DEREFALIASES_KEY = "java.naming.ldap.derefAliases";
 
 
     public void messageReceived( IoSession session, Object request )
     {
-        LdapContext ctx;
+        ServerLdapContext ctx;
         SearchRequest req = ( SearchRequest ) request;
         NamingEnumeration list = null;
 
@@ -109,17 +121,28 @@ public class SearchHandler implements MessageHandler
             // bypass checks to disallow anonymous binds for search on RootDSE with base obj scope
             if ( isRootDSESearch )
             {
-                ctx = SessionRegistry.getSingleton().getLdapContextOnRootDSEAccess( session, null );
+                LdapContext unknown = SessionRegistry.getSingleton().getLdapContextOnRootDSEAccess( session, null );
+                if ( ! ( unknown instanceof ServerLdapContext ) )
+                {
+                    ctx = ( ServerLdapContext ) unknown.lookup( "" );
+                }
+                else
+                {
+                    ctx = ( ServerLdapContext ) unknown;
+                }
             }
             // all those search operations are subject to anonymous bind checks when anonymous binda are disallowed
             else
             {
-                ctx = ( LdapContext ) SessionRegistry.getSingleton().getLdapContext( session, null, true ).lookup( "" );
-            }
-
-            if ( ! ( ctx instanceof ServerLdapContext ) )
-            {
-                ctx = ( ServerLdapContext ) ctx.lookup( "" );
+                LdapContext unknown = SessionRegistry.getSingleton().getLdapContext( session, null, true );
+                if ( ! ( unknown instanceof ServerLdapContext ) )
+                {
+                    ctx = ( ServerLdapContext ) unknown.lookup( "" );
+                }
+                else
+                {
+                    ctx = ( ServerLdapContext ) unknown;
+                }
             }
 
             StartupConfiguration cfg = ( StartupConfiguration ) Configuration.toConfiguration( ctx.getEnvironment() );
@@ -138,9 +161,43 @@ public class SearchHandler implements MessageHandler
                 return;
             }
 
+            /*
+             * Persistent Search Implementation
+             * --------------------------------
+             * 
+             * The persistent search implementation uses the event notification scheme build into
+             * the core and exposes access to it via the JNDI EventContext.  A psearch will not 
+             * return until an abandon request cancels it.  Hence time and size limits as weill normal
+             * search operations do not apply.  In this handler we simply setup the structures to 
+             * trickle back PDUs as we recieve event notifications using this IoSession.  
+             * 
+             * We need structures in Ldap p-p to track outstanding operations to implement AbandonOperations.
+             */
+            PersistentSearchControl psearchControl = getPersistentSearchControl( req );
+            if ( psearchControl != null )
+            {
+                if ( psearchControl.isReturnECs() )
+                {
+                    SearchResponseDone resp = new SearchResponseDoneImpl( req.getMessageId() );
+                    LdapResultImpl result = new LdapResultImpl( resp );
+                    resp.setLdapResult( result );
+                    result.setResultCode( ResultCodeEnum.UNAVAILABLECRITICALEXTENSION );
+                    String msg = "EntryChangeNotification response controls not implemented yet!";
+                    log.error( msg );
+                    result.setErrorMessage( msg );
+                    session.write( resp );
+                    return;
+                }
+
+                PersistentSearchHandler handler = new PersistentSearchHandler( ctx, session, req );
+                StringBuffer buf = new StringBuffer();
+                req.getFilter().printToBuffer( buf );
+                ctx.addNamingListener( req.getBase(), buf.toString(), controls, handler );
+                return;
+            }
+            
             ctx.addToEnvironment( DEREFALIASES_KEY, req.getDerefAliases().getName() );
             list = ( ( ServerLdapContext ) ctx ).search( new LdapName( req.getBase() ), req.getFilter(), controls );
-
             if( list.hasMore() )
             {
                 Iterator it = new SearchResponseIterator( req, list );
@@ -171,7 +228,7 @@ public class SearchHandler implements MessageHandler
         {
             String msg = "failed on search operation";
 
-            if ( LOG.isDebugEnabled() )
+            if ( log.isDebugEnabled() )
             {
                 msg += ":\n" + req + ":\n" + ExceptionUtils.getStackTrace( e );
             }
@@ -215,13 +272,12 @@ public class SearchHandler implements MessageHandler
     {
         String msg = "failed on search operation";
 
-        if ( LOG.isDebugEnabled() )
+        if ( log.isDebugEnabled() )
         {
             msg += ":\n" + req + ":\n" + ExceptionUtils.getStackTrace( e );
         }
 
         SearchResponseDone resp = new SearchResponseDoneImpl( req.getMessageId() );
-
         ResultCodeEnum code = null;
 
         if( e instanceof LdapException )
@@ -234,9 +290,7 @@ public class SearchHandler implements MessageHandler
         }
 
         resp.setLdapResult( new LdapResultImpl( resp ) );
-
         resp.getLdapResult().setResultCode( code );
-
         resp.getLdapResult().setErrorMessage( msg );
 
         if ( ( e.getResolvedName() != null ) &&
@@ -254,13 +308,9 @@ public class SearchHandler implements MessageHandler
     class SearchResponseIterator implements Iterator
     {
         private final SearchRequest req;
-
         private final NamingEnumeration underlying;
-
         private SearchResponseDone respDone;
-
         private boolean done = false;
-
         private Object prefetched;
 
         /**
@@ -291,21 +341,15 @@ public class SearchHandler implements MessageHandler
                     if( ref == null || ref.size() > 0 )
                     {
                         SearchResponseEntry respEntry;
-
                         respEntry = new SearchResponseEntryImpl( req.getMessageId() );
-
                         respEntry.setAttributes( result.getAttributes() );
-
                         respEntry.setObjectName( result.getName() );
-
                         prefetched = respEntry;
                     }
                     else
                     {
                         SearchResponseReference respRef;
-
                         respRef = new SearchResponseReferenceImpl( req.getMessageId() );
-
                         respRef.setReferral( new ReferralImpl( respRef ) );
 
                         for( int ii = 0; ii < ref.size(); ii ++ )
@@ -315,7 +359,6 @@ public class SearchHandler implements MessageHandler
                             try
                             {
                                 url = ( String ) ref.get( ii );
-
                                 respRef.getReferral().addLdapUrl( url );
                             }
                             catch( NamingException e )
@@ -329,7 +372,6 @@ public class SearchHandler implements MessageHandler
                                 }
 
                                 prefetched = null;
-
                                 respDone = getResponse( req, e );
                             }
                         }
@@ -360,7 +402,6 @@ public class SearchHandler implements MessageHandler
         public Object next()
         {
             Object next = prefetched;
-
             SearchResult result = null;
 
             // if we're done we got nothing to give back
@@ -373,7 +414,6 @@ public class SearchHandler implements MessageHandler
             if( respDone != null )
             {
                 done = true;
-
                 return respDone;
             }
 
@@ -402,13 +442,9 @@ public class SearchHandler implements MessageHandler
                     }
 
                     respDone = new SearchResponseDoneImpl( req.getMessageId() );
-
                     respDone.setLdapResult( new LdapResultImpl( respDone ) );
-
                     respDone.getLdapResult().setResultCode( ResultCodeEnum.SUCCESS );
-
                     prefetched = null;
-
                     return next;
                 }
             }
@@ -423,9 +459,7 @@ public class SearchHandler implements MessageHandler
                 }
 
                 prefetched = null;
-
                 respDone = getResponse( req, e );
-
                 return next;
             }
 
@@ -438,17 +472,13 @@ public class SearchHandler implements MessageHandler
             if( ref == null || ref.size() > 0 )
             {
                 SearchResponseEntry respEntry = new SearchResponseEntryImpl( req.getMessageId() );
-
                 respEntry.setAttributes( result.getAttributes() );
-
                 respEntry.setObjectName( result.getName() );
-
                 prefetched = respEntry;
             }
             else
             {
                 SearchResponseReference respRef = new SearchResponseReferenceImpl( req.getMessageId() );
-
                 respRef.setReferral( new ReferralImpl( respRef ) );
 
                 for( int ii = 0; ii < ref.size(); ii ++ )
@@ -458,7 +488,6 @@ public class SearchHandler implements MessageHandler
                     try
                     {
                         url = ( String ) ref.get( ii );
-
                         respRef.getReferral().addLdapUrl( url );
                     }
                     catch( NamingException e )
@@ -472,9 +501,7 @@ public class SearchHandler implements MessageHandler
                         }
 
                         prefetched = null;
-
                         respDone = getResponse( req, e );
-
                         return next;
                     }
                 }
@@ -493,6 +520,160 @@ public class SearchHandler implements MessageHandler
         public void remove()
         {
             throw new UnsupportedOperationException();
+        }
+    }
+
+
+    private PersistentSearchControl getPersistentSearchControl( SearchRequest req )
+    {
+        Iterator list = req.getControls().iterator();
+        while ( list.hasNext() )
+        {
+            Control control = ( Control ) list.next();
+            if ( control.getID().equals( "2.16.840.1.113730.3.4.3" ) )
+            {
+                return ( PersistentSearchControl ) control;
+            }
+        }
+        
+        return null;
+    }
+    
+    
+    class PersistentSearchHandler implements ObjectChangeListener, NamespaceChangeListener
+    {
+        final ServerLdapContext ctx;
+        final IoSession session;
+        final SearchRequest req;
+        
+        PersistentSearchHandler( ServerLdapContext ctx, IoSession session, SearchRequest req ) 
+        {
+            this.session = session;
+            this.req = req;
+            this.ctx = ctx;
+            this.req.put( "PersistentSearchHandler", this );
+        }
+        
+        
+        public void abandon() throws NamingException
+        {
+            // must abandon the operation and send response done with success
+            ctx.removeNamingListener( this );
+
+            // remove from outstanding map
+            SessionRegistry.getSingleton().removeOutstandingRequest( session, new Integer( req.getMessageId() ) );
+            
+            // send successful response back to client
+            SearchResponseDone resp = new SearchResponseDoneImpl( req.getMessageId() );
+            resp.setLdapResult( new LdapResultImpl( resp ) );
+            resp.getLdapResult().setResultCode( ResultCodeEnum.SUCCESS );
+            resp.getLdapResult().setMatchedDn( req.getBase() );
+            session.write( resp );
+        }
+        
+        
+        public void namingExceptionThrown( NamingExceptionEvent evt ) 
+        {
+            // must abandon the operation and send response done with an
+            // error message if this occurs because something is wrong
+
+            try
+            {
+                ctx.removeNamingListener( this );
+            }
+            catch ( NamingException e )
+            {
+                log.error( "Attempt to remove listener from context failed", e );
+            }
+
+            SessionRegistry.getSingleton().removeOutstandingRequest( session, new Integer( req.getMessageId() ) );
+            String msg = "failed on persistent search operation";
+
+            if ( log.isDebugEnabled() )
+            {
+                msg += ":\n" + req + ":\n" + ExceptionUtils.getStackTrace( evt.getException() );
+            }
+
+            SearchResponseDone resp = new SearchResponseDoneImpl( req.getMessageId() );
+            ResultCodeEnum code = null;
+
+            if( evt.getException() instanceof LdapException )
+            {
+                code = ( ( LdapException ) evt.getException() ).getResultCode();
+            }
+            else
+            {
+                code = ResultCodeEnum.getBestEstimate( evt.getException(), req.getType() );
+            }
+
+            resp.setLdapResult( new LdapResultImpl( resp ) );
+            resp.getLdapResult().setResultCode( code );
+            resp.getLdapResult().setErrorMessage( msg );
+
+            if ( ( evt.getException().getResolvedName() != null ) &&
+                    ( ( code == ResultCodeEnum.NOSUCHOBJECT ) ||
+                      ( code == ResultCodeEnum.ALIASPROBLEM ) ||
+                      ( code == ResultCodeEnum.INVALIDDNSYNTAX ) ||
+                      ( code == ResultCodeEnum.ALIASDEREFERENCINGPROBLEM ) ) )
+            {
+                resp.getLdapResult().setMatchedDn( evt.getException().getResolvedName().toString() );
+            }
+
+            session.write( resp );
+        }
+
+        
+        public void objectChanged( NamingEvent evt )
+        {
+            // send the entry back
+            sendEntry( evt );
+        }
+
+        public void objectAdded( NamingEvent evt )
+        {
+            // send the entry back
+            sendEntry( evt );
+        }
+
+        public void objectRemoved( NamingEvent evt )
+        {
+            // send the entry back
+            sendEntry( evt );
+        }
+
+        public void objectRenamed( NamingEvent evt )
+        {
+            // send the entry back
+            sendEntry( evt );
+        }
+
+        private void sendEntry( NamingEvent evt ) 
+        {
+            SearchResponseEntry respEntry = new SearchResponseEntryImpl( req.getMessageId() );
+
+            switch ( evt.getType() )
+            {
+                case( NamingEvent.OBJECT_ADDED ):
+                    respEntry.setObjectName( evt.getOldBinding().getName() );
+                    respEntry.setAttributes( ( Attributes ) evt.getChangeInfo() );
+                    break;
+                case( NamingEvent.OBJECT_CHANGED ):
+                    respEntry.setObjectName( evt.getOldBinding().getName() );
+                    respEntry.setAttributes( ( Attributes ) evt.getOldBinding().getObject() );
+                    break;
+                case( NamingEvent.OBJECT_REMOVED ):
+                    respEntry.setObjectName( evt.getOldBinding().getName() );
+                    respEntry.setAttributes( ( Attributes ) evt.getOldBinding().getObject() );
+                    break;
+                case( NamingEvent.OBJECT_RENAMED ):
+                    respEntry.setObjectName( evt.getOldBinding().getName() );
+                    respEntry.setAttributes( ( Attributes ) evt.getOldBinding().getObject() );
+                    break;
+                default:
+                    return;
+            }
+            
+            session.write( respEntry );
         }
     }
 }
