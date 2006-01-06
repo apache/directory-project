@@ -16,22 +16,22 @@
       <unpack>true</unpack>
       <scope>runtime</scope>
       <excludes>
-        <exclude>aopalliance:aopalliance:jar:1.0</exclude>
-        <exclude>jasperreports:jasperreports:jar:0.6.6</exclude>
-        <exclude>freemarker:freemarker:jar:2.3.2</exclude>
-        <exclude>asm:asm-util:jar:1.3.4</exclude>
-        <exclude>asm:asm:jar:1.5.3</exclude>
-        <exclude>com.jamonapi:jamon:jar:1.0</exclude>
-        <exclude>xerces:xerces:jar:2.0.2</exclude>
-        <exclude>commons-pool:commons-pool:jar:1.2</exclude>
-        <exclude>com.sun:tools:jar:1.4.2</exclude>
-        <exclude>xml-apis:xml-apis:jar:1.0.b2</exclude>
-        <exclude>aspectwerkz:aspectwerkz-core:jar:0.8.1</exclude>
-        <exclude>velocity:velocity:jar:1.4</exclude>
-        <exclude>org.springframework:spring-aop:jar:1.2.1</exclude>
-        <exclude>qdox:qdox:jar:1.5</exclude>
-        <exclude>commons-attributes:commons-attributes-compiler:jar:2.1</exclude>
-        <exclude>cglib:cglib:jar:2.1</exclude>
+        <exclude>aopalliance:aopalliance</exclude>
+        <exclude>jasperreports:jasperreports</exclude>
+        <exclude>freemarker:freemarker</exclude>
+        <exclude>asm:asm-util</exclude>
+        <exclude>asm:asm</exclude>
+        <exclude>com.jamonapi:jamon</exclude>
+        <exclude>xerces:xerces</exclude>
+        <exclude>commons-pool:commons-pool</exclude>
+        <exclude>com.sun:tools</exclude>
+        <exclude>xml-apis:xml-apis</exclude>
+        <exclude>aspectwerkz:aspectwerkz-core</exclude>
+        <exclude>velocity:velocity</exclude>
+        <exclude>org.springframework:spring-aop</exclude>
+        <exclude>qdox:qdox</exclude>
+        <exclude>commons-attributes:commons-attributes-compiler</exclude>
+        <exclude>cglib:cglib</exclude>
       </excludes>
     </dependencySet>
   </dependencySets>
