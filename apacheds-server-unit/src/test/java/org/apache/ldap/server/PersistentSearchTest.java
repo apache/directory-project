@@ -16,6 +16,7 @@
 package org.apache.ldap.server;
 
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 import javax.naming.NamingEnumeration;
@@ -24,7 +25,14 @@ import javax.naming.directory.Attributes;
 import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.BasicAttributes;
 import javax.naming.directory.DirContext;
+import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchResult;
+import javax.naming.event.EventContext;
+import javax.naming.event.EventDirContext;
+import javax.naming.event.NamespaceChangeListener;
+import javax.naming.event.NamingEvent;
+import javax.naming.event.NamingExceptionEvent;
+import javax.naming.event.ObjectChangeListener;
 import javax.naming.ldap.Control;
 import javax.naming.ldap.HasControls;
 import javax.naming.ldap.InitialLdapContext;
@@ -517,6 +525,74 @@ public class PersistentSearchTest extends AbstractServerTest
 //        assertEquals( listener.result.control.getChangeType(), ChangeType.ADD );
 //    }
 
+
+    /**
+     * Shows notifications functioning with the JNDI notification API of the SUN
+     * provider.
+     */
+    public void testPsearchUsingJndiNotifications() throws Exception
+    {
+        Hashtable env = new Hashtable();
+        env.put( "java.naming.factory.initial", "com.sun.jndi.ldap.LdapCtxFactory" );
+        env.put( "java.naming.provider.url", "ldap://localhost:" + port + "/ou=system" );
+        env.put( "java.naming.security.principal", "uid=admin,ou=system" );
+        env.put( "java.naming.security.credentials", "secret" );
+        env.put( "java.naming.security.authentication", "simple" );
+
+        JndiNotificationListener listener = new JndiNotificationListener();
+        InitialDirContext idc = new InitialDirContext( env );
+        EventDirContext edc = ( EventDirContext ) ( idc.lookup( "" ) );
+        edc.addNamingListener( "", EventContext.ONELEVEL_SCOPE, listener );
+        
+        while ( listener.list.isEmpty() )
+        {
+            Thread.sleep( 250 );
+            String rdn = "cn=Jack Black";
+            ctx.createSubcontext( rdn, getPersonAttributes( "Black", "Jack Black" ) );
+            ctx.destroySubcontext( rdn );
+        }
+        
+        NamingEvent event = ( NamingEvent ) listener.list.get( 0 );
+        assertEquals( edc, event.getSource() );
+    }
+
+    
+    class JndiNotificationListener implements NamespaceChangeListener, ObjectChangeListener
+    {
+        ArrayList list = new ArrayList();
+        
+        public void objectAdded(NamingEvent evt)
+        {
+            System.out.println( "added: " + evt.getNewBinding() );
+            list.add( 0, evt );
+        }
+
+        public void objectRemoved(NamingEvent evt)
+        {
+            System.out.println( "removed: " + evt.getOldBinding() );
+            list.add( 0, evt );
+        }
+
+        public void objectRenamed(NamingEvent evt)
+        {
+            System.out.println( "renamed: " + evt.getNewBinding() + " from " + evt.getOldBinding() );
+            list.add( 0, evt );
+        }
+
+        public void namingExceptionThrown(NamingExceptionEvent evt)
+        {
+            System.out.println( "listener got an exceptioin" );
+            evt.getException().printStackTrace();
+            list.add( 0, evt );
+        }
+
+        public void objectChanged(NamingEvent evt)
+        {
+            System.out.println( "changed: " + evt.getNewBinding() + " from " + evt.getOldBinding() );
+            list.add( 0, evt );
+        }
+    }
+    
     
     class PSearchListener implements Runnable
     {
@@ -588,13 +664,13 @@ public class PersistentSearchTest extends AbstractServerTest
         public String toString()
         {
             StringBuffer buf = new StringBuffer();
-            buf.append( getName() );
+            buf.append( "DN: " ).append( getName() ).append( "\n" );
             if ( control != null )
             {
-                buf.append( "EntryChangeControl =\n" );
-                buf.append( "    changeType   : " ).append( control.getChangeType() ).append( "\n" );
-                buf.append( "    previousDN   : " ).append( control.getPreviousDn() ).append( "\n" );
-                buf.append( "    changeNumber : " ).append( control.getChangeNumber() ).append( "\n" );
+                buf.append( "    EntryChangeControl =\n" );
+                buf.append( "       changeType   : " ).append( control.getChangeType() ).append( "\n" );
+                buf.append( "       previousDN   : " ).append( control.getPreviousDn() ).append( "\n" );
+                buf.append( "       changeNumber : " ).append( control.getChangeNumber() ).append( "\n" );
             }
             return buf.toString();
         }
