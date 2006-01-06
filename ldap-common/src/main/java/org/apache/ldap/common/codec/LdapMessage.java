@@ -131,6 +131,10 @@ public class LdapMessage extends Asn1Object
     public void addControl( Control control )
     {
         currentControl = control;
+        if ( this.controls == null )
+        {
+            this.controls = new ArrayList();
+        }
         this.controls.add( control );
     }
 
@@ -559,7 +563,6 @@ public class LdapMessage extends Asn1Object
         {
             throw new EncoderException("The PDU buffer size is too small !");
         }
-
 
         // The message Id
         Value.encode( bb, messageId);

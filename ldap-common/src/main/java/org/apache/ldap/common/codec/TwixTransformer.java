@@ -26,10 +26,12 @@ import javax.naming.NamingEnumeration;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.ModificationItem;
+import javax.naming.ldap.Control;
 
 import org.apache.asn1.codec.DecoderException;
 import org.apache.asn1.Asn1Object;
 import org.apache.asn1.primitives.OID;
+import org.apache.asn1.util.Asn1StringUtils;
 import org.apache.ldap.common.codec.abandon.AbandonRequest;
 import org.apache.ldap.common.codec.add.AddRequest;
 import org.apache.ldap.common.codec.add.AddResponse;
@@ -679,7 +681,8 @@ public class TwixTransformer implements TransformerSpi
         	while ( controls.hasNext() )
         	{
                 ControlImpl neutralControl = null;
-        		Control twixControl = (Control)controls.next();
+        		org.apache.ldap.common.codec.Control twixControl = 
+                    (org.apache.ldap.common.codec.Control) controls.next();
                 
                 if ( twixControl.getControlValue() instanceof PSearchControl )
                 {
@@ -1096,7 +1099,10 @@ public class TwixTransformer implements TransformerSpi
     	}
         
 		// We also have to transform the controls...
-		//transformControls( twixMessage, msg );
+        if ( ! msg.getControls().isEmpty() )
+        {
+            transformControls( twixMessage, msg );
+        }
 		
     	if (log.isDebugEnabled())
     	{
@@ -1104,5 +1110,29 @@ public class TwixTransformer implements TransformerSpi
     	}
     	
     	return twixMessage;
+    }
+    
+ 
+    private void transformControls( org.apache.ldap.common.codec.LdapMessage twixMessage, Message msg )
+    {
+        Iterator list = msg.getControls().iterator();
+        while ( list.hasNext() )
+        {
+            Control control = ( Control ) list.next();
+            org.apache.ldap.common.codec.Control twixControl = new org.apache.ldap.common.codec.Control();
+            twixMessage.addControl( twixControl );
+            twixControl.setCriticality( control.isCritical() );
+            twixControl.setControlValue( control.getEncodedValue() );
+            twixControl.setEncodedValue( control.getEncodedValue() );
+            try
+            {
+                twixControl.setControlType( new LdapString( Asn1StringUtils.getBytesUtf8( control.getID() ) ) );
+            }
+            catch ( LdapStringEncodingException e )
+            {
+                log.error( "failed to encode string for control id", e );
+            }
+            twixControl.setParent( twixMessage );
+        }
     }
 }
