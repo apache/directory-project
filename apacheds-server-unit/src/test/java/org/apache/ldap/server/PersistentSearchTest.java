@@ -475,10 +475,54 @@ public class PersistentSearchTest extends AbstractServerTest
     }
     
 
+    /**
+     * Shows correct notifications for add(1) changes with returned 
+     * EntryChangeControl and changesOnly set to false so we return
+     * the first set of entries.
+     * 
+     * This test is commented out because it exhibits some producer
+     * consumer lockups (server and client being in same process)
+     * 
+     * PLUS ALL THIS GARBAGE IS TIME DEPENDENT!!!!!
+     */
+//    public void testPsearchAddWithECAndFalseChangesOnly() throws Exception
+//    {
+//        PersistentSearchControl control = new PersistentSearchControl();
+//        control.setReturnECs( true );
+//        control.setChangesOnly( false );
+//        PSearchListener listener = new PSearchListener( control );
+//        Thread t = new Thread( listener );
+//        t.start();
+//        
+//        Thread.sleep( 3000 );
+//
+//        assertEquals( 5, listener.count );
+//        ctx.createSubcontext( "cn=Jack Black", getPersonAttributes( "Black", "Jack Black" ) );
+//        
+//        long start = System.currentTimeMillis();
+//        while ( t.isAlive() )
+//        {
+//            Thread.sleep( 100 );
+//            if ( System.currentTimeMillis() - start > 3000 )
+//            {
+//                System.out.println( "PSearchListener thread not dead yet" );
+//                break;
+//            }
+//        }
+//        
+//        assertEquals( 6, listener.count );
+//        assertNotNull( listener.result );
+//        // darn it getting normalized name back
+//        assertEquals( "cn=Jack Black".toLowerCase(), listener.result.getName().toLowerCase() );
+//        assertEquals( listener.result.control.getChangeType(), ChangeType.ADD );
+//    }
+
+    
     class PSearchListener implements Runnable
     {
         boolean isReady = false;
         PSearchNotification result;
+        int count = 0;
         final PersistentSearchControl control;
 
         PSearchListener() { control = new PersistentSearchControl(); }
@@ -500,6 +544,7 @@ public class PersistentSearchTest extends AbstractServerTest
                 {
                     Control[] controls = null;
                     SearchResult sresult = ( SearchResult ) list.next();
+                    count++;
                     if ( sresult instanceof HasControls )
                     {
                         controls = ( ( HasControls ) sresult ).getControls();
