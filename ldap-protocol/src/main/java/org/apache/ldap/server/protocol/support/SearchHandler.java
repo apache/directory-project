@@ -15,6 +15,7 @@
  */
 package org.apache.ldap.server.protocol.support;
 
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -33,9 +34,11 @@ import javax.naming.event.NamingExceptionEvent;
 import javax.naming.event.ObjectChangeListener;
 import javax.naming.ldap.LdapContext;
 
+import org.apache.ldap.common.codec.search.controls.ChangeType;
 import org.apache.ldap.common.exception.LdapException;
 import org.apache.ldap.common.filter.PresenceNode;
 import org.apache.ldap.common.message.Control;
+import org.apache.ldap.common.message.EntryChangeControl;
 import org.apache.ldap.common.message.LdapResultImpl;
 import org.apache.ldap.common.message.PersistentSearchControl;
 import org.apache.ldap.common.message.ReferralImpl;
@@ -79,11 +82,11 @@ public class SearchHandler implements MessageHandler
         SearchRequest req = ( SearchRequest ) request;
         NamingEnumeration list = null;
 
-        // check the attributes to see if a referral's ref attribute is included
         String[] ids = null;
         Collection retAttrs = new HashSet();
         retAttrs.addAll( req.getAttributes() );
 
+        // check the attributes to see if a referral's ref attribute is included
         if( retAttrs.size() > 0 && !retAttrs.contains( "ref" ) )
         {
             retAttrs.add( "ref" );
@@ -172,19 +175,6 @@ public class SearchHandler implements MessageHandler
             PersistentSearchControl psearchControl = getPersistentSearchControl( req );
             if ( psearchControl != null )
             {
-                if ( psearchControl.isReturnECs() )
-                {
-                    SearchResponseDone resp = new SearchResponseDoneImpl( req.getMessageId() );
-                    LdapResultImpl result = new LdapResultImpl( resp );
-                    resp.setLdapResult( result );
-                    result.setResultCode( ResultCodeEnum.UNAVAILABLECRITICALEXTENSION );
-                    String msg = "EntryChangeNotification response controls not implemented yet!";
-                    log.error( msg );
-                    result.setErrorMessage( msg );
-                    session.write( resp );
-                    return;
-                }
-
                 PersistentSearchHandler handler = new PersistentSearchHandler( ctx, session, req );
                 StringBuffer buf = new StringBuffer();
                 req.getFilter().printToBuffer( buf );
@@ -541,6 +531,8 @@ public class SearchHandler implements MessageHandler
         final ServerLdapContext ctx;
         final IoSession session;
         final SearchRequest req;
+        final PersistentSearchControl control;
+        
         
         PersistentSearchHandler( ServerLdapContext ctx, IoSession session, SearchRequest req ) 
         {
@@ -548,6 +540,7 @@ public class SearchHandler implements MessageHandler
             this.req = req;
             this.ctx = ctx;
             this.req.put( "PersistentSearchHandler", this );
+            this.control = getPersistentSearchControl( req );
         }
         
         
@@ -645,25 +638,57 @@ public class SearchHandler implements MessageHandler
 
         private void sendEntry( NamingEvent evt ) 
         {
+            /*
+             * @todo eventually you'll want to add the changeNumber once we move 
+             * the CSN functionality into the server.
+             */
             SearchResponseEntry respEntry = new SearchResponseEntryImpl( req.getMessageId() );
+            EntryChangeControl ecControl = null;
 
+            if ( control.isReturnECs() )
+            {
+                ecControl = new EntryChangeControl();
+                respEntry.add( ecControl );
+            }
+            
             switch ( evt.getType() )
             {
                 case( NamingEvent.OBJECT_ADDED ):
+                    if ( ! control.isNotificationEnabled( ChangeType.ADD ) ) return;
                     respEntry.setObjectName( evt.getNewBinding().getName() );
                     respEntry.setAttributes( ( Attributes ) evt.getChangeInfo() );
+                    if ( ecControl != null )
+                    {
+                        ecControl.setChangeType( ChangeType.ADD );
+                    }
                     break;
                 case( NamingEvent.OBJECT_CHANGED ):
+                    if ( ! control.isNotificationEnabled( ChangeType.MODIFY ) ) return;
                     respEntry.setObjectName( evt.getOldBinding().getName() );
                     respEntry.setAttributes( ( Attributes ) evt.getOldBinding().getObject() );
+                    if ( ecControl != null )
+                    {
+                        ecControl.setChangeType( ChangeType.MODIFY );
+                    }
                     break;
                 case( NamingEvent.OBJECT_REMOVED ):
+                    if ( ! control.isNotificationEnabled( ChangeType.DELETE ) ) return;
                     respEntry.setObjectName( evt.getOldBinding().getName() );
                     respEntry.setAttributes( ( Attributes ) evt.getOldBinding().getObject() );
+                    if ( ecControl != null )
+                    {
+                        ecControl.setChangeType( ChangeType.DELETE );
+                    }
                     break;
                 case( NamingEvent.OBJECT_RENAMED ):
-                    respEntry.setObjectName( evt.getOldBinding().getName() );
-                    respEntry.setAttributes( ( Attributes ) evt.getOldBinding().getObject() );
+                    if ( ! control.isNotificationEnabled( ChangeType.MODDN ) ) return;
+                    respEntry.setObjectName( evt.getNewBinding().getName() );
+                    respEntry.setAttributes( ( Attributes ) evt.getNewBinding().getObject() );
+                    if ( ecControl != null )
+                    {
+                        ecControl.setChangeType( ChangeType.MODDN );
+                        ecControl.setPreviousDn( evt.getOldBinding().getName() );
+                    }
                     break;
                 default:
                     return;

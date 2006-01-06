@@ -26,9 +26,13 @@ import javax.naming.directory.BasicAttributes;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.SearchResult;
 import javax.naming.ldap.Control;
+import javax.naming.ldap.HasControls;
 import javax.naming.ldap.InitialLdapContext;
 import javax.naming.ldap.LdapContext;
 
+import org.apache.ldap.common.codec.search.controls.ChangeType;
+import org.apache.ldap.common.codec.search.controls.EntryChangeControl;
+import org.apache.ldap.common.codec.search.controls.EntryChangeControlDecoder;
 import org.apache.ldap.common.message.PersistentSearchControl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -105,6 +109,9 @@ public class PersistentSearchTest extends AbstractServerTest
     }
 
 
+    /**
+     * Shows correct notifications for modify(4) changes.
+     */
     public void testPsearchModify() throws Exception
     {
         PSearchListener listener = new PSearchListener();
@@ -131,9 +138,14 @@ public class PersistentSearchTest extends AbstractServerTest
         }
         
         assertNotNull( listener.result );
+        // darn it getting normalized name back
+        assertEquals( RDN.toLowerCase(), listener.result.getName().toLowerCase() );
     }
 
 
+    /**
+     * Shows correct notifications for moddn(8) changes.
+     */
     public void testPsearchModifyDn() throws Exception
     {
         PSearchListener listener = new PSearchListener();
@@ -160,9 +172,14 @@ public class PersistentSearchTest extends AbstractServerTest
         }
         
         assertNotNull( listener.result );
+        // darn it getting normalized name back
+        assertEquals( "cn=Jack Black".toLowerCase(), listener.result.getName().toLowerCase() );
     }
 
     
+    /**
+     * Shows correct notifications for delete(2) changes.
+     */
     public void testPsearchDelete() throws Exception
     {
         PSearchListener listener = new PSearchListener();
@@ -189,9 +206,14 @@ public class PersistentSearchTest extends AbstractServerTest
         }
         
         assertNotNull( listener.result );
+        // darn it getting normalized name back
+        assertEquals( RDN.toLowerCase(), listener.result.getName().toLowerCase() );
     }
 
     
+    /**
+     * Shows correct notifications for add(1) changes.
+     */
     public void testPsearchAdd() throws Exception
     {
         PSearchListener listener = new PSearchListener();
@@ -218,17 +240,252 @@ public class PersistentSearchTest extends AbstractServerTest
         }
         
         assertNotNull( listener.result );
+        // darn it getting normalized name back
+        assertEquals( "cn=Jack Black".toLowerCase(), listener.result.getName().toLowerCase() );
     }
+
+
+    /**
+     * Shows correct notifications for modify(4) changes with returned 
+     * EntryChangeControl.
+     */
+    public void testPsearchModifyWithEC() throws Exception
+    {
+        PersistentSearchControl control = new PersistentSearchControl();
+        control.setReturnECs( true );
+        PSearchListener listener = new PSearchListener( control );
+        Thread t = new Thread( listener, "PSearchListener" );
+        t.start();
         
+        while( ! listener.isReady )
+        {
+            Thread.sleep( 100 );
+        }
+        Thread.sleep( 250 );
+
+        ctx.modifyAttributes( RDN, DirContext.REMOVE_ATTRIBUTE, 
+            new BasicAttributes( "description", PERSON_DESCRIPTION, true ) );
+        long start = System.currentTimeMillis();
+        while ( t.isAlive() )
+        {
+            Thread.sleep( 200 );
+            if ( System.currentTimeMillis() - start > 3000 )
+            {
+                System.out.println( "PSearchListener thread not dead yet" );
+                break;
+            }
+        }
+        
+        assertNotNull( listener.result );
+        // darn it getting normalized name back
+        assertEquals( RDN.toLowerCase(), listener.result.getName().toLowerCase() );
+        assertEquals( listener.result.control.getChangeType(), ChangeType.MODIFY );
+    }
+
+
+    /**
+     * Shows correct notifications for moddn(8) changes with returned 
+     * EntryChangeControl.
+     */
+    public void testPsearchModifyDnWithEC() throws Exception
+    {
+        PersistentSearchControl control = new PersistentSearchControl();
+        control.setReturnECs( true );
+        PSearchListener listener = new PSearchListener( control );
+        Thread t = new Thread( listener );
+        t.start();
+        
+        while( ! listener.isReady )
+        {
+            Thread.sleep( 100 );
+        }
+        Thread.sleep( 250 );
+
+        ctx.rename( RDN, "cn=Jack Black" );
+        
+        long start = System.currentTimeMillis();
+        while ( t.isAlive() )
+        {
+            Thread.sleep( 100 );
+            if ( System.currentTimeMillis() - start > 3000 )
+            {
+                System.out.println( "PSearchListener thread not dead yet" );
+                break;
+            }
+        }
+        
+        assertNotNull( listener.result );
+        // darn it getting normalized name back
+        assertEquals( "cn=Jack Black".toLowerCase(), listener.result.getName().toLowerCase() );
+        assertEquals( listener.result.control.getChangeType(), ChangeType.MODDN );
+        assertEquals( ( RDN + ",ou=system" ).toLowerCase(), listener.result.control.getPreviousDn().toLowerCase() );
+    }
+
     
+    /**
+     * Shows correct notifications for delete(2) changes with returned 
+     * EntryChangeControl.
+     */
+    public void testPsearchDeleteWithEC() throws Exception
+    {
+        PersistentSearchControl control = new PersistentSearchControl();
+        control.setReturnECs( true );
+        PSearchListener listener = new PSearchListener( control );
+        Thread t = new Thread( listener );
+        t.start();
+        
+        while( ! listener.isReady )
+        {
+            Thread.sleep( 100 );
+        }
+        Thread.sleep( 250 );
+
+        ctx.destroySubcontext( RDN );
+        
+        long start = System.currentTimeMillis();
+        while ( t.isAlive() )
+        {
+            Thread.sleep( 100 );
+            if ( System.currentTimeMillis() - start > 3000 )
+            {
+                System.out.println( "PSearchListener thread not dead yet" );
+                break;
+            }
+        }
+        
+        assertNotNull( listener.result );
+        // darn it getting normalized name back
+        assertEquals( RDN.toLowerCase(), listener.result.getName().toLowerCase() );
+        assertEquals( listener.result.control.getChangeType(), ChangeType.DELETE );
+    }
+
+    
+    /**
+     * Shows correct notifications for add(1) changes with returned 
+     * EntryChangeControl.
+     */
+    public void testPsearchAddWithEC() throws Exception
+    {
+        PersistentSearchControl control = new PersistentSearchControl();
+        control.setReturnECs( true );
+        PSearchListener listener = new PSearchListener( control );
+        Thread t = new Thread( listener );
+        t.start();
+        
+        while( ! listener.isReady )
+        {
+            Thread.sleep( 100 );
+        }
+        Thread.sleep( 250 );
+
+        ctx.createSubcontext( "cn=Jack Black", getPersonAttributes( "Black", "Jack Black" ) );
+        
+        long start = System.currentTimeMillis();
+        while ( t.isAlive() )
+        {
+            Thread.sleep( 100 );
+            if ( System.currentTimeMillis() - start > 3000 )
+            {
+                System.out.println( "PSearchListener thread not dead yet" );
+                break;
+            }
+        }
+        
+        assertNotNull( listener.result );
+        // darn it getting normalized name back
+        assertEquals( "cn=Jack Black".toLowerCase(), listener.result.getName().toLowerCase() );
+        assertEquals( listener.result.control.getChangeType(), ChangeType.ADD );
+    }
+
+    
+    /**
+     * Shows correct notifications for only add(1) and modify(4) registered changes with returned 
+     * EntryChangeControl.
+     */
+    public void testPsearchAddModifyEnabledWithEC() throws Exception
+    {
+        PersistentSearchControl control = new PersistentSearchControl();
+        control.setReturnECs( true );
+        control.setChangeTypes( ChangeType.ADD_VALUE );
+        control.enableNotification( ChangeType.MODIFY );
+        PSearchListener listener = new PSearchListener( control );
+        Thread t = new Thread( listener );
+        t.start();
+        
+        while( ! listener.isReady )
+        {
+            Thread.sleep( 100 );
+        }
+        Thread.sleep( 250 );
+
+        ctx.createSubcontext( "cn=Jack Black", getPersonAttributes( "Black", "Jack Black" ) );
+        
+        long start = System.currentTimeMillis();
+        while ( t.isAlive() )
+        {
+            Thread.sleep( 100 );
+            if ( System.currentTimeMillis() - start > 3000 )
+            {
+                System.out.println( "PSearchListener thread not dead yet" );
+                break;
+            }
+        }
+        
+        assertNotNull( listener.result );
+        // darn it getting normalized name back
+        assertEquals( "cn=Jack Black".toLowerCase(), listener.result.getName().toLowerCase() );
+        assertEquals( listener.result.control.getChangeType(), ChangeType.ADD );
+        listener.result = null;
+        t = new Thread( listener );
+        t.start();
+        
+        ctx.destroySubcontext( "cn=Jack Black" );
+        
+        start = System.currentTimeMillis();
+        while ( t.isAlive() )
+        {
+            Thread.sleep( 100 );
+            if ( System.currentTimeMillis() - start > 3000 )
+            {
+                System.out.println( "PSearchListener thread not dead yet" );
+                break;
+            }
+        }
+
+        assertNull( listener.result );
+
+        // thread is still waiting for notifications try a modify
+        ctx.modifyAttributes( RDN, DirContext.REMOVE_ATTRIBUTE, 
+            new BasicAttributes( "description", PERSON_DESCRIPTION, true ) );
+        start = System.currentTimeMillis();
+        while ( t.isAlive() )
+        {
+            Thread.sleep( 200 );
+            if ( System.currentTimeMillis() - start > 3000 )
+            {
+                System.out.println( "PSearchListener thread not dead yet" );
+                break;
+            }
+        }
+        
+        assertNotNull( listener.result );
+        // darn it getting normalized name back
+        assertEquals( RDN.toLowerCase(), listener.result.getName().toLowerCase() );
+        assertEquals( listener.result.control.getChangeType(), ChangeType.MODIFY );
+    }
+    
+
     class PSearchListener implements Runnable
     {
         boolean isReady = false;
-        SearchResult result;
+        PSearchNotification result;
+        final PersistentSearchControl control;
+
+        PSearchListener() { control = new PersistentSearchControl(); }
+        PSearchListener( PersistentSearchControl control ) { this.control = control; }
         
         public void run()
         {
-            PersistentSearchControl control = new PersistentSearchControl();
             control.setCritical( true );
             Control[] ctxCtls = new Control[] { control };
             
@@ -237,10 +494,30 @@ public class PersistentSearchTest extends AbstractServerTest
                 ctx.setRequestControls( ctxCtls );
                 isReady = true;
                 NamingEnumeration list = ctx.search( "", "objectClass=*", null );
+                EntryChangeControl ecControl = null;
+                
                 while( list.hasMore() )
                 {
-                    result = ( SearchResult ) list.next();
-                    System.out.println( "got notifiaction for entry: " + result.getName() );
+                    Control[] controls = null;
+                    SearchResult sresult = ( SearchResult ) list.next();
+                    if ( sresult instanceof HasControls )
+                    {
+                        controls = ( ( HasControls ) sresult ).getControls();
+                        if ( controls != null )
+                        {
+                            for ( int ii = 0; ii < controls.length; ii ++ )
+                            {
+                                if ( controls[ii].getID().equals( 
+                                    org.apache.ldap.common.message.EntryChangeControl.CONTROL_ID ) )
+                                {
+                                    EntryChangeControlDecoder decoder = new EntryChangeControlDecoder();
+                                    ecControl = ( EntryChangeControl ) decoder.decode( controls[ii].getEncodedValue() );
+                                }
+                            }
+                        }
+                    }
+                    result = new PSearchNotification( sresult, ecControl );
+                    System.out.println( "got notifiaction: " + result );
                     break;
                 }
             }
@@ -248,6 +525,33 @@ public class PersistentSearchTest extends AbstractServerTest
             {
                 e.printStackTrace();
             }
+        }
+    }
+
+
+    class PSearchNotification extends SearchResult
+    {
+        private static final long serialVersionUID = 1L;
+        final EntryChangeControl control;
+        
+        public PSearchNotification( SearchResult result, EntryChangeControl control )
+        {
+            super( result.getName(), result.getClassName(), result.getObject(), result.getAttributes(), result.isRelative() );
+            this.control = control;
+        }
+        
+        public String toString()
+        {
+            StringBuffer buf = new StringBuffer();
+            buf.append( getName() );
+            if ( control != null )
+            {
+                buf.append( "EntryChangeControl =\n" );
+                buf.append( "    changeType   : " ).append( control.getChangeType() ).append( "\n" );
+                buf.append( "    previousDN   : " ).append( control.getPreviousDn() ).append( "\n" );
+                buf.append( "    changeNumber : " ).append( control.getChangeNumber() ).append( "\n" );
+            }
+            return buf.toString();
         }
     }
 }
