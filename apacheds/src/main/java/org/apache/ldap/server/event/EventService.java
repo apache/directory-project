@@ -268,9 +268,9 @@ public class EventService extends BaseInterceptor
             {
                 NamespaceChangeListener nclistener = ( NamespaceChangeListener ) listener;
                 Binding oldBinding = new Binding( oldName.toString(), entry, false );
-                Binding newBinding = new Binding( oldName.toString(), entry, false );
+                Binding newBinding = new Binding( newName.toString(), entry, false );
                 nclistener.objectRenamed( new NamingEvent( rec.getEventContext(),
-                        NamingEvent.OBJECT_RENAMED, oldBinding, newBinding, entry ) );
+                        NamingEvent.OBJECT_RENAMED, newBinding, oldBinding, entry ) );
             }
         }
     }
