@@ -557,6 +557,81 @@ public class PersistentSearchTest extends AbstractServerTest
     }
 
     
+    /**
+     * Shows notifications functioning with the JNDI notification API of the SUN
+     * provider.
+     */
+    public void testPsearchAbandon() throws Exception
+    {
+        PersistentSearchControl control = new PersistentSearchControl();
+        control.setReturnECs( true );
+        PSearchListener listener = new PSearchListener( control );
+        Thread t = new Thread( listener );
+        t.start();
+        
+        while( ! listener.isReady )
+        {
+            Thread.sleep( 100 );
+        }
+        Thread.sleep( 250 );
+
+        ctx.createSubcontext( "cn=Jack Black", getPersonAttributes( "Black", "Jack Black" ) );
+        
+        long start = System.currentTimeMillis();
+        while ( t.isAlive() )
+        {
+            Thread.sleep( 100 );
+            if ( System.currentTimeMillis() - start > 3000 )
+            {
+                System.out.println( "PSearchListener thread not dead yet" );
+                break;
+            }
+        }
+        
+        assertNotNull( listener.result );
+        // darn it getting normalized name back
+        assertEquals( "cn=Jack Black".toLowerCase(), listener.result.getName().toLowerCase() );
+        assertEquals( listener.result.control.getChangeType(), ChangeType.ADD );
+        listener.result = null;
+        t = new Thread( listener );
+        t.start();
+        
+        ctx.destroySubcontext( "cn=Jack Black" );
+        
+        start = System.currentTimeMillis();
+        while ( t.isAlive() )
+        {
+            Thread.sleep( 100 );
+            if ( System.currentTimeMillis() - start > 3000 )
+            {
+                System.out.println( "PSearchListener thread not dead yet" );
+                break;
+            }
+        }
+
+        assertNull( listener.result );
+
+        // thread is still waiting for notifications try a modify
+        ctx.modifyAttributes( RDN, DirContext.REMOVE_ATTRIBUTE, 
+            new BasicAttributes( "description", PERSON_DESCRIPTION, true ) );
+        start = System.currentTimeMillis();
+        while ( t.isAlive() )
+        {
+            Thread.sleep( 200 );
+            if ( System.currentTimeMillis() - start > 3000 )
+            {
+                System.out.println( "PSearchListener thread not dead yet" );
+                break;
+            }
+        }
+        
+        assertNotNull( listener.result );
+        // darn it getting normalized name back
+        assertEquals( RDN.toLowerCase(), listener.result.getName().toLowerCase() );
+        assertEquals( listener.result.control.getChangeType(), ChangeType.MODIFY );
+    }
+
+    
     class JndiNotificationListener implements NamespaceChangeListener, ObjectChangeListener
     {
         ArrayList list = new ArrayList();
@@ -606,6 +681,7 @@ public class PersistentSearchTest extends AbstractServerTest
         
         public void run()
         {
+            NamingEnumeration list = null;
             control.setCritical( true );
             Control[] ctxCtls = new Control[] { control };
             
@@ -613,7 +689,7 @@ public class PersistentSearchTest extends AbstractServerTest
             {
                 ctx.setRequestControls( ctxCtls );
                 isReady = true;
-                NamingEnumeration list = ctx.search( "", "objectClass=*", null );
+                list = ctx.search( "", "objectClass=*", null );
                 EntryChangeControl ecControl = null;
                 
                 while( list.hasMore() )
@@ -645,6 +721,13 @@ public class PersistentSearchTest extends AbstractServerTest
             catch( Exception e ) 
             {
                 e.printStackTrace();
+            }
+            finally
+            {
+                if ( list != null )
+                {
+                    try { list.close(); } catch ( Exception e ) { e.printStackTrace(); };
+                }
             }
         }
     }

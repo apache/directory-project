@@ -35,6 +35,9 @@ import javax.naming.directory.DirContext;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 import org.apache.ldap.server.invocation.Invocation;
+import org.apache.ldap.common.exception.OperationAbandonedException;
+import org.apache.ldap.common.message.AbandonListener;
+import org.apache.ldap.common.message.AbandonableRequest;
 import org.apache.ldap.common.name.LdapName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +51,7 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Rev$
  */
-public class SearchResultFilteringEnumeration implements NamingEnumeration
+public class SearchResultFilteringEnumeration implements NamingEnumeration, AbandonListener
 {
     /** the logger used by this class */
     private static final Logger log = LoggerFactory.getLogger( SearchResultFilteringEnumeration.class );
@@ -68,6 +71,8 @@ public class SearchResultFilteringEnumeration implements NamingEnumeration
     private final Invocation invocation;
     /** whether or not the caller context has object factories which need to be applied to the results */
     private final boolean applyObjectFactories;
+    /** whether or not this search has been abandoned */
+    private boolean abandoned = false;
 
 
     // ------------------------------------------------------------------------
@@ -282,6 +287,11 @@ public class SearchResultFilteringEnumeration implements NamingEnumeration
     private void prefetch() throws NamingException
     {
         SearchResult tmp;
+        if ( abandoned )
+        {
+            this.close();
+            throw new OperationAbandonedException();
+        }
 
         outer:
         while( decorated.hasMore() )
@@ -337,5 +347,11 @@ public class SearchResultFilteringEnumeration implements NamingEnumeration
          * filters before we exhausted the decorated enumeration so we close
          */
         close();
+    }
+
+
+    public void requestAbandoned( AbandonableRequest req )
+    {
+        this.abandoned = true;
     }
 }

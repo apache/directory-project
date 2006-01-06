@@ -20,12 +20,10 @@ package org.apache.ldap.common.message ;
 /**
  * Lockable ModifyDNRequest implementation.
  * 
- * @author <a href="mailto:dev@directory.apache.org">
- * Apache Directory Project</a>
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Rev$
  */
-public class ModifyDnRequestImpl
-    extends AbstractRequest implements ModifyDnRequest
+public class ModifyDnRequestImpl extends AbstractAbandonableRequest implements ModifyDnRequest
 {
     static final long serialVersionUID = 1233507339633051696L;
     
@@ -55,7 +53,7 @@ public class ModifyDnRequestImpl
      */
     public ModifyDnRequestImpl( final int id )
     {
-        super( id, TYPE, true ) ;
+        super( id, TYPE ) ;
     }
 
 

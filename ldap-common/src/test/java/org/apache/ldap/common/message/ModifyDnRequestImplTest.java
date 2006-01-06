@@ -275,6 +275,19 @@ public class ModifyDnRequestImplTest extends TestCase
             {
                 return false;
             }
+
+            public void abandon()
+            {
+            }
+
+            public boolean isAbandoned()
+            {
+                return false;
+            }
+
+            public void addAbandonListener(AbandonListener listener)
+            {
+            }
         };
 
         ModifyDnRequestImpl req1 = getRequest();

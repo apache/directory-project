@@ -28,8 +28,7 @@ import org.apache.ldap.common.util.StringTools;
  * Apache Directory Project</a>
  * @version $Rev$
  */
-public class CompareRequestImpl
-    extends AbstractRequest implements CompareRequest
+public class CompareRequestImpl extends AbstractAbandonableRequest implements CompareRequest
 {
     static final long serialVersionUID = 1699731530016468977L;
     /** Distinguished name identifying the compared entry */
@@ -53,7 +52,7 @@ public class CompareRequestImpl
      */
     public CompareRequestImpl( final int id )
     {
-        super( id, TYPE, true );
+        super( id, TYPE );
     }
 
 

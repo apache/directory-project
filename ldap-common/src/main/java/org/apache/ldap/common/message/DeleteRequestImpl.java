@@ -24,8 +24,7 @@ package org.apache.ldap.common.message;
  * Apache Directory Project</a>
  * @version $Rev$
  */
-public class DeleteRequestImpl
-    extends AbstractRequest implements DeleteRequest
+public class DeleteRequestImpl extends AbstractAbandonableRequest implements DeleteRequest
 {
     static final long serialVersionUID = 3187847454305567542L;
     /** The distinguished name of the entry to delete */
@@ -45,7 +44,7 @@ public class DeleteRequestImpl
      */
     public DeleteRequestImpl( final int id )
     {
-        super( id, TYPE, true );
+        super( id, TYPE );
     }
 
 

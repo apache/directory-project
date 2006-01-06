@@ -203,6 +203,19 @@ public class ExtendedRequestImplTest extends TestCase
             {
                 return false;
             }
+
+            public void abandon()
+            {
+            }
+
+            public boolean isAbandoned()
+            {
+                return false;
+            }
+
+            public void addAbandonListener(AbandonListener listener)
+            {
+            }
         };
 
         ExtendedRequestImpl req1 = new ExtendedRequestImpl( 5 );

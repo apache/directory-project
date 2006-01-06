@@ -29,8 +29,7 @@ import org.apache.ldap.common.filter.ExprNode ;
  * Apache Directory Project</a>
  * @version $Rev$
  */
-public interface SearchRequest
-    extends ManyReplyRequest
+public interface SearchRequest extends ManyReplyRequest, AbandonableRequest
 {
     /** Search request protocol message type */
     MessageTypeEnum TYPE = MessageTypeEnum.SEARCHREQUEST ;

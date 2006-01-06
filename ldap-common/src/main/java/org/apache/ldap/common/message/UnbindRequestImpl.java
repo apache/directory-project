@@ -38,4 +38,13 @@ public class UnbindRequestImpl extends AbstractRequest implements UnbindRequest
     {
         super( id, TYPE, false );
     }
+    
+    
+    /**
+     * RFC 2251 [Section 4.11]: Abandon, Bind, Unbind, and StartTLS operations cannot be abandoned. 
+     */
+    public void abandon()
+    {
+        throw new UnsupportedOperationException( "RFC 2251 [Section 4.11]: Abandon, Bind, Unbind, and StartTLS operations cannot be abandoned. " );
+    }
 }

@@ -20,31 +20,28 @@ package org.apache.ldap.common.message ;
 /**
  * The base request message class.
  * 
- * @author <a href="mailto:dev@directory.apache.org">
- * Apache Directory Project</a>
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Rev$
  */
-public class AbstractRequest
-    extends AbstractMessage implements Request
+public class AbstractRequest extends AbstractMessage implements Request
 {
     static final long serialVersionUID = -4511116249089399040L;
     /** Flag indicating whether or not this request returns a response. */
-    private final boolean m_hasResponse ;
-
-
+    private final boolean hasResponse ;
+ 
+    
     /**
      * Subclasses must provide these parameters via a super constructor call.
      *
-     * @param a_id the sequential message identifier
-     * @param a_type the request type enum
-     * @param a_hasResponse flag indicating if this request generates a response
+     * @param id the sequential message identifier
+     * @param type the request type enum
+     * @param hasResponse flag indicating if this request generates a response
      */
-    protected AbstractRequest( final int a_id,
-        final MessageTypeEnum a_type, boolean a_hasResponse )
+    protected AbstractRequest( final int id, final MessageTypeEnum type, boolean hasResponse )
     {
-        super( a_id, a_type ) ;
+        super( id, type ) ;
 
-        m_hasResponse = a_hasResponse ;
+        this.hasResponse = hasResponse ;
     }
 
 
@@ -56,6 +53,6 @@ public class AbstractRequest
      */
     public boolean hasResponse()
     {
-        return m_hasResponse ;
+        return hasResponse ;
     }
-}
+ }

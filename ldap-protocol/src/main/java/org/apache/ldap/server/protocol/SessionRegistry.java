@@ -137,6 +137,19 @@ public class SessionRegistry
             reqmap.put( new Integer( req.getMessageId() ), req );
         }
     }
+
+
+    /**
+     * Overload that does not require boxing of primitive messageId.
+     * 
+     * @param session the session associated with the request
+     * @param messageId the id of the request
+     * @return the Request if it is removed or null if no such request was mapped as outstanding
+     */
+    public Request removeOutstandingRequest( IoSession session, int messageId )
+    {
+        return removeOutstandingRequest( session, new Integer( messageId ) );
+    }
     
 
     /**
@@ -174,7 +187,19 @@ public class SessionRegistry
         return new HashMap( reqmap );
     }
     
-    
+
+    /**
+     * Overload that does not require boxing of primitive messageId.
+     * 
+     * @param session the session associated with the request
+     * @param messageId the id of the request
+     * @return the request in session for id or null if request has completed
+     */
+    public Request getOutstandingRequest( IoSession session, int abandonedId )
+    {
+        return getOutstandingRequest( session, new Integer( abandonedId ) );
+    }
+
     /**
      * Gets an outstanding request by messageId for a session.
      * 

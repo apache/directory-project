@@ -100,7 +100,7 @@ import javax.naming.directory.ModificationItem ;
  * @author $Author: akarasulu $
  * @version $Revision$
  */
-public interface ModifyRequest extends SingleReplyRequest
+public interface ModifyRequest extends SingleReplyRequest, AbandonableRequest
 {
     /** Modify request message type enumeration value */
     MessageTypeEnum TYPE = MessageTypeEnum.MODIFYREQUEST ;

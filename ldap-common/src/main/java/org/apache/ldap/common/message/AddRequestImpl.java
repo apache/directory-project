@@ -29,8 +29,7 @@ import org.apache.ldap.common.util.AttributeUtils;
  * Apache Directory Project</a>
  * @version $Rev$
  */
-public class AddRequestImpl
-    extends AbstractRequest implements AddRequest
+public class AddRequestImpl extends AbstractAbandonableRequest implements AddRequest
 {
     static final long serialVersionUID = 7534132448349520346L;
     /** Distinguished name of the new entry. */
@@ -52,7 +51,7 @@ public class AddRequestImpl
      */
     public AddRequestImpl( final int id )
     {
-        super( id, TYPE, true );
+        super( id, TYPE );
     }
 
 

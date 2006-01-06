@@ -336,6 +336,19 @@ public class ModifyRequestImplTest extends TestCase
             {
                 return false;
             }
+
+            public void abandon()
+            {
+            }
+
+            public boolean isAbandoned()
+            {
+                return false;
+            }
+
+            public void addAbandonListener(AbandonListener listener)
+            {
+            }
         };
 
         ModifyRequestImpl req1 = getRequest();

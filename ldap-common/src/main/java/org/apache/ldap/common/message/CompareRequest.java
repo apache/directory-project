@@ -35,8 +35,7 @@ package org.apache.ldap.common.message ;
  * @author $Author: akarasulu $
  * @version $Revision$
  */
-public interface CompareRequest
-    extends SingleReplyRequest
+public interface CompareRequest extends SingleReplyRequest, AbandonableRequest
 {
     /** Compare request message type enum code */
     MessageTypeEnum TYPE = MessageTypeEnum.COMPAREREQUEST ;

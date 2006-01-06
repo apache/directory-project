@@ -38,13 +38,11 @@ import org.slf4j.LoggerFactory;
 /**
  * Lockable ModifyRequest implementation.
  * 
- * @author <a href="mailto:dev@directory.apache.org">
- * Apache Directory Project</a>
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Rev$
  */
-public class ModifyRequestImpl
-    extends AbstractRequest implements ModifyRequest
-{
+public class ModifyRequestImpl extends AbstractAbandonableRequest implements ModifyRequest
+{ 
     static final long serialVersionUID = -505803669028990304L;
     
     /** The logger */
@@ -69,7 +67,7 @@ public class ModifyRequestImpl
      */
     public ModifyRequestImpl( final int id )
     {
-        super( id, TYPE, true ) ;
+        super( id, TYPE ) ;
     }
 
 

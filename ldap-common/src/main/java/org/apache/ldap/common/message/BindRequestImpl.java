@@ -338,4 +338,13 @@ public class BindRequestImpl extends AbstractRequest implements BindRequest
         
         return sb.toString();
     }
+
+    
+    /**
+     * RFC 2251 [Section 4.11]: Abandon, Bind, Unbind, and StartTLS operations cannot be abandoned. 
+     */
+    public void abandon()
+    {
+        throw new UnsupportedOperationException( "RFC 2251 [Section 4.11]: Abandon, Bind, Unbind, and StartTLS operations cannot be abandoned. " );
+    }
 }

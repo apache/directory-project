@@ -28,7 +28,9 @@ import javax.naming.ldap.LdapContext;
 
 import org.apache.ldap.common.codec.util.LdapResultEnum;
 import org.apache.ldap.common.exception.LdapException;
+import org.apache.ldap.common.exception.OperationAbandonedException;
 import org.apache.ldap.common.filter.PresenceNode;
+import org.apache.ldap.common.message.AbandonListener;
 import org.apache.ldap.common.message.LdapResultImpl;
 import org.apache.ldap.common.message.PersistentSearchControl;
 import org.apache.ldap.common.message.Response;
@@ -113,6 +115,9 @@ public class SearchHandler implements MessageHandler
         String[] ids = null;
         Collection retAttrs = new HashSet();
         retAttrs.addAll( req.getAttributes() );
+        
+        // add the search request to the registry of outstanding requests for this session
+        SessionRegistry.getSingleton().addOutstandingRequest( session, req );
 
         // check the attributes to see if a referral's ref attribute is included
         if( retAttrs.size() > 0 && !retAttrs.contains( "ref" ) )
@@ -195,6 +200,10 @@ public class SearchHandler implements MessageHandler
                 if ( ! psearchControl.isChangesOnly() )
                 {
                     list = ( ( ServerLdapContext ) ctx ).search( new LdapName( req.getBase() ), req.getFilter(), controls );
+                    if ( list instanceof AbandonListener )
+                    {
+                        req.addAbandonListener( ( AbandonListener ) list );
+                    }
                     if( list.hasMore() )
                     {
                         Iterator it = new SearchResponseIterator( req, list );
@@ -241,6 +250,11 @@ public class SearchHandler implements MessageHandler
              * for each search result returned.  
              */
             list = ( ( ServerLdapContext ) ctx ).search( new LdapName( req.getBase() ), req.getFilter(), controls );
+            if ( list instanceof AbandonListener )
+            {
+                req.addAbandonListener( ( AbandonListener ) list );
+            }
+            
             if( list.hasMore() )
             {
                 Iterator it = new SearchResponseIterator( req, list );
@@ -269,8 +283,24 @@ public class SearchHandler implements MessageHandler
         }
         catch( NamingException e )
         {
+            /*
+             * From RFC 2251 Section 4.11:
+             * 
+             * In the event that a server receives an Abandon Request on a Search  
+             * operation in the midst of transmitting responses to the Search, that
+             * server MUST cease transmitting entry responses to the abandoned
+             * request immediately, and MUST NOT send the SearchResultDone. Of
+             * course, the server MUST ensure that only properly encoded LDAPMessage
+             * PDUs are transmitted. 
+             * 
+             * SO DON'T SEND BACK ANYTHING!!!!!
+             */
+            if ( e instanceof OperationAbandonedException )
+            {
+                return;
+            }
+            
             String msg = "failed on search operation";
-
             if ( log.isDebugEnabled() )
             {
                 msg += ":\n" + req + ":\n" + ExceptionUtils.getStackTrace( e );
@@ -302,10 +332,17 @@ public class SearchHandler implements MessageHandler
             }
 
             Iterator it = Collections.singleton( resp ).iterator();
-
             while( it.hasNext() )
             {
                 session.write( it.next() );
+            }
+        }
+        finally
+        {
+            SessionRegistry.getSingleton().removeOutstandingRequest( session, req.getMessageId() );
+            if ( list != null )
+            {
+                try { list.close(); } catch( NamingException e ){ log.error("failed on list.close()", e ); } 
             }
         }
     }

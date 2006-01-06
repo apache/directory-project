@@ -18,6 +18,9 @@ package org.apache.ldap.server.protocol.support;
 
 
 import org.apache.ldap.common.message.AbandonRequest;
+import org.apache.ldap.common.message.AbandonableRequest;
+import org.apache.ldap.common.message.Request;
+import org.apache.ldap.server.protocol.SessionRegistry;
 import org.apache.mina.common.IoSession;
 import org.apache.mina.handler.demux.MessageHandler;
 import org.slf4j.Logger;
@@ -43,7 +46,39 @@ public class AbandonHandler implements MessageHandler
         {
             return;
         }
+
+        Request abandonedRequest = SessionRegistry.getSingleton().getOutstandingRequest( session, abandonedId );
         
-        log.warn( "Got abandon request from client but I don't know how to do this just yet" );
+        if ( abandonedRequest == null )
+        {
+            if ( log.isWarnEnabled() )
+            {
+                log.warn( "Got abandon request from client " + session + " but request must have already " +
+                        "terminated.  Abandon request "+req+" had no effect." );
+            }
+            return;
+        }
+        
+        if ( abandonedRequest instanceof AbandonableRequest )
+        {
+            log.warn( "Abandon, Bind, Unbind, and StartTLS operations cannot be abandoned.  Abandon request will be ignored." );
+        }
+        
+        ( ( AbandonableRequest ) abandonedRequest ).abandon();
+        if ( SessionRegistry.getSingleton().removeOutstandingRequest( session, abandonedId ) == null )
+        {
+            if ( log.isWarnEnabled() )
+            {
+                log.warn( "Got abandon request from client " + session + " but request must have already " +
+                        "terminated." );
+            }
+        }
+        else
+        {
+            if ( log.isDebugEnabled() )
+            {
+                log.debug( "Abandoned request: " + req );
+            }
+        }
     }
 }

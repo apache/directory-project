@@ -69,7 +69,7 @@ package org.apache.ldap.common.message ;
  * @author $Author: akarasulu $
  * @version $Revision$
  */
-public interface ModifyDnRequest extends SingleReplyRequest
+public interface ModifyDnRequest extends SingleReplyRequest, AbandonableRequest
 {
     /** Modify DN request message type enumeration value */
     MessageTypeEnum TYPE = MessageTypeEnum.MODDNREQUEST ;

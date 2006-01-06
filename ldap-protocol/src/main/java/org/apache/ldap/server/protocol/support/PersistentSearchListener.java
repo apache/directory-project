@@ -27,6 +27,9 @@ import javax.naming.event.ObjectChangeListener;
 
 import org.apache.ldap.common.codec.search.controls.ChangeType;
 import org.apache.ldap.common.exception.LdapException;
+import org.apache.ldap.common.exception.OperationAbandonedException;
+import org.apache.ldap.common.message.AbandonListener;
+import org.apache.ldap.common.message.AbandonableRequest;
 import org.apache.ldap.common.message.Control;
 import org.apache.ldap.common.message.EntryChangeControl;
 import org.apache.ldap.common.message.LdapResultImpl;
@@ -58,7 +61,7 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Rev$
  */
-class PersistentSearchListener implements ObjectChangeListener, NamespaceChangeListener
+class PersistentSearchListener implements ObjectChangeListener, NamespaceChangeListener, AbandonListener
 {
     private static final Logger log = LoggerFactory.getLogger( SearchHandler.class );
     final ServerLdapContext ctx;
@@ -71,26 +74,29 @@ class PersistentSearchListener implements ObjectChangeListener, NamespaceChangeL
     {
         this.session = session;
         this.req = req;
+        req.addAbandonListener( this );
         this.ctx = ctx;
-        this.req.put( "PersistentSearchHandler", this );
         this.control = getPersistentSearchControl( req );
     }
     
     
     public void abandon() throws NamingException
     {
-        // must abandon the operation and send response done with success
+        // must abandon the operation 
         ctx.removeNamingListener( this );
 
-        // remove from outstanding map
-        SessionRegistry.getSingleton().removeOutstandingRequest( session, new Integer( req.getMessageId() ) );
-        
-        // send successful response back to client
-        SearchResponseDone resp = new SearchResponseDoneImpl( req.getMessageId() );
-        resp.setLdapResult( new LdapResultImpl( resp ) );
-        resp.getLdapResult().setResultCode( ResultCodeEnum.SUCCESS );
-        resp.getLdapResult().setMatchedDn( req.getBase() );
-        session.write( resp );
+        /*
+         * From RFC 2251 Section 4.11:
+         * 
+         * In the event that a server receives an Abandon Request on a Search  
+         * operation in the midst of transmitting responses to the Search, that
+         * server MUST cease transmitting entry responses to the abandoned
+         * request immediately, and MUST NOT send the SearchResultDone. Of
+         * course, the server MUST ensure that only properly encoded LDAPMessage
+         * PDUs are transmitted. 
+         * 
+         * SO DON'T SEND BACK ANYTHING!!!!!
+         */
     }
     
     
@@ -106,6 +112,23 @@ class PersistentSearchListener implements ObjectChangeListener, NamespaceChangeL
         catch ( NamingException e )
         {
             log.error( "Attempt to remove listener from context failed", e );
+        }
+        
+        /*
+         * From RFC 2251 Section 4.11:
+         * 
+         * In the event that a server receives an Abandon Request on a Search  
+         * operation in the midst of transmitting responses to the Search, that
+         * server MUST cease transmitting entry responses to the abandoned
+         * request immediately, and MUST NOT send the SearchResultDone. Of
+         * course, the server MUST ensure that only properly encoded LDAPMessage
+         * PDUs are transmitted. 
+         * 
+         * SO DON'T SEND BACK ANYTHING!!!!!
+         */
+        if ( evt.getException() instanceof OperationAbandonedException )
+        {
+            return;
         }
 
         SessionRegistry.getSingleton().removeOutstandingRequest( session, new Integer( req.getMessageId() ) );
@@ -250,5 +273,18 @@ class PersistentSearchListener implements ObjectChangeListener, NamespaceChangeL
         }
         
         return null;
+    }
+
+
+    public void requestAbandoned( AbandonableRequest req )
+    {
+        try
+        {
+            abandon();
+        }
+        catch ( NamingException e )
+        {
+            log.error( "failed to properly abandon this persistent search", e );
+        }
     }
 }

@@ -161,20 +161,6 @@ public class CompareRequestImplTest extends TestCase
             {
             }
 
-//            public boolean isVersion3()
-//            {
-//                return true;
-//            }
-//
-//            public boolean getVersion3()
-//            {
-//                return true;
-//            }
-//
-//            public void setVersion3( boolean a_isVersion3 )
-//            {
-//            }
-
             public MessageTypeEnum getResponseType()
             {
                 return MessageTypeEnum.COMPARERESPONSE;
@@ -240,6 +226,19 @@ public class CompareRequestImplTest extends TestCase
             public boolean isUnlockable()
             {
                 return false;
+            }
+
+            public void abandon()
+            {
+            }
+
+            public boolean isAbandoned()
+            {
+                return false;
+            }
+
+            public void addAbandonListener(AbandonListener listener)
+            {
             }
         };
 

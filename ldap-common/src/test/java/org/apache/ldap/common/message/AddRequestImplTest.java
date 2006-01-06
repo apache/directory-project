@@ -248,6 +248,19 @@ public class AddRequestImplTest extends TestCase
             {
                 return false;
             }
+
+            public void abandon()
+            {
+            }
+
+            public boolean isAbandoned()
+            {
+                return false;
+            }
+
+            public void addAbandonListener(AbandonListener listener)
+            {
+            }
         };
 
         AddRequestImpl req1 = new AddRequestImpl( 5 );

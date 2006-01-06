@@ -300,6 +300,19 @@ public class BindRequestImplTest extends TestCase
             public void setSaslMechanism( String saslMechanism )
             {
             }
+
+            public void abandon()
+            {
+            }
+
+            public boolean isAbandoned()
+            {
+                return false;
+            }
+
+            public void addAbandonListener(AbandonListener listener)
+            {
+            }
         };
 
         BindRequestImpl req1 = new BindRequestImpl( 5 );

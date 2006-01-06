@@ -35,7 +35,7 @@ package org.apache.ldap.common.message ;
  * @author $Author: akarasulu $
  * @version $Revision$
  */
-public interface DeleteRequest extends SingleReplyRequest
+public interface DeleteRequest extends SingleReplyRequest, AbandonableRequest
 {
     /** Delete request message type enumeration value */
     MessageTypeEnum TYPE = MessageTypeEnum.DELREQUEST ;

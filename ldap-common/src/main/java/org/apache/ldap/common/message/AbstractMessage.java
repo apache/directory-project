@@ -49,8 +49,7 @@ public class AbstractMessage extends AbstractLockable implements Message
      * @param id the seq id of the message
      * @param type the type of the message
      */
-    protected AbstractMessage( final int id,
-        final MessageTypeEnum type )
+    protected AbstractMessage( final int id, final MessageTypeEnum type )
     {
         super( true );
 
@@ -94,8 +93,7 @@ public class AbstractMessage extends AbstractLockable implements Message
      * @throws MessageException if controls cannot be added to this Message or
      * the control is not known etc.
      */
-    public void add( Control control )
-        throws MessageException
+    public void add( Control control ) throws MessageException
     {
         lockCheck( "Attempt to add control to locked message envelope!" );
         controls.put( control.getType(), control );
@@ -109,8 +107,7 @@ public class AbstractMessage extends AbstractLockable implements Message
      * @throws MessageException if controls cannot be added to this Message or
      * the control is not known etc.
      */
-    public void remove( Control control )
-        throws MessageException
+    public void remove( Control control ) throws MessageException
     {
         lockCheck( "Attempt to remove control from locked message envelope!" );
         controls.remove( control.getType() );

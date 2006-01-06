@@ -33,8 +33,7 @@ import org.apache.ldap.common.filter.BranchNormalizedVisitor;
  * Apache Directory Project</a>
  * @version $Rev$
  */
-public class SearchRequestImpl
-    extends AbstractRequest implements SearchRequest
+public class SearchRequestImpl extends AbstractAbandonableRequest implements SearchRequest
 {
     static final long serialVersionUID = -5655881944020886218L;
     /** Search base distinguished name */
@@ -68,7 +67,7 @@ public class SearchRequestImpl
      */
     public SearchRequestImpl( final int id )
     {
-        super( id, TYPE, true ) ;
+        super( id, TYPE ) ;
     }
 
 

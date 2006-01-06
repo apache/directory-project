@@ -24,8 +24,7 @@ package org.apache.ldap.common.message;
  * Apache Directory Project</a>
  * @version $Rev$
  */
-public class AbandonRequestImpl
-    extends AbstractRequest implements AbandonRequest
+public class AbandonRequestImpl extends AbstractRequest implements AbandonRequest
 {
     static final long serialVersionUID = -4688193359792740969L;
     /** Sequence identifier of the outstanding request message to abandon */
@@ -93,5 +92,14 @@ public class AbandonRequestImpl
         }
 
         return true;
+    }
+    
+    
+    /**
+     * RFC 2251 [Section 4.11]: Abandon, Bind, Unbind, and StartTLS operations cannot be abandoned. 
+     */
+    public void abandon()
+    {
+        throw new UnsupportedOperationException( "RFC 2251 [Section 4.11]: Abandon, Bind, Unbind, and StartTLS operations cannot be abandoned. " );
     }
 }

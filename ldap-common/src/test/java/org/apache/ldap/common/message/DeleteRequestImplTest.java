@@ -172,6 +172,19 @@ public class DeleteRequestImplTest extends TestCase
             {
                 return false;
             }
+
+            public void abandon()
+            {
+            }
+
+            public boolean isAbandoned()
+            {
+                return false;
+            }
+
+            public void addAbandonListener(AbandonListener listener)
+            {
+            }
         };
 
         DeleteRequestImpl req1 = new DeleteRequestImpl( 5 );

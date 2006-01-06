@@ -37,8 +37,7 @@ import javax.naming.directory.Attributes ;
  * @author $Author: akarasulu $
  * @version $Revision$
  */
-public interface AddRequest
-    extends SingleReplyRequest
+public interface AddRequest extends SingleReplyRequest, AbandonableRequest
 {
     /** LDAPv3 add request type enum code */
     MessageTypeEnum TYPE = MessageTypeEnum.ADDREQUEST ;
