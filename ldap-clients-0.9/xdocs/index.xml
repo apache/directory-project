@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="jmachols@apache.org">Jeff Machols</author>
+    <title>Apache Directory Project: LDAP Client</title>
+  </properties>
+  
+  <body>
+    <section name="Overview">
+      <p>
+        The goal of the LDAP Client package is to provide access to any
+        LDAP server "over-the-wire".  These clients will perform the following
+        operations:
+        <ul>
+          <li>Bind</li>
+          <li>Add</li>
+          <li>Delete</li>
+          <li>Modify</li>
+          <li>ModifyDN</li>
+          <li>Search</li>
+        </ul>
+      </p>
+    </section>
+    
+    <section name="Command Line Clients">
+      <p>
+        There will be a traditional command line set of clients.  These are Java 
+        so will be platform independant.  The command line clients will also come 
+        with a set of wrappers for Unix/Linux and Windows so the Java specific paths
+        and arguments will be abstracted away.  The users will only need to provide
+        the command line arguments specific to the LDAP operation.   
+      </p>
+    </section>
+    
+    <section name="Client Libraries">
+      <p>
+        The client package will also include a set of library methods to embed
+        LDAP clients into an application.  Each of the operations in the command
+        line will be able to be performed in the library.  This will be used for
+        application that wish to connect over the wire to an LDAP server.  Many
+        of the LDAP specific details, such as parsing LDIF's have been handled.  
+        The application will not have to worry about dealing with LDAP specifics.
+      </p>
+    </section>
+  </body>
+</document>
+
