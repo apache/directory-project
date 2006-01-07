@@ -1,0 +1,39 @@
+#!/bin/sh
+#
+# Unix Wrapper to Call the LDAPd Client Package
+#
+LDAPD_HOME=/home/jeff/ldap
+
+LIB_DIR=$LDAPD_HOME/ldapd-clients/lib
+
+# Add Clients Class Path
+CLASS_PATH=$LDAPD_HOME/ldapd-clients/build/classes
+
+# Add Logging Library
+CLASS_PATH=$CLASS_PATH:$LIB_DIR/logkit-1.1.jar
+
+# Add avalon framework Library
+CLASS_PATH=$CLASS_PATH:$LIB_DIR/avalon-framework-20020713.jar
+
+# Add Common Collection Library
+CLASS_PATH=$CLASS_PATH:$LIB_DIR/commons-collections.jar
+
+# Add Excalibur Library
+CLASS_PATH=$CLASS_PATH:$LIB_DIR/excalibur-cli-1.0.jar
+
+# Add Snacc Library
+CLASS_PATH=$CLASS_PATH:$LIB_DIR/snacc-2.3.jar
+
+# Add LDAPd Common
+CLASS_PATH=$CLASS_PATH:$LDAPD_HOME/ldapd-common/build/classes
+
+# Add Jakarta  Library
+CLASS_PATH=$CLASS_PATH:$LDAPD_HOME/ldapd-common/lib/jakarta-regexp-1.2.jar
+
+# Add Antlr  Library
+CLASS_PATH=$CLASS_PATH:$LDAPD_HOME/ldapd-common/lib/antlr.jar
+
+# Add LDAPd snacc tranformation classes
+CLASS_PATH=$CLASS_PATH:$LDAPD_HOME/ldapd-snacc-provider/build/classes
+
+java -classpath $CLASS_PATH ldapd.clients."$@"
