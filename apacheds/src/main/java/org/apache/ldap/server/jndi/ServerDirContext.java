@@ -523,7 +523,6 @@ public abstract class ServerDirContext extends ServerContext implements EventDir
             if ( attr.size() == 0 )
             {
                 filter.addNode( new PresenceNode( attr.getID() ) );
-
                 continue;
             }
             
@@ -539,7 +538,6 @@ public abstract class ServerDirContext extends ServerContext implements EventDir
                 if ( val instanceof String )
                 {
                     node = new SimpleNode( attr.getID(), ( String ) val, SimpleNode.EQUALITY );
-
                     filter.addNode( node );
                 }
             }

@@ -633,7 +633,6 @@ public class DefaultDirectoryPartitionNexus extends DirectoryPartitionNexus
         if ( base.size() == 0 )
         {
             boolean isObjectScope = searchCtls.getSearchScope() == SearchControls.OBJECT_SCOPE;
-
             boolean isSearchAll = ( ( PresenceNode ) filter ).getAttribute().equalsIgnoreCase( "objectclass" );
 
             /*
@@ -643,13 +642,11 @@ public class DefaultDirectoryPartitionNexus extends DirectoryPartitionNexus
             if ( filter instanceof PresenceNode && isObjectScope && isSearchAll )
             {
                 Attributes attrs = ( Attributes ) getRootDSE().clone();
-
                 String[] ids = searchCtls.getReturningAttributes();
 
                 if ( ids != null && ids.length > 0 )
                 {
                     boolean doSwap = true;
-
                     Attributes askedFor = new LockableAttributesImpl();
 
                     for ( int ii = 0; ii < ids.length; ii++ )
@@ -657,7 +654,6 @@ public class DefaultDirectoryPartitionNexus extends DirectoryPartitionNexus
                         if ( ids[ii].trim().equals( "*" ) )
                         {
                             doSwap = false;
-
                             break;
                         }
 
@@ -674,7 +670,6 @@ public class DefaultDirectoryPartitionNexus extends DirectoryPartitionNexus
                 }
 
                 SearchResult result = new SearchResult( "", null, attrs, false );
-
                 return new SingletonEnumeration( result );
             }
 
@@ -682,7 +677,6 @@ public class DefaultDirectoryPartitionNexus extends DirectoryPartitionNexus
         }
 
         DirectoryPartition backend = getBackend( base );
-
         return backend.search( base, env, filter, searchCtls );
     }
 

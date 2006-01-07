@@ -28,14 +28,19 @@ import javax.naming.directory.Attributes;
 import javax.naming.directory.ModificationItem;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.DirContext;
+import javax.naming.directory.SearchResult;
 import javax.naming.event.EventContext;
 import javax.naming.event.NamingListener;
 import javax.naming.ldap.LdapContext;
 
+import org.apache.ldap.common.exception.LdapSizeLimitExceededException;
+import org.apache.ldap.common.exception.LdapTimeLimitExceededException;
 import org.apache.ldap.common.filter.ExprNode;
 import org.apache.ldap.server.DirectoryServiceConfiguration;
 import org.apache.ldap.server.DirectoryService;
 import org.apache.ldap.server.configuration.DirectoryPartitionConfiguration;
+import org.apache.ldap.server.enumeration.SearchResultFilter;
+import org.apache.ldap.server.enumeration.SearchResultFilteringEnumeration;
 import org.apache.ldap.server.event.EventService;
 import org.apache.ldap.server.interceptor.InterceptorChain;
 import org.apache.ldap.server.invocation.Invocation;
@@ -112,37 +117,49 @@ public class DirectoryPartitionNexusProxy extends DirectoryPartitionNexus
         this.configuration = service.getConfiguration();
     }
     
-    public LdapContext getLdapContext() {
+    
+    public LdapContext getLdapContext() 
+    {
         return this.configuration.getPartitionNexus().getLdapContext();
     }
 
+    
     public void init( DirectoryServiceConfiguration factoryCfg, DirectoryPartitionConfiguration cfg )
     {
     }
 
+    
     public void destroy()
     {
     }
 
+    
     public DirectoryPartition getSystemPartition()
     {
         return this.configuration.getPartitionNexus().getSystemPartition();
     }
 
+    
     public Name getSuffix( boolean normalized ) throws NamingException
     {
         return this.configuration.getPartitionNexus().getSuffix( normalized );
     }
 
-    public void sync() throws NamingException {
+    
+    public void sync() throws NamingException 
+    {
         this.service.sync();
     }
 
-    public void close() throws NamingException {
+    
+    public void close() throws NamingException 
+    {
         this.service.shutdown();
     }
 
-    public boolean isInitialized() {
+    
+    public boolean isInitialized() 
+    {
         return this.service.isStarted();
     }
 
@@ -368,7 +385,42 @@ public class DirectoryPartitionNexusProxy extends DirectoryPartitionNexus
     public NamingEnumeration search( Name base, Map env, ExprNode filter, SearchControls searchCtls )
             throws NamingException
     {
-        return search( base, env, filter, searchCtls, null );
+        SearchResultFilteringEnumeration results = ( SearchResultFilteringEnumeration ) 
+            search( base, env, filter, searchCtls, null );
+        
+        if ( searchCtls.getTimeLimit() + searchCtls.getCountLimit() > 0 )
+        {
+            // this will be he last filter added so other filters before it must 
+            // have passed/approved of the entry to be returned back to the client
+            // so the candidate we have is going to be returned for sure
+            results.addResultFilter( new SearchResultFilter(){
+                final long startTime = System.currentTimeMillis();
+                int count = 1;  // with prefetch we've missed one which is ok since 1 is the minimum
+                public boolean accept( Invocation invocation, SearchResult result, SearchControls controls ) throws NamingException
+                {
+                    if ( controls.getTimeLimit() > 0 )
+                    {
+                        long runtime = System.currentTimeMillis() - startTime;
+                        if ( runtime > controls.getTimeLimit() )
+                        {
+                            throw new LdapTimeLimitExceededException();
+                        }
+                    }
+                    
+                    if ( controls.getCountLimit() > 0 )
+                    {
+                       if ( count > controls.getCountLimit() )
+                       {
+                           throw new LdapSizeLimitExceededException();
+                       }
+                    }
+                    
+                    count++;
+                    return true;
+                }
+            });
+        }
+        return results;
     }
 
 
