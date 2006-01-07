@@ -22,7 +22,6 @@ import org.apache.ldap.server.configuration.MutableDirectoryPartitionConfigurati
 import org.apache.ldap.common.message.Control;
 import org.apache.ldap.common.util.ArrayUtils;
 import org.apache.ldap.common.util.EmptyEnumeration;
-import org.apache.ldap.common.util.StringTools;
 
 import java.util.Hashtable;
 import java.util.Set;
