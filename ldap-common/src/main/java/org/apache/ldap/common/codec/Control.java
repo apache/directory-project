@@ -291,15 +291,14 @@ public class Control extends Asn1Object
         
         if ( controlValue != null ) 
         {
-        	if ( controlValue instanceof String )
-        	{
-                sb.append("        Control value : '").append( controlValue ).append("'\n");
-        	}
-        	else
+        	if ( controlValue instanceof byte[] )
         	{
                 sb.append("        Control value : '").append( StringTools.dumpBytes( (byte[])controlValue ) ).append("'\n");
         	}
-        	
+            else
+            {
+                sb.append("        Control value : '").append( controlValue ).append("'\n");
+            }
         }
         
         return sb.toString();
