@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="akarasulu@apache.org">Alex Karasulu</author>
+    <title>Apache Directory Project: Subprojects</title>
+  </properties>
+  
+  <body>
+    <section name="Security">
+      <p> 
+        The Directory Project consists of a number of sub-projects. 
+      </p>
+      
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+        </tr>
+        
+        <tr>
+          <td>
+            <a href="authx/index.html">AuthX</a>
+          </td>
+          <td>
+            <p>
+              AuthX is an Authentication, Authorization and Accounting framework.
+            </p>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <a href="kerberos/index.html">Kerberos</a>
+          </td>
+          <td>
+            <p>
+              A pure Java Kerberos 5 Server implementation based on
+              <a href="http://www.faqs.org/rfcs/rfc1510.html">RFC 1510</a> which
+              stores data in any LDAP store via JNDI (which includes ApacheDS).
+              (Yep this is referenced in two different places but it fits.)
+            </p>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <a href="kerberos/changepw.html">Changepw</a>
+          </td>
+          <td>
+            <p>
+              Change password is a request reply protocol that uses Kerberos
+              infrastructure to allow users to securely set new passwords. This
+              server is a pure Java implementation of the changepw protocol
+              defined in <a href="http://www.faqs.org/rfcs/rfc3244.html">
+              RFC 3244</a>.
+              (Yep this is referenced in two different places but it fits.)
+            </p>
+          </td>
+        </tr>
+
+        </table>
+    </section>
+  </body>
+</document>

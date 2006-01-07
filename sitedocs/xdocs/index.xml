@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="akarasulu@apache.org">Alex Karasulu</author>
+    <title>Apache Directory Project</title>
+    <description>The Apache Directory Project aims to produce a high performance and production quality LDAP server written in Java.</description>
+  </properties>
+  <body>
+    
+    <section name="What is it?">
+      <p>
+        Before going into all the details here's what the Apache Directory
+        Server looks like.  Feel free to navigate the image map to the various
+        components of the server.  This will naturally lead to several 
+        questions which will hopefully be answered further below.
+      </p>
+
+      <map name="server">
+  <area shape="rect" alt="Network Layer" href="subprojects/network/index.html" target="subprojects/network/index.html" title="Network Layer" coords="39,155,603,175" />
+  <area shape="rect" alt="Protocol Providers" href="subprojects/providers.html" target="subprojects/providers.html" title="Protocol Providers" coords="44,175,595,207" />
+  <area shape="rect" alt="Apache Directory Server Core" href="subprojects/apacheds/projects/apacheds-core/index.html" target="subprojects/apacheds/projects/apacheds-core/index.html" title="Apache Directory Server Core" coords="209,277,612,443" />
+  <area shape="rect" alt="Kerberos Provider" href="subprojects/providers/kerberos/index.html" target="subprojects/providers/kerberos/index.html" title="Kerberos Provider" coords="457,210,530,225" />
+  <area shape="rect" alt="LDAP Provider" href="subprojects/providers/ldap/index.html" target="subprojects/providers/ldap/index.html" title="LDAP Provider" coords="374,210,448,225"/>
+  <area shape="rect" alt="DNS Provider" href="subprojects/providers/dns" target="subprojects/providers/dns" title="DNS Provider" coords="209,210,283,224" />
+  <area shape="rect" alt="DHCP Provider" href="subprojects/providers/dhcp" target="subprojects/providers/dhcp/" title="DHCP Provider" coords="128,210,202,225" />
+  <area shape="rect" alt="NTP Provider" href="subprojects/providers/ntp/" target="subprojects/providers/ntp/" title="NTP Provider" coords="44,209,118,224" />
+</map>
+<img usemap="server" src="./images/50k-ft-architecture.png"/>
+    </section>
+    <section name="Our Vision">
+      <p>
+        Our primary vision (others also outlined below) is to build an 
+        enterprise directory server platform (and its components) where 
+        other Internet services snap in to store their data within the 
+        directory so they may be managed using LDAP.  From the image 
+        above you'll see the architecture is designed so services besides
+        LDAP like DNS, DHCP, SLP and Kerberos will snap in.  Other services
+        like UDDI can also be implemented and snapped in.  These services 
+        will use a common networking layer and each can be toggled on and
+        off according to the needs of the environment.  apseda, mina, or 
+        sedang are various frameworks used for the common network layer. 
+        These services share the common network layer and back their data 
+        within the Apache Directory Server's backing stores without any 
+        network latency or going through the LDAP line protocol.  NTP btw
+        is the only exception and it's there to remedy the need for time 
+        sync for replication and other time sensitive protocols like kerberos.
+        Its implementation here is intended to prevent any dependency on
+        external infrastructure.
+      </p>
+
+      <p>
+        Other aspects to our vision include becoming the JNDI goto project and 
+        also becoming the one stop shop for all directory and naming concerns 
+        here at the ASF.  These concerns may be outside of the scope of JNDI 
+        or may not even fall under Java.
+      </p>
+    </section>
+  </body>
+</document>

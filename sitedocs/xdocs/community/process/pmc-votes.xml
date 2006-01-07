@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="akarasulu@apache.org">Alex Karasulu</author>
+    <title>Apache Directory Project: PMC Voting</title>
+  </properties> 
+
+
+    <body> 
+        <section name="Voting Procedures">
+            
+            <p>This document details how the Directory PMC has agreed to handle 
+              voting.</p>
+            
+            <subsection name="People Involved in the Voting Process">
+                
+                <subsection name="The Proposer">
+                    
+                    <p>
+                     The proposer is the one who comes up with the
+                        discussion that needs to be addressed.  Any
+                        member of the Directory community may start the
+                        discussion. The proposer must follow the
+                        procedures listed under the heading "Prior to
+                        the Vote".</p>
+                    
+                </subsection>
+                
+                <subsection name="The Vote Administrator">
+                    
+                    <p>The vote administrator is the person who
+                        tallies the votes and reports the results.
+                        The person who actually puts a proposal up for
+                        vote is usually the vote administrator,
+                        although this task can be taken on by someone
+                        else.</p>
+                    
+                </subsection>
+                
+                <subsection name="The Voter">
+                    
+                    <p>A voter is someone who expresses support,
+                        opposition or abstention for the subject being
+                        voted on.  A voter must be a Directory PMC
+                        member. Input is appreciated from committers
+                        and all other members of the community, but
+                        only votes from PMC members are counted.</p>
+                    
+                </subsection>
+            </subsection>
+            
+            <subsection name="Prior to the Vote">
+                
+                <p>Before any vote can take place, the subject must be
+                    discussed. All such discussions take place on the
+                    Directory developer or PMC mailing list, and have the
+                    text "[PROPOSAL]" in the subject line.  That
+                    practice alerts members to the fact that you
+                    eventually intend to call a vote on the
+                    subject.</p>
+                
+            </subsection>
+            <subsection name="The Vote">
+                
+                <p>When the proposal is ready to be adopted by the
+                    community, the Proposer will call for a vote on
+                    the Directory developers or PMC mailing list. The
+                    call for vote must have the text "[PMC:VOTE]" in
+                    the subject line.  That practice alerts the
+                    members to the fact that the prior proposal is now
+                    ready to vote on, and discussion should stop for
+                    the proposal.</p>
+                
+                <subsection name="How to Vote">
+                    
+                    <p>The voter responds to the call for vote with an
+                        expression of support, opposition, or
+                        abstention.  The exact way to express the
+                        voter's position is listed below:</p>
+                    
+                    <ul>
+                        <li>+1  a vote supporting the subject</li>
+                        <li>+0  a vote abstaining from the subject (but showing some support).</li>
+                        <li> 0  a vote abstaining from the subject.</li>
+                        <li>-0  a vote abstaining from the subject (but showing disapproval).</li>
+                        <li>-1  a vote opposing the subject</li>
+                    </ul>
+                </subsection>
+                
+                <subsection name="Counting Votes">
+                    
+                    <p>The vote administrator will count only the last
+                        vote from each voter.  That means a voter may
+                        change their vote at any time during the
+                        duration of the vote. All votes (+1, -1, +0,
+                        -0 and 0) count toward quorum, but +0, -0 and
+                        0 do not count when determining majority.</p>
+                        </subsection>
+                
+                <subsection name="Types of Votes">
+                    
+                    <p>There are two classes of votes: a Qualified
+                        Majority Vote and a Normal Majority Vote. In
+                        both types of votes, only +1 and -1 votes
+                        count toward majority.</p>
+                    
+                    <subsection name="Qualified Majority Vote">
+                        
+                        <p>Any vote that affects the texts "Directory PMC
+                            Charter" or "Directory PMC Policies and
+                            Procedures" is a Qualified Majority
+                            Vote. For this type of vote to pass, it
+                            requires that there are more than twice as
+                            many +1 votes as -1 votes.</p> </subsection>
+                    
+                    <subsection name="Normal Majority Vote">
+                        
+                        <p>All votes that do not fall under the
+                            heading of Qualified Majority Vote are
+                            handled as a Normal Majority Vote. If
+                            there are more +1 votes than -1 votes,
+                            then the vote has passed.</p> </subsection>
+                            </subsection>
+                
+                <subsection name="Voting Qualifications">
+                    
+                    <p>In order for any vote to be considered binding
+                        it must have quorum, and be held for the
+                        proper amount of time.</p>
+                    
+                </subsection>
+                
+                <subsection name="Quorum">
+                    
+                    <p>For all votes, there must be at least three (3)
+                        voters and half (1/2) of the PMC must cast a
+                        vote. When determining quorum, all votes (+1,
+                        -1, +0, -0 and 0) count.</p> </subsection>
+                
+                <subsection name="Duration">
+                    
+                    <p>All votes will be open for an initial period of
+                        one week.  The Vote Administrator may close
+                        the vote at any time after that period if
+                        quorum has been achieved.  If quorum could not
+                        be reached within the initial one-week period,
+                        the vote will remain open for one additional
+                        week.  If the vote still has not achieved
+                        quorum, then it is considered failed.  The
+                        proposer can choose to bring it up later when
+                        quorum can be reached.</p> </subsection>
+                        </subsection>
+            
+            <subsection name="After the Vote">
+                
+                <p>When the vote is closed, the results of the vote
+                    are summarized by the Vote Administrator.  The
+                    vote administrator will send an email to the
+                    Directory developers or PMC list with the text
+                    "[PMC:VOTE-RESULT]" in the subject that has the
+                    summary.  The summary will include the count of
+                    all +1, +0, 0, -0, and -1 responses, and the final
+                    verdict of whether the subject passed.</p>
+                    </subsection>
+            
+            <subsection name="Disagreements">
+                
+                <p>Disagreements concerning voting may be directed to
+                    the Chair. The Chair's opinion shall be final and
+                    binding upon the PMC.</p>
+                
+            </subsection>
+        </section>
+    </body>
+</document>

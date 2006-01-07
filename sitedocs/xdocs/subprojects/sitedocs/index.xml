@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="akarasulu@apache.org">Alex Karasulu</author>
+    <title>Apache Directory Project: Web Site Documentation</title>
+  </properties>
+
+  <body>
+    <section name="Overview">
+      <p>
+        This subproject contains documents of the top level website linking 
+        together all subprojects.  There are a few rules and some information
+        that is needed by subproject developers in order to integrate/plugin
+        their subproject documentation with this TLP website.  We cover these
+        topics here.
+      </p> 
+      
+      <table>
+        <tr>
+          <th>Topic</th>
+          <th>Description</th>
+        </tr>
+
+        <tr>
+          <td>
+            <a href="./maven-changes.html">Maven Changes</a>
+          </td>
+          <td>
+            Changes to the subproject's Maven configuration are needed.  This
+            document steps through making those changes.
+          </td>
+        </tr>
+        
+        <tr>
+          <td>
+            <a href="./hyperlink-management.html">Hyperlink Management</a>
+          </td>
+          <td>
+            Because a separate Maven site build is used to generate subproject
+            documentation and the generated documents are repositioned some
+            precautions must be taken to make hyperlinks and navigations work
+            properly.  This document explains the problem, and how to work 
+            around it for navigations and hyperlinks.
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <a href="./sitedoc-deployment.html">Sitedoc Deployment</a>
+          </td>
+          <td>
+            When changes are made to sitedocs and subproject sitedocs developers
+            need to deploy those changes to the website.  This document 
+            describes the way incubator projects are setup and what the process
+            is for building and deploying the sitedocs for the TLP and 
+            subprojects.
+          </td>
+        </tr>
+        
+      </table>
+    </section>
+  </body>
+</document>
+ 
