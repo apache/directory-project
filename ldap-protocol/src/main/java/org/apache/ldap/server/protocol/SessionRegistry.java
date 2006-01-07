@@ -20,6 +20,7 @@ package org.apache.ldap.server.protocol;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.naming.Context;
@@ -30,6 +31,7 @@ import javax.naming.ldap.LdapContext;
 import javax.naming.spi.InitialContextFactory;
 
 import org.apache.ldap.common.exception.LdapNoPermissionException;
+import org.apache.ldap.common.message.AbandonableRequest;
 import org.apache.ldap.common.message.Request;
 import org.apache.ldap.server.configuration.Configuration;
 import org.apache.ldap.server.configuration.StartupConfiguration;
@@ -367,6 +369,28 @@ public class SessionRegistry
         synchronized( contexts )
         {
             contexts.remove( session );
+        }
+        
+        Map reqmap = null;
+        synchronized( requests )
+        {
+            reqmap = ( Map ) requests.remove( session );
+        }
+        
+        if ( reqmap == null || reqmap.isEmpty() )
+        {
+            return;
+        }
+        
+        Iterator list = reqmap.values().iterator();
+        while ( list.hasNext() )
+        {
+            Object request = list.next();
+            
+            if ( request instanceof AbandonableRequest )
+            {
+                ( ( AbandonableRequest ) request ).abandon();
+            }
         }
     }
 
