@@ -17,6 +17,7 @@
 package org.apache.ldap.server.partition;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -25,6 +26,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 import javax.naming.ConfigurationException;
@@ -146,8 +148,18 @@ public class DefaultDirectoryPartitionNexus extends DirectoryPartitionNexus
         attr.add( ASF );
         rootDSE.put( attr );
 
+        Properties props = new Properties();
+        try
+        {
+            props.load( getClass().getResourceAsStream( "version.properties" ) );
+        }
+        catch ( IOException e )
+        {
+            log.error( "failed to log version properties" );
+        }
+        
         attr = new LockableAttributeImpl( VENDORVERSION_ATTR );
-        attr.add( "$Rev$" );
+        attr.add( props.getProperty( "apacheds.version", "UNKNOWN" ) );
         rootDSE.put( attr );
     }
 

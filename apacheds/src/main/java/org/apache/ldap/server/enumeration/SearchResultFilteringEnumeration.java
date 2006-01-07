@@ -32,13 +32,12 @@ import javax.naming.directory.SearchResult;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.DirContext;
 
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
 import org.apache.ldap.server.invocation.Invocation;
 import org.apache.ldap.common.exception.OperationAbandonedException;
 import org.apache.ldap.common.message.AbandonListener;
 import org.apache.ldap.common.message.AbandonableRequest;
 import org.apache.ldap.common.name.LdapName;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
