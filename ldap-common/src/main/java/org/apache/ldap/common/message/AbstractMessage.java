@@ -19,17 +19,14 @@ package org.apache.ldap.common.message;
 
 import java.util.*;
 
-import org.apache.ldap.common.AbstractLockable;
-
 
 /**
  * Abstract message base class.
  * 
- * @author <a href="mailto:dev@directory.apache.org">
- * Apache Directory Project</a>
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Rev$
  */
-public class AbstractMessage extends AbstractLockable implements Message
+public class AbstractMessage implements Message
 {
     static final long serialVersionUID = 7601738291101182094L;
     /** Map of message controls using OID Strings for keys and Control values */
@@ -51,8 +48,6 @@ public class AbstractMessage extends AbstractLockable implements Message
      */
     protected AbstractMessage( final int id, final MessageTypeEnum type )
     {
-        super( true );
-
         this.id = id;
         this.type = type;
         controls = new HashMap();
@@ -80,9 +75,9 @@ public class AbstractMessage extends AbstractLockable implements Message
      * @return Map of OID strings to Control object instances.
      * @see Control
      */
-    public Collection getControls()
+    public Map getControls()
     {
-        return Collections.unmodifiableCollection( controls.values() );
+        return Collections.unmodifiableMap( controls );
     }
 
 
@@ -95,7 +90,6 @@ public class AbstractMessage extends AbstractLockable implements Message
      */
     public void add( Control control ) throws MessageException
     {
-        lockCheck( "Attempt to add control to locked message envelope!" );
         controls.put( control.getType(), control );
     }
 
@@ -109,7 +103,6 @@ public class AbstractMessage extends AbstractLockable implements Message
      */
     public void remove( Control control ) throws MessageException
     {
-        lockCheck( "Attempt to remove control from locked message envelope!" );
         controls.remove( control.getType() );
     }
 
@@ -196,16 +189,16 @@ public class AbstractMessage extends AbstractLockable implements Message
             return false;
         }
 
-        Collection controls = msg.getControls();
+        Map controls = msg.getControls();
         if ( controls.size() != this.controls.size() )
         {
             return false;
         }
 
-        Iterator list = this.controls.values().iterator();
+        Iterator list = this.controls.keySet().iterator();
         while ( list.hasNext() )
         {
-            if ( ! controls.contains( list.next() ) )
+            if ( ! controls.containsKey( list.next() ) )
             {
                 return false;
             }

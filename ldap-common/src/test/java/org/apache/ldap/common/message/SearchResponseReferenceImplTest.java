@@ -19,11 +19,8 @@ package org.apache.ldap.common.message;
 
 import junit.framework.TestCase;
 
-import java.util.Collection;
 import java.util.Collections;
-
-import org.apache.ldap.common.LockException;
-import org.apache.ldap.common.Lockable;
+import java.util.Map;
 
 
 /**
@@ -44,7 +41,7 @@ public class SearchResponseReferenceImplTest extends TestCase
      */
     public Referral getReferral( SearchResponseReference resp )
     {
-        ReferralImpl ref = new ReferralImpl( resp );
+        ReferralImpl ref = new ReferralImpl();
         resp.setReferral( ref );
         ref.addLdapUrl( "http://apache.org???" );
         ref.addLdapUrl( "http://mit.edu???" );
@@ -99,9 +96,9 @@ public class SearchResponseReferenceImplTest extends TestCase
                 return MessageTypeEnum.SEARCHRESREF;
             }
 
-            public Collection getControls()
+            public Map getControls()
             {
-                return Collections.EMPTY_LIST;
+                return Collections.EMPTY_MAP;
             }
 
             public void add( Control control ) throws MessageException
@@ -125,30 +122,6 @@ public class SearchResponseReferenceImplTest extends TestCase
             public Object put( Object key, Object value )
             {
                 return null;
-            }
-
-            public Lockable getParent()
-            {
-                return null;
-            }
-
-            public boolean isLocked()
-            {
-                return false;
-            }
-
-            public boolean getLocked()
-            {
-                return false;
-            }
-
-            public void setLocked( boolean isLocked ) throws LockException
-            {
-            }
-
-            public boolean isUnlockable()
-            {
-                return false;
             }
         };
 

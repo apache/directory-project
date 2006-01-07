@@ -27,8 +27,7 @@ import org.apache.ldap.common.util.ArrayUtils;
  * Apache Directory Project</a>
  * @version $Rev$
  */
-public class ExtendedResponseImpl
-    extends AbstractResultResponse implements ExtendedResponse
+public class ExtendedResponseImpl extends AbstractResultResponse implements ExtendedResponse
 {
     static final long serialVersionUID = -6646752766410531060L;
     /** Object identifier for the extended response */
@@ -76,8 +75,6 @@ public class ExtendedResponseImpl
      */
     public void setResponse( byte [] value )
     {
-        lockCheck(
-            "Attempt to alter response value in locked ExtendedResponse!" ) ;
         this.value = value ;
     }
 
@@ -102,8 +99,6 @@ public class ExtendedResponseImpl
      */
     public void setResponseName( String oid )
     {
-        lockCheck(
-            "Attempt to alter responseName in locked ExtendedResponse!" ) ;
         this.oid = oid ;
     }
 

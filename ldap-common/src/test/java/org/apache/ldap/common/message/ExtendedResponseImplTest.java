@@ -19,11 +19,8 @@ package org.apache.ldap.common.message;
 
 import junit.framework.TestCase;
 
-import java.util.Collection;
 import java.util.Collections;
-
-import org.apache.ldap.common.Lockable;
-import org.apache.ldap.common.LockException;
+import java.util.Map;
 
 
 /**
@@ -48,7 +45,7 @@ public class ExtendedResponseImplTest extends TestCase
         LdapResult result = response.getLdapResult();
         result.setMatchedDn( "dc=example,dc=com" );
         result.setResultCode( ResultCodeEnum.SUCCESS );
-        ReferralImpl refs = new ReferralImpl( result );
+        ReferralImpl refs = new ReferralImpl();
         refs.addLdapUrl( "ldap://someserver.com" );
         refs.addLdapUrl( "ldap://apache.org" );
         refs.addLdapUrl( "ldap://another.net" );
@@ -107,10 +104,10 @@ public class ExtendedResponseImplTest extends TestCase
 
             public LdapResult getLdapResult()
             {
-                LdapResultImpl result = new LdapResultImpl( this );
+                LdapResultImpl result = new LdapResultImpl();
                 result.setMatchedDn( "dc=example,dc=com" );
                 result.setResultCode( ResultCodeEnum.SUCCESS );
-                ReferralImpl refs = new ReferralImpl( result );
+                ReferralImpl refs = new ReferralImpl();
                 refs.addLdapUrl( "ldap://someserver.com" );
                 refs.addLdapUrl( "ldap://apache.org" );
                 refs.addLdapUrl( "ldap://another.net" );
@@ -124,9 +121,9 @@ public class ExtendedResponseImplTest extends TestCase
                 return MessageTypeEnum.EXTENDEDRESP;
             }
 
-            public Collection getControls()
+            public Map getControls()
             {
-                return Collections.EMPTY_LIST;
+                return Collections.EMPTY_MAP;
             }
 
             public void add( Control a_control ) throws MessageException
@@ -150,30 +147,6 @@ public class ExtendedResponseImplTest extends TestCase
             public Object put( Object a_key, Object a_value )
             {
                 return null;
-            }
-
-            public Lockable getParent()
-            {
-                return null;
-            }
-
-            public boolean isLocked()
-            {
-                return false;
-            }
-
-            public boolean getLocked()
-            {
-                return false;
-            }
-
-            public void setLocked( boolean a_isLocked ) throws LockException
-            {
-            }
-
-            public boolean isUnlockable()
-            {
-                return false;
             }
         };
 

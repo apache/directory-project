@@ -19,43 +19,21 @@ package org.apache.ldap.common.message;
 
 import java.util.*;
 
-import org.apache.ldap.common.Lockable;
-import org.apache.ldap.common.AbstractLockable;
-
 
 /**
- * Lockable Referral implementation.  For the time being this implementation
+ * A Referral implementation.  For the time being this implementation
  * uses a String representation for LDAPURLs.  In the future an LdapUrl
  * interface with default implementations will be used once a parser for an
  * LdapUrl is created.
  *
- * @author <a href="mailto:dev@directory.apache.org">
- * Apache Directory Project</a>
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Rev$
  */
-public class ReferralImpl
-    extends AbstractLockable implements Referral
+public class ReferralImpl implements Referral
 {
     static final long serialVersionUID = 2638820668325359096L;
     /** Sequence of LDAPUrls composing this Referral */
     private final HashSet urls = new HashSet();
-
-
-    // ------------------------------------------------------------------------
-    // Constructors
-    // ------------------------------------------------------------------------
-
-
-    /**
-     * Creates a non-root Lockable Referral implemenation dependant on a parent
-     * Lockable
-     *
-     * @param parent the overriding parent Lockable.
-     */
-    public ReferralImpl( final Lockable parent )
-    {
-        super( parent, false );
-    }
 
 
     // ------------------------------------------------------------------------
@@ -81,7 +59,6 @@ public class ReferralImpl
      */
     public void addLdapUrl( String url )
     {
-        lockCheck( "Atempt to add alternative url to locked Referral!" );
         urls.add( url );
     }
 
@@ -93,7 +70,6 @@ public class ReferralImpl
      */
     public void removeLdapUrl( String url )
     {
-        lockCheck( "Atempt to remove alternative url from locked Referral!" );
         urls.remove( url );
     }
 

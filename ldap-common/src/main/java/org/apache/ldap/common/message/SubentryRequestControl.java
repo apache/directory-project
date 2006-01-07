@@ -17,11 +17,8 @@
 package org.apache.ldap.common.message;
 
 
-import org.apache.ldap.common.Lockable;
-
-
 /**
- *
+ * A subentry request control for listing subentries in a search operation.
  *
  * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Rev$
@@ -29,48 +26,21 @@ import org.apache.ldap.common.Lockable;
 public class SubentryRequestControl extends ControlImpl
 {
     private static final long serialVersionUID = -8683670301958448735L;
-    /** */
     private final boolean subentryVisibility;
 
 
-    /**
-     *
-     * @param subentryVisibility
-     */
     public SubentryRequestControl( boolean subentryVisibility )
     {
-        super();
         this.subentryVisibility = subentryVisibility;
     }
 
 
-    /**
-     *
-     * @param parent
-     * @param subentryVisibility
-     */
-    public SubentryRequestControl( Lockable parent, boolean subentryVisibility )
-    {
-        super( parent );
-        this.subentryVisibility = subentryVisibility;
-    }
-
-
-    /**
-     * @todo need to properly implement this
-     *
-     * @return
-     */
     public byte[] getEncodedValue()
     {
         return new byte[0];
     }
 
 
-    /**
-     *
-     * @return
-     */
     public boolean getSubentryVisibility()
     {
         return subentryVisibility;

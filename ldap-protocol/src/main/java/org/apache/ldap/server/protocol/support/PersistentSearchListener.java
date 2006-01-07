@@ -257,7 +257,7 @@ class PersistentSearchListener implements ObjectChangeListener, NamespaceChangeL
      */
     static PersistentSearchControl getPersistentSearchControl( SearchRequest req )
     {
-        Iterator list = req.getControls().iterator();
+        Iterator list = req.getControls().values().iterator();
         while ( list.hasNext() )
         {
             Control control = ( Control ) list.next();

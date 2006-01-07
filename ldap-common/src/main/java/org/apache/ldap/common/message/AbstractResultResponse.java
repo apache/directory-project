@@ -20,14 +20,13 @@ package org.apache.ldap.common.message;
 /**
  * Abstract base for a Lockable ResultResponse message.
  * 
- * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
- * @author $Author: akarasulu $
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
 public abstract class AbstractResultResponse extends AbstractResponse implements ResultResponse
 {
     /** Response result components */
-    private LdapResult result = new LdapResultImpl( this );
+    private LdapResult result = new LdapResultImpl();
 
 
     // ------------------------------------------------------------------------

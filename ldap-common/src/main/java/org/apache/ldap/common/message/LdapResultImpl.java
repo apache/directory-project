@@ -27,19 +27,13 @@
 package org.apache.ldap.common.message;
 
 
-import org.apache.ldap.common.Lockable;
-import org.apache.ldap.common.AbstractLockable;
-
-
 /**
- * Lockable LdapResult implementation.
+ * LdapResult implementation.
  * 
- * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
- * @author $Author: akarasulu $
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
-public class LdapResultImpl
-    extends AbstractLockable implements LdapResult
+public class LdapResultImpl implements LdapResult
 {
     static final long serialVersionUID = -1446626887394613213L;
     /** Lowest matched entry Dn - defaults to empty string */
@@ -50,22 +44,6 @@ public class LdapResultImpl
     private String errorMessage;
     /** Resultant operation error code - defaults to SUCCESS */
     private ResultCodeEnum resultCode = ResultCodeEnum.SUCCESS;
-
-
-    // ------------------------------------------------------------------------
-    // Constructors
-    // ------------------------------------------------------------------------
-
-
-    /**
-     * Creates a non-root Lockable LdapResult using a parent for state.
-     *
-     * @param parent the overriding parent Lockable.
-     */
-    public LdapResultImpl( final Lockable parent )
-    {
-        super( parent, false );
-    }
 
 
     // ------------------------------------------------------------------------
@@ -93,7 +71,6 @@ public class LdapResultImpl
      */
     public void setErrorMessage( String errorMessage )
     {
-        lockCheck( "Attempt to alter error message of locked LdapResult!" );
         this.errorMessage = errorMessage;
     }
 
@@ -125,7 +102,6 @@ public class LdapResultImpl
      */
     public void setMatchedDn( String matchedDn )
     {
-        lockCheck( "Attempt to alter matchedDn of locked LdapResult!" );
         this.matchedDn = matchedDn;
     }
 
@@ -152,7 +128,6 @@ public class LdapResultImpl
      */
     public void setResultCode( ResultCodeEnum resultCode )
     {
-        lockCheck( "Attempt to alter the resultCode of a locked LdapResult!" );
         this.resultCode = resultCode;
     }
 
@@ -191,7 +166,6 @@ public class LdapResultImpl
      */
     public void setReferral( Referral referral )
     {
-        lockCheck( "Attempt to alter the referral of a locked LdapResult!" );
         this.referral = referral;
     }
 

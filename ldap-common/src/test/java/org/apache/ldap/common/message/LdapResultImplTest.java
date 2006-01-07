@@ -18,16 +18,12 @@ package org.apache.ldap.common.message;
 
 
 import junit.framework.TestCase;
-import org.apache.ldap.common.AbstractLockable;
-import org.apache.ldap.common.Lockable;
-import org.apache.ldap.common.LockException;
 
 
 /**
  * Tests the methods of the LdapResultImpl class.
  *
- * @author <a href="mailto:dev@directory.apache.org"> Apache Directory
- *         Project</a> $Rev$
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a> $Rev$
  */
 public class LdapResultImplTest extends TestCase
 {
@@ -36,7 +32,7 @@ public class LdapResultImplTest extends TestCase
      */
     public void testEqualsSameObj()
     {
-        LdapResultImpl r0 = new LdapResultImpl( null );
+        LdapResultImpl r0 = new LdapResultImpl();
         assertTrue( "same object should be equal", r0.equals( r0 ) );
     }
 
@@ -47,8 +43,8 @@ public class LdapResultImplTest extends TestCase
      */
     public void testEqualsDefaultCopy()
     {
-        LdapResultImpl r0 = new LdapResultImpl( null );
-        LdapResultImpl r1 = new LdapResultImpl( null );
+        LdapResultImpl r0 = new LdapResultImpl();
+        LdapResultImpl r1 = new LdapResultImpl();
 
         assertTrue( "default copy should be equal", r0.equals( r1 ) );
         assertTrue( "default copy should be equal", r1.equals( r0 ) );
@@ -60,9 +56,8 @@ public class LdapResultImplTest extends TestCase
      */
     public void testEqualsDiffLockableParent()
     {
-        LdapResultImpl r0 = new LdapResultImpl( new AbstractLockable(){
-            private static final long serialVersionUID = 1L;} );
-        LdapResultImpl r1 = new LdapResultImpl( null );
+        LdapResultImpl r0 = new LdapResultImpl();
+        LdapResultImpl r1 = new LdapResultImpl();
 
         assertTrue( "default copy with different lockable parents " +
                 "should be equal", r0.equals( r1 ) );
@@ -76,8 +71,7 @@ public class LdapResultImplTest extends TestCase
      */
     public void testEqualsDiffImpl()
     {
-        LdapResultImpl r0 = new LdapResultImpl( new AbstractLockable(){
-            private static final long serialVersionUID = 1L;} );
+        LdapResultImpl r0 = new LdapResultImpl();
         LdapResult r1 = new LdapResult()
         {
             public ResultCodeEnum getResultCode()
@@ -120,30 +114,6 @@ public class LdapResultImplTest extends TestCase
             public void setReferral( Referral a_referral )
             {
             }
-
-            public Lockable getParent()
-            {
-                return null;
-            }
-
-            public boolean isLocked()
-            {
-                return false;
-            }
-
-            public boolean getLocked()
-            {
-                return false;
-            }
-
-            public void setLocked( boolean a_isLocked ) throws LockException
-            {
-            }
-
-            public boolean isUnlockable()
-            {
-                return false;
-            }
         };
 
         assertTrue( "r0 equals should see other impl r1 as equal",
@@ -158,8 +128,8 @@ public class LdapResultImplTest extends TestCase
      */
     public void testEqualsCarbonCopy()
     {
-        LdapResultImpl r0 = new LdapResultImpl( null );
-        LdapResultImpl r1 = new LdapResultImpl( null );
+        LdapResultImpl r0 = new LdapResultImpl();
+        LdapResultImpl r1 = new LdapResultImpl();
 
         r0.setErrorMessage( "blah blah blah" );
         r1.setErrorMessage( "blah blah blah" );
@@ -170,11 +140,11 @@ public class LdapResultImplTest extends TestCase
         r0.setResultCode( ResultCodeEnum.TIMELIMITEXCEEDED );
         r1.setResultCode( ResultCodeEnum.TIMELIMITEXCEEDED );
 
-        Referral refs0 = new ReferralImpl( r0 );
+        Referral refs0 = new ReferralImpl();
         refs0.addLdapUrl( "ldap://someserver.com" );
         refs0.addLdapUrl( "ldap://anotherserver.org" );
 
-        Referral refs1 = new ReferralImpl( r1 );
+        Referral refs1 = new ReferralImpl();
         refs1.addLdapUrl( "ldap://someserver.com" );
         refs1.addLdapUrl( "ldap://anotherserver.org" );
 
@@ -188,8 +158,8 @@ public class LdapResultImplTest extends TestCase
      */
     public void testNotEqualsDiffErrorMessage()
     {
-        LdapResultImpl r0 = new LdapResultImpl( null );
-        LdapResultImpl r1 = new LdapResultImpl( null );
+        LdapResultImpl r0 = new LdapResultImpl();
+        LdapResultImpl r1 = new LdapResultImpl();
 
         r0.setErrorMessage( "blah blah blah" );
         r1.setErrorMessage( "blah" );
@@ -200,11 +170,11 @@ public class LdapResultImplTest extends TestCase
         r0.setResultCode( ResultCodeEnum.TIMELIMITEXCEEDED );
         r1.setResultCode( ResultCodeEnum.TIMELIMITEXCEEDED );
 
-        Referral refs0 = new ReferralImpl( r0 );
+        Referral refs0 = new ReferralImpl();
         refs0.addLdapUrl( "ldap://someserver.com" );
         refs0.addLdapUrl( "ldap://anotherserver.org" );
 
-        Referral refs1 = new ReferralImpl( r1 );
+        Referral refs1 = new ReferralImpl();
         refs1.addLdapUrl( "ldap://someserver.com" );
         refs1.addLdapUrl( "ldap://anotherserver.org" );
 
@@ -220,8 +190,8 @@ public class LdapResultImplTest extends TestCase
      */
     public void testNotEqualsDiffMatchedDn()
     {
-        LdapResultImpl r0 = new LdapResultImpl( null );
-        LdapResultImpl r1 = new LdapResultImpl( null );
+        LdapResultImpl r0 = new LdapResultImpl();
+        LdapResultImpl r1 = new LdapResultImpl();
 
         r0.setErrorMessage( "blah blah blah" );
         r1.setErrorMessage( "blah blah blah" );
@@ -232,11 +202,11 @@ public class LdapResultImplTest extends TestCase
         r0.setResultCode( ResultCodeEnum.TIMELIMITEXCEEDED );
         r1.setResultCode( ResultCodeEnum.TIMELIMITEXCEEDED );
 
-        Referral refs0 = new ReferralImpl( r0 );
+        Referral refs0 = new ReferralImpl();
         refs0.addLdapUrl( "ldap://someserver.com" );
         refs0.addLdapUrl( "ldap://anotherserver.org" );
 
-        Referral refs1 = new ReferralImpl( r1 );
+        Referral refs1 = new ReferralImpl();
         refs1.addLdapUrl( "ldap://someserver.com" );
         refs1.addLdapUrl( "ldap://anotherserver.org" );
 
@@ -252,8 +222,8 @@ public class LdapResultImplTest extends TestCase
      */
     public void testNotEqualsDiffResultCode()
     {
-        LdapResultImpl r0 = new LdapResultImpl( null );
-        LdapResultImpl r1 = new LdapResultImpl( null );
+        LdapResultImpl r0 = new LdapResultImpl();
+        LdapResultImpl r1 = new LdapResultImpl();
 
         r0.setErrorMessage( "blah blah blah" );
         r1.setErrorMessage( "blah blah blah" );
@@ -264,11 +234,11 @@ public class LdapResultImplTest extends TestCase
         r0.setResultCode( ResultCodeEnum.TIMELIMITEXCEEDED );
         r1.setResultCode( ResultCodeEnum.SIZELIMITEXCEEDED );
 
-        Referral refs0 = new ReferralImpl( r0 );
+        Referral refs0 = new ReferralImpl();
         refs0.addLdapUrl( "ldap://someserver.com" );
         refs0.addLdapUrl( "ldap://anotherserver.org" );
 
-        Referral refs1 = new ReferralImpl( r1 );
+        Referral refs1 = new ReferralImpl();
         refs1.addLdapUrl( "ldap://someserver.com" );
         refs1.addLdapUrl( "ldap://anotherserver.org" );
 
@@ -284,8 +254,8 @@ public class LdapResultImplTest extends TestCase
      */
     public void testNotEqualsDiffReferrals()
     {
-        LdapResultImpl r0 = new LdapResultImpl( null );
-        LdapResultImpl r1 = new LdapResultImpl( null );
+        LdapResultImpl r0 = new LdapResultImpl();
+        LdapResultImpl r1 = new LdapResultImpl();
 
         r0.setErrorMessage( "blah blah blah" );
         r1.setErrorMessage( "blah blah blah" );
@@ -296,12 +266,12 @@ public class LdapResultImplTest extends TestCase
         r0.setResultCode( ResultCodeEnum.TIMELIMITEXCEEDED );
         r1.setResultCode( ResultCodeEnum.TIMELIMITEXCEEDED );
 
-        Referral refs0 = new ReferralImpl( r0 );
+        Referral refs0 = new ReferralImpl();
         r0.setReferral( refs0 );
         refs0.addLdapUrl( "ldap://someserver.com" );
         refs0.addLdapUrl( "ldap://anotherserver.org" );
 
-        Referral refs1 = new ReferralImpl( r1 );
+        Referral refs1 = new ReferralImpl();
         r1.setReferral( refs1 );
         refs1.addLdapUrl( "ldap://abc.com" );
         refs1.addLdapUrl( "ldap://anotherserver.org" );

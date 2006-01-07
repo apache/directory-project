@@ -17,16 +17,14 @@
 package org.apache.ldap.common.message ;
 
 
-import org.apache.ldap.common.Lockable;
-
-
 /**
  * Protocol request and response altering control interface.  Any number of
  * controls may be associated with a protocol message.
  *
  * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
+ * @version $Rev$
  */
-public interface Control extends Lockable, javax.naming.ldap.Control
+public interface Control extends javax.naming.ldap.Control
 {
     /**
      * Gets the OID of the Control to identify the control type.

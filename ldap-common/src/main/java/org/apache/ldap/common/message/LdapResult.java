@@ -27,9 +27,6 @@
 package org.apache.ldap.common.message ;
 
 
-import org.apache.ldap.common.Lockable ;
-
-
 /**
  * LDAPv3 result structure embedded into Responses.  See section 4.1.10 in
  * <a href="">RFC 2251</a> for a description of the LDAPResult ASN.1 structure,
@@ -42,12 +39,10 @@ import org.apache.ldap.common.Lockable ;
  *  operation request.
  * </pre>
  * 
- * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
- * @author $Author: akarasulu $
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
 public interface LdapResult
-    extends Lockable
 {
     /**
      * Gets the result code enumeration associated with the response.
@@ -56,16 +51,16 @@ public interface LdapResult
      *
      * @return the result code enum value.
      */
-    ResultCodeEnum getResultCode() ;
+    ResultCodeEnum getResultCode();
 
     /**
      * Sets the result code enumeration associated with the response.
      * Corresponds to the <b> resultCode </b> field within the LDAPResult ASN.1
      * structure.
      *
-     * @param a_resultCode the result code enum value.
+     * @param resultCode the result code enum value.
      */
-    void setResultCode( ResultCodeEnum a_resultCode ) ;
+    void setResultCode( ResultCodeEnum resultCode );
 
     /**
      * Gets the lowest entry in the directory that was matched.  
@@ -80,15 +75,15 @@ public interface LdapResult
      *
      * @return the Dn of the lowest matched entry.
      */
-    String getMatchedDn() ;
+    String getMatchedDn();
 
     /**
      * Sets the lowest entry in the directory that was matched.
      * 
      * @see #getMatchedDn()
-     * @param a_dn the Dn of the lowest matched entry.
+     * @param dn the Dn of the lowest matched entry.
      */
-    void setMatchedDn( String a_dn ) ;
+    void setMatchedDn( String dn );
 
     /**
      * Gets the descriptive error message associated with the error code.  May
@@ -96,15 +91,15 @@ public interface LdapResult
      *
      * @return the descriptive error message.
      */
-    String getErrorMessage() ;
+    String getErrorMessage();
 
     /**
      * Sets the descriptive error message associated with the error code.  May
      * be null for SUCCESS, COMPARETRUE, and COMPAREFALSE operations.
      *
-     * @param a_errorMessage the descriptive error message.
+     * @param errorMessage the descriptive error message.
      */
-    void setErrorMessage( String a_errorMessage ) ;
+    void setErrorMessage( String errorMessage );
 
     /**
      * Gets whether or not this result represents a Referral.  For referrals the
@@ -112,7 +107,7 @@ public interface LdapResult
      *
      * @return true if this result represents a referral.
      */
-    boolean isReferral() ;
+    boolean isReferral();
 
     /**
      * Gets the Referral associated with this LdapResult if the resultCode
@@ -120,7 +115,7 @@ public interface LdapResult
      *
      * @return the referral on REFERRAL errors, null on all others.
      */
-    Referral getReferral() ;
+    Referral getReferral();
 
     /**
      * Sets the Referral associated with this LdapResult if the resultCode
@@ -128,7 +123,7 @@ public interface LdapResult
      * will result in a true return from isReferral and the resultCode should
      * be set to REFERRAL.
      *
-     * @param a_referral optional referral on REFERRAL errors.
+     * @param referral optional referral on REFERRAL errors.
      */
-    void setReferral( Referral a_referral ) ;
+    void setReferral( Referral referral );
 }

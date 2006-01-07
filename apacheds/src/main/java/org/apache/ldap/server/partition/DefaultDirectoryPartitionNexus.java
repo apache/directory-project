@@ -53,7 +53,6 @@ import org.apache.ldap.common.exception.LdapNoSuchAttributeException;
 import org.apache.ldap.common.filter.ExprNode;
 import org.apache.ldap.common.filter.PresenceNode;
 import org.apache.ldap.common.message.LockableAttributeImpl;
-import org.apache.ldap.common.message.LockableAttributes;
 import org.apache.ldap.common.message.LockableAttributesImpl;
 import org.apache.ldap.common.name.LdapName;
 import org.apache.ldap.common.util.DateUtils;
@@ -307,9 +306,7 @@ public class DefaultDirectoryPartitionNexus extends DirectoryPartitionNexus
     public void sync() throws NamingException
     {
         MultiException error = null;
-
         Iterator list = this.partitions.values().iterator();
-
         while ( list.hasNext() )
         {
             DirectoryPartition partition = ( DirectoryPartition ) list.next();
@@ -321,7 +318,6 @@ public class DefaultDirectoryPartitionNexus extends DirectoryPartitionNexus
             catch ( NamingException e )
             {
                 log.warn( "Failed to flush partition data out.", e );
-
                 if ( error == null )
                 {
                     error = new MultiException( "Grouping many exceptions on root nexus sync()" );
@@ -335,9 +331,7 @@ public class DefaultDirectoryPartitionNexus extends DirectoryPartitionNexus
         if ( error != null )
         {
             String msg = "Encountered failures while performing a sync() operation on backing stores";
-
             NamingException total = new NamingException( msg );
-
             total.setRootCause( error );
         }
     }
@@ -387,11 +381,9 @@ public class DefaultDirectoryPartitionNexus extends DirectoryPartitionNexus
         for ( int ii = 0; ii < attr.size(); ii++ )
         {
         	Object attrValObj = normalizer.normalize( attr.get( ii ) );
-        	
         	if ( attrValObj instanceof String )
         	{
         		String attrVal = ( String ) attrValObj;
-        		
 	            if ( ( reqVal instanceof String) && attrVal.equals( reqVal ) )
 	            {
 	                return true;
@@ -400,7 +392,6 @@ public class DefaultDirectoryPartitionNexus extends DirectoryPartitionNexus
         	else
         	{
         		byte[] attrVal = (byte[])attrValObj;
-        		
         		if ( reqVal instanceof byte[] ) 
         		{
         			return Arrays.equals( attrVal, (byte[])reqVal );
@@ -489,7 +480,6 @@ public class DefaultDirectoryPartitionNexus extends DirectoryPartitionNexus
     public Name getMatchedName( Name dn, boolean normalized ) throws NamingException
     {
         dn = ( Name ) dn.clone();
-
         while ( dn.size() > 0 )
         {
             if ( hasEntry( dn ) )
@@ -516,7 +506,6 @@ public class DefaultDirectoryPartitionNexus extends DirectoryPartitionNexus
     public Name getSuffix( Name dn, boolean normalized ) throws NamingException
     {
         DirectoryPartition backend = getBackend( dn );
-
         return backend.getSuffix( normalized );
     }
 
@@ -567,7 +556,6 @@ public class DefaultDirectoryPartitionNexus extends DirectoryPartitionNexus
     public void delete( Name dn ) throws NamingException
     {
         DirectoryPartition backend = getBackend( dn );
-
         backend.delete( dn );
     }
 
@@ -584,7 +572,6 @@ public class DefaultDirectoryPartitionNexus extends DirectoryPartitionNexus
     public void add( String updn, Name dn, Attributes an_entry ) throws NamingException
     {
         DirectoryPartition backend = getBackend( dn );
-
         backend.add( updn, dn, an_entry );
     }
 
@@ -595,7 +582,6 @@ public class DefaultDirectoryPartitionNexus extends DirectoryPartitionNexus
     public void modify( Name dn, int modOp, Attributes mods ) throws NamingException
     {
         DirectoryPartition backend = getBackend( dn );
-
         backend.modify( dn, modOp, mods );
     }
 
@@ -607,7 +593,6 @@ public class DefaultDirectoryPartitionNexus extends DirectoryPartitionNexus
     public void modify( Name dn, ModificationItem[] mods ) throws NamingException
     {
         DirectoryPartition backend = getBackend( dn );
-
         backend.modify( dn, mods );
     }
 
@@ -618,7 +603,6 @@ public class DefaultDirectoryPartitionNexus extends DirectoryPartitionNexus
     public NamingEnumeration list( Name base ) throws NamingException
     {
         DirectoryPartition backend = getBackend( base );
-
         return backend.list( base );
     }
     
@@ -688,15 +672,10 @@ public class DefaultDirectoryPartitionNexus extends DirectoryPartitionNexus
     {
         if ( dn.size() == 0 )
         {
-            LockableAttributes retval = ( LockableAttributes ) rootDSE.clone();
-
-            retval.setLocked( true );
-
-            return retval;
+            return ( Attributes ) rootDSE.clone();
         }
 
         DirectoryPartition backend = getBackend( dn );
-
         return backend.lookup( dn );
     }
 
@@ -708,26 +687,18 @@ public class DefaultDirectoryPartitionNexus extends DirectoryPartitionNexus
     {
         if ( dn.size() == 0 )
         {
-            LockableAttributes retval = new LockableAttributesImpl();
-
+            Attributes retval = new LockableAttributesImpl();
             NamingEnumeration list = rootDSE.getIDs();
-
             while ( list.hasMore() )
             {
                 String id = ( String ) list.next();
-
                 Attribute attr = rootDSE.get( id );
-
                 retval.put( ( Attribute ) attr.clone() );
             }
-
-            retval.setLocked( true );
-
             return retval;
         }
 
         DirectoryPartition backend = getBackend( dn );
-
         return backend.lookup( dn, attrIds );
     }
 
@@ -748,7 +719,6 @@ public class DefaultDirectoryPartitionNexus extends DirectoryPartitionNexus
         }
 
         DirectoryPartition backend = getBackend( dn );
-
         return backend.hasEntry( dn );
     }
 
@@ -768,7 +738,6 @@ public class DefaultDirectoryPartitionNexus extends DirectoryPartitionNexus
     public void modifyRn( Name dn, String newRdn, boolean deleteOldRdn ) throws NamingException
     {
         DirectoryPartition backend = getBackend( dn );
-
         backend.modifyRn( dn, newRdn, deleteOldRdn );
     }
     
@@ -779,7 +748,6 @@ public class DefaultDirectoryPartitionNexus extends DirectoryPartitionNexus
     public void move( Name oriChildName, Name newParentName ) throws NamingException
     {
         DirectoryPartition backend = getBackend( oriChildName );
-
         backend.move( oriChildName, newParentName );
     }
     
@@ -792,7 +760,6 @@ public class DefaultDirectoryPartitionNexus extends DirectoryPartitionNexus
         boolean deleteOldRdn ) throws NamingException
     {
         DirectoryPartition backend = getBackend( oldChildDn );
-
         backend.move( oldChildDn, newParentDn, newRdn, deleteOldRdn );
     }
 
@@ -812,7 +779,6 @@ public class DefaultDirectoryPartitionNexus extends DirectoryPartitionNexus
     private DirectoryPartition getBackend( Name dn ) throws NamingException
     {
         Name clonedDn = ( Name ) dn.clone();
-
         while ( clonedDn.size() > 0 )
         {
             if ( partitions.containsKey( clonedDn.toString() ) )
@@ -822,7 +788,6 @@ public class DefaultDirectoryPartitionNexus extends DirectoryPartitionNexus
             
             clonedDn.remove( clonedDn.size() - 1 );
         }
-        
         throw new NameNotFoundException( dn.toString() );
     }
 }

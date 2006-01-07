@@ -90,8 +90,8 @@ public class BindResponseImplTest extends TestCase
      */
     public void testEqualsWithTheWorks()
     {
-        LdapResultImpl r0 = new LdapResultImpl( null );
-        LdapResultImpl r1 = new LdapResultImpl( null );
+        LdapResultImpl r0 = new LdapResultImpl();
+        LdapResultImpl r1 = new LdapResultImpl();
 
         r0.setErrorMessage( "blah blah blah" );
         r1.setErrorMessage( "blah blah blah" );
@@ -102,11 +102,11 @@ public class BindResponseImplTest extends TestCase
         r0.setResultCode( ResultCodeEnum.TIMELIMITEXCEEDED );
         r1.setResultCode( ResultCodeEnum.TIMELIMITEXCEEDED );
 
-        Referral refs0 = new ReferralImpl( r0 );
+        Referral refs0 = new ReferralImpl();
         refs0.addLdapUrl( "ldap://someserver.com" );
         refs0.addLdapUrl( "ldap://anotherserver.org" );
 
-        Referral refs1 = new ReferralImpl( r1 );
+        Referral refs1 = new ReferralImpl();
         refs1.addLdapUrl( "ldap://someserver.com" );
         refs1.addLdapUrl( "ldap://anotherserver.org" );
 

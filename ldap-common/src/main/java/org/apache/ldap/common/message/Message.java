@@ -14,22 +14,19 @@
  *   limitations under the License.
  *
  */
-package org.apache.ldap.common.message ;
+package org.apache.ldap.common.message;
 
 
-import java.util.Collection ;
-
-import org.apache.ldap.common.Lockable ;
+import java.util.Map;
 
 
 /**
  * Root interface for all LDAP message type interfaces.
  *
- * @author <a href="mailto:dev@directory.apache.org">
- * Apache Directory Project</a>
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Rev$
  */
-public interface Message extends Lockable
+public interface Message 
 {
     /**
      * Gets the LDAP message type code associated with this Message.  Each
@@ -38,7 +35,7 @@ public interface Message extends Lockable
      *
      * @return the message type code.
      */
-    MessageTypeEnum getType() ;
+    MessageTypeEnum getType();
 
     /**
      * Gets the controls associated with this message mapped by OID.
@@ -46,27 +43,25 @@ public interface Message extends Lockable
      * @return Map of OID strings to Control object instances.
      * @see Control
      */
-    Collection getControls() ;
+    Map getControls();
 
     /**
      * Adds a control to this Message.
      *
-     * @param a_control the control to add.
+     * @param control the control to add.
      * @throws MessageException if controls cannot be added to this Message or
      * the control is not known etc.
      */
-    void add( Control a_control )
-        throws MessageException ;
+    void add( Control control ) throws MessageException;
 
     /**
      * Deletes a control removing it from this Message.
      *
-     * @param a_control the control to remove.
+     * @param control the control to remove.
      * @throws MessageException if controls cannot be added to this Message or
      * the control is not known etc.
      */
-    void remove( Control a_control )
-        throws MessageException ;
+    void remove( Control control ) throws MessageException;
 
     /**
      * Gets the session unique message sequence id for this message.  Requests
@@ -76,7 +71,7 @@ public interface Message extends Lockable
      *
      * @return the session unique message id.
      */
-    int getMessageId() ;
+    int getMessageId();
 
     /**
      * Gets a message scope parameter.  Message scope parameters are temporary
@@ -89,10 +84,10 @@ public interface Message extends Lockable
      * without firing LockExceptions even when this Lockable is in the locked
      * state.
      *
-     * @param a_key the key used to access a message parameter.
+     * @param key the key used to access a message parameter.
      * @return the transient message parameter value.
      */
-    Object get( Object a_key ) ;
+    Object get( Object key );
 
     /**
      * Sets a message scope parameter.
@@ -101,9 +96,9 @@ public interface Message extends Lockable
      * without firing LockExceptions even when this Lockable is in the locked
      * state.
      *
-     * @param a_key the parameter key
-     * @param a_value the parameter value
+     * @param key the parameter key
+     * @param value the parameter value
      * @return the old value or null
      */
-    Object put( Object a_key, Object a_value ) ;
+    Object put( Object key, Object value );
 }

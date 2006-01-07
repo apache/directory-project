@@ -223,7 +223,7 @@ public class SchemaService extends BaseInterceptor
 
         if ( returnAllOperationalAttributes || set.contains( "objectclasses" ) )
         {
-            attr = new LockableAttributeImpl( attrs, "objectClasses" );
+            attr = new LockableAttributeImpl( "objectClasses" );
             Iterator list = globalRegistries.getObjectClassRegistry().list();
             while ( list.hasNext() )
             {
@@ -235,7 +235,7 @@ public class SchemaService extends BaseInterceptor
 
         if ( returnAllOperationalAttributes || set.contains( "attributetypes" ) )
         {
-            attr = new LockableAttributeImpl( attrs, "attributeTypes" );
+            attr = new LockableAttributeImpl( "attributeTypes" );
             Iterator list = globalRegistries.getAttributeTypeRegistry().list();
             while ( list.hasNext() )
             {
@@ -247,7 +247,7 @@ public class SchemaService extends BaseInterceptor
 
         if ( returnAllOperationalAttributes || set.contains( "matchingrules" ) )
         {
-            attr = new LockableAttributeImpl( attrs, "matchingRules" );
+            attr = new LockableAttributeImpl( "matchingRules" );
             Iterator list = globalRegistries.getMatchingRuleRegistry().list();
             while ( list.hasNext() )
             {
@@ -259,7 +259,7 @@ public class SchemaService extends BaseInterceptor
 
         if ( returnAllOperationalAttributes || set.contains( "matchingruleuse" ) )
         {
-            attr = new LockableAttributeImpl( attrs, "matchingRuleUse" );
+            attr = new LockableAttributeImpl( "matchingRuleUse" );
             Iterator list = globalRegistries.getMatchingRuleUseRegistry().list();
             while ( list.hasNext() )
             {
@@ -271,7 +271,7 @@ public class SchemaService extends BaseInterceptor
 
         if ( returnAllOperationalAttributes || set.contains( "ldapsyntaxes" ) )
         {
-            attr = new LockableAttributeImpl( attrs, "ldapSyntaxes" );
+            attr = new LockableAttributeImpl( "ldapSyntaxes" );
             Iterator list = globalRegistries.getSyntaxRegistry().list();
             while ( list.hasNext() )
             {
@@ -283,7 +283,7 @@ public class SchemaService extends BaseInterceptor
 
         if ( returnAllOperationalAttributes || set.contains( "ditcontentrules" ) )
         {
-            attr = new LockableAttributeImpl( attrs, "dITContentRules" );
+            attr = new LockableAttributeImpl( "dITContentRules" );
             Iterator list = globalRegistries.getDitContentRuleRegistry().list();
             while ( list.hasNext() )
             {
@@ -295,7 +295,7 @@ public class SchemaService extends BaseInterceptor
 
         if ( returnAllOperationalAttributes || set.contains( "ditstructurerules" ) )
         {
-            attr = new LockableAttributeImpl( attrs, "dITStructureRules" );
+            attr = new LockableAttributeImpl( "dITStructureRules" );
             Iterator list = globalRegistries.getDitStructureRuleRegistry().list();
             while ( list.hasNext() )
             {
@@ -307,7 +307,7 @@ public class SchemaService extends BaseInterceptor
 
         if ( returnAllOperationalAttributes || set.contains( "nameforms" ) )
         {
-            attr = new LockableAttributeImpl( attrs, "nameForms" );
+            attr = new LockableAttributeImpl( "nameForms" );
             Iterator list = globalRegistries.getNameFormRegistry().list();
             while ( list.hasNext() )
             {
@@ -323,28 +323,28 @@ public class SchemaService extends BaseInterceptor
 
         if ( returnAllOperationalAttributes || set.contains( "createtimestamp" ) )
         {
-            attr = new LockableAttributeImpl( attrs, "createTimestamp" );
+            attr = new LockableAttributeImpl( "createTimestamp" );
             attr.add( startUpTimeStamp );
             attrs.put( attr );
         }
 
         if ( returnAllOperationalAttributes || set.contains( "modifytimestamp" ) )
         {
-            attr = new LockableAttributeImpl( attrs, "modifyTimestamp" );
+            attr = new LockableAttributeImpl( "modifyTimestamp" );
             attr.add( startUpTimeStamp );
             attrs.put( attr );
         }
 
         if ( returnAllOperationalAttributes || set.contains( "creatorsname" ) )
         {
-            attr = new LockableAttributeImpl( attrs, "creatorsName" );
+            attr = new LockableAttributeImpl( "creatorsName" );
             attr.add( DirectoryPartitionNexus.ADMIN_PRINCIPAL );
             attrs.put( attr );
         }
 
         if ( returnAllOperationalAttributes || set.contains( "modifiersname" ) )
         {
-            attr = new LockableAttributeImpl( attrs, "modifiersName" );
+            attr = new LockableAttributeImpl( "modifiersName" );
             attr.add( DirectoryPartitionNexus.ADMIN_PRINCIPAL );
             attrs.put( attr );
         }
@@ -366,7 +366,7 @@ public class SchemaService extends BaseInterceptor
         // add the objectClass attribute
         if ( set.contains( "*" ) || set.contains( "objectclass" ) || set.size() == minSetSize )
         {
-            attr = new LockableAttributeImpl( attrs, "objectClass" );
+            attr = new LockableAttributeImpl( "objectClass" );
             attr.add( "top" );
             attr.add( "subschema" );
             attrs.put( attr );

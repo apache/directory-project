@@ -14,12 +14,10 @@
  *   limitations under the License.
  *
  */
-package org.apache.ldap.common.message ;
+package org.apache.ldap.common.message;
 
 
-import java.util.Collection ;
-
-import org.apache.ldap.common.Lockable ;
+import java.util.Collection;
 
 
 /**
@@ -87,26 +85,25 @@ import org.apache.ldap.common.Lockable ;
  * add/remove methods.
  */
 public interface Referral
-    extends Lockable
 {
     /**
      * Gets an unmodifiable set of alternative referral urls.
      *
      * @return the alternative url objects.
      */
-    Collection getLdapUrls() ;
+    Collection getLdapUrls();
 
     /**
      * Adds an LDAPv3 URL to this Referral.
      *
      * @param a_url the LDAPv3 URL to add
      */
-    void addLdapUrl( String a_url ) ;
+    void addLdapUrl( String a_url );
 
     /**
      * Removes an LDAPv3 URL to this Referral.
      *
      * @param a_url the LDAPv3 URL to remove
      */
-    void removeLdapUrl( String a_url ) ;
+    void removeLdapUrl( String a_url );
 }

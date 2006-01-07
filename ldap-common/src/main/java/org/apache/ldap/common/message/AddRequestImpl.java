@@ -76,7 +76,6 @@ public class AddRequestImpl extends AbstractAbandonableRequest implements AddReq
      */
     public void setEntry( String entry )
     {
-        lockCheck( "Attempt to alter new entry name of locked AddRequest!" );
         this.entry = entry;
     }
 
@@ -100,7 +99,6 @@ public class AddRequestImpl extends AbstractAbandonableRequest implements AddReq
      */
     public void setAttributes( Attributes attributes )
     {
-        lockCheck( "Attempt to alter entry of locked AddRequest!" );
         this.attributes = attributes;
     }
 

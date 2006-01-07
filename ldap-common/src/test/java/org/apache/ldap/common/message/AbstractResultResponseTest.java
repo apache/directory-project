@@ -18,8 +18,6 @@ package org.apache.ldap.common.message;
 
 
 import junit.framework.TestCase;
-import org.apache.ldap.common.Lockable;
-import org.apache.ldap.common.LockException;
 
 
 /**
@@ -64,11 +62,11 @@ public class AbstractResultResponseTest extends TestCase
         r0.setResultCode( ResultCodeEnum.TIMELIMITEXCEEDED );
         r1.setResultCode( ResultCodeEnum.TIMELIMITEXCEEDED );
 
-        Referral refs0 = new ReferralImpl( r0 );
+        Referral refs0 = new ReferralImpl();
         refs0.addLdapUrl( "ldap://someserver.com" );
         refs0.addLdapUrl( "ldap://anotherserver.org" );
 
-        Referral refs1 = new ReferralImpl( r1 );
+        Referral refs1 = new ReferralImpl();
         refs1.addLdapUrl( "ldap://someserver.com" );
         refs1.addLdapUrl( "ldap://anotherserver.org" );
 
@@ -98,11 +96,11 @@ public class AbstractResultResponseTest extends TestCase
         r0.setResultCode( ResultCodeEnum.TIMELIMITEXCEEDED );
         r1.setResultCode( ResultCodeEnum.TIMELIMITEXCEEDED );
 
-        Referral refs0 = new ReferralImpl( r0 );
+        Referral refs0 = new ReferralImpl();
         refs0.addLdapUrl( "ldap://someserver.com" );
         refs0.addLdapUrl( "ldap://anotherserver.org" );
 
-        Referral refs1 = new ReferralImpl( r1 );
+        Referral refs1 = new ReferralImpl();
         refs1.addLdapUrl( "ldap://someserver.com" );
         refs1.addLdapUrl( "ldap://anotherserver.org" );
 
@@ -154,30 +152,6 @@ public class AbstractResultResponseTest extends TestCase
             private static final long serialVersionUID = 1L;};
         msg0.add( new Control() {
             private static final long serialVersionUID = 1L;
-            public Lockable getParent()
-            {
-                return null;
-            }
-
-            public boolean isLocked()
-            {
-                return false;
-            }
-
-            public boolean getLocked()
-            {
-                return false;
-            }
-
-            public void setLocked( boolean a_isLocked ) throws LockException
-            {
-            }
-
-            public boolean isUnlockable()
-            {
-                return false;
-            }
-
             public String getType()
             {
                 return null;

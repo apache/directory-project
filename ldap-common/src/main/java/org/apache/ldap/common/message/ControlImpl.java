@@ -17,17 +17,13 @@
 package org.apache.ldap.common.message ;
 
 
-import org.apache.ldap.common.Lockable ;
-import org.apache.ldap.common.AbstractLockable ;
-
-
 /**
  * Lockable Control implementation.
  * 
  * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Rev$
  */
-public abstract class ControlImpl extends AbstractLockable implements Control
+public abstract class ControlImpl implements Control
 {
     /** Unique object identifier for this control */
     private String oid ;
@@ -35,33 +31,6 @@ public abstract class ControlImpl extends AbstractLockable implements Control
     private byte [] value ;
     /** Flag for control criticality */
     private boolean isCritical ;
-
-
-    // ------------------------------------------------------------------------
-    // Constructors
-    // ------------------------------------------------------------------------
-
-
-    /**
-     * Creates a non-root Lockable Control implementation whose state is
-     * overriden by a parent Lockable.
-     *
-     * @param parent the overriding parent Lockable.
-     */
-    public ControlImpl( final Lockable parent )
-    {
-        super( parent, false ) ;
-    }
-
-
-    /**
-     * Creates a non-root Lockable Control implementation whose state is
-     * overriden by a parent Lockable.
-     */
-    public ControlImpl()
-    {
-        super() ;
-    }
 
 
     // ------------------------------------------------------------------------
@@ -91,7 +60,6 @@ public abstract class ControlImpl extends AbstractLockable implements Control
      */
     public void setCritical( boolean isCritical )
     {
-        lockCheck( "Attempt to alter criticality flag of locked Control!" ) ;
         this.isCritical = isCritical ;
     }
 
@@ -114,7 +82,6 @@ public abstract class ControlImpl extends AbstractLockable implements Control
      */
     public void setType( String oid )
     {
-        lockCheck( "Attempt to alter OID of locked Control!" ) ;
         this.oid = oid ;
     }
 
@@ -139,7 +106,6 @@ public abstract class ControlImpl extends AbstractLockable implements Control
      */
     public void setValue( byte [] value )
     {
-        lockCheck( "Attempt to alter encoded values of locked Control!" ) ;
         this.value = value ;
     }
 

@@ -14,34 +14,32 @@
  *   limitations under the License.
  *
  */
-package org.apache.ldap.common.message ;
+package org.apache.ldap.common.message;
 
 
 /**
  * Abandon protocol operation request to terminate an operation already in
  * progress.
  * 
- * @author <a href="mailto:dev@directory.apache.org">
- * Apache Directory Project</a>
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Rev$
  */
-public interface AbandonRequest
-    extends Request
+public interface AbandonRequest extends Request
 {
     /** Ldap abandon request type code */
-    MessageTypeEnum TYPE = MessageTypeEnum.ABANDONREQUEST ;
+    MessageTypeEnum TYPE = MessageTypeEnum.ABANDONREQUEST;
 
     /**
      * Gets the id of the request operation to terminate.
      *
      * @return the id of the request message to abandon
      */
-    int getAbandoned() ;
+    int getAbandoned();
 
     /**
      * Sets the id of the request operation to terminate.
      *
      * @param requestId the sequence id of the request message to abandon
      */
-    void setAbandoned( int requestId ) ;
+    void setAbandoned( int requestId );
 }

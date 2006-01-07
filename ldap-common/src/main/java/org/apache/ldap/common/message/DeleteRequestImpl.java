@@ -18,7 +18,7 @@ package org.apache.ldap.common.message;
 
 
 /**
- * Lockable delete request implementation.
+ * Delete request implementation.
  * 
  * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Rev$
@@ -73,7 +73,6 @@ public class DeleteRequestImpl extends AbstractAbandonableRequest implements Del
      */
     public void setName( String name )
     {
-        lockCheck( "Attempt to alter entry name of locked DeleteRequest!" );
         this.name = name;
     }
 

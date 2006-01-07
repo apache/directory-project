@@ -19,11 +19,8 @@ package org.apache.ldap.common.message;
 
 import junit.framework.TestCase;
 
-import java.util.Collection;
 import java.util.Collections;
-
-import org.apache.ldap.common.Lockable;
-import org.apache.ldap.common.LockException;
+import java.util.Map;
 
 
 /**
@@ -151,9 +148,9 @@ public class ExtendedRequestImplTest extends TestCase
                 return MessageTypeEnum.EXTENDEDREQ;
             }
 
-            public Collection getControls()
+            public Map getControls()
             {
-                return Collections.EMPTY_LIST;
+                return Collections.EMPTY_MAP;
             }
 
             public void add( Control control ) throws MessageException
@@ -177,30 +174,6 @@ public class ExtendedRequestImplTest extends TestCase
             public Object put( Object key, Object value )
             {
                 return null;
-            }
-
-            public Lockable getParent()
-            {
-                return null;
-            }
-
-            public boolean isLocked()
-            {
-                return false;
-            }
-
-            public boolean getLocked()
-            {
-                return false;
-            }
-
-            public void setLocked( boolean isLocked ) throws LockException
-            {
-            }
-
-            public boolean isUnlockable()
-            {
-                return false;
             }
 
             public ResultResponse getResultResponse()

@@ -20,8 +20,7 @@ package org.apache.ldap.common.message;
 /**
  * Lockable implementation of an AbandonRequest.
  *
- * @author <a href="mailto:dev@directory.apache.org">
- * Apache Directory Project</a>
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Rev$
  */
 public class AbandonRequestImpl extends AbstractRequest implements AbandonRequest
@@ -60,7 +59,6 @@ public class AbandonRequestImpl extends AbstractRequest implements AbandonReques
      */
     public void setAbandoned( int abandonId )
     {
-        lockCheck( "Attempt to alter locked AbandonRequest!" ) ;
         this.abandonId = abandonId ;
     }
 

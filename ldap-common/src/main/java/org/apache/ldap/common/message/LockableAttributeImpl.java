@@ -25,8 +25,6 @@ import javax.naming.OperationNotSupportedException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.DirContext;
 
-import org.apache.ldap.common.AbstractLockable;
-import org.apache.ldap.common.Lockable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,8 +35,7 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:dev@directory.apache.org"> Apache Directory Project</a>
  * @version $Rev$
  */
-public class LockableAttributeImpl
-    extends AbstractLockable implements LockableAttribute
+public class LockableAttributeImpl implements Attribute
 {
     private static final Logger log = LoggerFactory.getLogger( LockableAttributeImpl.class );
 
@@ -58,15 +55,11 @@ public class LockableAttributeImpl
      * Creates a permanently LockableAttribute on id whose locking behavoir
      * is dicatated by parent.
      *
-     * @param parent the parent of this Lockable.
      * @param id the id or name of this attribute.
      */
-    public LockableAttributeImpl( final Lockable parent, final String id )
+    public LockableAttributeImpl( final String id )
     {
-        super( parent , false ) ;
-
         this.id = id ;
-
         list = new ArrayList() ;
     }
 
@@ -79,12 +72,8 @@ public class LockableAttributeImpl
      */
     public LockableAttributeImpl( final String id, final Object value )
     {
-        super( false ) ;
-
         this.id = id ;
-
         list = new ArrayList() ;
-
         list.add( value );
     }
 
@@ -99,28 +88,9 @@ public class LockableAttributeImpl
      */
     public LockableAttributeImpl( final String id, final byte[] value )
     {
-        super( false ) ;
-
         this.id = id ;
-
         list = new ArrayList() ;
-
         list.add( value );
-    }
-
-
-    /**
-     * Creates a permanently LockableAttribute on id.
-     *
-     * @param id the id or name of this attribute.
-     */
-    public LockableAttributeImpl( final String id )
-    {
-        super( false ) ;
-
-        this.id = id ;
-
-        list = new ArrayList() ;
     }
 
 
@@ -128,36 +98,16 @@ public class LockableAttributeImpl
      * Creates a permanently LockableAttribute on id whose locking behavoir
      * is dicatated by parent.  Used for the clone method.
      *
-     * @param parent the parent of this Lockable
-     * @param id the id or name of this attribute
-     * @param list the list of values to start with
-     */
-    private LockableAttributeImpl( final Lockable parent,
-        final String id, final ArrayList list )
-    {
-        super( parent , false ) ;
-
-        this.id = id ;
-        this.list = list ;
-    }
-
-
-    /**
-     * Creates a permanently LockableAttribute on id.  Used for the clone
-     * method.
-     *
      * @param id the id or name of this attribute
      * @param list the list of values to start with
      */
     private LockableAttributeImpl( final String id, final ArrayList list )
     {
-        super( false ) ;
-
         this.id = id ;
         this.list = list ;
     }
 
-
+    
     // ------------------------------------------------------------------------
     // javax.naming.directory.Attribute Interface Method Implementations
     // ------------------------------------------------------------------------
@@ -234,7 +184,6 @@ public class LockableAttributeImpl
      */
     public boolean add( Object attrVal )
     {
-        super.lockCheck( "Attempt to add value to locked Attribute!" ) ;
         return list.add( attrVal ) ;
     }
 
@@ -248,7 +197,6 @@ public class LockableAttributeImpl
      */
     public boolean remove( Object attrVal )
     {
-        super.lockCheck( "Attempt to remove value from locked Attribute!" ) ;
         return list.remove( attrVal ) ;
     }
 
@@ -258,7 +206,6 @@ public class LockableAttributeImpl
      */
     public void clear()
     {
-        super.lockCheck( "Attempt to clear values from locked Attribute!" ) ;
         list.clear() ;
     }
 
@@ -296,11 +243,6 @@ public class LockableAttributeImpl
     public Object clone()
     {
         ArrayList l_list = ( ArrayList ) list.clone() ;
-        if ( getParent() != null )
-        {
-            return new LockableAttributeImpl( getParent(), id, l_list ) ;
-        }
-
         return new LockableAttributeImpl( id, l_list ) ;
     }
 
@@ -338,7 +280,6 @@ public class LockableAttributeImpl
      */
     public Object remove( int index )
     {
-        super.lockCheck( "Attempt to remove value from locked Attribute!" ) ;
         return list.remove( index ) ;
     }
 
@@ -352,7 +293,6 @@ public class LockableAttributeImpl
      */
     public void add( int index, Object attrVal )
     {
-        super.lockCheck( "Attempt to add value to locked Attribute!" ) ;
         list.add( index, attrVal ) ;
     }
 
@@ -366,7 +306,6 @@ public class LockableAttributeImpl
      */
     public Object set( int index, Object attrVal )
     {
-        super.lockCheck( "Attempt to set value in locked Attribute!" ) ;
         return list.set( index, attrVal ) ;
     }
 

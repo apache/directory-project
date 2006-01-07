@@ -18,9 +18,6 @@ package org.apache.ldap.common.message;
 
 
 import junit.framework.TestCase;
-import org.apache.ldap.common.Lockable;
-import org.apache.ldap.common.AbstractLockable;
-import org.apache.ldap.common.LockException;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -39,7 +36,7 @@ public class ReferralImplTest extends TestCase
      */
     public void testEqualsSameObject()
     {
-        ReferralImpl refs = new ReferralImpl( null );
+        ReferralImpl refs = new ReferralImpl();
         assertTrue( "equals method should work for the same object",
                 refs.equals( refs ) );
     }
@@ -51,11 +48,11 @@ public class ReferralImplTest extends TestCase
      */
     public void testEqualsExactCopy()
     {
-        ReferralImpl refs0 = new ReferralImpl( null );
+        ReferralImpl refs0 = new ReferralImpl();
         refs0.addLdapUrl( "ldap://blah0" );
         refs0.addLdapUrl( "ldap://blah1" );
         refs0.addLdapUrl( "ldap://blah2" );
-        ReferralImpl refs1 = new ReferralImpl( null );
+        ReferralImpl refs1 = new ReferralImpl();
         refs1.addLdapUrl( "ldap://blah0" );
         refs1.addLdapUrl( "ldap://blah1" );
         refs1.addLdapUrl( "ldap://blah2" );
@@ -72,12 +69,12 @@ public class ReferralImplTest extends TestCase
      */
     public void testEqualsExactCopyWithRedundancy()
     {
-        ReferralImpl refs0 = new ReferralImpl( null );
+        ReferralImpl refs0 = new ReferralImpl();
         refs0.addLdapUrl( "ldap://blah0" );
         refs0.addLdapUrl( "ldap://blah1" );
         refs0.addLdapUrl( "ldap://blah2" );
         refs0.addLdapUrl( "ldap://blah2" );
-        ReferralImpl refs1 = new ReferralImpl( null );
+        ReferralImpl refs1 = new ReferralImpl();
         refs1.addLdapUrl( "ldap://blah0" );
         refs1.addLdapUrl( "ldap://blah1" );
         refs1.addLdapUrl( "ldap://blah2" );
@@ -95,12 +92,12 @@ public class ReferralImplTest extends TestCase
      */
     public void testEqualsSameButWithRedundancyInOne()
     {
-        ReferralImpl refs0 = new ReferralImpl( null );
+        ReferralImpl refs0 = new ReferralImpl();
         refs0.addLdapUrl( "ldap://blah0" );
         refs0.addLdapUrl( "ldap://blah1" );
         refs0.addLdapUrl( "ldap://blah2" );
         refs0.addLdapUrl( "ldap://blah2" );
-        ReferralImpl refs1 = new ReferralImpl( null );
+        ReferralImpl refs1 = new ReferralImpl();
         refs1.addLdapUrl( "ldap://blah0" );
         refs1.addLdapUrl( "ldap://blah1" );
         refs1.addLdapUrl( "ldap://blah2" );
@@ -117,12 +114,12 @@ public class ReferralImplTest extends TestCase
      */
     public void testEqualsSameNumberButDifferentUrls()
     {
-        ReferralImpl refs0 = new ReferralImpl( null );
+        ReferralImpl refs0 = new ReferralImpl();
         refs0.addLdapUrl( "ldap://blah0" );
         refs0.addLdapUrl( "ldap://blah1" );
         refs0.addLdapUrl( "ldap://blah2" );
         refs0.addLdapUrl( "ldap://blah3" );
-        ReferralImpl refs1 = new ReferralImpl( null );
+        ReferralImpl refs1 = new ReferralImpl();
         refs1.addLdapUrl( "ldap://blah0" );
         refs1.addLdapUrl( "ldap://blah1" );
         refs1.addLdapUrl( "ldap://blah2" );
@@ -141,43 +138,17 @@ public class ReferralImplTest extends TestCase
      */
     public void testEqualsSubset()
     {
-        ReferralImpl refs0 = new ReferralImpl( null );
+        ReferralImpl refs0 = new ReferralImpl();
         refs0.addLdapUrl( "ldap://blah0" );
         refs0.addLdapUrl( "ldap://blah1" );
         refs0.addLdapUrl( "ldap://blah2" );
         refs0.addLdapUrl( "ldap://blah3" );
-        ReferralImpl refs1 = new ReferralImpl( null );
+        ReferralImpl refs1 = new ReferralImpl();
         refs1.addLdapUrl( "ldap://blah0" );
         refs1.addLdapUrl( "ldap://blah1" );
         assertFalse( "Referrals should not be equal",
                 refs0.equals( refs1 ) ) ;
         assertFalse( "Referrals should not be equal",
-                refs1.equals( refs0 ) ) ;
-    }
-
-
-    /**
-     * Make sure the lockable parent being different does not effect equality.
-     */
-    public void testEqualsDifferentLockableParents()
-    {
-        ReferralImpl refs0 = new ReferralImpl( new AbstractLockable(){
-            private static final long serialVersionUID = 1L;} );
-        ReferralImpl refs1 = new ReferralImpl( null );
-
-        assertTrue( "Empty Referrals should be equal",
-                refs0.equals( refs1 ) ) ;
-        assertTrue( "Empty Referrals should be equal",
-                refs1.equals( refs0 ) ) ;
-
-        refs0.addLdapUrl( "ldap://blah0" );
-        refs0.addLdapUrl( "ldap://blah1" );
-        refs1.addLdapUrl( "ldap://blah0" );
-        refs1.addLdapUrl( "ldap://blah1" );
-
-        assertTrue( "exact copies of Referrals should be equal",
-                refs0.equals( refs1 ) ) ;
-        assertTrue( "exact copies of Referrals should be equal",
                 refs1.equals( refs0 ) ) ;
     }
 
@@ -198,33 +169,9 @@ public class ReferralImplTest extends TestCase
             public void removeLdapUrl( String a_url )
             {
             }
-
-            public Lockable getParent()
-            {
-                return null;
-            }
-
-            public boolean isLocked()
-            {
-                return false;
-            }
-
-            public boolean getLocked()
-            {
-                return false;
-            }
-
-            public void setLocked( boolean a_isLocked ) throws LockException
-            {
-            }
-
-            public boolean isUnlockable()
-            {
-                return false;
-            }
         };
 
-        ReferralImpl refs1 = new ReferralImpl( null );
+        ReferralImpl refs1 = new ReferralImpl();
 
         assertFalse( "Object.equals() in effect because we did not redefine "
                 + " equals for the new impl above", refs0.equals( refs1 ) ) ;

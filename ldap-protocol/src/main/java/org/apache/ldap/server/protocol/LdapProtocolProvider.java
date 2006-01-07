@@ -382,7 +382,6 @@ public class LdapProtocolProvider
                 ExtendedRequest req = new ExtendedRequestImpl( 0 );
                 req.setOid( "1.3.6.1.4.1.1466.20037" );
                 req.setPayload( "SECURED".getBytes( "ISO-8859-1" ) );
-                req.setLocked( true );
                 message = req;
             }
             else if( message == SSLFilter.SESSION_UNSECURED )
@@ -390,7 +389,6 @@ public class LdapProtocolProvider
                 ExtendedRequest req = new ExtendedRequestImpl( 0 );
                 req.setOid( "1.3.6.1.4.1.1466.20037" );
                 req.setPayload( "UNSECURED".getBytes( "ISO-8859-1" ) );
-                req.setLocked( true );
                 message = req;
             }
             

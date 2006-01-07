@@ -14,22 +14,20 @@
  *   limitations under the License.
  *
  */
-package org.apache.ldap.common.message ;
+package org.apache.ldap.common.message;
 
 
 /**
- * Lockable SearchResponseReference implementation
+ * SearchResponseReference implementation
  * 
- * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
- * @author $Author: akarasulu $
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
-public class SearchResponseReferenceImpl
-    extends AbstractResponse implements SearchResponseReference
+public class SearchResponseReferenceImpl extends AbstractResponse implements SearchResponseReference
 {
     static final long serialVersionUID = 7423807019951309810L;
     /** Referral holding the reference urls */
-    private Referral m_referral ;
+    private Referral referral;
 
 
     // ------------------------------------------------------------------------
@@ -41,11 +39,11 @@ public class SearchResponseReferenceImpl
      * Creates a Lockable SearchResponseReference as a reply to an SearchRequest
      * to indicate the end of a search operation.
      *
-     * @param a_id the session unique message id
+     * @param id the session unique message id
      */
-    public SearchResponseReferenceImpl( final int a_id )
+    public SearchResponseReferenceImpl( final int id )
     {
-        super( a_id, TYPE ) ;
+        super( id, TYPE );
     }
 
 
@@ -61,20 +59,18 @@ public class SearchResponseReferenceImpl
      */
     public Referral getReferral()
     {
-        return m_referral ;
+        return this.referral;
     }
 
 
     /**
      * Sets the sequence of LdapUrls as a Referral instance.
      *
-     * @param a_referral the sequence of LdapUrls
+     * @param referral the sequence of LdapUrls
      */
-    public void setReferral( Referral a_referral )
+    public void setReferral( Referral referral )
     {
-        lockCheck(
-            "Attempt to alter referrals of a locked SearchRequestReference!" ) ;
-        m_referral = a_referral ;
+        this.referral = referral;
     }
 
 
@@ -98,19 +94,19 @@ public class SearchResponseReferenceImpl
 
         SearchResponseReference resp = ( SearchResponseReference ) obj;
 
-        if ( m_referral != null && resp.getReferral() == null )
+        if ( this.referral != null && resp.getReferral() == null )
         {
             return false;
         }
 
-        if ( m_referral == null && resp.getReferral() != null )
+        if ( this.referral == null && resp.getReferral() != null )
         {
             return false;
         }
 
-        if ( m_referral != null && resp.getReferral() != null )
+        if ( this.referral != null && resp.getReferral() != null )
         {
-            if ( ! m_referral.equals( resp.getReferral() ) )
+            if ( ! this.referral.equals( resp.getReferral() ) )
             {
                 return false;
             }

@@ -25,12 +25,10 @@ import org.apache.ldap.common.util.AttributeUtils;
 /**
  * Lockable SearchResponseEntry implementation
  * 
- * @author <a href="mailto:dev@directory.apache.org">
- * Apache Directory Project</a>
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Rev$
  */
-public class SearchResponseEntryImpl
-    extends AbstractResponse implements SearchResponseEntry
+public class SearchResponseEntryImpl extends AbstractResponse implements SearchResponseEntry
 {
     static final long serialVersionUID = -8357316233060886637L;
     /** Distinguished name of the search result entry returned */
@@ -79,8 +77,6 @@ public class SearchResponseEntryImpl
      */
     public void setAttributes( Attributes attributes )
     {
-        lockCheck(
-            "Attempt to alter attributes of a locked SearchResponseEntry!" );
         this.attributes = attributes;
     }
 
@@ -103,7 +99,6 @@ public class SearchResponseEntryImpl
      */
     public void setObjectName( String objectName )
     {
-        lockCheck( "Attempt to alter Dn of a locked SearchResponseEntry!" );
         this.objectName = objectName;
     }
 

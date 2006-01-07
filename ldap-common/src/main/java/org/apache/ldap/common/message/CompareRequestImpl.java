@@ -82,7 +82,6 @@ public class CompareRequestImpl extends AbstractAbandonableRequest implements Co
      */
     public void setName( String name )
     {
-        lockCheck( "Attempt to alter entry name on locked CompareRequest!" );
         this.name = name;
     }
 
@@ -104,9 +103,6 @@ public class CompareRequestImpl extends AbstractAbandonableRequest implements Co
      */
     public void setAssertionValue( String attrVal )
     {
-        super.lockCheck(
-            "Attempt to alter attribute value of locked CompareRequest" );
-
         this.attrVal = StringTools.getBytesUtf8( attrVal );
     }
 
@@ -117,8 +113,6 @@ public class CompareRequestImpl extends AbstractAbandonableRequest implements Co
      */
     public void setAssertionValue( byte[] attrVal )
     {
-        super.lockCheck(
-            "Attempt to alter attribute value of locked CompareRequest" );
         this.attrVal = attrVal;
     }
 
@@ -140,8 +134,6 @@ public class CompareRequestImpl extends AbstractAbandonableRequest implements Co
      */
     public void setAttributeId( String attrId )
     {
-        super.lockCheck(
-            "Attempt to alter attribute id of locked CompareRequest" );
         this.attrId = attrId;
     }
 

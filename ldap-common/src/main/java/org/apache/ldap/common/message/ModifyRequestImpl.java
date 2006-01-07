@@ -110,7 +110,6 @@ public class ModifyRequestImpl extends AbstractAbandonableRequest implements Mod
      */
     public void setName( String name )
     {
-        lockCheck( "Attempt to alter object name of locked ModifyRequest!" );
         this.name = name;
     }
 
@@ -123,7 +122,6 @@ public class ModifyRequestImpl extends AbstractAbandonableRequest implements Mod
      */
     public void addModification( ModificationItem mod )
     {
-        lockCheck( "Attempt to add modification to locked ModifyRequest!" );
         mods.add( mod );
     }
 
@@ -136,7 +134,6 @@ public class ModifyRequestImpl extends AbstractAbandonableRequest implements Mod
      */
     public void removeModification( ModificationItem mod )
     {
-        lockCheck( "Attempt to remove modification to locked ModifyRequest!" );
         mods.remove( mod );
     }
 

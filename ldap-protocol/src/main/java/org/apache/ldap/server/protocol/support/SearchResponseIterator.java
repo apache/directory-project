@@ -92,7 +92,7 @@ class SearchResponseIterator implements Iterator
                 {
                     SearchResponseReference respRef;
                     respRef = new SearchResponseReferenceImpl( req.getMessageId() );
-                    respRef.setReferral( new ReferralImpl( respRef ) );
+                    respRef.setReferral( new ReferralImpl() );
 
                     for( int ii = 0; ii < ref.size(); ii ++ )
                     {
@@ -220,7 +220,7 @@ class SearchResponseIterator implements Iterator
         else
         {
             SearchResponseReference respRef = new SearchResponseReferenceImpl( req.getMessageId() );
-            respRef.setReferral( new ReferralImpl( respRef ) );
+            respRef.setReferral( new ReferralImpl() );
 
             for( int ii = 0; ii < ref.size(); ii ++ )
             {

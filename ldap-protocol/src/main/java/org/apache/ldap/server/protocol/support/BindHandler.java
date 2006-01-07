@@ -81,7 +81,7 @@ public class BindHandler implements MessageHandler
         cloned.put( Context.SECURITY_CREDENTIALS, creds );
         cloned.put( Context.SECURITY_AUTHENTICATION, "simple" );
 
-        Control[] connCtls = ( Control[] ) req.getControls().toArray( EMPTY );
+        Control[] connCtls = ( Control[] ) req.getControls().values().toArray( EMPTY );
 
         try
         {

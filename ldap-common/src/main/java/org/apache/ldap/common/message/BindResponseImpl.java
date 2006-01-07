@@ -27,8 +27,7 @@ import org.apache.ldap.common.util.ArrayUtils;
  * Apache Directory Project</a>
  * @version $Rev$
  */
-public class BindResponseImpl
-    extends AbstractResultResponse implements BindResponse
+public class BindResponseImpl extends AbstractResultResponse implements BindResponse
 {
     static final long serialVersionUID = -5146809476518669755L;
     /** optional property holding SASL authentication response paramters */
@@ -78,7 +77,6 @@ public class BindResponseImpl
      */
     public void setServerSaslCreds( byte [] serverSaslCreds )
     {
-        lockCheck( "Attempt to alter serverSaslCreds on locked BindResponse!" );
         this.serverSaslCreds = serverSaslCreds;
     }
 
@@ -107,7 +105,6 @@ public class BindResponseImpl
         }
 
         BindResponse response = ( BindResponse ) obj;
-
         byte[] creds = response.getServerSaslCreds();
         if ( serverSaslCreds == null && creds != null )
         {
@@ -139,7 +136,6 @@ public class BindResponseImpl
     public String toString()
     {
         StringBuffer sb = new StringBuffer();
-
         sb.append( "    BindResponse\n" );
         sb.append( super.toString() );
         

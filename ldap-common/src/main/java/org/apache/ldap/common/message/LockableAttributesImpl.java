@@ -28,18 +28,14 @@ import javax.naming.directory.Attributes;
 
 import org.apache.ldap.common.util.ExceptionUtils;
 
-import org.apache.ldap.common.Lockable;
-import org.apache.ldap.common.AbstractLockable;
-
 
 /**
  * A case-insensitive Lockable JNDI Attributes implementation.
  * 
- * @author <a href="mailto:dev@directory.apache.org"> Apache Directory
- *         Project</a> $Rev$
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a> 
+ * @version $Rev$
  */
-public class LockableAttributesImpl
-    extends AbstractLockable implements LockableAttributes
+public class LockableAttributesImpl implements Attributes
 {
     static final long serialVersionUID = -69864533495992471L;
     /** Map of user provided String ids to Attributes */
@@ -58,19 +54,6 @@ public class LockableAttributesImpl
      */
     public LockableAttributesImpl()
     {
-        super( false );
-        keyMap = new HashMap();
-    }
-
-
-    /**
-     * Creates a LockableAttributes with a parent Lockable.
-     *
-     * @param parent the parent lockable to use for overriding lock state.
-     */
-    public LockableAttributesImpl( Lockable parent )
-    {
-        super( parent, false );
         keyMap = new HashMap();
     }
 
@@ -78,14 +61,11 @@ public class LockableAttributesImpl
     /**
      * Used by clone to create a LockableAttributes.
      *
-     * @param parent the parent Lockable
      * @param map the primary user provided id to Attribute Map
      * @param keyMap the canonical key to user provided id Map
      */
-    private LockableAttributesImpl( Lockable parent, Map map, Map keyMap )
+    private LockableAttributesImpl( Map map, Map keyMap )
     {
-        super( parent, false );
-
         this.keyMap = new HashMap();
 
         if ( keyMap != null )
@@ -144,14 +124,14 @@ public class LockableAttributesImpl
      */
     public Attribute get( String attrId )
     {
-        String l_key = getUserProvidedId( attrId );
+        String key = getUserProvidedId( attrId );
 
-        if ( l_key == null )
+        if ( key == null )
         {
             return null;
         }
 
-        return ( Attribute ) map.get( l_key );
+        return ( Attribute ) map.get( key );
     }
 
 
@@ -203,14 +183,12 @@ public class LockableAttributesImpl
      */
     public Attribute put( String attrId, Object val )
     {
-        super.lockCheck( "Attempt to add value to locked Attributes" );
-
         if ( get( attrId ) == null )
         {
             setUserProvidedId( attrId );
         }
 
-        Attribute attr = new LockableAttributeImpl( this, attrId );
+        Attribute attr = new LockableAttributeImpl( attrId );
         attr.add( val );
         map.put( attrId, attr );
         return attr;
@@ -229,22 +207,21 @@ public class LockableAttributesImpl
      */
     public Attribute put( Attribute attr )
     {
-        super.lockCheck( "Attempt to Attribute to locked Attributes" );
-        Attribute l_old = get( attr.getID() );
+        Attribute old = get( attr.getID() );
 
-        if ( l_old != null )
+        if ( old != null )
         {
-            map.remove( l_old.getID() );
+            map.remove( old.getID() );
 
             if ( keyMap != null )
             {
-                keyMap.remove( l_old.getID().toLowerCase() );
+                keyMap.remove( old.getID().toLowerCase() );
             }
         }
 
         map.put( attr.getID(), attr );
         setUserProvidedId( attr.getID() );
-        return l_old;
+        return old;
     }
 
 
@@ -260,21 +237,19 @@ public class LockableAttributesImpl
       */
     public Attribute remove( String attrId )
     {
-        super.lockCheck(
-            "Attempt to remove Attribute from locked Attributes" );
-        Attribute l_old = get( attrId );
+        Attribute old = get( attrId );
 
-        if ( l_old != null )
+        if ( old != null )
         {
-            map.remove( l_old.getID() );
+            map.remove( old.getID() );
 
             if ( keyMap != null )
             {
-                keyMap.remove( l_old.getID().toLowerCase() );
+                keyMap.remove( old.getID().toLowerCase() );
             }
         }
 
-        return l_old;
+        return old;
     }
 
 
@@ -286,7 +261,7 @@ public class LockableAttributesImpl
       */
     public Object clone()
     {
-        return new LockableAttributesImpl( getParent(), map, keyMap );
+        return new LockableAttributesImpl( map, keyMap );
     }
     
     
@@ -297,12 +272,12 @@ public class LockableAttributesImpl
      */
     public String toString()
     {
-        StringBuffer l_buf = new StringBuffer();
+        StringBuffer buf = new StringBuffer();
         
-        Iterator l_attrs = map.values().iterator();
-        while ( l_attrs.hasNext() )
+        Iterator attrs = map.values().iterator();
+        while ( attrs.hasNext() )
         {
-            Attribute l_attr = ( Attribute ) l_attrs.next();
+            Attribute l_attr = ( Attribute ) attrs.next();
             
             try 
             {
@@ -310,19 +285,19 @@ public class LockableAttributesImpl
                 while ( l_values.hasMore() )
                 {
                     Object l_value = l_values.next();
-                    l_buf.append( l_attr.getID() );
-                    l_buf.append( ": " );
-                    l_buf.append( l_value );
-                    l_buf.append( '\n' );
+                    buf.append( l_attr.getID() );
+                    buf.append( ": " );
+                    buf.append( l_value );
+                    buf.append( '\n' );
                 }
             } 
             catch ( NamingException e )
             {
-                l_buf.append( ExceptionUtils.getFullStackTrace( e ) );
+                buf.append( ExceptionUtils.getFullStackTrace( e ) );
             }
         }
         
-        return l_buf.toString();
+        return buf.toString();
     }
 
 

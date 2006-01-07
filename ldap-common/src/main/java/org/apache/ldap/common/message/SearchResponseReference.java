@@ -31,12 +31,10 @@ package org.apache.ldap.common.message ;
  * Search reference protocol response message used to return referrals to the
  * client in response to a search request message.
  *
- * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
- * @author $Author: akarasulu $
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
-public interface SearchResponseReference
-    extends Response
+public interface SearchResponseReference extends Response
 {
     /** Search reference response message type enumeration value */
     MessageTypeEnum TYPE = MessageTypeEnum.SEARCHRESREF ;

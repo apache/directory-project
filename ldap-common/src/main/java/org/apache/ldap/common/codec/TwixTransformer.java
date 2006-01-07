@@ -697,7 +697,7 @@ public class TwixTransformer implements TransformerSpi
                 }
                 else if ( twixControl.getControlValue() instanceof byte[] )
                 {
-                    neutralControl = new ControlImpl( snickersMessage )
+                    neutralControl = new ControlImpl()
                     {
                     	// Just to avoid a compilation warning !!!
                     	public static final long serialVersionUID = 1L;
@@ -1115,7 +1115,7 @@ public class TwixTransformer implements TransformerSpi
  
     private void transformControls( org.apache.ldap.common.codec.LdapMessage twixMessage, Message msg )
     {
-        Iterator list = msg.getControls().iterator();
+        Iterator list = msg.getControls().values().iterator();
         while ( list.hasNext() )
         {
             Control control = ( Control ) list.next();

@@ -18,8 +18,6 @@ package org.apache.ldap.common.message;
 
 
 import junit.framework.TestCase;
-import org.apache.ldap.common.Lockable;
-import org.apache.ldap.common.LockException;
 
 
 /**
@@ -101,30 +99,6 @@ public class AbstractMessageTest extends TestCase
             private static final long serialVersionUID = 1L;};
         msg0.add( new Control() {
             private static final long serialVersionUID = 1L;
-            public Lockable getParent()
-            {
-                return null;
-            }
-
-            public boolean isLocked()
-            {
-                return false;
-            }
-
-            public boolean getLocked()
-            {
-                return false;
-            }
-
-            public void setLocked( boolean a_isLocked ) throws LockException
-            {
-            }
-
-            public boolean isUnlockable()
-            {
-                return false;
-            }
-
             public String getType()
             {
                 return null;

@@ -19,11 +19,8 @@ package org.apache.ldap.common.message;
 
 import junit.framework.TestCase;
 
-import java.util.Collection;
 import java.util.Collections;
-
-import org.apache.ldap.common.Lockable;
-import org.apache.ldap.common.LockException;
+import java.util.Map;
 
 
 /**
@@ -120,9 +117,9 @@ public class DeleteRequestImplTest extends TestCase
                 return MessageTypeEnum.DELREQUEST;
             }
 
-            public Collection getControls()
+            public Map getControls()
             {
-                return Collections.EMPTY_LIST;
+                return Collections.EMPTY_MAP;
             }
 
             public void add( Control a_control ) throws MessageException
@@ -146,30 +143,6 @@ public class DeleteRequestImplTest extends TestCase
             public Object put( Object a_key, Object a_value )
             {
                 return null;
-            }
-
-            public Lockable getParent()
-            {
-                return null;
-            }
-
-            public boolean isLocked()
-            {
-                return false;
-            }
-
-            public boolean getLocked()
-            {
-                return false;
-            }
-
-            public void setLocked( boolean a_isLocked ) throws LockException
-            {
-            }
-
-            public boolean isUnlockable()
-            {
-                return false;
             }
 
             public void abandon()

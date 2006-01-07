@@ -87,8 +87,6 @@ public class ModifyDnRequestImpl extends AbstractAbandonableRequest implements M
      */
     public void setDeleteOldRdn( boolean deleteOldRdn )
     {
-        lockCheck(
-            "Attempt to toggle deleteOldRdn flag of locked ModifyDnRequest!" );
         this.deleteOldRdn = deleteOldRdn;
     }
 
@@ -127,7 +125,6 @@ public class ModifyDnRequestImpl extends AbstractAbandonableRequest implements M
      */
     public void setName( String name )
     {
-        lockCheck( "Attempt to alter entry name on locked ModifyDnRequest!" );
         this.name = name;
     }
 
@@ -152,7 +149,6 @@ public class ModifyDnRequestImpl extends AbstractAbandonableRequest implements M
      */
     public void setNewRdn( String newRdn )
     {
-        lockCheck( "Atttempt to alter the newRdn of locked ModifyDnRequest!" );
         this.newRdn = newRdn;
     }
 

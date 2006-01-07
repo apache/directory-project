@@ -21,12 +21,11 @@ import junit.framework.TestCase;
 
 import javax.naming.directory.DirContext;
 import javax.naming.directory.ModificationItem;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.ArrayList;
-
-import org.apache.ldap.common.Lockable;
-import org.apache.ldap.common.LockException;
+import java.util.Map;
 
 
 /**
@@ -285,9 +284,9 @@ public class ModifyRequestImplTest extends TestCase
                 return MessageTypeEnum.MODIFYREQUEST;
             }
 
-            public Collection getControls()
+            public Map getControls()
             {
-                return Collections.EMPTY_LIST;
+                return Collections.EMPTY_MAP;
             }
 
             public void add( Control a_control ) throws MessageException
@@ -311,30 +310,6 @@ public class ModifyRequestImplTest extends TestCase
             public Object put( Object a_key, Object a_value )
             {
                 return null;
-            }
-
-            public Lockable getParent()
-            {
-                return null;
-            }
-
-            public boolean isLocked()
-            {
-                return false;
-            }
-
-            public boolean getLocked()
-            {
-                return false;
-            }
-
-            public void setLocked( boolean a_isLocked ) throws LockException
-            {
-            }
-
-            public boolean isUnlockable()
-            {
-                return false;
             }
 
             public void abandon()

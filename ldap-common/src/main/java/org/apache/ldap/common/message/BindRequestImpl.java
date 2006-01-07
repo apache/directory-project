@@ -101,7 +101,6 @@ public class BindRequestImpl extends AbstractRequest implements BindRequest
      */
     public void setSimple( boolean isSimple )
     {
-        lockCheck( "Attempt to alter auth. mode of locked BindRequest!" );
         this.isSimple = isSimple;
     }
 
@@ -127,7 +126,6 @@ public class BindRequestImpl extends AbstractRequest implements BindRequest
      */
     public void setCredentials( byte [] credentials )
     {
-        lockCheck( "Attempt to alter auth. cred. of locked BindRequest!" );
         this.credentials = credentials;
     }
 
@@ -149,7 +147,6 @@ public class BindRequestImpl extends AbstractRequest implements BindRequest
      */
     public void setSaslMechanism( String mechanism )
     {
-        lockCheck( "Attempt to alter auth. cred. of locked BindRequest!" );
         this.mechanism = mechanism;
     }
 
@@ -181,7 +178,6 @@ public class BindRequestImpl extends AbstractRequest implements BindRequest
      */
     public void setName( String name )
     {
-        lockCheck( "Attempt to alter auth. DN of locked BindRequest!" );
         this.name = name;
     }
 
@@ -234,7 +230,6 @@ public class BindRequestImpl extends AbstractRequest implements BindRequest
      */
     public void setVersion3( boolean isVersion3 )
     {
-        lockCheck( "Attempt to alter proto. version of locked BindRequest!" );
         this.isVersion3 = isVersion3;
     }
 
@@ -318,7 +313,6 @@ public class BindRequestImpl extends AbstractRequest implements BindRequest
     public String toString()
     {
         StringBuffer sb = new StringBuffer();
-
         sb.append( "    BindRequest\n" );
         sb.append( "        Version : '" ).append( isVersion3 ? "3" : "2" ).append( "'\n" );
 

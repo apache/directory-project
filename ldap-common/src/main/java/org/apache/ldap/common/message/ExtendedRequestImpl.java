@@ -22,10 +22,9 @@ import org.apache.ldap.common.util.StringTools;
 
 
 /**
- * Lockable ExtendedRequest implementation.
+ * ExtendedRequest implementation.
  * 
- * @author <a href="mailto:dev@directory.apache.org">
- * Apache Directory Project</a>
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Rev$
  */
 public class ExtendedRequestImpl extends AbstractRequest implements ExtendedRequest
@@ -79,7 +78,6 @@ public class ExtendedRequestImpl extends AbstractRequest implements ExtendedRequ
      */
     public void setOid( String oid )
     {
-        lockCheck( "Attempt to alter OID of locked ExtendedRequest!" );
         this.oid = oid;
     }
 
@@ -104,7 +102,6 @@ public class ExtendedRequestImpl extends AbstractRequest implements ExtendedRequ
      */
     public void setPayload( byte [] payload )
     {
-        lockCheck( "Attempt to alter payload of locked ExtendedRequest!" );
         this.payload = payload;
     }
 

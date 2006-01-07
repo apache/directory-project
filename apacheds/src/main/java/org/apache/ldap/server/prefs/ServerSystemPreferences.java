@@ -38,7 +38,6 @@ import javax.naming.directory.ModificationItem;
 import javax.naming.ldap.InitialLdapContext;
 import javax.naming.ldap.LdapContext;
 
-import org.apache.ldap.common.Lockable;
 import org.apache.ldap.common.message.LockableAttributeImpl;
 import org.apache.ldap.common.message.LockableAttributesImpl;
 import org.apache.ldap.common.util.PreferencesDictionary;
@@ -127,13 +126,11 @@ public class ServerSystemPreferences extends AbstractPreferences
     public ServerSystemPreferences( ServerSystemPreferences parent, String name )
     {
         super( parent, name );
-
         LdapContext parentCtx = parent.getLdapContext();
 
         try
         {
             ctx = ( LdapContext ) parentCtx.lookup( "prefNodeName=" + name );
-
             super.newNode = false;
         }
         catch ( NamingException e )
@@ -191,29 +188,18 @@ public class ServerSystemPreferences extends AbstractPreferences
     private void setUpNode( String name ) throws NamingException
     {
         Attributes attrs = new LockableAttributesImpl();
-
-        Attribute attr = new LockableAttributeImpl( ( Lockable ) attrs, "objectClass" );
-
+        Attribute attr = new LockableAttributeImpl( "objectClass" );
         attr.add( "top" );
-
         attr.add( "prefNode" );
-
         attr.add( "extensibleObject" );
-
         attrs.put( attr );
-
-        attr = new LockableAttributeImpl( ( Lockable ) attrs, "prefNodeName" );
-
+        attr = new LockableAttributeImpl( "prefNodeName" );
         attr.add( name );
-
         attrs.put( attr );
 
         LdapContext parent = ( ( ServerSystemPreferences ) parent() ).getLdapContext();
-
         parent.bind( "prefNodeName=" + name, null, attrs );
-
         ctx = ( LdapContext ) parent.lookup( "prefNodeName=" + name );
-
         super.newNode = false;
     }
 
@@ -246,7 +232,6 @@ public class ServerSystemPreferences extends AbstractPreferences
         }
 
         changes.clear();
-
         keyToChange.clear();
     }
 
@@ -263,9 +248,7 @@ public class ServerSystemPreferences extends AbstractPreferences
         }
 
         ctx = null;
-
         changes.clear();
-
         keyToChange.clear();
     }
 
@@ -293,7 +276,6 @@ public class ServerSystemPreferences extends AbstractPreferences
         }
 
         changes.clear();
-
         keyToChange.clear();
     }
 
@@ -301,13 +283,11 @@ public class ServerSystemPreferences extends AbstractPreferences
     protected String[] childrenNamesSpi() throws BackingStoreException
     {
         ArrayList children = new ArrayList();
-
         NamingEnumeration list = null;
 
         try
         {
             list = ctx.list( "" );
-
             while ( list.hasMore() )
             {
                 NameClassPair ncp = ( NameClassPair ) list.next();
@@ -327,24 +307,19 @@ public class ServerSystemPreferences extends AbstractPreferences
     protected String[] keysSpi() throws BackingStoreException
     {
         Attributes attrs = null;
-
         ArrayList keys = new ArrayList();
 
         try
         {
             attrs = ctx.getAttributes( "" );
-
             NamingEnumeration ids = attrs.getIDs();
-
             while ( ids.hasMore() )
             {
                 String id = ( String ) ids.next();
-
                 if ( id.equals( "objectClass" ) || id.equals( "prefNodeName" ) )
                 {
                     continue;
                 }
-
                 keys.add( id );
             }
         }
@@ -360,9 +335,7 @@ public class ServerSystemPreferences extends AbstractPreferences
     protected void removeSpi( String key )
     {
         Attribute attr = new BasicAttribute( key );
-
         ModificationItem mi = new ModificationItem( DirContext.REMOVE_ATTRIBUTE, attr );
-
         addDelta( mi );
     }
 
@@ -370,11 +343,8 @@ public class ServerSystemPreferences extends AbstractPreferences
     private void addDelta( ModificationItem mi )
     {
         String key = mi.getAttribute().getID();
-
         List deltas = null;
-
         changes.add( mi );
-
         if ( keyToChange.containsKey( key ) )
         {
             deltas = ( List ) keyToChange.get( key );
@@ -385,7 +355,6 @@ public class ServerSystemPreferences extends AbstractPreferences
         }
 
         deltas.add( mi );
-
         keyToChange.put( key, deltas );
     }
 
@@ -397,15 +366,12 @@ public class ServerSystemPreferences extends AbstractPreferences
         try
         {
             Attribute attr = ctx.getAttributes( "" ).get( key );
-
             if ( keyToChange.containsKey( key ) )
             {
                 List mods = ( List ) keyToChange.get( key );
-
                 for ( int ii = 0; ii < mods.size(); ii++ )
                 {
                     ModificationItem mi = ( ModificationItem ) mods.get( ii );
-
                     if ( mi.getModificationOp() == DirContext.REMOVE_ATTRIBUTE )
                     {
                         attr = null;
@@ -436,11 +402,8 @@ public class ServerSystemPreferences extends AbstractPreferences
     protected void putSpi( String key, String value )
     {
         Attribute attr = new BasicAttribute( key );
-
         attr.add( value );
-
         ModificationItem mi = new ModificationItem( DirContext.REPLACE_ATTRIBUTE, attr );
-
         addDelta( mi );
     }
 

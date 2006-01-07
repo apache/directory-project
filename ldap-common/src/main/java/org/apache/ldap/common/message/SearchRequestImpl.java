@@ -126,7 +126,6 @@ public class SearchRequestImpl extends AbstractAbandonableRequest implements Sea
      */
     public void setBase( String base )
     {
-        lockCheck( "Attempt to alter search base of locked SearchRequest!" );
         baseDn = base;
     }
 
@@ -149,8 +148,6 @@ public class SearchRequestImpl extends AbstractAbandonableRequest implements Sea
      */
     public void setDerefAliases( DerefAliasesEnum derefAliases )
     {
-        lockCheck(
-        "Attempt to alter alias dereferencing mode of locked SearchRequest!" );
         this.derefAliases = derefAliases;
     }
 
@@ -174,7 +171,6 @@ public class SearchRequestImpl extends AbstractAbandonableRequest implements Sea
      */
     public void setFilter( ExprNode filter )
     {
-        lockCheck( "Attempt to alter search filter of locked SearchRequest!" );
         this.filter = filter;
     }
 
@@ -209,7 +205,6 @@ public class SearchRequestImpl extends AbstractAbandonableRequest implements Sea
      */
     public void setScope( ScopeEnum scope )
     {
-        lockCheck( "Attempt to alter search scope of locked SearchReqest!" );
         this.scope = scope;
     }
 
@@ -238,7 +233,6 @@ public class SearchRequestImpl extends AbstractAbandonableRequest implements Sea
      */
     public void setSizeLimit( int entriesMax )
     {
-        lockCheck( "Attempt to alter size limit on locked SearchRequest!" );
         sizeLimit = entriesMax;
     }
 
@@ -265,7 +259,6 @@ public class SearchRequestImpl extends AbstractAbandonableRequest implements Sea
      */
     public void setTimeLimit( int secondsMax )
     {
-        lockCheck( "Attempt to alter time limit on locked SearchRequest!" );
         timeLimit = secondsMax;
     }
 
@@ -294,8 +287,6 @@ public class SearchRequestImpl extends AbstractAbandonableRequest implements Sea
      */
     public void setTypesOnly( boolean typesOnly )
     {
-        lockCheck(
-            "Attempt to alter typesOnly flag of locked SearchRequest!" );
         this.typesOnly = typesOnly;
     }
 
@@ -307,8 +298,6 @@ public class SearchRequestImpl extends AbstractAbandonableRequest implements Sea
      */
     public void addAttribute( String attribute )
     {
-        lockCheck(
-            "Attempt to add return attribute to locked SearchRequest!" );
         attributes.add( attribute );
     }
 
@@ -320,8 +309,6 @@ public class SearchRequestImpl extends AbstractAbandonableRequest implements Sea
      */
     public void removeAttribute( String attribute )
     {
-        lockCheck(
-            "Attempt to remove return attribute from locked SearchRequest!" );
         attributes.remove( attribute );
     }
     

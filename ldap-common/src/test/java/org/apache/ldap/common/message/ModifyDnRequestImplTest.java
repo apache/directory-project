@@ -19,18 +19,14 @@ package org.apache.ldap.common.message;
 
 import junit.framework.TestCase;
 
-import java.util.Collection;
 import java.util.Collections;
-
-import org.apache.ldap.common.Lockable;
-import org.apache.ldap.common.LockException;
+import java.util.Map;
 
 
 /**
  * TestCase for the ModifyDnRequestImpl class.
  *
- * @author <a href="mailto:dev@directory.apache.org"> Apache Directory
- *         Project</a>
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Rev$
  */
 public class ModifyDnRequestImplTest extends TestCase
@@ -224,9 +220,9 @@ public class ModifyDnRequestImplTest extends TestCase
                 return MessageTypeEnum.MODDNREQUEST;
             }
 
-            public Collection getControls()
+            public Map getControls()
             {
-                return Collections.EMPTY_LIST;
+                return Collections.EMPTY_MAP;
             }
 
             public void add( Control a_control ) throws MessageException
@@ -250,30 +246,6 @@ public class ModifyDnRequestImplTest extends TestCase
             public Object put( Object a_key, Object a_value )
             {
                 return null;
-            }
-
-            public Lockable getParent()
-            {
-                return null;
-            }
-
-            public boolean isLocked()
-            {
-                return false;
-            }
-
-            public boolean getLocked()
-            {
-                return false;
-            }
-
-            public void setLocked( boolean a_isLocked ) throws LockException
-            {
-            }
-
-            public boolean isUnlockable()
-            {
-                return false;
             }
 
             public void abandon()

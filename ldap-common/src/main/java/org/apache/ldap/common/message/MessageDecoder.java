@@ -182,10 +182,6 @@ public final class MessageDecoder implements ProviderDecoder
 
         // Call on transformer to convert stub based PDU into Message based PDU
         Message message = transformer.transform( providerEnvelope );
-
-        // Lock down the PDU's parameters to protect against alteration
-        message.setLocked( true );
-
         return message;
     }
 
