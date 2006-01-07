@@ -43,8 +43,7 @@ public class SearchResponseDoneImplTest extends TestCase
     {
         // Construct the Search response to test with results and referrals
         SearchResponseDoneImpl response = new SearchResponseDoneImpl( 45 );
-        LdapResultImpl result = new LdapResultImpl( response );
-        response.setLdapResult( result );
+        LdapResult result = response.getLdapResult();
         result.setMatchedDn( "dc=example,dc=com" );
         result.setResultCode( ResultCodeEnum.SUCCESS );
         ReferralImpl refs = new ReferralImpl( result );
@@ -98,10 +97,6 @@ public class SearchResponseDoneImplTest extends TestCase
                 result.setReferral( refs );
 
                 return result;
-            }
-
-            public void setLdapResult( LdapResult a_result )
-            {
             }
 
             public MessageTypeEnum getType()

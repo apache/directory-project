@@ -35,8 +35,7 @@ package org.apache.ldap.common.message ;
  * @author $Author: akarasulu $
  * @version $Revision$
  */
-public interface AddResponse
-    extends ResultResponse
+public interface AddResponse extends ResultResponse
 {
     /** Add response message type enumeration value */
     MessageTypeEnum TYPE = MessageTypeEnum.ADDRESPONSE ;

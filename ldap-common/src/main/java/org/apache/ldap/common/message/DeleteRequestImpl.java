@@ -20,8 +20,7 @@ package org.apache.ldap.common.message;
 /**
  * Lockable delete request implementation.
  * 
- * @author <a href="mailto:dev@directory.apache.org">
- * Apache Directory Project</a>
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Rev$
  */
 public class DeleteRequestImpl extends AbstractAbandonableRequest implements DeleteRequest
@@ -29,6 +28,7 @@ public class DeleteRequestImpl extends AbstractAbandonableRequest implements Del
     static final long serialVersionUID = 3187847454305567542L;
     /** The distinguished name of the entry to delete */
     private String name;
+    private DeleteResponse response;
 
 
     // ------------------------------------------------------------------------
@@ -95,6 +95,22 @@ public class DeleteRequestImpl extends AbstractAbandonableRequest implements Del
     }
 
 
+    /**
+     * The result containing response for this request.
+     * 
+     * @return the result containing response for this request
+     */
+    public ResultResponse getResultResponse()
+    {
+        if ( response == null )
+        {
+            response = new DeleteResponseImpl( getMessageId() );
+        }
+        
+        return response;
+    }
+
+    
     /**
      * Checks to see if an object is equivalent to this DeleteRequest.  First
      * there's a quick test to see if the obj is the same object as this

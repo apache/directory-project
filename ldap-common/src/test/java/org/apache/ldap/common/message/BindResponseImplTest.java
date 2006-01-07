@@ -86,22 +86,6 @@ public class BindResponseImplTest extends TestCase
 
 
     /**
-     * Tests to make sure newly created objects with same different saslCreds
-     * are not equal.
-     */
-    public void testNotEqualsNewWithDiffLdapResult()
-    {
-        BindResponseImpl resp0 = new BindResponseImpl( 1 );
-        resp0.setLdapResult( new LdapResultImpl( resp0 ) );
-        BindResponseImpl resp1 = new BindResponseImpl( 1 );
-        assertFalse( "different result objects should not be equal",
-                resp0.equals( resp1 ) );
-        assertFalse( "different result objects should not be equal",
-                resp1.equals( resp0 ) );
-    }
-
-
-    /**
      * Tests for equality of two fully loaded identical BindResponse PDUs.
      */
     public void testEqualsWithTheWorks()
@@ -127,9 +111,7 @@ public class BindResponseImplTest extends TestCase
         refs1.addLdapUrl( "ldap://anotherserver.org" );
 
         BindResponseImpl resp0 = new BindResponseImpl( 1 );
-        resp0.setLdapResult( r0 );
         BindResponseImpl resp1 = new BindResponseImpl( 1 );
-        resp1.setLdapResult( r1 );
 
         resp0.setServerSaslCreds( "password".getBytes() );
         resp1.setServerSaslCreds( "password".getBytes() );

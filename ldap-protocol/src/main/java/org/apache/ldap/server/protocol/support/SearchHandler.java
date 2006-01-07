@@ -31,14 +31,13 @@ import org.apache.ldap.common.exception.LdapException;
 import org.apache.ldap.common.exception.OperationAbandonedException;
 import org.apache.ldap.common.filter.PresenceNode;
 import org.apache.ldap.common.message.AbandonListener;
-import org.apache.ldap.common.message.LdapResultImpl;
+import org.apache.ldap.common.message.LdapResult;
 import org.apache.ldap.common.message.PersistentSearchControl;
 import org.apache.ldap.common.message.Response;
 import org.apache.ldap.common.message.ResultCodeEnum;
 import org.apache.ldap.common.message.ScopeEnum;
 import org.apache.ldap.common.message.SearchRequest;
 import org.apache.ldap.common.message.SearchResponseDone;
-import org.apache.ldap.common.message.SearchResponseDoneImpl;
 import org.apache.ldap.common.name.LdapName;
 import org.apache.ldap.common.util.ArrayUtils;
 import org.apache.ldap.common.util.ExceptionUtils;
@@ -176,13 +175,11 @@ public class SearchHandler implements MessageHandler
 
             if ( isAnonymousUser && ! allowAnonymousBinds && ! isRootDSESearch )
             {
-                SearchResponseDone resp = new SearchResponseDoneImpl( req.getMessageId() );
-                LdapResultImpl result = new LdapResultImpl( resp );
-                resp.setLdapResult( result );
+                LdapResult result = req.getResultResponse().getLdapResult();
                 result.setResultCode( ResultCodeEnum.INSUFFICIENTACCESSRIGHTS );
                 String msg = "Bind failure: Anonymous binds have been disabled!";
                 result.setErrorMessage( msg );
-                session.write( resp );
+                session.write( req.getResultResponse() );
                 return;
             }
 
@@ -268,16 +265,12 @@ public class SearchHandler implements MessageHandler
             else
             {
                 list.close();
-                SearchResponseDone resp = new SearchResponseDoneImpl( req.getMessageId() );
-                resp.setLdapResult( new LdapResultImpl( resp ) );
-                resp.getLdapResult().setResultCode( ResultCodeEnum.SUCCESS );
-                Iterator it = Collections.singleton( resp ).iterator();
-
+                req.getResultResponse().getLdapResult().setResultCode( ResultCodeEnum.SUCCESS );
+                Iterator it = Collections.singleton( req.getResultResponse() ).iterator();
                 while( it.hasNext() )
                 {
                     session.write( it.next() );
                 }
-
                 return;
             }
         }
@@ -306,9 +299,7 @@ public class SearchHandler implements MessageHandler
                 msg += ":\n" + req + ":\n" + ExceptionUtils.getStackTrace( e );
             }
 
-            SearchResponseDone resp = new SearchResponseDoneImpl( req.getMessageId() );
             ResultCodeEnum code = null;
-
             if( e instanceof LdapException )
             {
                 code = ( ( LdapException ) e ).getResultCode();
@@ -318,9 +309,9 @@ public class SearchHandler implements MessageHandler
                 code = ResultCodeEnum.getBestEstimate( e, req.getType() );
             }
 
-            resp.setLdapResult( new LdapResultImpl( resp ) );
-            resp.getLdapResult().setResultCode( code );
-            resp.getLdapResult().setErrorMessage( msg );
+            LdapResult result = req.getResultResponse().getLdapResult();
+            result.setResultCode( code );
+            result.setErrorMessage( msg );
 
             if ( ( e.getResolvedName() != null ) &&
                     ( ( code == ResultCodeEnum.NOSUCHOBJECT ) ||
@@ -328,10 +319,10 @@ public class SearchHandler implements MessageHandler
                       ( code == ResultCodeEnum.INVALIDDNSYNTAX ) ||
                       ( code == ResultCodeEnum.ALIASDEREFERENCINGPROBLEM ) ) )
             {
-                resp.getLdapResult().setMatchedDn( e.getResolvedName().toString() );
+                result.setMatchedDn( e.getResolvedName().toString() );
             }
 
-            Iterator it = Collections.singleton( resp ).iterator();
+            Iterator it = Collections.singleton( req.getResultResponse() ).iterator();
             while( it.hasNext() )
             {
                 session.write( it.next() );

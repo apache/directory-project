@@ -48,8 +48,12 @@ public class AbstractResultResponseTest extends TestCase
      */
     public void testEqualsExactCopy()
     {
-        LdapResultImpl r0 = new LdapResultImpl( null );
-        LdapResultImpl r1 = new LdapResultImpl( null );
+        AbstractResultResponse msg0 = new AbstractResultResponse( 5, MessageTypeEnum.BINDREQUEST ) {
+            private static final long serialVersionUID = 1L;};
+        AbstractResultResponse msg1 = new AbstractResultResponse( 5, MessageTypeEnum.BINDREQUEST ) {
+            private static final long serialVersionUID = 1L;};
+        LdapResult r0 = msg0.getLdapResult();
+        LdapResult r1 = msg1.getLdapResult();
 
         r0.setErrorMessage( "blah blah blah" );
         r1.setErrorMessage( "blah blah blah" );
@@ -68,14 +72,6 @@ public class AbstractResultResponseTest extends TestCase
         refs1.addLdapUrl( "ldap://someserver.com" );
         refs1.addLdapUrl( "ldap://anotherserver.org" );
 
-        AbstractResultResponse msg0;
-        AbstractResultResponse msg1;
-        msg0 = new AbstractResultResponse( 5, MessageTypeEnum.BINDREQUEST ) {
-            private static final long serialVersionUID = 1L;};
-        msg0.setLdapResult( r0 );
-        msg1 = new AbstractResultResponse( 5, MessageTypeEnum.BINDREQUEST ) {
-            private static final long serialVersionUID = 1L;};
-        msg1.setLdapResult( r1 );
         assertTrue( msg0.equals( msg1 ) );
         assertTrue( msg1.equals( msg0 ) );
     }
@@ -86,8 +82,12 @@ public class AbstractResultResponseTest extends TestCase
      */
     public void testNotEqualsDiffResult()
     {
-        LdapResultImpl r0 = new LdapResultImpl( null );
-        LdapResultImpl r1 = new LdapResultImpl( null );
+        AbstractResultResponse msg0 = new AbstractResultResponse( 5, MessageTypeEnum.BINDREQUEST ) {
+            private static final long serialVersionUID = 1L;};
+        AbstractResultResponse msg1 = new AbstractResultResponse( 5, MessageTypeEnum.BINDREQUEST ) {
+            private static final long serialVersionUID = 1L;};
+        LdapResult r0 = msg0.getLdapResult();
+        LdapResult r1 = msg1.getLdapResult();
 
         r0.setErrorMessage( "blah blah blah" );
         r1.setErrorMessage( "blah blah blah" );
@@ -106,14 +106,6 @@ public class AbstractResultResponseTest extends TestCase
         refs1.addLdapUrl( "ldap://someserver.com" );
         refs1.addLdapUrl( "ldap://anotherserver.org" );
 
-        AbstractResultResponse msg0;
-        AbstractResultResponse msg1;
-        msg0 = new AbstractResultResponse( 5, MessageTypeEnum.BINDREQUEST ) {
-            private static final long serialVersionUID = 1L;};
-        msg0.setLdapResult( r0 );
-        msg1 = new AbstractResultResponse( 5, MessageTypeEnum.BINDREQUEST ) {
-            private static final long serialVersionUID = 1L;};
-        msg1.setLdapResult( r1 );
         assertFalse( msg0.equals( msg1 ) );
         assertFalse( msg1.equals( msg0 ) );
     }

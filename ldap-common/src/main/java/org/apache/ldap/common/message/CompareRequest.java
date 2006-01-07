@@ -14,16 +14,6 @@
  *   limitations under the License.
  *
  */
-
-/*
- * $Id: CompareRequest.java,v 1.5 2003/04/30 00:04:14 akarasulu Exp $
- *
- * -- (c) LDAPd Group                                                    --
- * -- Please refer to the LICENSE.txt file in the root directory of      --
- * -- any LDAPd project for copyright and distribution information.      --
- *
- */
-
 package org.apache.ldap.common.message ;
 
 
@@ -31,8 +21,7 @@ package org.apache.ldap.common.message ;
  * Compare request protocol message that tests an entry to see if it abides by
  * an attribute value assertion.
  * 
- * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
- * @author $Author: akarasulu $
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
 public interface CompareRequest extends SingleReplyRequest, AbandonableRequest

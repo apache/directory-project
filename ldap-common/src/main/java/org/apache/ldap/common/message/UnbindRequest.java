@@ -20,8 +20,8 @@ package org.apache.ldap.common.message ;
 /**
  * Unbind protocol request message used to end a client session.
  * 
- * @author <a href="mailto:dev@directory.apache.org"> Apache Directory
- *         Project</a> $Rev$
+ * @author <a href="mailto:dev@directory.apache.org"> Apache Directory Project</a> 
+ * @version $Rev$
  */
 public interface UnbindRequest extends Request
 {

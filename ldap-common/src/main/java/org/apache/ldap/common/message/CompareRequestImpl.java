@@ -16,6 +16,7 @@
  */
 package org.apache.ldap.common.message;
 
+
 import java.util.Arrays;
 
 import org.apache.ldap.common.util.StringTools;
@@ -24,8 +25,7 @@ import org.apache.ldap.common.util.StringTools;
 /**
  * Lockable comparison request implementation.
  * 
- * @author <a href="mailto:dev@directory.apache.org">
- * Apache Directory Project</a>
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Rev$
  */
 public class CompareRequestImpl extends AbstractAbandonableRequest implements CompareRequest
@@ -37,6 +37,7 @@ public class CompareRequestImpl extends AbstractAbandonableRequest implements Co
     private String attrId;
     /** The value of the attribute used in the comparison */
     private byte[] attrVal;
+    private CompareResponse response;
 
 
     // ------------------------------------------------------------------------
@@ -161,6 +162,21 @@ public class CompareRequestImpl extends AbstractAbandonableRequest implements Co
         return RESP_TYPE;
     }
 
+
+    /**
+     * The result containing response for this request.
+     * 
+     * @return the result containing response for this request
+     */
+    public ResultResponse getResultResponse()
+    {
+        if ( response == null )
+        {
+            response = new CompareResponseImpl( getMessageId() );
+        }
+        
+        return response;
+    }
 
     /**
      * Checks to see if an object is equivalent to this CompareRequest.

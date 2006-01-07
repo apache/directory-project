@@ -22,15 +22,14 @@ import javax.naming.directory.ModificationItem;
 import javax.naming.ldap.LdapContext;
 
 import org.apache.ldap.common.exception.LdapException;
-import org.apache.ldap.common.message.LdapResultImpl;
+import org.apache.ldap.common.message.LdapResult;
 import org.apache.ldap.common.message.ModifyRequest;
-import org.apache.ldap.common.message.ModifyResponse;
-import org.apache.ldap.common.message.ModifyResponseImpl;
 import org.apache.ldap.common.message.ResultCodeEnum;
 import org.apache.ldap.common.util.ExceptionUtils;
 import org.apache.ldap.server.protocol.SessionRegistry;
 import org.apache.mina.common.IoSession;
 import org.apache.mina.handler.demux.MessageHandler;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,8 +49,7 @@ public class ModifyHandler implements MessageHandler
     public void messageReceived( IoSession session, Object request )
     {
         ModifyRequest req = ( ModifyRequest ) request;
-        ModifyResponse resp = new ModifyResponseImpl( req.getMessageId() );
-        resp.setLdapResult( new LdapResultImpl( resp ) );
+        LdapResult result = req.getResultResponse().getLdapResult();
 
         try
         {
@@ -62,7 +60,6 @@ public class ModifyHandler implements MessageHandler
         catch ( NamingException e )
         {
             String msg = "failed to modify entry " + req.getName();
-	    
             if ( LOG.isDebugEnabled() )
             {
                 msg += ":\n" + ExceptionUtils.getStackTrace( e );
@@ -78,24 +75,23 @@ public class ModifyHandler implements MessageHandler
                 code = ResultCodeEnum.getBestEstimate( e, req.getType() );
             }
 
-            resp.getLdapResult().setResultCode( code );
-            resp.getLdapResult().setErrorMessage( msg );
-
+            result.setResultCode( code );
+            result.setErrorMessage( msg );
             if ( ( e.getResolvedName() != null ) &&
                     ( ( code == ResultCodeEnum.NOSUCHOBJECT ) ||
                       ( code == ResultCodeEnum.ALIASPROBLEM ) ||
                       ( code == ResultCodeEnum.INVALIDDNSYNTAX ) ||
                       ( code == ResultCodeEnum.ALIASDEREFERENCINGPROBLEM ) ) )
             {
-                resp.getLdapResult().setMatchedDn( e.getResolvedName().toString() );
+                result.setMatchedDn( e.getResolvedName().toString() );
             }
 
-            session.write( resp );
+            session.write( req.getResultResponse() );
             return;
         }
 
-        resp.getLdapResult().setResultCode( ResultCodeEnum.SUCCESS );
-        session.write( resp );
+        result.setResultCode( ResultCodeEnum.SUCCESS );
+        session.write( req.getResultResponse() );
         return;
     }
 }

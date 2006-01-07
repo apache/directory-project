@@ -16,15 +16,13 @@
  */
 package org.apache.ldap.server.protocol.support;
 
+
 import javax.naming.NamingException;
 import javax.naming.ldap.LdapContext;
 
 import org.apache.ldap.common.exception.LdapException;
 import org.apache.ldap.common.message.LdapResult;
-import org.apache.ldap.common.message.LdapResultImpl;
 import org.apache.ldap.common.message.ModifyDnRequest;
-import org.apache.ldap.common.message.ModifyDnResponse;
-import org.apache.ldap.common.message.ModifyDnResponseImpl;
 import org.apache.ldap.common.message.ResultCodeEnum;
 import org.apache.ldap.common.name.LdapName;
 import org.apache.ldap.common.util.ExceptionUtils;
@@ -32,12 +30,13 @@ import org.apache.ldap.common.util.StringTools;
 import org.apache.ldap.server.protocol.SessionRegistry;
 import org.apache.mina.common.IoSession;
 import org.apache.mina.handler.demux.MessageHandler;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 /**
- * A single reply handler for
- * {@link org.apache.ldap.common.message.ModifyDnRequest}s.
+ * A single reply handler for {@link org.apache.ldap.common.message.ModifyDnRequest}s.
  * 
  * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Rev$
@@ -46,23 +45,19 @@ public class ModifyDnHandler implements MessageHandler
 {
     private static final Logger LOG = LoggerFactory.getLogger( ModifyDnHandler.class );
 
-    public void messageReceived(IoSession session, Object request)
+    public void messageReceived( IoSession session, Object request )
     {
-        ModifyDnRequest req = (ModifyDnRequest) request;
-        ModifyDnResponse resp = new ModifyDnResponseImpl( req.getMessageId() );
-        resp.setLdapResult( new LdapResultImpl( resp ) );
+        ModifyDnRequest req = ( ModifyDnRequest ) request;
+        LdapResult result = req.getResultResponse().getLdapResult();
 
         System.out.println("req.getName() == [" + req.getName() +"]");
         if (req.getName() == null || req.getName().length() == 0)
         {
             // it is not allowed to modify the name of the Root DSE
-            
             String msg = "Modify DN is not allowed on Root DSE.";
-
-            LdapResult result = resp.getLdapResult();
             result.setResultCode( ResultCodeEnum.PROTOCOLERROR );
             result.setErrorMessage( msg );
-            session.write( resp );
+            session.write( req.getResultResponse() );
         }
         else
         {
@@ -78,7 +73,6 @@ public class ModifyDnHandler implements MessageHandler
                     LdapName newDn = null;
                     
                     String newSuperior = req.getNewSuperior();
-                    
                     if ( StringTools.isEmpty( newSuperior ) )
                     {
                     	newDn = (LdapName)oldDn.getPrefix( 1 );
@@ -88,7 +82,6 @@ public class ModifyDnHandler implements MessageHandler
                     	newDn = new LdapName( req.getNewSuperior() );
                     }
                     
-
                     if (req.getNewRdn() != null)
                     {
                         newDn.add( req.getNewRdn() );
@@ -111,14 +104,12 @@ public class ModifyDnHandler implements MessageHandler
             catch ( NamingException e )
             {
                 String msg = "failed to modify DN of entry " + req.getName();
-
                 if (LOG.isDebugEnabled())
                 {
                     msg += ":\n" + ExceptionUtils.getStackTrace( e );
                 }
 
                 ResultCodeEnum code;
-
                 if (e instanceof LdapException)
                 {
                     code = ((LdapException) e).getResultCode();
@@ -128,22 +119,21 @@ public class ModifyDnHandler implements MessageHandler
                     code = ResultCodeEnum.getBestEstimate( e, req.getType() );
                 }
 
-                resp.getLdapResult().setResultCode( code );
-                resp.getLdapResult().setErrorMessage( msg );
-
-                if ((e.getResolvedName() != null)
+                result.setResultCode( code );
+                result.setErrorMessage( msg );
+                if ( ( e.getResolvedName() != null )
                         && ((code == ResultCodeEnum.NOSUCHOBJECT) || (code == ResultCodeEnum.ALIASPROBLEM)
                                 || (code == ResultCodeEnum.INVALIDDNSYNTAX) || (code == ResultCodeEnum.ALIASDEREFERENCINGPROBLEM)))
                 {
-                    resp.getLdapResult().setMatchedDn( e.getResolvedName().toString() );
+                    result.setMatchedDn( e.getResolvedName().toString() );
                 }
 
-                session.write( resp );
+                session.write( req.getResultResponse() );
                 return;
             }
 
-            resp.getLdapResult().setResultCode( ResultCodeEnum.SUCCESS );
-            session.write( resp );
+            result.setResultCode( ResultCodeEnum.SUCCESS );
+            session.write( req.getResultResponse() );
         }
     }
 }

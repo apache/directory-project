@@ -28,16 +28,18 @@ public class ModifyDnRequestImpl extends AbstractAbandonableRequest implements M
     static final long serialVersionUID = 1233507339633051696L;
     
     /** PDU's modify Dn candidate <b>entry</b> distinguished name property */
-    private String name ;
+    private String name;
     
     /** PDU's <b>newrdn</b> relative distinguished name property */
-    private String newRdn ;
+    private String newRdn;
     
     /** PDU's <b>newSuperior</b> distinguished name property */
-    private String newSuperior ;
+    private String newSuperior;
     
     /** PDU's <b>deleteOldRdn</b> flag */
-    private boolean deleteOldRdn = false ;
+    private boolean deleteOldRdn = false;
+    
+    private ModifyDnResponse response;
 
 
     // -----------------------------------------------------------------------
@@ -53,7 +55,7 @@ public class ModifyDnRequestImpl extends AbstractAbandonableRequest implements M
      */
     public ModifyDnRequestImpl( final int id )
     {
-        super( id, TYPE ) ;
+        super( id, TYPE );
     }
 
 
@@ -71,7 +73,7 @@ public class ModifyDnRequestImpl extends AbstractAbandonableRequest implements M
      */
     public boolean getDeleteOldRdn()
     {
-        return deleteOldRdn ;
+        return deleteOldRdn;
     }
 
 
@@ -86,8 +88,8 @@ public class ModifyDnRequestImpl extends AbstractAbandonableRequest implements M
     public void setDeleteOldRdn( boolean deleteOldRdn )
     {
         lockCheck(
-            "Attempt to toggle deleteOldRdn flag of locked ModifyDnRequest!" ) ;
-        this.deleteOldRdn = deleteOldRdn ;
+            "Attempt to toggle deleteOldRdn flag of locked ModifyDnRequest!" );
+        this.deleteOldRdn = deleteOldRdn;
     }
 
 
@@ -101,7 +103,7 @@ public class ModifyDnRequestImpl extends AbstractAbandonableRequest implements M
      */
     public boolean isMove()
     {
-        return newSuperior != null ;
+        return newSuperior != null;
     }
 
 
@@ -113,7 +115,7 @@ public class ModifyDnRequestImpl extends AbstractAbandonableRequest implements M
      */
     public String getName()
     {
-        return name ;
+        return name;
     }
 
 
@@ -125,8 +127,8 @@ public class ModifyDnRequestImpl extends AbstractAbandonableRequest implements M
      */
     public void setName( String name )
     {
-        lockCheck( "Attempt to alter entry name on locked ModifyDnRequest!" ) ;
-        this.name = name ;
+        lockCheck( "Attempt to alter entry name on locked ModifyDnRequest!" );
+        this.name = name;
     }
 
 
@@ -138,7 +140,7 @@ public class ModifyDnRequestImpl extends AbstractAbandonableRequest implements M
      */
     public String getNewRdn()
     {
-        return newRdn ;
+        return newRdn;
     }
 
 
@@ -150,8 +152,8 @@ public class ModifyDnRequestImpl extends AbstractAbandonableRequest implements M
      */
     public void setNewRdn( String newRdn )
     {
-        lockCheck( "Atttempt to alter the newRdn of locked ModifyDnRequest!" ) ;
-        this.newRdn = newRdn ;
+        lockCheck( "Atttempt to alter the newRdn of locked ModifyDnRequest!" );
+        this.newRdn = newRdn;
     }
 
 
@@ -165,7 +167,7 @@ public class ModifyDnRequestImpl extends AbstractAbandonableRequest implements M
      */
     public String getNewSuperior()
     {
-        return newSuperior ;
+        return newSuperior;
     }
 
 
@@ -181,7 +183,7 @@ public class ModifyDnRequestImpl extends AbstractAbandonableRequest implements M
      */
     public void setNewSuperior( String newSuperior )
     {
-    	this.newSuperior = newSuperior ;
+    	this.newSuperior = newSuperior;
     }
 
 
@@ -198,7 +200,23 @@ public class ModifyDnRequestImpl extends AbstractAbandonableRequest implements M
      */
     public MessageTypeEnum getResponseType()
     {
-        return RESP_TYPE ;
+        return RESP_TYPE;
+    }
+    
+
+    /**
+     * The result containing response for this request.
+     * 
+     * @return the result containing response for this request
+     */
+    public ResultResponse getResultResponse()
+    {
+        if ( response == null )
+        {
+            response = new ModifyDnResponseImpl( getMessageId() );
+        }
+        
+        return response;
     }
 
 

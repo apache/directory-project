@@ -14,39 +14,20 @@
  *   limitations under the License.
  *
  */
-
-/*
- * $Id: ResultResponse.java,v 1.1 2003/05/02 00:49:07 akarasulu Exp $
- *
- * -- (c) LDAPd Group                                                    --
- * -- Please refer to the LICENSE.txt file in the root directory of      --
- * -- any LDAPd project for copyright and distribution information.      --
- *
- */
-
-package org.apache.ldap.common.message ;
+package org.apache.ldap.common.message;
 
 /**
  * An LDAP Response that contains an LDAPResult structure within it.
  *
- * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
- * @author $Author: akarasulu $
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
-public interface ResultResponse
-    extends Response
+public interface ResultResponse extends Response
 {
     /**
      * Gets the LdapResult components of this Response.
      *
      * @return the LdapResult for this Response.
      */
-    LdapResult getLdapResult() ;
-
-    /**
-     * Sets the LdapResult components of this Response.
-     *
-     * @param a_result the LdapResult for this Response.
-     */
-    void setLdapResult( LdapResult a_result ) ;
+    LdapResult getLdapResult();
 }

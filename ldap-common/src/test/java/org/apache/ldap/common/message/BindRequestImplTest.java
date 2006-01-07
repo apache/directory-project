@@ -301,17 +301,9 @@ public class BindRequestImplTest extends TestCase
             {
             }
 
-            public void abandon()
+            public ResultResponse getResultResponse()
             {
-            }
-
-            public boolean isAbandoned()
-            {
-                return false;
-            }
-
-            public void addAbandonListener(AbandonListener listener)
-            {
+                return null;
             }
         };
 

@@ -29,8 +29,7 @@ import org.apache.ldap.common.LockException;
 /**
  * TestCase for the ExtendedResponseImpl class.
  *
- * @author <a href="mailto:dev@directory.apache.org"> Apache Directory
- *         Project</a>
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Rev$
  */
 public class ExtendedResponseImplTest extends TestCase
@@ -46,8 +45,7 @@ public class ExtendedResponseImplTest extends TestCase
         ExtendedResponseImpl response = new ExtendedResponseImpl( 45 );
         response.setResponse( "Hello World!".getBytes() );
         response.setResponseName( "1.1.1.1" );
-        LdapResultImpl result = new LdapResultImpl( response );
-        response.setLdapResult( result );
+        LdapResult result = response.getLdapResult();
         result.setMatchedDn( "dc=example,dc=com" );
         result.setResultCode( ResultCodeEnum.SUCCESS );
         ReferralImpl refs = new ReferralImpl( result );
@@ -119,10 +117,6 @@ public class ExtendedResponseImplTest extends TestCase
                 result.setReferral( refs );
 
                 return result;
-            }
-
-            public void setLdapResult( LdapResult a_result )
-            {
             }
 
             public MessageTypeEnum getType()

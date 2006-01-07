@@ -29,8 +29,7 @@ import org.apache.ldap.common.LockException;
 /**
  * TestCase for the methods of the DeleteRequestImpl class.
  *
- * @author <a href="mailto:dev@directory.apache.org"> Apache Directory
- *         Project</a>
+ * @author <a href="mailto:dev@directory.apache.org"> Apache Directory Project</a>
  * @version $Rev$
  */
 public class DeleteRequestImplTest extends TestCase
@@ -184,6 +183,11 @@ public class DeleteRequestImplTest extends TestCase
 
             public void addAbandonListener(AbandonListener listener)
             {
+            }
+
+            public ResultResponse getResultResponse()
+            {
+                return null;
             }
         };
 

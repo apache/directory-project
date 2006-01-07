@@ -16,19 +16,19 @@
  */
 package org.apache.ldap.server.protocol.support;
 
+
 import javax.naming.NamingException;
 import javax.naming.directory.DirContext;
 
 import org.apache.ldap.common.exception.LdapException;
 import org.apache.ldap.common.message.DeleteRequest;
-import org.apache.ldap.common.message.DeleteResponse;
-import org.apache.ldap.common.message.DeleteResponseImpl;
-import org.apache.ldap.common.message.LdapResultImpl;
+import org.apache.ldap.common.message.LdapResult;
 import org.apache.ldap.common.message.ResultCodeEnum;
 import org.apache.ldap.common.util.ExceptionUtils;
 import org.apache.ldap.server.protocol.SessionRegistry;
 import org.apache.mina.common.IoSession;
 import org.apache.mina.handler.demux.MessageHandler;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,14 +41,12 @@ import org.slf4j.LoggerFactory;
  */
 public class DeleteHandler implements MessageHandler
 {
-    private static final Logger LOG = LoggerFactory.getLogger( DeleteHandler.class );
-
+    private static final Logger log = LoggerFactory.getLogger( DeleteHandler.class );
 
     public void messageReceived( IoSession session, Object request )
     {
         DeleteRequest req = ( DeleteRequest ) request;
-        DeleteResponse resp = new DeleteResponseImpl( req.getMessageId() );
-        resp.setLdapResult( new LdapResultImpl( resp ) );
+        LdapResult result = req.getResultResponse().getLdapResult(); 
 
         try
         {
@@ -59,13 +57,12 @@ public class DeleteHandler implements MessageHandler
         {
             String msg = "failed to delete entry " + req.getName();
 
-            if ( LOG.isDebugEnabled() )
+            if ( log.isDebugEnabled() )
             {
                 msg += ":\n" + ExceptionUtils.getStackTrace( e );
             }
 
             ResultCodeEnum code;
-
             if( e instanceof LdapException )
             {
                 code = ( ( LdapException ) e ).getResultCode();
@@ -75,23 +72,22 @@ public class DeleteHandler implements MessageHandler
                 code = ResultCodeEnum.getBestEstimate( e, req.getType() );
             }
 
-            resp.getLdapResult().setResultCode( code );
-            resp.getLdapResult().setErrorMessage( msg );
-
+            result.setResultCode( code );
+            result.setErrorMessage( msg );
             if ( ( e.getResolvedName() != null ) &&
                     ( ( code == ResultCodeEnum.NOSUCHOBJECT ) ||
                       ( code == ResultCodeEnum.ALIASPROBLEM ) ||
                       ( code == ResultCodeEnum.INVALIDDNSYNTAX ) ||
                       ( code == ResultCodeEnum.ALIASDEREFERENCINGPROBLEM ) ) )
             {
-                resp.getLdapResult().setMatchedDn( e.getResolvedName().toString() );
+                result.setMatchedDn( e.getResolvedName().toString() );
             }
 
-            session.write( resp );
+            session.write( req.getResultResponse() );
             return;
         }
 
-        resp.getLdapResult().setResultCode( ResultCodeEnum.SUCCESS );
-        session.write( resp );
+        result.setResultCode( ResultCodeEnum.SUCCESS );
+        session.write( req.getResultResponse() );
     }
 }

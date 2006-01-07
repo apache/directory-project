@@ -28,14 +28,14 @@ import org.apache.ldap.common.util.StringTools;
  * Apache Directory Project</a>
  * @version $Rev$
  */
-public class ExtendedRequestImpl
-    extends AbstractRequest implements ExtendedRequest
+public class ExtendedRequestImpl extends AbstractRequest implements ExtendedRequest
 {
     static final long serialVersionUID = 7916990159044177480L;
     /** Extended request's Object Identifier or <b>requestName</b> */
     private String oid;
     /** Extended request's payload or <b>requestValue</b> */
     private byte [] payload;
+    private ExtendedResponse response;
 
 
     // -----------------------------------------------------------------------
@@ -123,6 +123,22 @@ public class ExtendedRequestImpl
     public MessageTypeEnum getResponseType()
     {
         return RESP_TYPE;
+    }
+    
+
+    /**
+     * The result containing response for this request.
+     * 
+     * @return the result containing response for this request
+     */
+    public ResultResponse getResultResponse()
+    {
+        if ( response == null )
+        {
+            response = new ExtendedResponseImpl( getMessageId() );
+        }
+        
+        return response;
     }
 
 

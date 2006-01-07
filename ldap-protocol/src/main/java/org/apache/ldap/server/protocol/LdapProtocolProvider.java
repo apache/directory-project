@@ -16,6 +16,7 @@
  */
 package org.apache.ldap.server.protocol;
 
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -400,9 +401,5 @@ public class LdapProtocolProvider
         {
             SessionLog.warn( session, "Unexpected exception.", cause );
         }
-    }
-    
-    public static void main(String[] args) throws Exception {
-        new LdapProtocolProvider();
     }
 }

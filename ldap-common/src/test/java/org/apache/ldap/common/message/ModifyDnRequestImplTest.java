@@ -288,6 +288,11 @@ public class ModifyDnRequestImplTest extends TestCase
             public void addAbandonListener(AbandonListener listener)
             {
             }
+
+            public ResultResponse getResultResponse()
+            {
+                return null;
+            }
         };
 
         ModifyDnRequestImpl req1 = getRequest();

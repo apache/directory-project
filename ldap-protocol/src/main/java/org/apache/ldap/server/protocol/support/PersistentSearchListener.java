@@ -32,18 +32,17 @@ import org.apache.ldap.common.message.AbandonListener;
 import org.apache.ldap.common.message.AbandonableRequest;
 import org.apache.ldap.common.message.Control;
 import org.apache.ldap.common.message.EntryChangeControl;
-import org.apache.ldap.common.message.LdapResultImpl;
+import org.apache.ldap.common.message.LdapResult;
 import org.apache.ldap.common.message.PersistentSearchControl;
 import org.apache.ldap.common.message.ResultCodeEnum;
 import org.apache.ldap.common.message.SearchRequest;
-import org.apache.ldap.common.message.SearchResponseDone;
-import org.apache.ldap.common.message.SearchResponseDoneImpl;
 import org.apache.ldap.common.message.SearchResponseEntry;
 import org.apache.ldap.common.message.SearchResponseEntryImpl;
 import org.apache.ldap.common.util.ExceptionUtils;
 import org.apache.ldap.server.jndi.ServerLdapContext;
 import org.apache.ldap.server.protocol.SessionRegistry;
 import org.apache.mina.common.IoSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -139,9 +138,7 @@ class PersistentSearchListener implements ObjectChangeListener, NamespaceChangeL
             msg += ":\n" + req + ":\n" + ExceptionUtils.getStackTrace( evt.getException() );
         }
 
-        SearchResponseDone resp = new SearchResponseDoneImpl( req.getMessageId() );
         ResultCodeEnum code = null;
-
         if( evt.getException() instanceof LdapException )
         {
             code = ( ( LdapException ) evt.getException() ).getResultCode();
@@ -151,20 +148,18 @@ class PersistentSearchListener implements ObjectChangeListener, NamespaceChangeL
             code = ResultCodeEnum.getBestEstimate( evt.getException(), req.getType() );
         }
 
-        resp.setLdapResult( new LdapResultImpl( resp ) );
-        resp.getLdapResult().setResultCode( code );
-        resp.getLdapResult().setErrorMessage( msg );
-
+        LdapResult result = req.getResultResponse().getLdapResult();
+        result.setResultCode( code );
+        result.setErrorMessage( msg );
         if ( ( evt.getException().getResolvedName() != null ) &&
                 ( ( code == ResultCodeEnum.NOSUCHOBJECT ) ||
                   ( code == ResultCodeEnum.ALIASPROBLEM ) ||
                   ( code == ResultCodeEnum.INVALIDDNSYNTAX ) ||
                   ( code == ResultCodeEnum.ALIASDEREFERENCINGPROBLEM ) ) )
         {
-            resp.getLdapResult().setMatchedDn( evt.getException().getResolvedName().toString() );
+            result.setMatchedDn( evt.getException().getResolvedName().toString() );
         }
-
-        session.write( resp );
+        session.write( req.getResultResponse() );
     }
 
     

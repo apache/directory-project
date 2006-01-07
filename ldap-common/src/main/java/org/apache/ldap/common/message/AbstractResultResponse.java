@@ -24,11 +24,10 @@ package org.apache.ldap.common.message;
  * @author $Author: akarasulu $
  * @version $Revision$
  */
-public abstract class AbstractResultResponse
-    extends AbstractResponse implements ResultResponse
+public abstract class AbstractResultResponse extends AbstractResponse implements ResultResponse
 {
     /** Response result components */
-    private LdapResult result;
+    private LdapResult result = new LdapResultImpl( this );
 
 
     // ------------------------------------------------------------------------
@@ -43,8 +42,7 @@ public abstract class AbstractResultResponse
      * @param id the response eliciting this Request
      * @param type the message type of the response
      */
-    protected AbstractResultResponse( final int id,
-        final MessageTypeEnum type )
+    protected AbstractResultResponse( final int id, final MessageTypeEnum type )
     {
         super( id, type );
     }
@@ -63,18 +61,6 @@ public abstract class AbstractResultResponse
     public LdapResult getLdapResult()
     {
         return result;
-    }
-
-
-    /**
-     * Sets the LdapResult components of this Response.
-     *
-     * @param ldapResult the LdapResult for this Response.
-     */
-    public void setLdapResult( LdapResult ldapResult )
-    {
-        lockCheck( "Attempt to alter the LdapResult for a locked Response!" );
-        result = ldapResult;
     }
 
 

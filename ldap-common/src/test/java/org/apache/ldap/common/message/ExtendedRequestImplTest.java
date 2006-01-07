@@ -29,8 +29,7 @@ import org.apache.ldap.common.LockException;
 /**
  * TestCase for the ExtendedRequestImpl class.
  *
- * @author <a href="mailto:dev@directory.apache.org"> Apache Directory
- *         Project</a>
+ * @author <a href="mailto:dev@directory.apache.org"> Apache Directory Project</a>
  * @version $Rev$
  */
 public class ExtendedRequestImplTest extends TestCase
@@ -204,17 +203,9 @@ public class ExtendedRequestImplTest extends TestCase
                 return false;
             }
 
-            public void abandon()
+            public ResultResponse getResultResponse()
             {
-            }
-
-            public boolean isAbandoned()
-            {
-                return false;
-            }
-
-            public void addAbandonListener(AbandonListener listener)
-            {
+                return null;
             }
         };
 

@@ -22,9 +22,7 @@ import javax.naming.ldap.LdapContext;
 
 import org.apache.ldap.common.exception.LdapException;
 import org.apache.ldap.common.message.CompareRequest;
-import org.apache.ldap.common.message.CompareResponse;
-import org.apache.ldap.common.message.CompareResponseImpl;
-import org.apache.ldap.common.message.LdapResultImpl;
+import org.apache.ldap.common.message.LdapResult;
 import org.apache.ldap.common.message.ResultCodeEnum;
 import org.apache.ldap.common.name.LdapName;
 import org.apache.ldap.common.util.ExceptionUtils;
@@ -32,6 +30,7 @@ import org.apache.ldap.server.jndi.ServerLdapContext;
 import org.apache.ldap.server.protocol.SessionRegistry;
 import org.apache.mina.common.IoSession;
 import org.apache.mina.handler.demux.MessageHandler;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,8 +48,7 @@ public class CompareHandler implements MessageHandler
     public void messageReceived( IoSession session, Object request )
     {
         CompareRequest req = ( CompareRequest ) request;
-        CompareResponse resp = new CompareResponseImpl( req.getMessageId() );
-        resp.setLdapResult( new LdapResultImpl( resp ) );
+        LdapResult result = req.getResultResponse().getLdapResult();
 
         try
         {
@@ -60,11 +58,11 @@ public class CompareHandler implements MessageHandler
             
             if ( newCtx.compare( name, req.getAttributeId(), req.getAssertionValue() ) )
             {
-                resp.getLdapResult().setResultCode( ResultCodeEnum.COMPARETRUE );
+                result.setResultCode( ResultCodeEnum.COMPARETRUE );
             }
             else
             {
-                resp.getLdapResult().setResultCode( ResultCodeEnum.COMPAREFALSE );
+                result.setResultCode( ResultCodeEnum.COMPAREFALSE );
             }
         }
         catch ( Exception e )
@@ -87,8 +85,8 @@ public class CompareHandler implements MessageHandler
                 code = ResultCodeEnum.getBestEstimate( e, req.getType() );
             }
 
-            resp.getLdapResult().setResultCode( code );
-            resp.getLdapResult().setErrorMessage( msg );
+            result.setResultCode( code );
+            result.setErrorMessage( msg );
 
             if ( e instanceof NamingException )
             {
@@ -100,15 +98,15 @@ public class CompareHandler implements MessageHandler
                           ( code == ResultCodeEnum.INVALIDDNSYNTAX ) ||
                           ( code == ResultCodeEnum.ALIASDEREFERENCINGPROBLEM ) ) )
                 {
-                    resp.getLdapResult().setMatchedDn( ne.getResolvedName().toString() );
+                    result.setMatchedDn( ne.getResolvedName().toString() );
                 }
             }
 
-            session.write( resp );
+            session.write( req.getResultResponse() );
             return;
         }
 
-        resp.getLdapResult().setMatchedDn( req.getName() );
-        session.write( resp );
+        result.setMatchedDn( req.getName() );
+        session.write( req.getResultResponse() );
     }
 }

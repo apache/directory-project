@@ -14,16 +14,6 @@
  *   limitations under the License.
  *
  */
-
-/*
- * $Id: CompareResponse.java,v 1.2 2003/05/02 00:49:06 akarasulu Exp $
- *
- * -- (c) LDAPd Group                                                    --
- * -- Please refer to the LICENSE.txt file in the root directory of      --
- * -- any LDAPd project for copyright and distribution information.      --
- *
- */
-
 package org.apache.ldap.common.message ;
 
 
@@ -31,12 +21,10 @@ package org.apache.ldap.common.message ;
  * Compare protocol response message used to confirm the results of a compare
  * request message.
  *
- * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
- * @author $Author: akarasulu $
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
-public interface CompareResponse
-    extends ResultResponse
+public interface CompareResponse extends ResultResponse
 {
     /** Compare response message type enumeration value */
     MessageTypeEnum TYPE = MessageTypeEnum.COMPARERESPONSE ;

@@ -20,10 +20,10 @@ package org.apache.ldap.common.message;
 /**
  * Lockable AddResponse implementation.
  * 
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Rev$
  */
-public class AddResponseImpl
-    extends AbstractResultResponse implements AddResponse
+public class AddResponseImpl extends AbstractResultResponse implements AddResponse
 {
     // ------------------------------------------------------------------------
     // Constructors
@@ -57,5 +57,4 @@ public class AddResponseImpl
 
         return sb.toString();
     }
-    
 }

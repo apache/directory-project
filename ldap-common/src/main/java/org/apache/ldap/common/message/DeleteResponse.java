@@ -14,30 +14,18 @@
  *   limitations under the License.
  *
  */
-
-/*
- * $Id: DeleteResponse.java,v 1.2 2003/05/02 00:49:06 akarasulu Exp $
- *
- * -- (c) LDAPd Group                                                    --
- * -- Please refer to the LICENSE.txt file in the root directory of      --
- * -- any LDAPd project for copyright and distribution information.      --
- *
- */
-
-package org.apache.ldap.common.message ;
+package org.apache.ldap.common.message;
 
 
 /**
  * Delete protocol response message used to confirm the results of a delete
  * request message.
  *
- * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
- * @author $Author: akarasulu $
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
-public interface DeleteResponse
-    extends ResultResponse
+public interface DeleteResponse extends ResultResponse
 {
     /** Delete response message type enumeration value */
-    MessageTypeEnum TYPE = MessageTypeEnum.DELRESPONSE ;
+    MessageTypeEnum TYPE = MessageTypeEnum.DELRESPONSE;
 }

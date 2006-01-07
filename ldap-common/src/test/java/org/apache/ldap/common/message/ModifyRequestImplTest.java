@@ -349,6 +349,11 @@ public class ModifyRequestImplTest extends TestCase
             public void addAbandonListener(AbandonListener listener)
             {
             }
+
+            public ResultResponse getResultResponse()
+            {
+                return null;
+            }
         };
 
         ModifyRequestImpl req1 = getRequest();

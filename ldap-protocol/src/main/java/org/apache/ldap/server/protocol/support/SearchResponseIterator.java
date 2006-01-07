@@ -25,17 +25,16 @@ import javax.naming.directory.Attribute;
 import javax.naming.directory.SearchResult;
 
 import org.apache.ldap.common.exception.LdapException;
-import org.apache.ldap.common.message.LdapResultImpl;
 import org.apache.ldap.common.message.ReferralImpl;
 import org.apache.ldap.common.message.ResultCodeEnum;
 import org.apache.ldap.common.message.SearchRequest;
 import org.apache.ldap.common.message.SearchResponseDone;
-import org.apache.ldap.common.message.SearchResponseDoneImpl;
 import org.apache.ldap.common.message.SearchResponseEntry;
 import org.apache.ldap.common.message.SearchResponseEntryImpl;
 import org.apache.ldap.common.message.SearchResponseReference;
 import org.apache.ldap.common.message.SearchResponseReferenceImpl;
 import org.apache.ldap.common.util.ExceptionUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -184,8 +183,7 @@ class SearchResponseIterator implements Iterator
                 {
                 }
 
-                respDone = new SearchResponseDoneImpl( req.getMessageId() );
-                respDone.setLdapResult( new LdapResultImpl( respDone ) );
+                respDone = ( SearchResponseDone ) req.getResultResponse();
                 respDone.getLdapResult().setResultCode( ResultCodeEnum.SUCCESS );
                 prefetched = null;
                 return next;
@@ -270,15 +268,13 @@ class SearchResponseIterator implements Iterator
     SearchResponseDone getResponse( SearchRequest req, NamingException e )
     {
         String msg = "failed on search operation";
-
         if ( log.isDebugEnabled() )
         {
             msg += ":\n" + req + ":\n" + ExceptionUtils.getStackTrace( e );
         }
 
-        SearchResponseDone resp = new SearchResponseDoneImpl( req.getMessageId() );
+        SearchResponseDone resp = ( SearchResponseDone ) req.getResultResponse();
         ResultCodeEnum code = null;
-
         if( e instanceof LdapException )
         {
             code = ( ( LdapException ) e ).getResultCode();
@@ -288,10 +284,8 @@ class SearchResponseIterator implements Iterator
             code = ResultCodeEnum.getBestEstimate( e, req.getType() );
         }
 
-        resp.setLdapResult( new LdapResultImpl( resp ) );
         resp.getLdapResult().setResultCode( code );
         resp.getLdapResult().setErrorMessage( msg );
-
         if ( ( e.getResolvedName() != null ) &&
                 ( ( code == ResultCodeEnum.NOSUCHOBJECT ) ||
                   ( code == ResultCodeEnum.ALIASPROBLEM ) ||
@@ -300,7 +294,6 @@ class SearchResponseIterator implements Iterator
         {
             resp.getLdapResult().setMatchedDn( e.getResolvedName().toString() );
         }
-
         return resp;
     }
 }

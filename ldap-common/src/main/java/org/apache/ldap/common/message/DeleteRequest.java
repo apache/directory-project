@@ -14,16 +14,6 @@
  *   limitations under the License.
  *
  */
-
-/*
- * $Id: DeleteRequest.java,v 1.4 2003/04/27 16:54:28 akarasulu Exp $
- *
- * -- (c) LDAPd Group                                                    --
- * -- Please refer to the LICENSE.txt file in the root directory of      --
- * -- any LDAPd project for copyright and distribution information.      --
- *
- */
-
 package org.apache.ldap.common.message ;
 
 
@@ -31,8 +21,7 @@ package org.apache.ldap.common.message ;
  * Delete request protocol message used to remove an existing leaf entry from
  * the directory.
  *
- * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
- * @author $Author: akarasulu $
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
 public interface DeleteRequest extends SingleReplyRequest, AbandonableRequest

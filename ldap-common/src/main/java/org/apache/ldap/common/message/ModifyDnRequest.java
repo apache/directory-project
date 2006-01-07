@@ -14,16 +14,6 @@
  *   limitations under the License.
  *
  */
-
-/*
- * $Id: ModifyDnRequest.java,v 1.4 2003/07/31 21:44:48 akarasulu Exp $
- *
- * -- (c) LDAPd Group                                                    --
- * -- Please refer to the LICENSE.txt file in the root directory of      --
- * -- any LDAPd project for copyright and distribution information.      --
- *
- */
-
 package org.apache.ldap.common.message ;
 
 
@@ -65,16 +55,15 @@ package org.apache.ldap.common.message ;
  * Note that this operation can move an entry and change its Rdn at the same
  * time in fact it might have no choice to comply with name forms.
  *
- * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
- * @author $Author: akarasulu $
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
 public interface ModifyDnRequest extends SingleReplyRequest, AbandonableRequest
 {
     /** Modify DN request message type enumeration value */
-    MessageTypeEnum TYPE = MessageTypeEnum.MODDNREQUEST ;
+    MessageTypeEnum TYPE = MessageTypeEnum.MODDNREQUEST;
     /** Modify DN response message type enumeration value */
-    MessageTypeEnum RESP_TYPE = ModifyDnResponse.TYPE ;
+    MessageTypeEnum RESP_TYPE = ModifyDnResponse.TYPE;
 
     /**
      * Gets the entry's distinguished name representing the <b>entry</b> PDU
@@ -82,15 +71,15 @@ public interface ModifyDnRequest extends SingleReplyRequest, AbandonableRequest
      *
      * @return the distinguished name of the entry.
      */
-    String getName() ;
+    String getName();
 
     /**
      * Sets the entry's distinguished name representing the <b>entry</b> PDU
      * field.
      *
-     * @param a_name the distinguished name of the entry.
+     * @param name the distinguished name of the entry.
      */
-    void setName( String a_name ) ;
+    void setName( String name );
 
     /**
      * Gets the new relative distinguished name for the entry which represents
@@ -98,15 +87,15 @@ public interface ModifyDnRequest extends SingleReplyRequest, AbandonableRequest
      *
      * @return the relative dn with one component
      */
-    String getNewRdn() ;
+    String getNewRdn();
 
     /**
      * Sets the new relative distinguished name for the entry which represents
      * the PDU's <b>newrdn</b> field.
      *
-     * @param a_newRdn the relative dn with one component
+     * @param newRdn the relative dn with one component
      */
-    void setNewRdn( String a_newRdn ) ;
+    void setNewRdn( String newRdn );
 
     /**
      * Gets the flag which determines if the old Rdn attribute is to be removed
@@ -115,17 +104,17 @@ public interface ModifyDnRequest extends SingleReplyRequest, AbandonableRequest
      *
      * @return true if the old rdn is to be deleted, false if it is not
      */
-    boolean getDeleteOldRdn() ;
+    boolean getDeleteOldRdn();
 
     /**
      * Sets the flag which determines if the old Rdn attribute is to be removed
      * from the entry when the new Rdn is used in its stead.  This property
      * corresponds to the <b>deleteoldrdn</p> PDU field.
      *
-     * @param a_deleteOldRdn true if the old rdn is to be deleted, false if it
+     * @param deleteOldRdn true if the old rdn is to be deleted, false if it
      * is not
      */
-    void setDeleteOldRdn( boolean a_deleteOldRdn ) ;
+    void setDeleteOldRdn( boolean deleteOldRdn );
 
     /**
      * Gets the optional distinguished name of the new superior entry where the
@@ -135,7 +124,7 @@ public interface ModifyDnRequest extends SingleReplyRequest, AbandonableRequest
      *
      * @return the dn of the superior entry the candidate entry is moved under.
      */
-    String getNewSuperior() ;
+    String getNewSuperior();
 
     /**
      * Sets the optional distinguished name of the new superior entry where the
@@ -144,10 +133,10 @@ public interface ModifyDnRequest extends SingleReplyRequest, AbandonableRequest
      * rather than a move operation.  Setting this property to a non-null value
      * toggles the move flag obtained via the <code>isMove</code> method.
      *
-     * @param a_newSuperior the dn of the superior entry the candidate entry
+     * @param newSuperior the dn of the superior entry the candidate entry
      * for DN modification is moved under.
      */
-    void setNewSuperior( String a_newSuperior ) ;
+    void setNewSuperior( String newSuperior );
 
     /**
      * Gets whether or not this request is a DN change resulting in a move
@@ -157,5 +146,5 @@ public interface ModifyDnRequest extends SingleReplyRequest, AbandonableRequest
      * @return true if the newSuperior property is <b>NOT</b> null, false
      * otherwise.
      */
-    boolean isMove() ;
+    boolean isMove();
 }

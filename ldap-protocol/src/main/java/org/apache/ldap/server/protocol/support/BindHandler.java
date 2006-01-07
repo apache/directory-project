@@ -27,19 +27,18 @@ import javax.naming.spi.InitialContextFactory;
 
 import org.apache.ldap.common.exception.LdapException;
 import org.apache.ldap.common.message.BindRequest;
-import org.apache.ldap.common.message.BindResponse;
-import org.apache.ldap.common.message.BindResponseImpl;
 import org.apache.ldap.common.message.Control;
 import org.apache.ldap.common.message.LdapResult;
-import org.apache.ldap.common.message.LdapResultImpl;
 import org.apache.ldap.common.message.ResultCodeEnum;
 import org.apache.ldap.common.util.ExceptionUtils;
 import org.apache.ldap.common.util.StringTools;
 import org.apache.ldap.server.protocol.SessionRegistry;
 import org.apache.mina.common.IoSession;
 import org.apache.mina.handler.demux.MessageHandler;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 /**
  * A single reply handler for {@link org.apache.ldap.common.message.BindRequest}s.
@@ -57,34 +56,20 @@ public class BindHandler implements MessageHandler
     {
         LdapContext ctx;
         BindRequest req = ( BindRequest ) request;
-        BindResponse resp = new BindResponseImpl( req.getMessageId() );
-        LdapResult result = new LdapResultImpl( resp );
-        resp.setLdapResult( result );
+        LdapResult result = req.getResultResponse().getLdapResult();
 
         Hashtable env = SessionRegistry.getSingleton().getEnvironment();
-//        StartupConfiguration cfg = ( StartupConfiguration ) Configuration.toConfiguration( env );
         
         // if the bind request is not simple then we freak: no strong auth yet
         if ( ! req.isSimple() )
         {
             result.setResultCode( ResultCodeEnum.AUTHMETHODNOTSUPPORTED );
             result.setErrorMessage( "Only simple binds currently supported" );
-            session.write( resp );
+            session.write( req.getResultResponse() );
             return;
         }
 
-//        boolean allowAnonymousBinds = cfg.isAllowAnonymousAccess();
-//        boolean emptyCredentials = req.getCredentials() == null || req.getCredentials().length == 0;
         boolean emptyDn = StringTools.isEmpty( req.getName() );
-//
-//        if ( emptyCredentials && emptyDn && ! allowAnonymousBinds )
-//        {
-//            result.setResultCode( ResultCodeEnum.INSUFFICIENTACCESSRIGHTS );
-//            String msg = "Bind failure: Anonymous binds have been disabled!";
-//            result.setErrorMessage( msg );
-//            session.write( resp );
-//            return;
-//        }
 
         // clone the environment first then add the required security settings
         String dn = ( emptyDn ? "" : req.getName() );
@@ -132,7 +117,6 @@ public class BindHandler implements MessageHandler
             }
 
             String msg = "Bind failed";
-
             if ( log.isDebugEnabled() )
             {
                 msg += ":\n" + ExceptionUtils.getStackTrace( e );
@@ -145,16 +129,16 @@ public class BindHandler implements MessageHandler
                       ( code == ResultCodeEnum.INVALIDDNSYNTAX ) ||
                       ( code == ResultCodeEnum.ALIASDEREFERENCINGPROBLEM ) ) )
             {
-                resp.getLdapResult().setMatchedDn( e.getResolvedName().toString() );
+                result.setMatchedDn( e.getResolvedName().toString() );
             }
             
             result.setErrorMessage( msg );
-            session.write( resp );
+            session.write( req.getResultResponse() );
             return;
         }
 
         SessionRegistry.getSingleton().setLdapContext( session, ctx );
         result.setResultCode( ResultCodeEnum.SUCCESS );
-        session.write( resp );
+        session.write( req.getResultResponse() );
     }
 }

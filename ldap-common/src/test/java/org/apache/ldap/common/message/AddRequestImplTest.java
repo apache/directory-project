@@ -261,6 +261,11 @@ public class AddRequestImplTest extends TestCase
             public void addAbandonListener(AbandonListener listener)
             {
             }
+
+            public ResultResponse getResultResponse()
+            {
+                return null;
+            }
         };
 
         AddRequestImpl req1 = new AddRequestImpl( 5 );

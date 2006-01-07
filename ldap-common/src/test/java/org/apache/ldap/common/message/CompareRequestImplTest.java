@@ -240,6 +240,11 @@ public class CompareRequestImplTest extends TestCase
             public void addAbandonListener(AbandonListener listener)
             {
             }
+
+            public ResultResponse getResultResponse()
+            {
+                return null;
+            }
         };
 
         CompareRequestImpl req1 = new CompareRequestImpl( 5 );

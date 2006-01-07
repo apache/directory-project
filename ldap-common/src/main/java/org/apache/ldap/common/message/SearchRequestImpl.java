@@ -14,15 +14,15 @@
  *   limitations under the License.
  *
  */
-package org.apache.ldap.common.message ;
+package org.apache.ldap.common.message;
 
 
-import java.util.ArrayList ;
-import java.util.Collection ;
-import java.util.Collections ;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 
-import org.apache.ldap.common.filter.ExprNode ;
+import org.apache.ldap.common.filter.ExprNode;
 import org.apache.ldap.common.filter.BranchNormalizedVisitor;
 
 
@@ -37,21 +37,23 @@ public class SearchRequestImpl extends AbstractAbandonableRequest implements Sea
 {
     static final long serialVersionUID = -5655881944020886218L;
     /** Search base distinguished name */
-    private String baseDn ;
+    private String baseDn;
     /** Search filter expression tree's root node */
-    private ExprNode filter ;
+    private ExprNode filter;
     /** Search scope enumeration value */
-    private ScopeEnum scope ;
+    private ScopeEnum scope;
     /** Types only return flag */
-    private boolean typesOnly ;
+    private boolean typesOnly;
     /** Max size in entries to return */
-    private int sizeLimit ;
+    private int sizeLimit;
     /** Max seconds to wait for search to complete */
-    private int timeLimit ;
+    private int timeLimit;
     /** Alias dereferencing mode enumeration value */
-    private DerefAliasesEnum derefAliases ;
+    private DerefAliasesEnum derefAliases;
     /** Attributes to return */
-    private Collection attributes = new ArrayList() ;
+    private Collection attributes = new ArrayList();
+    /** The final result containing SearchResponseDone response */
+    private SearchResponseDone response;
 
 
     // ------------------------------------------------------------------------
@@ -60,14 +62,13 @@ public class SearchRequestImpl extends AbstractAbandonableRequest implements Sea
 
 
     /**
-     * Creates a Lockable SearcRequest implementing object used to search the
-     * DIT.
+     * Creates a Lockable SearcRequest implementing object used to search the DIT.
      *
      * @param id the sequential message identifier
      */
     public SearchRequestImpl( final int id )
     {
-        super( id, TYPE ) ;
+        super( id, TYPE );
     }
 
 
@@ -103,7 +104,7 @@ public class SearchRequestImpl extends AbstractAbandonableRequest implements Sea
      */
     public Collection getAttributes()
     {
-        return Collections.unmodifiableCollection( attributes ) ;
+        return Collections.unmodifiableCollection( attributes );
     }
 
 
@@ -114,7 +115,7 @@ public class SearchRequestImpl extends AbstractAbandonableRequest implements Sea
      */
     public String getBase()
     {
-        return baseDn ;
+        return baseDn;
     }
 
 
@@ -125,8 +126,8 @@ public class SearchRequestImpl extends AbstractAbandonableRequest implements Sea
      */
     public void setBase( String base )
     {
-        lockCheck( "Attempt to alter search base of locked SearchRequest!" ) ;
-        baseDn = base ;
+        lockCheck( "Attempt to alter search base of locked SearchRequest!" );
+        baseDn = base;
     }
 
 
@@ -137,7 +138,7 @@ public class SearchRequestImpl extends AbstractAbandonableRequest implements Sea
      */
     public DerefAliasesEnum getDerefAliases()
     {
-        return derefAliases ;
+        return derefAliases;
     }
 
 
@@ -149,8 +150,8 @@ public class SearchRequestImpl extends AbstractAbandonableRequest implements Sea
     public void setDerefAliases( DerefAliasesEnum derefAliases )
     {
         lockCheck(
-        "Attempt to alter alias dereferencing mode of locked SearchRequest!" ) ;
-        this.derefAliases = derefAliases ;
+        "Attempt to alter alias dereferencing mode of locked SearchRequest!" );
+        this.derefAliases = derefAliases;
     }
 
 
@@ -161,7 +162,7 @@ public class SearchRequestImpl extends AbstractAbandonableRequest implements Sea
      */
     public ExprNode getFilter()
     {
-        return filter ;
+        return filter;
     }
 
 
@@ -173,8 +174,8 @@ public class SearchRequestImpl extends AbstractAbandonableRequest implements Sea
      */
     public void setFilter( ExprNode filter )
     {
-        lockCheck( "Attempt to alter search filter of locked SearchRequest!" ) ;
-        this.filter = filter ;
+        lockCheck( "Attempt to alter search filter of locked SearchRequest!" );
+        this.filter = filter;
     }
 
 
@@ -186,7 +187,7 @@ public class SearchRequestImpl extends AbstractAbandonableRequest implements Sea
      */
     public MessageTypeEnum [] getResponseTypes()
     {
-        return ( MessageTypeEnum [] ) RESPONSE_TYPES.clone() ;
+        return ( MessageTypeEnum [] ) RESPONSE_TYPES.clone();
     }
 
 
@@ -197,7 +198,7 @@ public class SearchRequestImpl extends AbstractAbandonableRequest implements Sea
      */
     public ScopeEnum getScope()
     {
-        return scope ;
+        return scope;
     }
 
 
@@ -208,8 +209,8 @@ public class SearchRequestImpl extends AbstractAbandonableRequest implements Sea
      */
     public void setScope( ScopeEnum scope )
     {
-        lockCheck( "Attempt to alter search scope of locked SearchReqest!" ) ;
-        this.scope = scope ;
+        lockCheck( "Attempt to alter search scope of locked SearchReqest!" );
+        this.scope = scope;
     }
 
 
@@ -223,7 +224,7 @@ public class SearchRequestImpl extends AbstractAbandonableRequest implements Sea
      */
     public int getSizeLimit()
     {
-        return sizeLimit ;
+        return sizeLimit;
     }
 
 
@@ -237,8 +238,8 @@ public class SearchRequestImpl extends AbstractAbandonableRequest implements Sea
      */
     public void setSizeLimit( int entriesMax )
     {
-        lockCheck( "Attempt to alter size limit on locked SearchRequest!" ) ;
-        sizeLimit = entriesMax ;
+        lockCheck( "Attempt to alter size limit on locked SearchRequest!" );
+        sizeLimit = entriesMax;
     }
 
 
@@ -251,7 +252,7 @@ public class SearchRequestImpl extends AbstractAbandonableRequest implements Sea
      */
     public int getTimeLimit()
     {
-        return timeLimit ;
+        return timeLimit;
     }
 
 
@@ -264,8 +265,8 @@ public class SearchRequestImpl extends AbstractAbandonableRequest implements Sea
      */
     public void setTimeLimit( int secondsMax )
     {
-        lockCheck( "Attempt to alter time limit on locked SearchRequest!" ) ;
-        timeLimit = secondsMax ;
+        lockCheck( "Attempt to alter time limit on locked SearchRequest!" );
+        timeLimit = secondsMax;
     }
 
 
@@ -279,7 +280,7 @@ public class SearchRequestImpl extends AbstractAbandonableRequest implements Sea
      */
     public boolean getTypesOnly()
     {
-        return typesOnly ;
+        return typesOnly;
     }
 
 
@@ -294,8 +295,8 @@ public class SearchRequestImpl extends AbstractAbandonableRequest implements Sea
     public void setTypesOnly( boolean typesOnly )
     {
         lockCheck(
-            "Attempt to alter typesOnly flag of locked SearchRequest!" ) ;
-        this.typesOnly = typesOnly ;
+            "Attempt to alter typesOnly flag of locked SearchRequest!" );
+        this.typesOnly = typesOnly;
     }
 
 
@@ -307,8 +308,8 @@ public class SearchRequestImpl extends AbstractAbandonableRequest implements Sea
     public void addAttribute( String attribute )
     {
         lockCheck(
-            "Attempt to add return attribute to locked SearchRequest!" ) ;
-        attributes.add( attribute ) ;
+            "Attempt to add return attribute to locked SearchRequest!" );
+        attributes.add( attribute );
     }
 
 
@@ -320,8 +321,24 @@ public class SearchRequestImpl extends AbstractAbandonableRequest implements Sea
     public void removeAttribute( String attribute )
     {
         lockCheck(
-            "Attempt to remove return attribute from locked SearchRequest!" ) ;
-        attributes.remove( attribute ) ;
+            "Attempt to remove return attribute from locked SearchRequest!" );
+        attributes.remove( attribute );
+    }
+    
+
+    /**
+     * The result containing response for this request.
+     * 
+     * @return the result containing response for this request
+     */
+    public ResultResponse getResultResponse()
+    {
+        if ( response == null )
+        {
+            response = new SearchResponseDoneImpl( getMessageId() );
+        }
+        
+        return response;
     }
 
 
@@ -426,6 +443,6 @@ public class SearchRequestImpl extends AbstractAbandonableRequest implements Sea
         req.getFilter().printToBuffer( buf );
         String reqFilterString = buf.toString();
 
-        return myFilterString.equals( reqFilterString ) ;
+        return myFilterString.equals( reqFilterString );
     }
 }

@@ -25,8 +25,7 @@ import org.apache.ldap.common.util.AttributeUtils;
 /**
  * Lockable add request implemenation.
  *
- * @author <a href="mailto:dev@directory.apache.org">
- * Apache Directory Project</a>
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Rev$
  */
 public class AddRequestImpl extends AbstractAbandonableRequest implements AddRequest
@@ -34,10 +33,9 @@ public class AddRequestImpl extends AbstractAbandonableRequest implements AddReq
     static final long serialVersionUID = 7534132448349520346L;
     /** Distinguished name of the new entry. */
     private String entry;
-    
     /** A MultiMap of the new entry's attributes and their values */
     private Attributes attributes;
-
+    private AddResponse response;
 
     // ------------------------------------------------------------------------
     // Constructors
@@ -121,6 +119,22 @@ public class AddRequestImpl extends AbstractAbandonableRequest implements AddReq
     public MessageTypeEnum getResponseType()
     {
         return RESP_TYPE;
+    }
+    
+
+    /**
+     * The result containing response for this request.
+     * 
+     * @return the result containing response for this request
+     */
+    public ResultResponse getResultResponse()
+    {
+        if ( response == null )
+        {
+            response = new AddResponseImpl( getMessageId() );
+        }
+        
+        return response;
     }
 
 

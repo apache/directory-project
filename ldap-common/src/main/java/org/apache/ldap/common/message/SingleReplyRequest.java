@@ -14,17 +14,16 @@
  *   limitations under the License.
  *
  */
-package org.apache.ldap.common.message ;
+package org.apache.ldap.common.message;
 
 
 /**
  * Super interface for all request messages returning only one type of response.
  *
- * @author <a href="mailto:dev@directory.apache.org">
- * Apache Directory Project</a>
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Rev$
  */
-public interface SingleReplyRequest extends Request
+public interface SingleReplyRequest extends ResultResponseRequest
 {
     /**
      * Gets the protocol response message type for this request which produces
@@ -32,5 +31,5 @@ public interface SingleReplyRequest extends Request
      *
      * @return the message type of the response.
      */
-    MessageTypeEnum getResponseType() ;
+    MessageTypeEnum getResponseType();
 }

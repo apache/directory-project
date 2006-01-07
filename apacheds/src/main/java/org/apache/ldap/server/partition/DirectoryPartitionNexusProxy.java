@@ -385,42 +385,45 @@ public class DirectoryPartitionNexusProxy extends DirectoryPartitionNexus
     public NamingEnumeration search( Name base, Map env, ExprNode filter, SearchControls searchCtls )
             throws NamingException
     {
-        SearchResultFilteringEnumeration results = ( SearchResultFilteringEnumeration ) 
-            search( base, env, filter, searchCtls, null );
+        NamingEnumeration ne = search( base, env, filter, searchCtls, null );
         
-        if ( searchCtls.getTimeLimit() + searchCtls.getCountLimit() > 0 )
+        if ( ne instanceof SearchResultFilteringEnumeration )
         {
-            // this will be he last filter added so other filters before it must 
-            // have passed/approved of the entry to be returned back to the client
-            // so the candidate we have is going to be returned for sure
-            results.addResultFilter( new SearchResultFilter(){
-                final long startTime = System.currentTimeMillis();
-                int count = 1;  // with prefetch we've missed one which is ok since 1 is the minimum
-                public boolean accept( Invocation invocation, SearchResult result, SearchControls controls ) throws NamingException
-                {
-                    if ( controls.getTimeLimit() > 0 )
+            SearchResultFilteringEnumeration results = ( SearchResultFilteringEnumeration ) ne;
+            if ( searchCtls.getTimeLimit() + searchCtls.getCountLimit() > 0 )
+            {
+                // this will be he last filter added so other filters before it must 
+                // have passed/approved of the entry to be returned back to the client
+                // so the candidate we have is going to be returned for sure
+                results.addResultFilter( new SearchResultFilter(){
+                    final long startTime = System.currentTimeMillis();
+                    int count = 1;  // with prefetch we've missed one which is ok since 1 is the minimum
+                    public boolean accept( Invocation invocation, SearchResult result, SearchControls controls ) throws NamingException
                     {
-                        long runtime = System.currentTimeMillis() - startTime;
-                        if ( runtime > controls.getTimeLimit() )
+                        if ( controls.getTimeLimit() > 0 )
                         {
-                            throw new LdapTimeLimitExceededException();
+                            long runtime = System.currentTimeMillis() - startTime;
+                            if ( runtime > controls.getTimeLimit() )
+                            {
+                                throw new LdapTimeLimitExceededException();
+                            }
                         }
+                        
+                        if ( controls.getCountLimit() > 0 )
+                        {
+                           if ( count > controls.getCountLimit() )
+                           {
+                               throw new LdapSizeLimitExceededException();
+                           }
+                        }
+                        
+                        count++;
+                        return true;
                     }
-                    
-                    if ( controls.getCountLimit() > 0 )
-                    {
-                       if ( count > controls.getCountLimit() )
-                       {
-                           throw new LdapSizeLimitExceededException();
-                       }
-                    }
-                    
-                    count++;
-                    return true;
-                }
-            });
+                });
+            }
         }
-        return results;
+        return ne;
     }
 
 

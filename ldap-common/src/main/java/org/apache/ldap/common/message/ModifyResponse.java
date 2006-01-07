@@ -14,30 +14,17 @@
  *   limitations under the License.
  *
  */
-
-/*
- * $Id: ModifyResponse.java,v 1.2 2003/05/02 00:49:07 akarasulu Exp $
- *
- * -- (c) LDAPd Group                                                    --
- * -- Please refer to the LICENSE.txt file in the root directory of      --
- * -- any LDAPd project for copyright and distribution information.      --
- *
- */
-
-package org.apache.ldap.common.message ;
+package org.apache.ldap.common.message;
 
 
 /**
  * Modify protocol response message used to confirm the results of a modify
  * request message.
  *
- * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
- * @author $Author: akarasulu $
  * @version $Revision$
  */
-public interface ModifyResponse
-    extends ResultResponse
+public interface ModifyResponse extends ResultResponse
 {
     /** Modify response message type enumeration value */
-    MessageTypeEnum TYPE = MessageTypeEnum.MODIFYRESPONSE ;
+    MessageTypeEnum TYPE = MessageTypeEnum.MODIFYRESPONSE;
 }

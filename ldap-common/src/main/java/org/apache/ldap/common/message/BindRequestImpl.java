@@ -45,6 +45,7 @@ public class BindRequestImpl extends AbstractRequest implements BindRequest
     private boolean isSimple = true;
     /** Bind behavoir exhibity by protocol version */
     private boolean isVersion3 = true;
+    public BindResponse response;
 
 
     // ------------------------------------------------------------------------
@@ -253,8 +254,24 @@ public class BindRequestImpl extends AbstractRequest implements BindRequest
     {
         return RESP_TYPE;
     }
+    
 
+    /**
+     * The result containing response for this request.
+     * 
+     * @return the result containing response for this request
+     */
+    public ResultResponse getResultResponse()
+    {
+        if ( response == null )
+        {
+            response = new BindResponseImpl( getMessageId() );
+        }
+        
+        return response;
+    }
 
+    
     public boolean equals( Object obj )
     {
         if ( obj == this )

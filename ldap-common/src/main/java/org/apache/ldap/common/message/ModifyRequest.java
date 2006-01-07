@@ -14,22 +14,12 @@
  *   limitations under the License.
  *
  */
-
-/*
- * $Id: ModifyRequest.java,v 1.4 2003/07/31 21:44:48 akarasulu Exp $
- *
- * -- (c) LDAPd Group                                                    --
- * -- Please refer to the LICENSE.txt file in the root directory of      --
- * -- any LDAPd project for copyright and distribution information.      --
- *
- */
-
-package org.apache.ldap.common.message ;
+package org.apache.ldap.common.message;
 
 
-import java.util.Collection ;
+import java.util.Collection;
 
-import javax.naming.directory.ModificationItem ;
+import javax.naming.directory.ModificationItem;
 
 
 /**
@@ -96,16 +86,15 @@ import javax.naming.directory.ModificationItem ;
  * borrow good ideas and familiar signatures, interfaces and classes where we
  * can.
  * 
- * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
- * @author $Author: akarasulu $
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
 public interface ModifyRequest extends SingleReplyRequest, AbandonableRequest
 {
     /** Modify request message type enumeration value */
-    MessageTypeEnum TYPE = MessageTypeEnum.MODIFYREQUEST ;
+    MessageTypeEnum TYPE = MessageTypeEnum.MODIFYREQUEST;
     /** Modify response message type enumeration value */
-    MessageTypeEnum RESP_TYPE = ModifyResponse.TYPE ;
+    MessageTypeEnum RESP_TYPE = ModifyResponse.TYPE;
 
     /**
      * Gets the distinguished name of the entry to be modified by this request.
@@ -113,15 +102,15 @@ public interface ModifyRequest extends SingleReplyRequest, AbandonableRequest
      *
      * @return the DN of the modified entry.
      */
-    String getName() ;
+    String getName();
 
     /**
      * Sets the distinguished name of the entry to be modified by this request.
      * This property represents the PDU's <b>object</b> field.
      *
-     * @param a_name the DN of the modified entry.
+     * @param name the DN of the modified entry.
      */
-    void setName( String a_name ) ;
+    void setName( String name );
 
     /**
      * Gets an immutable Collection of modification items representing the
@@ -130,21 +119,21 @@ public interface ModifyRequest extends SingleReplyRequest, AbandonableRequest
      * @return an immutatble Collection of ModificationItem instances.
      * @see javax.naming.directory.ModificationItem
      */
-    Collection getModificationItems() ;
+    Collection getModificationItems();
 
     /**
      * Adds a ModificationItem to the set of modifications composing this modify
      * request.
      *
-     * @param a_mod a ModificationItem to add.
+     * @param mod a ModificationItem to add.
      */
-    void addModification( ModificationItem a_mod ) ;
+    void addModification( ModificationItem mod );
 
     /**
      * Removes a ModificationItem to the set of modifications composing this
      * modify request.
      *
-     * @param a_mod a ModificationItem to remove.
+     * @param mod a ModificationItem to remove.
      */
-    void removeModification( ModificationItem a_mod ) ;
+    void removeModification( ModificationItem mod );
 }

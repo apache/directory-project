@@ -14,16 +14,6 @@
  *   limitations under the License.
  *
  */
-
-/*
- * $Id: BindResponse.java,v 1.5 2003/07/31 21:44:49 akarasulu Exp $
- *
- * -- (c) LDAPd Group                                                    --
- * -- Please refer to the LICENSE.txt file in the root directory of      --
- * -- any LDAPd project for copyright and distribution information.      --
- *
- */
-
 package org.apache.ldap.common.message ;
 
 
@@ -32,12 +22,10 @@ package org.apache.ldap.common.message ;
  * request message.  BindResponse consists simply of an indication from the
  * server of the status of the client's request for authentication.
  *
- * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
- * @author $Author: akarasulu $
- * @version $Revision$
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
+ * @version $Rev$
  */
-public interface BindResponse
-    extends ResultResponse
+public interface BindResponse extends ResultResponse
 {
     /** Bind response message type enumeration value */
     MessageTypeEnum TYPE = MessageTypeEnum.BINDRESPONSE ;

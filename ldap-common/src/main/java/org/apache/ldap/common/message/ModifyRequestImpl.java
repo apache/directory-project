@@ -49,9 +49,10 @@ public class ModifyRequestImpl extends AbstractAbandonableRequest implements Mod
     private static final transient Logger log = LoggerFactory.getLogger( ModifyRequestImpl.class );
 
     /** Dn of the entry to modify or PDU's <b>object</b> field */
-    private String name ;
+    private String name;
     /** Sequence of modifications or PDU's <b>modification</b> seqence field */
-    private ArrayList mods = new ArrayList() ;
+    private ArrayList mods = new ArrayList();
+    private ModifyResponse response;
 
 
     // ------------------------------------------------------------------------
@@ -67,7 +68,7 @@ public class ModifyRequestImpl extends AbstractAbandonableRequest implements Mod
      */
     public ModifyRequestImpl( final int id )
     {
-        super( id, TYPE ) ;
+        super( id, TYPE );
     }
 
 
@@ -85,7 +86,7 @@ public class ModifyRequestImpl extends AbstractAbandonableRequest implements Mod
      */
     public Collection getModificationItems()
     {
-        return Collections.unmodifiableCollection( mods ) ;
+        return Collections.unmodifiableCollection( mods );
     }
 
 
@@ -97,7 +98,7 @@ public class ModifyRequestImpl extends AbstractAbandonableRequest implements Mod
      */
     public String getName()
     {
-        return name ;
+        return name;
     }
 
 
@@ -109,8 +110,8 @@ public class ModifyRequestImpl extends AbstractAbandonableRequest implements Mod
      */
     public void setName( String name )
     {
-        lockCheck( "Attempt to alter object name of locked ModifyRequest!" ) ;
-        this.name = name ;
+        lockCheck( "Attempt to alter object name of locked ModifyRequest!" );
+        this.name = name;
     }
 
 
@@ -122,8 +123,8 @@ public class ModifyRequestImpl extends AbstractAbandonableRequest implements Mod
      */
     public void addModification( ModificationItem mod )
     {
-        lockCheck( "Attempt to add modification to locked ModifyRequest!" ) ;
-        mods.add( mod ) ;
+        lockCheck( "Attempt to add modification to locked ModifyRequest!" );
+        mods.add( mod );
     }
 
 
@@ -135,8 +136,8 @@ public class ModifyRequestImpl extends AbstractAbandonableRequest implements Mod
      */
     public void removeModification( ModificationItem mod )
     {
-        lockCheck( "Attempt to remove modification to locked ModifyRequest!" ) ;
-        mods.remove( mod ) ;
+        lockCheck( "Attempt to remove modification to locked ModifyRequest!" );
+        mods.remove( mod );
     }
 
 
@@ -153,7 +154,23 @@ public class ModifyRequestImpl extends AbstractAbandonableRequest implements Mod
      */
     public MessageTypeEnum getResponseType()
     {
-        return RESP_TYPE ;
+        return RESP_TYPE;
+    }
+    
+
+    /**
+     * The result containing response for this request.
+     * 
+     * @return the result containing response for this request
+     */
+    public ResultResponse getResultResponse()
+    {
+        if ( response == null )
+        {
+            response = new ModifyResponseImpl( getMessageId() );
+        }
+        
+        return response;
     }
 
 

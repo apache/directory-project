@@ -14,16 +14,6 @@
  *   limitations under the License.
  *
  */
-
-/*
- * $Id: ExtendedRequest.java,v 1.4 2003/07/31 21:44:48 akarasulu Exp $
- *
- * -- (c) LDAPd Group                                                    --
- * -- Please refer to the LICENSE.txt file in the root directory of      --
- * -- any LDAPd project for copyright and distribution information.      --
- *
- */
-
 package org.apache.ldap.common.message ;
 
 
@@ -54,16 +44,15 @@ package org.apache.ldap.common.message ;
  *  OCTET STRING.
  * <pre><br>
  * 
- * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
- * @author $Author: akarasulu $
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
 public interface ExtendedRequest extends SingleReplyRequest
 {
     /** Extended request message type enumeration value */
-    MessageTypeEnum TYPE = MessageTypeEnum.EXTENDEDREQ ;
+    MessageTypeEnum TYPE = MessageTypeEnum.EXTENDEDREQ;
     /** Extended response message type enumeration value */
-    MessageTypeEnum RESP_TYPE = ExtendedResponse.TYPE ;
+    MessageTypeEnum RESP_TYPE = ExtendedResponse.TYPE;
 
     /**
      * Gets the Object Idendifier corresponding to the extended request type.
@@ -71,14 +60,14 @@ public interface ExtendedRequest extends SingleReplyRequest
      *
      * @return the dotted-decimal representation as a String of the OID
      */
-    String getOid() ;
+    String getOid();
 
     /**
      * Sets the Object Idendifier corresponding to the extended request type.
      *
-     * @param a_oid the dotted-decimal representation as a String of the OID
+     * @param oid the dotted-decimal representation as a String of the OID
      */
-    void setOid( String a_oid ) ;
+    void setOid( String oid );
 
     /**
      * Gets the extended request's <b>requestValue</b> portion of the PDU.  The
@@ -87,12 +76,12 @@ public interface ExtendedRequest extends SingleReplyRequest
      *
      * @return byte array of data
      */
-    byte [] getPayload() ;
+    byte [] getPayload();
 
     /**
      * Sets the extended request's <b>requestValue</b> portion of the PDU.
      *
-     * @param a_payload byte array of data encapsulating ext. req. parameters
+     * @param payload byte array of data encapsulating ext. req. parameters
      */
-    void setPayload( byte [] a_payload ) ;
+    void setPayload( byte [] payload );
 }
