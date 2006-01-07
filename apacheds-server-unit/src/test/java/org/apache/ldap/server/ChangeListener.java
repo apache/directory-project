@@ -19,6 +19,7 @@ package org.apache.ldap.server;
 
 import java.util.Hashtable;
 
+import javax.naming.Context;
 import javax.naming.NamingEnumeration;
 import javax.naming.directory.SearchResult;
 import javax.naming.ldap.Control;
@@ -48,6 +49,7 @@ public class ChangeListener
         env.put( "java.naming.security.credentials", "secret" );
         env.put( "java.naming.security.authentication", "simple" );
         InitialLdapContext ctx = new InitialLdapContext( env, null );
+        Runtime.getRuntime().addShutdownHook( new Thread( new ShutdownHook( ctx ) ) );
         PersistentSearchControl control = new PersistentSearchControl();
         control.setChangesOnly( false );
         control.setReturnECs( true );
@@ -103,6 +105,25 @@ public class ChangeListener
         catch( Exception e ) 
         {
             e.printStackTrace();
+        }
+    }
+    
+    
+    static class ShutdownHook implements Runnable
+    {
+        final Context ctx;
+        
+        ShutdownHook( Context ctx )
+        {
+            this.ctx = ctx;
+        }
+        
+        public void run()
+        {
+            if ( ctx != null )
+            {
+                try { ctx.close(); } catch( Exception e ){ e.printStackTrace(); };
+            }
         }
     }
 }
