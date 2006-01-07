@@ -24,6 +24,7 @@ import javax.naming.directory.Attributes;
 import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.BasicAttributes;
 import javax.naming.directory.DirContext;
+import javax.naming.directory.ModificationItem;
 import javax.naming.ldap.InitialLdapContext;
 import javax.naming.ldap.LdapContext;
 
@@ -200,5 +201,57 @@ public class ModifyAddTest extends AbstractServerTest
         assertNotNull(attr);
         assertTrue(attr.contains(PERSON_DESCRIPTION));
         assertEquals(1, attr.size());
+    }
+
+    /**
+     * Try to add a duplicate attribute value to an entry, where this attribute
+     * is already present (objectclass in this case). Expected behaviour is that
+     * the modify operation causes an error (error code 20, "Attribute or value
+     * exists").
+     * 
+     * @throws NamingException
+     */
+    public void testAddDuplicateValueToExistingAttribute() throws NamingException
+    {
+        // modify object classes, add a new value twice
+        Attribute ocls = new BasicAttribute("objectClass", "organizationalPerson");
+        ModificationItem[] modItems = new ModificationItem[2];
+        modItems[0] = new ModificationItem(DirContext.ADD_ATTRIBUTE, ocls);
+        modItems[1] = new ModificationItem(DirContext.ADD_ATTRIBUTE, ocls);
+        try {
+            ctx.modifyAttributes(RDN, modItems);
+            fail("Adding a duplicate attribute value should cause an error.");
+        } catch (AttributeInUseException ex) {}
+
+        // Check, whether attribute objectClass is unchanged
+        Attributes attrs = ctx.getAttributes(RDN);
+        ocls = attrs.get("objectClass");
+        assertEquals(ocls.size(), 2);
+        assertTrue(ocls.contains("top"));
+        assertTrue(ocls.contains("person"));
+    }
+
+    /**
+     * Try to add a duplicate attribute value to an entry, where this attribute
+     * is not present. Expected behaviour is that the modify operation causes an
+     * error (error code 20, "Attribute or value exists").
+     * 
+     * @throws NamingException
+     */
+    public void testAddDuplicateValueToNewAttribute() throws NamingException
+    {
+        // add the same description value twice
+        Attribute desc = new BasicAttribute("description", "another description value besides songwriter");
+        ModificationItem[] modItems = new ModificationItem[2];
+        modItems[0] = new ModificationItem(DirContext.ADD_ATTRIBUTE, desc);
+        modItems[1] = new ModificationItem(DirContext.ADD_ATTRIBUTE, desc);
+        try {
+            ctx.modifyAttributes(RDN, modItems);
+            fail("Adding a duplicate attribute value should cause an error.");
+        } catch (AttributeInUseException ex) {}
+
+        // Check, whether attribute description is still not present
+        Attributes attrs = ctx.getAttributes(RDN);
+        assertEquals( 1, attrs.get("description").size() );
     }
 }

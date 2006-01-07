@@ -47,6 +47,7 @@ import org.apache.ldap.common.util.SingletonEnumeration;
 import org.apache.ldap.common.util.DateUtils;
 import org.apache.ldap.common.util.AttributeUtils;
 import org.apache.ldap.common.util.StringTools;
+import org.apache.ldap.common.exception.LdapAttributeInUseException;
 import org.apache.ldap.common.exception.LdapSchemaViolationException;
 import org.apache.ldap.common.exception.LdapInvalidAttributeIdentifierException;
 import org.apache.ldap.common.exception.LdapNoSuchAttributeException;
@@ -559,13 +560,27 @@ public class SchemaService extends BaseInterceptor
     public void modify( NextInterceptor next, Name name, ModificationItem[] mods ) throws NamingException
     {
         Attributes entry = nexus.lookup( name );
-
+        Set modset = new HashSet();
         ModificationItem objectClassMod = null;
+                    
         for ( int ii = 0; ii < mods.length; ii++ )
         {
             if ( mods[ii].getAttribute().getID().equalsIgnoreCase( "objectclass" ) )
             {
                 objectClassMod = mods[ii];
+            }
+            
+            StringBuffer keybuf = new StringBuffer();
+            keybuf.append( mods[ii].getModificationOp() );
+            keybuf.append( mods[ii].getAttribute().getID() );
+            for ( int jj = 0; jj < mods[ii].getAttribute().size(); jj++ )
+            {
+                keybuf.append( mods[ii].getAttribute().get( jj ) );
+            }
+            if ( ! modset.add( keybuf.toString() ) && mods[ii].getModificationOp() == DirContext.ADD_ATTRIBUTE )
+            {
+                throw new LdapAttributeInUseException( "found two copies of the following modification item: " 
+                    + mods[ii] );
             }
         }
         Attribute objectClass;
