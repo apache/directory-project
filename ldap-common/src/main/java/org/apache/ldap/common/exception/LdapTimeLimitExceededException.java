@@ -17,13 +17,12 @@
 package org.apache.ldap.common.exception;
 
 
-import javax.naming.SizeLimitExceededException;
-
+import javax.naming.TimeLimitExceededException;
 import org.apache.ldap.common.message.ResultCodeEnum;
 
 
 /**
- * A SizeLimitExceededException which associates a resultCode namely the
+ * A TiimeLimitExceededException which associates a resultCode namely the
  * {@link ResultCodeEnum#SIZELIMITEXCEEDED} resultCode with the exception.
  *
  * @see LdapException
@@ -33,14 +32,13 @@ import org.apache.ldap.common.message.ResultCodeEnum;
  * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Rev$
  */
-public class LdapTimeLimitExceededException extends SizeLimitExceededException
-        implements LdapException
+public class LdapTimeLimitExceededException extends TimeLimitExceededException implements LdapException
 {
     static final long serialVersionUID = -8611970137960601723L;
 
 
     /**
-     * @see SizeLimitExceededException#SizeLimitExceededException()
+     * @see TimeLimitExceededException#TimeLimitExceededException()
      */
     public LdapTimeLimitExceededException()
     {
@@ -49,7 +47,7 @@ public class LdapTimeLimitExceededException extends SizeLimitExceededException
 
 
     /**
-     * @see SizeLimitExceededException#SizeLimitExceededException(String)
+     * @see TimeLimitExceededException#TimeLimitExceededException(String)
      */
     public LdapTimeLimitExceededException( String explanation )
     {
@@ -58,12 +56,12 @@ public class LdapTimeLimitExceededException extends SizeLimitExceededException
 
 
     /**
-     * Always returns {@link ResultCodeEnum#SIZELIMITEXCEEDED}
+     * Always returns {@link ResultCodeEnum#TIMELIMITEXCEEDED}
      *
      * @see LdapException#getResultCode()
      */
     public ResultCodeEnum getResultCode()
     {
-        return ResultCodeEnum.SIZELIMITEXCEEDED;
+        return ResultCodeEnum.TIMELIMITEXCEEDED;
     }
 }
