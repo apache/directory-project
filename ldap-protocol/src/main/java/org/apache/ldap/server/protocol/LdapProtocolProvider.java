@@ -19,9 +19,11 @@ package org.apache.ldap.server.protocol;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import javax.naming.Context;
 
@@ -36,6 +38,7 @@ import org.apache.ldap.common.message.BindRequest;
 import org.apache.ldap.common.message.BindRequestImpl;
 import org.apache.ldap.common.message.CompareRequest;
 import org.apache.ldap.common.message.CompareRequestImpl;
+import org.apache.ldap.common.message.Control;
 import org.apache.ldap.common.message.DeleteRequest;
 import org.apache.ldap.common.message.DeleteRequestImpl;
 import org.apache.ldap.common.message.ExtendedRequest;
@@ -46,7 +49,10 @@ import org.apache.ldap.common.message.ModifyDnRequest;
 import org.apache.ldap.common.message.ModifyDnRequestImpl;
 import org.apache.ldap.common.message.ModifyRequest;
 import org.apache.ldap.common.message.ModifyRequestImpl;
+import org.apache.ldap.common.message.Request;
 import org.apache.ldap.common.message.ResultCodeEnum;
+import org.apache.ldap.common.message.ResultResponse;
+import org.apache.ldap.common.message.ResultResponseRequest;
 import org.apache.ldap.common.message.SearchRequest;
 import org.apache.ldap.common.message.SearchRequestImpl;
 import org.apache.ldap.common.message.UnbindRequest;
@@ -86,10 +92,11 @@ public class LdapProtocolProvider
 {
     /** the constant service name of this ldap protocol provider **/
     public static final String SERVICE_NAME = "ldap";
-
     /** a map of the default request object class name to the handler class name */
     private static final Map DEFAULT_HANDLERS;
-
+    /** a set of supported controls */
+    private static final Set SUPPORTED_CONTROLS;
+    
     static
     {
         HashMap map = new HashMap();
@@ -135,6 +142,11 @@ public class LdapProtocolProvider
         map.put( UnbindRequestImpl.class.getName(), UnbindHandler.class );
 
         DEFAULT_HANDLERS = Collections.unmodifiableMap( map );
+        
+        HashSet set = new HashSet();
+        set.add( "2.16.840.1.113730.3.4.3" );  // PersistentSearch control
+        set.add( "2.16.840.1.113730.3.4.7" );  // EntryChangeNotification control
+        SUPPORTED_CONTROLS = Collections.unmodifiableSet( set );
     }
 
     /** the underlying provider codec factory */
@@ -390,6 +402,24 @@ public class LdapProtocolProvider
                 req.setOid( "1.3.6.1.4.1.1466.20037" );
                 req.setPayload( "UNSECURED".getBytes( "ISO-8859-1" ) );
                 message = req;
+            }
+            
+            if ( ( ( Request ) message ).getControls().size() > 0 && message instanceof ResultResponseRequest )
+            {
+                ResultResponseRequest req = ( ResultResponseRequest ) message;
+                Iterator controls = req.getControls().values().iterator();
+                while ( controls.hasNext() )
+                {
+                    Control control = ( Control ) controls.next();
+                    if ( control.isCritical() && ! SUPPORTED_CONTROLS.contains( control.getID() ) )
+                    {
+                        ResultResponse resp = req.getResultResponse();
+                        resp.getLdapResult().setErrorMessage( "Unsupport critical control: " + control.getID() );
+                        resp.getLdapResult().setResultCode( ResultCodeEnum.UNAVAILABLECRITICALEXTENSION );
+                        session.write( resp );
+                        return;
+                    }
+                }
             }
             
             super.messageReceived( session, message );

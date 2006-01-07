@@ -17,8 +17,12 @@
 package org.apache.ldap.server;
 
 
+import org.apache.asn1.util.Asn1StringUtils;
 import org.apache.ldap.server.configuration.MutableDirectoryPartitionConfiguration;
+import org.apache.ldap.common.message.Control;
+import org.apache.ldap.common.util.ArrayUtils;
 import org.apache.ldap.common.util.EmptyEnumeration;
+import org.apache.ldap.common.util.StringTools;
 
 import java.util.Hashtable;
 import java.util.Set;
@@ -28,7 +32,9 @@ import java.util.Collections;
 import javax.naming.Context;
 import javax.naming.NoPermissionException;
 import javax.naming.NamingEnumeration;
+import javax.naming.OperationNotSupportedException;
 import javax.naming.directory.*;
+import javax.naming.ldap.InitialLdapContext;
 
 
 /**
@@ -313,5 +319,85 @@ public class MiscTest extends AbstractServerTest
         e = sysRoot.search( "", "(objectclass=*)", cons );
         assertNotNull( e );
         assertFalse( e.getClass().equals( EmptyEnumeration.class ) );
+    }
+    
+    
+    public void testFailureWithUnsupportedControl() throws Exception
+    {
+        Control unsupported = new Control()
+        {
+            boolean isCritical = true;
+            private static final long serialVersionUID = 1L;
+
+            public String getType()
+            {
+                return "1.1.1.1";
+            }
+
+            public void setType(String oid)
+            {
+            }
+
+            public byte[] getValue()
+            {
+                return new byte[0];
+            }
+
+            public void setValue(byte[] value)
+            {
+            }
+
+            public boolean isCritical()
+            {
+                return isCritical;
+            }
+
+            public void setCritical(boolean isCritical)
+            {
+                this.isCritical = isCritical;
+            }
+
+            public String getID()
+            {
+                return "1.1.1.1";
+            }
+
+            public byte[] getEncodedValue()
+            {
+                return new byte[0];
+            }
+        };
+        final Hashtable env = new Hashtable();
+
+        env.put( Context.PROVIDER_URL, "ldap://localhost:" + port + "/ou=system" );
+        env.put("java.naming.ldap.version", "3");
+        env.put( Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory" );
+        env.put( Context.SECURITY_AUTHENTICATION, "simple" );
+        env.put( Context.SECURITY_CREDENTIALS, "secret" );
+        env.put( Context.SECURITY_PRINCIPAL, "uid=admin,ou=system" );
+        InitialLdapContext ctx = new InitialLdapContext( env, null );
+
+        Attributes user = new BasicAttributes( "cn", "Kate Bush", true );
+        Attribute oc = new BasicAttribute( "objectClass" );
+        oc.add( "top" );
+        oc.add( "person" );
+        oc.add( "organizationalPerson" );
+        oc.add( "inetOrgPerson" );
+        user.put( oc );
+        user.put( "sn", "Bush" );
+        user.put( "userPassword", "Aerial" );
+        ctx.setRequestControls( new Control[] { unsupported } );
+        
+        try
+        {
+            ctx.createSubcontext( "cn=Kate Bush", user );
+        }
+        catch( OperationNotSupportedException e ) {}
+        
+        unsupported.setCritical( false );
+        DirContext kate = ctx.createSubcontext( "cn=Kate Bush", user );
+        assertNotNull( kate );
+        assertTrue( ArrayUtils.isEquals( Asn1StringUtils.getBytesUtf8( "Aerial" ), 
+            kate.getAttributes( "" ).get( "userPassword" ).get() ) );
     }
 }
