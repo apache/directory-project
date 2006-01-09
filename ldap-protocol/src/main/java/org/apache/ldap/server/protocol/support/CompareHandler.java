@@ -17,12 +17,15 @@
 package org.apache.ldap.server.protocol.support;
 
 
+import javax.naming.Context;
 import javax.naming.NamingException;
 import javax.naming.ldap.LdapContext;
 
 import org.apache.ldap.common.exception.LdapException;
 import org.apache.ldap.common.message.CompareRequest;
+import org.apache.ldap.common.message.Control;
 import org.apache.ldap.common.message.LdapResult;
+import org.apache.ldap.common.message.ManageDsaITControl;
 import org.apache.ldap.common.message.ResultCodeEnum;
 import org.apache.ldap.common.name.LdapName;
 import org.apache.ldap.common.util.ExceptionUtils;
@@ -44,7 +47,9 @@ import org.slf4j.LoggerFactory;
 public class CompareHandler implements MessageHandler
 {
     private static final Logger log = LoggerFactory.getLogger( CompareHandler.class );
+    private static Control[] EMPTY_CONTROLS = new Control[0];
 
+    
     public void messageReceived( IoSession session, Object request )
     {
         CompareRequest req = ( CompareRequest ) request;
@@ -54,8 +59,17 @@ public class CompareHandler implements MessageHandler
         {
             LdapContext ctx = SessionRegistry.getSingleton().getLdapContext( session, null, true );
             ServerLdapContext newCtx = ( ServerLdapContext ) ctx.lookup( "" );
+            if ( req.getControls().containsKey( ManageDsaITControl.CONTROL_OID ) )
+            {
+                newCtx.addToEnvironment( Context.REFERRAL, "ignore" );
+            }
+            else
+            {
+                newCtx.addToEnvironment( Context.REFERRAL, "throw" );
+            }
+            newCtx.setRequestControls( ( Control[] ) req.getControls().values().toArray( EMPTY_CONTROLS ) );
+
             LdapName name = new LdapName( req.getName() );
-            
             if ( newCtx.compare( name, req.getAttributeId(), req.getAssertionValue() ) )
             {
                 result.setResultCode( ResultCodeEnum.COMPARETRUE );

@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import javax.naming.Context;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.naming.directory.SearchControls;
@@ -32,6 +33,7 @@ import org.apache.ldap.common.exception.OperationAbandonedException;
 import org.apache.ldap.common.filter.PresenceNode;
 import org.apache.ldap.common.message.AbandonListener;
 import org.apache.ldap.common.message.LdapResult;
+import org.apache.ldap.common.message.ManageDsaITControl;
 import org.apache.ldap.common.message.PersistentSearchControl;
 import org.apache.ldap.common.message.Response;
 import org.apache.ldap.common.message.ResultCodeEnum;
@@ -164,6 +166,14 @@ public class SearchHandler implements MessageHandler
                 }
             }
             ctx.addToEnvironment( DEREFALIASES_KEY, req.getDerefAliases().getName() );
+            if ( req.getControls().containsKey( ManageDsaITControl.CONTROL_OID ) )
+            {
+                ctx.addToEnvironment( Context.REFERRAL, "ignore" );
+            }
+            else
+            {
+                ctx.addToEnvironment( Context.REFERRAL, "throw" );
+            }
 
             // ===============================================================
             // Handle annonymous binds
@@ -187,7 +197,8 @@ public class SearchHandler implements MessageHandler
             // Handle psearch differently
             // ===============================================================
 
-            PersistentSearchControl psearchControl = PersistentSearchListener.getPersistentSearchControl( req );
+            PersistentSearchControl psearchControl = ( PersistentSearchControl ) 
+                req.getControls().get( PersistentSearchControl.CONTROL_OID );
             if ( psearchControl != null )
             {
                 // there are no limits for psearch processing

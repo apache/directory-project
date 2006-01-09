@@ -41,14 +41,17 @@ import org.apache.ldap.common.message.CompareRequestImpl;
 import org.apache.ldap.common.message.Control;
 import org.apache.ldap.common.message.DeleteRequest;
 import org.apache.ldap.common.message.DeleteRequestImpl;
+import org.apache.ldap.common.message.EntryChangeControl;
 import org.apache.ldap.common.message.ExtendedRequest;
 import org.apache.ldap.common.message.ExtendedRequestImpl;
+import org.apache.ldap.common.message.ManageDsaITControl;
 import org.apache.ldap.common.message.MessageDecoder;
 import org.apache.ldap.common.message.MessageEncoder;
 import org.apache.ldap.common.message.ModifyDnRequest;
 import org.apache.ldap.common.message.ModifyDnRequestImpl;
 import org.apache.ldap.common.message.ModifyRequest;
 import org.apache.ldap.common.message.ModifyRequestImpl;
+import org.apache.ldap.common.message.PersistentSearchControl;
 import org.apache.ldap.common.message.Request;
 import org.apache.ldap.common.message.ResultCodeEnum;
 import org.apache.ldap.common.message.ResultResponse;
@@ -144,8 +147,9 @@ public class LdapProtocolProvider
         DEFAULT_HANDLERS = Collections.unmodifiableMap( map );
         
         HashSet set = new HashSet();
-        set.add( "2.16.840.1.113730.3.4.3" );  // PersistentSearch control
-        set.add( "2.16.840.1.113730.3.4.7" );  // EntryChangeNotification control
+        set.add( PersistentSearchControl.CONTROL_OID );  
+        set.add( EntryChangeControl.CONTROL_OID ); 
+        set.add( ManageDsaITControl.CONTROL_OID );
         SUPPORTED_CONTROLS = Collections.unmodifiableSet( set );
     }
 

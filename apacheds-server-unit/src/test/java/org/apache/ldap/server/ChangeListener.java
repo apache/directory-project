@@ -74,7 +74,7 @@ public class ChangeListener
                         for ( int ii = 0; ii < respCtls.length; ii ++ )
                         {
                             if ( respCtls[ii].getID().equals( 
-                                org.apache.ldap.common.message.EntryChangeControl.CONTROL_ID ) )
+                                org.apache.ldap.common.message.EntryChangeControl.CONTROL_OID ) )
                             {
                                 EntryChangeControlDecoder decoder = new EntryChangeControlDecoder();
                                 ecCtl = ( EntryChangeControl ) decoder.decode( respCtls[ii].getEncodedValue() );

@@ -17,12 +17,15 @@
 package org.apache.ldap.server.protocol.support;
 
 
+import javax.naming.Context;
 import javax.naming.NamingException;
 import javax.naming.directory.ModificationItem;
 import javax.naming.ldap.LdapContext;
 
 import org.apache.ldap.common.exception.LdapException;
+import org.apache.ldap.common.message.Control;
 import org.apache.ldap.common.message.LdapResult;
+import org.apache.ldap.common.message.ManageDsaITControl;
 import org.apache.ldap.common.message.ModifyRequest;
 import org.apache.ldap.common.message.ResultCodeEnum;
 import org.apache.ldap.common.util.ExceptionUtils;
@@ -44,6 +47,7 @@ public class ModifyHandler implements MessageHandler
 {
     private static final Logger LOG = LoggerFactory.getLogger( ModifyHandler.class );
     private static final ModificationItem[] EMPTY = new ModificationItem[0];
+    private static Control[] EMPTY_CONTROLS = new Control[0];
 
 
     public void messageReceived( IoSession session, Object request )
@@ -54,6 +58,15 @@ public class ModifyHandler implements MessageHandler
         try
         {
             LdapContext ctx = SessionRegistry.getSingleton().getLdapContext( session, null, true );
+            if ( req.getControls().containsKey( ManageDsaITControl.CONTROL_OID ) )
+            {
+                ctx.addToEnvironment( Context.REFERRAL, "ignore" );
+            }
+            else
+            {
+                ctx.addToEnvironment( Context.REFERRAL, "throw" );
+            }
+            ctx.setRequestControls( ( Control[] ) req.getControls().values().toArray( EMPTY_CONTROLS ) );
             Object[] mods = req.getModificationItems().toArray( EMPTY );
             ctx.modifyAttributes( req.getName(), ( ModificationItem[] ) mods );
         }

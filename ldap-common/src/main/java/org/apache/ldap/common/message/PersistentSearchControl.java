@@ -33,7 +33,7 @@ public class PersistentSearchControl extends ControlImpl
 {
     private static final long serialVersionUID = -2356861450876343999L;
     private static final Logger log = LoggerFactory.getLogger( PersistentSearchControl.class );
-    public static final String CONTROL_ID = "2.16.840.1.113730.3.4.3";
+    public static final String CONTROL_OID = "2.16.840.1.113730.3.4.3";
     public static final int ALL_CHANGES = 1 | 2 | 4 | 8;
     
     /** 
@@ -67,7 +67,7 @@ public class PersistentSearchControl extends ControlImpl
     public PersistentSearchControl()
     {
         super();
-        setType( CONTROL_ID );
+        setType( CONTROL_OID );
     }
     
     

@@ -92,8 +92,7 @@ public class ExtendedHandler implements MessageHandler
         {
             try
             {
-                handler.handleExtendedOperation( session,
-                        SessionRegistry.getSingleton(), req );
+                handler.handleExtendedOperation( session, SessionRegistry.getSingleton(), req );
             }
             catch( Exception e )
             {

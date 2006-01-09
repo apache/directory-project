@@ -49,7 +49,11 @@ public class ControlValueAction extends GrammarAction
     public ControlValueAction()
     {
         super( "Sets the control value" );
-        PSearchControlDecoder decoder = new PSearchControlDecoder();
+
+        ControlDecoder decoder;
+        decoder = new PSearchControlDecoder();
+        controlDecoders.put( decoder.getControlType(), decoder );
+        decoder = new ManageDsaITControlDecoder();
         controlDecoders.put( decoder.getControlType(), decoder );
     }
 

@@ -76,7 +76,7 @@ public class EntryChangeControl extends ControlImpl
 {
     private static final long serialVersionUID = -2356861450876343999L;
     private static final Logger log = LoggerFactory.getLogger( EntryChangeControl.class );
-    public static final String CONTROL_ID = "2.16.840.1.113730.3.4.7";
+    public static final String CONTROL_OID = "2.16.840.1.113730.3.4.7";
     public static final int UNDEFINED_CHANGE_NUMBER = 
         org.apache.ldap.common.codec.search.controls.EntryChangeControl.UNDEFINED_CHANGE_NUMBER;
     
@@ -88,7 +88,7 @@ public class EntryChangeControl extends ControlImpl
     public EntryChangeControl()
     {
         super();
-        setType( CONTROL_ID );
+        setType( CONTROL_OID );
     }
     
     

@@ -16,8 +16,6 @@
 package org.apache.ldap.server.protocol.support;
 
 
-import java.util.Iterator;
-
 import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
 import javax.naming.event.NamespaceChangeListener;
@@ -30,7 +28,6 @@ import org.apache.ldap.common.exception.LdapException;
 import org.apache.ldap.common.exception.OperationAbandonedException;
 import org.apache.ldap.common.message.AbandonListener;
 import org.apache.ldap.common.message.AbandonableRequest;
-import org.apache.ldap.common.message.Control;
 import org.apache.ldap.common.message.EntryChangeControl;
 import org.apache.ldap.common.message.LdapResult;
 import org.apache.ldap.common.message.PersistentSearchControl;
@@ -75,7 +72,7 @@ class PersistentSearchListener implements ObjectChangeListener, NamespaceChangeL
         this.req = req;
         req.addAbandonListener( this );
         this.ctx = ctx;
-        this.control = getPersistentSearchControl( req );
+        this.control = ( PersistentSearchControl ) req.getControls().get( PersistentSearchControl.CONTROL_OID );
     }
     
     
@@ -246,28 +243,6 @@ class PersistentSearchListener implements ObjectChangeListener, NamespaceChangeL
         }
         
         session.write( respEntry );
-    }
-
-
-    /**
-     * Searches for and returns the PersistentSearchControl in the request if present.
-     * 
-     * @param req the request searched
-     * @return the psearch control or null if one does not exist for this req
-     */
-    static PersistentSearchControl getPersistentSearchControl( SearchRequest req )
-    {
-        Iterator list = req.getControls().values().iterator();
-        while ( list.hasNext() )
-        {
-            Control control = ( Control ) list.next();
-            if ( control.getID().equals( "2.16.840.1.113730.3.4.3" ) )
-            {
-                return ( PersistentSearchControl ) control;
-            }
-        }
-        
-        return null;
     }
 
 

@@ -17,12 +17,15 @@
 package org.apache.ldap.server.protocol.support;
 
 
+import javax.naming.Context;
 import javax.naming.NamingException;
 import javax.naming.ldap.LdapContext;
 
 import org.apache.ldap.common.exception.LdapException;
 import org.apache.ldap.common.message.AddRequest;
+import org.apache.ldap.common.message.Control;
 import org.apache.ldap.common.message.LdapResult;
+import org.apache.ldap.common.message.ManageDsaITControl;
 import org.apache.ldap.common.message.ResultCodeEnum;
 import org.apache.ldap.common.util.ExceptionUtils;
 import org.apache.ldap.server.protocol.SessionRegistry;
@@ -42,7 +45,9 @@ import org.slf4j.LoggerFactory;
 public class AddHandler implements MessageHandler
 {
     private static final Logger log = LoggerFactory.getLogger( AddHandler.class );
+    private static Control[] EMPTY_CONTROLS = new Control[0];
 
+    
     public void messageReceived( IoSession session, Object request )
     {
         AddRequest req = ( AddRequest ) request;
@@ -56,6 +61,15 @@ public class AddHandler implements MessageHandler
         try
         {
             LdapContext ctx = SessionRegistry.getSingleton().getLdapContext( session, null, true );
+            if ( req.getControls().containsKey( ManageDsaITControl.CONTROL_OID ) )
+            {
+                ctx.addToEnvironment( Context.REFERRAL, "ignore" );
+            }
+            else
+            {
+                ctx.addToEnvironment( Context.REFERRAL, "throw" );
+            }
+            ctx.setRequestControls( ( Control[] ) req.getControls().values().toArray( EMPTY_CONTROLS ) );
             ctx.createSubcontext( req.getEntry(), req.getAttributes() );
         }
         catch( NamingException e )

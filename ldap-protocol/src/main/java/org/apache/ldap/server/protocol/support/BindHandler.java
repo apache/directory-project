@@ -29,6 +29,7 @@ import org.apache.ldap.common.exception.LdapException;
 import org.apache.ldap.common.message.BindRequest;
 import org.apache.ldap.common.message.Control;
 import org.apache.ldap.common.message.LdapResult;
+import org.apache.ldap.common.message.ManageDsaITControl;
 import org.apache.ldap.common.message.ResultCodeEnum;
 import org.apache.ldap.common.util.ExceptionUtils;
 import org.apache.ldap.common.util.StringTools;
@@ -57,9 +58,8 @@ public class BindHandler implements MessageHandler
         LdapContext ctx;
         BindRequest req = ( BindRequest ) request;
         LdapResult result = req.getResultResponse().getLdapResult();
-
         Hashtable env = SessionRegistry.getSingleton().getEnvironment();
-        
+
         // if the bind request is not simple then we freak: no strong auth yet
         if ( ! req.isSimple() )
         {
@@ -73,7 +73,6 @@ public class BindHandler implements MessageHandler
 
         // clone the environment first then add the required security settings
         String dn = ( emptyDn ? "" : req.getName() );
-
         byte[] creds = req.getCredentials();
 
         Hashtable cloned = ( Hashtable ) env.clone();
@@ -81,7 +80,14 @@ public class BindHandler implements MessageHandler
         cloned.put( Context.SECURITY_CREDENTIALS, creds );
         cloned.put( Context.SECURITY_AUTHENTICATION, "simple" );
 
-        Control[] connCtls = ( Control[] ) req.getControls().values().toArray( EMPTY );
+        if ( req.getControls().containsKey( ManageDsaITControl.CONTROL_OID ) )
+        {
+            cloned.put( Context.REFERRAL, "ignore" );
+        }
+        else
+        {
+            cloned.put( Context.REFERRAL, "throw" );
+        }
 
         try
         {
@@ -94,10 +100,12 @@ public class BindHandler implements MessageHandler
                     throw new NullPointerException( "server.use.factory.instance was set in env but was null" );
                 }
 
+                // Bind is a special case where we have to use the referral property to deal
                 ctx = ( LdapContext ) factory.getInitialContext( cloned );
             }
             else
             {
+                Control[] connCtls = ( Control[] ) req.getControls().values().toArray( EMPTY );
                 ctx = new InitialLdapContext( cloned, connCtls );
             }
         }

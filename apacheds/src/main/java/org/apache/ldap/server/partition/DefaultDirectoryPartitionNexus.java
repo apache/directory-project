@@ -52,8 +52,11 @@ import org.apache.ldap.common.exception.LdapInvalidAttributeIdentifierException;
 import org.apache.ldap.common.exception.LdapNoSuchAttributeException;
 import org.apache.ldap.common.filter.ExprNode;
 import org.apache.ldap.common.filter.PresenceNode;
+import org.apache.ldap.common.message.EntryChangeControl;
 import org.apache.ldap.common.message.LockableAttributeImpl;
 import org.apache.ldap.common.message.LockableAttributesImpl;
+import org.apache.ldap.common.message.ManageDsaITControl;
+import org.apache.ldap.common.message.PersistentSearchControl;
 import org.apache.ldap.common.name.LdapName;
 import org.apache.ldap.common.util.DateUtils;
 import org.apache.ldap.common.util.NamespaceTools;
@@ -132,8 +135,9 @@ public class DefaultDirectoryPartitionNexus extends DirectoryPartitionNexus
 
         attr = new LockableAttributeImpl( "supportedControls" );
         rootDSE.put( attr );
-        attr.add( "2.16.840.1.113730.3.4.3" );  // PersistentSearch control
-        attr.add( "2.16.840.1.113730.3.4.7" );  // EntryChangeNotification control
+        attr.add( PersistentSearchControl.CONTROL_OID );
+        attr.add( EntryChangeControl.CONTROL_OID );
+        attr.add( ManageDsaITControl.CONTROL_OID );
 
         attr = new LockableAttributeImpl( "objectClass" );
         rootDSE.put( attr );

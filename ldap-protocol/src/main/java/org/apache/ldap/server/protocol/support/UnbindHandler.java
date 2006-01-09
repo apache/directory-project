@@ -24,6 +24,9 @@ import org.apache.ldap.server.protocol.SessionRegistry;
 import org.apache.mina.common.IoSession;
 import org.apache.mina.handler.demux.MessageHandler;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * A no reply protocol handler implementation for LDAP {@link
@@ -34,6 +37,9 @@ import org.apache.mina.handler.demux.MessageHandler;
  */
 public class UnbindHandler implements MessageHandler
 {
+    private static final Logger log = LoggerFactory.getLogger( UnbindHandler.class );
+
+    
     public void messageReceived( IoSession session, Object request )
     {
         SessionRegistry registry = SessionRegistry.getSingleton();
@@ -41,20 +47,16 @@ public class UnbindHandler implements MessageHandler
         try
         {
             LdapContext ctx = SessionRegistry.getSingleton().getLdapContext( session, null, false );
-
             if ( ctx != null )
             {
                 ctx.close();
             }
-
             registry.terminateSession( session );
-
             registry.remove( session );
         }
         catch ( NamingException e )
         {
-            // @todo not much we can do here but monitoring would be good
-            e.printStackTrace();
+            log.error( "failed to unbind session properly", e );
         }
     }
 }
