@@ -16,8 +16,10 @@
  */
 package org.apache.ldap.server;
 
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 import java.util.HashSet;
 
@@ -27,18 +29,22 @@ import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 
+import org.apache.asn1.primitives.OID;
 import org.apache.ldap.common.exception.LdapAuthenticationNotSupportedException;
 import org.apache.ldap.common.exception.LdapConfigurationException;
 import org.apache.ldap.common.exception.LdapNoPermissionException;
 import org.apache.ldap.common.message.LockableAttributeImpl;
 import org.apache.ldap.common.message.LockableAttributesImpl;
 import org.apache.ldap.common.message.ResultCodeEnum;
+import org.apache.ldap.common.name.DnOidContainer;
 import org.apache.ldap.common.name.DnParser;
 import org.apache.ldap.common.name.LdapName;
 import org.apache.ldap.common.name.NameComponentNormalizer;
 import org.apache.ldap.common.util.DateUtils;
 import org.apache.ldap.common.util.StringTools;
 import org.apache.ldap.common.schema.AttributeType;
+import org.apache.ldap.common.schema.NoOpNormalizer;
+import org.apache.ldap.common.schema.OidNormalizer;
 import org.apache.ldap.server.authz.AuthorizationService;
 import org.apache.ldap.server.configuration.Configuration;
 import org.apache.ldap.server.configuration.ConfigurationException;
@@ -648,6 +654,69 @@ class DefaultDirectoryService extends DirectoryService
         }
     }
 
+    private void setupOidsMap( BootstrapRegistries bootstrapRegistries ) throws NamingException
+    {
+        Iterator keys = bootstrapRegistries.getOidRegistry().getOidByName().keySet().iterator();
+        
+        Map oidsMap = new HashMap();
+        Map oidName = new HashMap();
+        
+        while ( keys.hasNext() )
+        {
+        	String name = StringTools.deepTrimToLower( (String)keys.next() );
+        	String principal = null;
+        	
+        	if ( OID.isOID( name ) )
+        	{
+        		continue;
+        	}
+        	
+        	String oid =  bootstrapRegistries.getOidRegistry().getOid( name );
+        	
+        	OidNormalizer oidNormalizer = null;
+        	
+        	if ( oidName.containsKey( oid ) )
+        	{
+        		principal = StringTools.deepTrimToLower( (String)oidName.get( oid ) );
+        		
+        		if ( principal.length() > name.length() )
+        		{
+        			OidNormalizer oldOidNormalizer = (OidNormalizer)oidsMap.get( principal );
+
+        			
+        			oidNormalizer = new OidNormalizer( name, oldOidNormalizer.getNormalizer() );
+
+        			oidName.remove( oid );
+        			oidName.put( oid, name );
+        			oidsMap.remove( principal );
+        			oidsMap.remove( oid );
+        			oidsMap.put( principal, oidNormalizer );
+        			oidsMap.put( name, oidNormalizer );
+        			oidsMap.put( oid, oidNormalizer );
+        	        continue;
+        		}
+        	}
+        	else
+        	{
+        		principal = name;
+            	oidName.put( oid, principal );
+
+            	if ( bootstrapRegistries.getNormalizerRegistry().hasNormalizer( oid ) )
+	        	{
+	        		oidNormalizer = new OidNormalizer( principal, bootstrapRegistries.getNormalizerRegistry().lookup( oid ) );
+	        	}
+	        	else
+	        	{
+	        		oidNormalizer = new OidNormalizer( principal, new NoOpNormalizer() );
+	        	}
+	        	
+	        	oidsMap.put( name, oidNormalizer );
+	        	oidsMap.put( oid, oidNormalizer );
+        	}
+        }
+        
+        DnOidContainer.setOids( oidsMap );
+    }
 
     /**
      * Kicks off the initialization of the entire system.
@@ -670,6 +739,8 @@ class DefaultDirectoryService extends DirectoryService
         BootstrapSchemaLoader loader = new BootstrapSchemaLoader();
         
         loader.load( startupConfiguration.getBootstrapSchemas(), bootstrapRegistries );
+        
+        setupOidsMap( bootstrapRegistries );
 
         java.util.List errors = bootstrapRegistries.checkRefInteg();
         if ( !errors.isEmpty() )

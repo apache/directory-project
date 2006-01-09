@@ -44,6 +44,8 @@ import org.apache.ldap.common.filter.ExprNode;
 import org.apache.ldap.common.filter.FilterParserImpl;
 import org.apache.ldap.common.filter.PresenceNode;
 import org.apache.ldap.common.filter.SimpleNode;
+import org.apache.ldap.common.name.DnOidContainer;
+import org.apache.ldap.common.name.LdapDN;
 import org.apache.ldap.common.name.LdapName;
 import org.apache.ldap.common.util.NamespaceTools;
 import org.apache.ldap.server.DirectoryService;
@@ -359,7 +361,7 @@ public abstract class ServerDirContext extends ServerContext implements EventDir
             return ( DirContext ) super.createSubcontext( name );
         }
 
-        LdapName target = buildTarget( name );
+        Name target = buildTarget( name );
 
         String rdn = name.get( name.size() - 1 );
 
@@ -485,7 +487,7 @@ public abstract class ServerDirContext extends ServerContext implements EventDir
     {
         SearchControls ctls = new SearchControls();
 
-        LdapName target = buildTarget( name );
+        Name target = buildTarget( name );
 
         // If we need to return specific attributes add em to the SearchControls
         if ( null != attributesToReturn )
@@ -571,7 +573,13 @@ public abstract class ServerDirContext extends ServerContext implements EventDir
      */
     public NamingEnumeration search( Name name, ExprNode filter, SearchControls cons ) throws NamingException
     {
-        LdapName target = buildTarget( name );
+    	/*Name newName = new LdapDN( name.toString() );
+    	newName = LdapDN.oidToName( newName, DnOidContainer.getOids() );
+    	
+    	
+        Name target = buildTarget( ((LdapDN)newName).toLdapName() );*/
+        
+        Name target = buildTarget( name );
         return getNexusProxy().search( target, getEnvironment(), filter, cons );
     }
 
@@ -585,7 +593,7 @@ public abstract class ServerDirContext extends ServerContext implements EventDir
     {
         ExprNode filterNode;
 
-        LdapName target = buildTarget( name );
+        Name target = buildTarget( name );
 
         try
         {

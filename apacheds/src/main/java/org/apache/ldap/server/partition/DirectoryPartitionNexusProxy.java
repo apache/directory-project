@@ -36,6 +36,7 @@ import javax.naming.ldap.LdapContext;
 import org.apache.ldap.common.exception.LdapSizeLimitExceededException;
 import org.apache.ldap.common.exception.LdapTimeLimitExceededException;
 import org.apache.ldap.common.filter.ExprNode;
+import org.apache.ldap.common.name.LdapDN;
 import org.apache.ldap.server.DirectoryServiceConfiguration;
 import org.apache.ldap.server.DirectoryService;
 import org.apache.ldap.server.configuration.DirectoryPartitionConfiguration;
@@ -45,6 +46,7 @@ import org.apache.ldap.server.event.EventService;
 import org.apache.ldap.server.interceptor.InterceptorChain;
 import org.apache.ldap.server.invocation.Invocation;
 import org.apache.ldap.server.invocation.InvocationStack;
+import org.apache.ldap.server.schema.OidRegistry;
 
 
 /**
@@ -457,6 +459,10 @@ public class DirectoryPartitionNexusProxy extends DirectoryPartitionNexus
         stack.push( new Invocation( this, caller, "lookup", new Object[] { name }, bypass ) );
         try
         {
+        	OidRegistry registry = (OidRegistry)this.service.getConfiguration().getGlobalRegistries().getOidRegistry();
+        	
+        	LdapDN.normalize( name, registry.getNameByOid() );
+
             return this.configuration.getInterceptorChain().lookup( name );
         }
         finally
