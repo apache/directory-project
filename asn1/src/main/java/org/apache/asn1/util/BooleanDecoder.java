@@ -53,7 +53,7 @@ public class BooleanDecoder
                 "The value is not 1 byte long. This is not allowed for a boolean" );
         }
 
-        if ( ( bytes[0] != 0 ) && ( bytes[0] != 255 ) )
+        if ( ( bytes[0] != 0 ) && ( bytes[0] != (byte)0xFF ) )
         {
             log.warn( "A boolean must be encoded with a 0x00 or a 0xFF value" );
         }
