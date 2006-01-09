@@ -133,7 +133,7 @@ public class DefaultDirectoryPartitionNexus extends DirectoryPartitionNexus
         rootDSE.put( attr );
         attr.add( "1.3.6.1.4.1.4203.1.5.1" );
 
-        attr = new LockableAttributeImpl( "supportedControls" );
+        attr = new LockableAttributeImpl( "supportedControl" );
         rootDSE.put( attr );
         attr.add( PersistentSearchControl.CONTROL_OID );
         attr.add( EntryChangeControl.CONTROL_OID );
