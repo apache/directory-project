@@ -21,10 +21,10 @@ import org.apache.asn1.Asn1Object;
 import org.apache.asn1.ber.tlv.Length;
 import org.apache.asn1.ber.tlv.Value;
 import org.apache.asn1.ber.tlv.UniversalTag;
-import org.apache.ldap.common.codec.util.LdapDN;
 import org.apache.ldap.common.codec.util.LdapResultEnum;
 import org.apache.ldap.common.codec.util.LdapString;
 import org.apache.ldap.common.codec.util.LdapURL;
+import org.apache.ldap.common.name.LdapDN;
 
 import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
@@ -230,7 +230,7 @@ public class LdapResult extends Asn1Object
         ldapResultLength = 1 + 1 + 1;
 
         // The matchedDN length
-        ldapResultLength += 1 + Length.getNbBytes( matchedDN.getNbBytes() ) + matchedDN.getNbBytes();
+        ldapResultLength += 1 + Length.getNbBytes( LdapDN.getNbBytes( matchedDN ) ) + LdapDN.getNbBytes( matchedDN );
 
         // The errorMessage length
         ldapResultLength += 1 + Length.getNbBytes( errorMessage.getNbBytes() ) + errorMessage.getNbBytes();
@@ -282,7 +282,7 @@ public class LdapResult extends Asn1Object
         }
 
         // The matchedDN 
-        Value.encode( buffer, matchedDN.getBytes() );
+        Value.encode( buffer, LdapDN.getBytes( matchedDN ) );
 
         // The error message
         Value.encode( buffer, errorMessage.getBytes() );

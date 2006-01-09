@@ -19,12 +19,14 @@ package org.apache.ldap.common.codec.bind;
 import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 
+import javax.naming.Name;
+
 import org.apache.asn1.codec.EncoderException;
 import org.apache.asn1.ber.tlv.Length;
 import org.apache.asn1.ber.tlv.Value;
 import org.apache.ldap.common.codec.LdapConstants;
 import org.apache.ldap.common.codec.LdapMessage;
-import org.apache.ldap.common.codec.util.LdapDN;
+import org.apache.ldap.common.name.LdapDN;
 import org.apache.ldap.common.util.StringTools;
 
 
@@ -43,7 +45,7 @@ public class BindRequest extends LdapMessage
     private int version;
 
     /** The name of the user requesting a bind */
-    private LdapDN name;
+    private Name name;
 
     /** The authentication used to bind the user */
     private LdapAuthentication authentication;
@@ -128,7 +130,7 @@ public class BindRequest extends LdapMessage
      *
      * @param name The user name
      */
-    public void setName( LdapDN name )
+    public void setName( Name name )
     {
         this.name = name;
     }
@@ -187,7 +189,7 @@ public class BindRequest extends LdapMessage
         bindRequestLength = 1 + 1 + 1; // Initialized with version
 
         // The name
-        bindRequestLength += 1 + Length.getNbBytes( name.getNbBytes() ) + name.getNbBytes();
+        bindRequestLength += 1 + Length.getNbBytes( LdapDN.getNbBytes( name ) ) + LdapDN.getNbBytes( name );
 
         // The authentication
         bindRequestLength += authentication.computeLength();
@@ -237,7 +239,7 @@ public class BindRequest extends LdapMessage
         Value.encode( buffer, version );
 
         // The name
-        Value.encode( buffer, name.getBytes() );
+        Value.encode( buffer, LdapDN.getBytes( name ) );
 
         // The authentication
         authentication.encode( buffer );

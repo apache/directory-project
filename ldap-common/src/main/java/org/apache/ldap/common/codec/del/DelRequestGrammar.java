@@ -17,6 +17,8 @@
 package org.apache.ldap.common.codec.del;
 
 import javax.naming.InvalidNameException;
+import javax.naming.Name;
+import javax.naming.NamingException;
 
 import org.apache.asn1.codec.DecoderException;
 import org.apache.asn1.ber.grammar.AbstractGrammar;
@@ -29,7 +31,8 @@ import org.apache.ldap.common.codec.LdapConstants;
 import org.apache.ldap.common.codec.LdapMessage;
 import org.apache.ldap.common.codec.LdapMessageContainer;
 import org.apache.ldap.common.codec.LdapStatesEnum;
-import org.apache.ldap.common.codec.util.LdapDN;
+//import org.apache.ldap.common.name.LdapDN;
+import org.apache.ldap.common.name.LdapDN;
 import org.apache.ldap.common.util.StringTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -97,7 +100,7 @@ public class DelRequestGrammar extends AbstractGrammar implements IGrammar
                         TLV tlv = ldapMessageContainer.getCurrentTLV();
 
                         // We have to handle the special case of a 0 length matched DN
-                        LdapDN entry = null;
+                        Name entry = null;
                         
                         if ( tlv.getLength().getLength() == 0 )
                         {
@@ -107,14 +110,23 @@ public class DelRequestGrammar extends AbstractGrammar implements IGrammar
                         {
                             try
                             {
-                                entry = new LdapDN( tlv.getValue().getData() );
-                                delRequest.setEntry( entry );
+                            	entry = new LdapDN( tlv.getValue().getData() );
+                            	entry = LdapDN.normalize( entry );
                             }
                             catch ( InvalidNameException ine )
                             {
-                                log.error( "The DN to delete  (" + StringTools.dumpBytes( tlv.getValue().getData() ) + ") is invalid" );
-                                throw new DecoderException( "Invalid DN " + StringTools.dumpBytes( tlv.getValue().getData() ) + ", : " + ine.getMessage() );
+                            	String msg = "The DN to delete  (" + StringTools.dumpBytes( tlv.getValue().getData() ) + ") is invalid"; 
+                                log.error( msg + " : " + ine.getMessage());
+                                throw new DecoderException( msg, ine );
                             }
+                            catch ( NamingException ne )
+                            {
+                            	String msg = "The DN to delete  (" + StringTools.dumpBytes( tlv.getValue().getData() ) + ") is invalid";
+                                log.error( msg + " : " + ne.getMessage() );
+                                throw new DecoderException( msg, ne );
+                            }
+
+                            delRequest.setEntry( entry );
                         }
 
                         // then we associate it to the ldapMessage Object

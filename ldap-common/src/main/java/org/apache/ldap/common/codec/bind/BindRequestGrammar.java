@@ -17,6 +17,8 @@
 package org.apache.ldap.common.codec.bind;
 
 import javax.naming.InvalidNameException;
+import javax.naming.Name;
+import javax.naming.NamingException;
 
 import org.apache.asn1.codec.DecoderException;
 import org.apache.asn1.ber.grammar.IGrammar;
@@ -33,9 +35,9 @@ import org.apache.ldap.common.codec.LdapConstants;
 import org.apache.ldap.common.codec.LdapMessage;
 import org.apache.ldap.common.codec.LdapMessageContainer;
 import org.apache.ldap.common.codec.LdapStatesEnum;
-import org.apache.ldap.common.codec.util.LdapDN;
 import org.apache.ldap.common.codec.util.LdapString;
 import org.apache.ldap.common.codec.util.LdapStringEncodingException;
+import org.apache.ldap.common.name.LdapDN;
 import org.apache.ldap.common.util.StringTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -202,15 +204,27 @@ public class BindRequestGrammar extends AbstractGrammar implements IGrammar
                         }
                         else
                         {
-                            try
+                        	Name name = LdapDN.EMPTY_LDAPDN;
+                        	
+                        	try
                             {
-                                bindRequestMessage.setName( new LdapDN( tlv.getValue().getData() ) );
+                                name = new LdapDN( tlv.getValue().getData() );
+                                name = LdapDN.normalize( name );
                             }
                             catch ( InvalidNameException ine )
                             {
-                                log.error( "Incorrect DN given : " + StringTools.dumpBytes( tlv.getValue().getData() ) + " : " + ine.getMessage() );
-                                throw new DecoderException( "Incorrect DN given : " + ine.getMessage() );
+                            	String msg = "Incorrect DN given : " + StringTools.dumpBytes( tlv.getValue().getData() ) + " : " + ine.getMessage(); 
+                                log.error( msg + " : " + ine.getMessage());
+                                throw new DecoderException( msg, ine );
                             }
+                            catch ( NamingException ne )
+                            {
+                            	String msg = "Incorrect DN given : " + StringTools.dumpBytes( tlv.getValue().getData() ) + " : " + ne.getMessage();
+                                log.error( msg + " : " + ne.getMessage() );
+                                throw new DecoderException( msg, ne );
+                            }
+
+                            bindRequestMessage.setName( name );
                         }
                         
                         if ( log.isDebugEnabled() )

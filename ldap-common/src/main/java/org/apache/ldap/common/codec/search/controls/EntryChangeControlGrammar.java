@@ -29,7 +29,7 @@ import org.apache.asn1.ber.tlv.Value;
 import org.apache.asn1.codec.DecoderException;
 import org.apache.asn1.util.IntegerDecoder;
 import org.apache.asn1.util.IntegerDecoderException;
-import org.apache.ldap.common.codec.util.LdapDN;
+import org.apache.ldap.common.name.LdapDN;
 import org.apache.ldap.common.util.StringTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

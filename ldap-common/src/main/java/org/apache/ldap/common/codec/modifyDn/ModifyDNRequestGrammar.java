@@ -17,6 +17,8 @@
 package org.apache.ldap.common.codec.modifyDn;
 
 import javax.naming.InvalidNameException;
+import javax.naming.Name;
+import javax.naming.NamingException;
 
 import org.apache.asn1.codec.DecoderException;
 import org.apache.asn1.ber.grammar.IGrammar;
@@ -33,8 +35,8 @@ import org.apache.ldap.common.codec.LdapConstants;
 import org.apache.ldap.common.codec.LdapMessage;
 import org.apache.ldap.common.codec.LdapMessageContainer;
 import org.apache.ldap.common.codec.LdapStatesEnum;
-import org.apache.ldap.common.codec.util.LdapDN;
-import org.apache.ldap.common.codec.util.LdapRDN;
+import org.apache.ldap.common.name.LdapDN;
+import org.apache.ldap.common.name.Rdn;
 import org.apache.ldap.common.util.StringTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -134,7 +136,7 @@ public class ModifyDNRequestGrammar extends AbstractGrammar implements IGrammar
                         TLV tlv = ldapMessageContainer.getCurrentTLV();
 
                         // We have to handle the special case of a 0 length matched DN
-                        LdapDN entry = null;
+                        Name entry = null;
 
                         if ( tlv.getLength().getLength() == 0 )
                         {
@@ -144,14 +146,23 @@ public class ModifyDNRequestGrammar extends AbstractGrammar implements IGrammar
                         {
                             try
                             {
-                                entry = new LdapDN( tlv.getValue().getData() );
-                                modifyDNRequest.setEntry( entry );
+                            	entry = new LdapDN( tlv.getValue().getData() );
+                            	entry = LdapDN.normalize( entry );
                             }
                             catch ( InvalidNameException ine )
                             {
-                                log.error( "The DN to modify  (" + StringTools.dumpBytes( tlv.getValue().getData() ) + ") is invalid" );
-                                throw new DecoderException( "Invalid DN " + StringTools.dumpBytes( tlv.getValue().getData() ) + ", : " + ine.getMessage() );
+                            	String msg = "The DN to modify  (" + StringTools.dumpBytes( tlv.getValue().getData() ) + ") is invalid"; 
+                                log.error( msg + " : " + ine.getMessage());
+                                throw new DecoderException( msg, ine );
                             }
+                            catch ( NamingException ne )
+                            {
+                            	String msg = "The DN to modify  (" + StringTools.dumpBytes( tlv.getValue().getData() ) + ") is invalid";
+                                log.error( msg + " : " + ne.getMessage() );
+                                throw new DecoderException( msg, ne );
+                            }
+
+                            modifyDNRequest.setEntry( entry );
                         }
 
                         if ( log.isDebugEnabled() )
@@ -199,7 +210,7 @@ public class ModifyDNRequestGrammar extends AbstractGrammar implements IGrammar
                         TLV tlv = ldapMessageContainer.getCurrentTLV();
 
                         // We have to handle the special case of a 0 length matched newDN
-                        LdapRDN newRdn = null;
+                        Rdn newRdn = null;
                         
                         if ( tlv.getLength().getLength() == 0 )
                         {
@@ -209,14 +220,24 @@ public class ModifyDNRequestGrammar extends AbstractGrammar implements IGrammar
                         {
                             try
                             {
-                                newRdn = new LdapRDN( tlv.getValue().getData() );
-                                modifyDNRequest.setNewRDN( newRdn );
+                            	Name dn = new LdapDN( tlv.getValue().getData() );
+                            	dn = LdapDN.normalize( dn );
+                            	newRdn = ((LdapDN)dn).getRdn( 0 );
                             }
                             catch ( InvalidNameException ine )
                             {
-                                log.error( "The new RDN (" + StringTools.dumpBytes( tlv.getValue().getData() ) + ") is invalid" );
-                                throw new DecoderException( "Invalid RDN " + StringTools.dumpBytes( tlv.getValue().getData() ) + ", : " + ine.getMessage() );
+                            	String msg = "The new RDN (" + StringTools.dumpBytes( tlv.getValue().getData() ) + ") is invalid"; 
+                                log.error( msg + " : " + ine.getMessage());
+                                throw new DecoderException( msg, ine );
                             }
+                            catch ( NamingException ne )
+                            {
+                            	String msg = "The new RDN (" + StringTools.dumpBytes( tlv.getValue().getData() ) + ") is invalid";
+                                log.error( msg + " : " + ne.getMessage() );
+                                throw new DecoderException( msg, ne );
+                            }
+
+                            modifyDNRequest.setNewRDN( newRdn );
                         }
 
                         if ( log.isDebugEnabled() )
@@ -326,7 +347,7 @@ public class ModifyDNRequestGrammar extends AbstractGrammar implements IGrammar
                         TLV tlv = ldapMessageContainer.getCurrentTLV();
 
                         // We have to handle the special case of a 0 length matched DN
-                        LdapDN newSuperior = LdapDN.EMPTY_LDAPDN;
+                        Name newSuperior = LdapDN.EMPTY_LDAPDN;
 
                         if ( tlv.getLength().getLength() == 0 )
                         {
@@ -348,14 +369,23 @@ public class ModifyDNRequestGrammar extends AbstractGrammar implements IGrammar
                         {
                             try
                             {
-                                newSuperior = new LdapDN( tlv.getValue().getData() );
-                                modifyDNRequest.setNewSuperior( newSuperior );
+                            	newSuperior = new LdapDN( tlv.getValue().getData() );
+                            	newSuperior = LdapDN.normalize( newSuperior );
                             }
                             catch ( InvalidNameException ine )
                             {
-                                log.error( "The new superior DN (" + StringTools.dumpBytes( tlv.getValue().getData() ) + ") is invalid" );
-                                throw new DecoderException( "Invalid DN " + StringTools.dumpBytes( tlv.getValue().getData() ) + ", : " + ine.getMessage() );
+                            	String msg = "The new superior DN (" + StringTools.dumpBytes( tlv.getValue().getData() ) + ") is invalid"; 
+                                log.error( msg + " : " + ine.getMessage());
+                                throw new DecoderException( msg, ine );
                             }
+                            catch ( NamingException ne )
+                            {
+                            	String msg = "The new superior DN (" + StringTools.dumpBytes( tlv.getValue().getData() ) + ") is invalid";
+                                log.error( msg + " : " + ne.getMessage() );
+                                throw new DecoderException( msg, ne );
+                            }
+
+                            modifyDNRequest.setNewSuperior( newSuperior );
                         }
 
                         if ( log.isDebugEnabled() )

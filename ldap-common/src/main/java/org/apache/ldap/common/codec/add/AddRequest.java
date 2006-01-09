@@ -22,8 +22,8 @@ import org.apache.asn1.ber.tlv.Value;
 import org.apache.asn1.ber.tlv.UniversalTag;
 import org.apache.ldap.common.codec.LdapConstants;
 import org.apache.ldap.common.codec.LdapMessage;
-import org.apache.ldap.common.codec.util.LdapDN;
 import org.apache.ldap.common.codec.util.LdapString;
+import org.apache.ldap.common.name.LdapDN;
 import org.apache.ldap.common.util.AttributeUtils;
 import org.apache.ldap.common.util.StringTools;
 
@@ -35,6 +35,7 @@ import java.nio.ByteBuffer;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.naming.Name;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
@@ -67,7 +68,7 @@ public class AddRequest extends LdapMessage
     //~ Instance fields ----------------------------------------------------------------------------
 
     /** The DN to be added. */
-    private LdapDN entry;
+    private Name entry;
 
     /** The attributes list. */
     private Attributes attributes;
@@ -155,7 +156,7 @@ public class AddRequest extends LdapMessage
      */
     public String getEntry()
     {
-        return ( ( entry == null ) ? "" : entry.getString() );
+        return ( ( entry == null ) ? "" : entry.toString() );
     }
 
     /**
@@ -163,7 +164,7 @@ public class AddRequest extends LdapMessage
      * 
      * @param entry The entry to set.
      */
-    public void setEntry( LdapDN entry )
+    public void setEntry( Name entry )
     {
         this.entry = entry;
     }
@@ -211,7 +212,7 @@ public class AddRequest extends LdapMessage
     public int computeLength()
     {
         // The entry
-        addRequestLength = 1 + Length.getNbBytes( entry.getNbBytes() ) + entry.getNbBytes();
+        addRequestLength = 1 + Length.getNbBytes( LdapDN.getNbBytes( entry ) ) + LdapDN.getNbBytes( entry );
         
         // The attributes sequence
         attributesLength = 0;
@@ -327,7 +328,7 @@ public class AddRequest extends LdapMessage
             buffer.put( Length.getBytes( addRequestLength ) ) ;
             
             // The entry
-            Value.encode( buffer, entry.getBytes() );
+            Value.encode( buffer, LdapDN.getBytes( entry ) );
             
             // The attributes sequence
             buffer.put( UniversalTag.SEQUENCE_TAG );

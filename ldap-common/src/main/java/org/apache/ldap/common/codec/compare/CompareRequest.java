@@ -19,14 +19,16 @@ package org.apache.ldap.common.codec.compare;
 import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 
+import javax.naming.Name;
+
 import org.apache.asn1.codec.EncoderException;
 import org.apache.asn1.ber.tlv.Length;
 import org.apache.asn1.ber.tlv.UniversalTag;
 import org.apache.asn1.ber.tlv.Value;
 import org.apache.ldap.common.codec.LdapConstants;
 import org.apache.ldap.common.codec.LdapMessage;
-import org.apache.ldap.common.codec.util.LdapDN;
 import org.apache.ldap.common.codec.util.LdapString;
+import org.apache.ldap.common.name.LdapDN;
 import org.apache.ldap.common.util.StringTools;
 
 
@@ -51,7 +53,7 @@ public class CompareRequest extends LdapMessage
     //~ Instance fields ----------------------------------------------------------------------------
 
     /** The entry to be compared */
-    private LdapDN entry;
+    private Name entry;
 
     /** The attribute to be compared */
     private LdapString attributeDesc;
@@ -94,7 +96,7 @@ public class CompareRequest extends LdapMessage
      */
     public String getEntry()
     {
-        return ( ( entry == null ) ? "" : entry.getString() );
+        return ( ( entry == null ) ? "" : entry.toString() );
     }
 
     /**
@@ -102,7 +104,7 @@ public class CompareRequest extends LdapMessage
      *
      * @param entry The entry to set.
      */
-    public void setEntry( LdapDN entry )
+    public void setEntry( Name entry )
     {
         this.entry = entry;
     }
@@ -172,7 +174,7 @@ public class CompareRequest extends LdapMessage
     {
 
         // The entry
-        compareRequestLength = 1 + Length.getNbBytes( entry.getNbBytes() ) + entry.getNbBytes();
+        compareRequestLength = 1 + Length.getNbBytes( LdapDN.getNbBytes( entry ) ) + LdapDN.getNbBytes( entry );
 
         // The attribute value assertion
         avaLength =
@@ -223,7 +225,7 @@ public class CompareRequest extends LdapMessage
             buffer.put( Length.getBytes( compareRequestLength ) ) ;
 
             // The entry
-            Value.encode( buffer, entry.getBytes() );
+            Value.encode( buffer, LdapDN.getBytes( entry ) );
 
             // The attributeValueAssertion sequence Tag
             buffer.put( UniversalTag.SEQUENCE_TAG );

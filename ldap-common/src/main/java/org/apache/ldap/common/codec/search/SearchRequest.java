@@ -22,14 +22,15 @@ import org.apache.asn1.ber.tlv.Value;
 import org.apache.asn1.ber.tlv.UniversalTag;
 import org.apache.ldap.common.codec.LdapConstants;
 import org.apache.ldap.common.codec.LdapMessage;
-import org.apache.ldap.common.codec.util.LdapDN;
 import org.apache.ldap.common.codec.util.LdapString;
+import org.apache.ldap.common.name.LdapDN;
 import org.apache.ldap.common.util.StringTools;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 
+import javax.naming.Name;
 import javax.naming.NamingEnumeration;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
@@ -48,7 +49,7 @@ public class SearchRequest extends LdapMessage
     //~ Instance fields ----------------------------------------------------------------------------
 
     /** The base DN */
-    private LdapDN baseObject;
+    private Name baseObject;
 
     /** The scope. It could be baseObject, singleLevel or wholeSubtree. */
     private int scope;
@@ -144,7 +145,7 @@ public class SearchRequest extends LdapMessage
      */
     public String getBaseObject()
     {
-        return ( ( baseObject == null ) ? null : baseObject.getString() );
+        return ( ( baseObject == null ) ? null : baseObject.toString() );
     }
 
     /**
@@ -152,7 +153,7 @@ public class SearchRequest extends LdapMessage
      *
      * @param baseObject The baseObject to set.
      */
-    public void setBaseObject( LdapDN baseObject )
+    public void setBaseObject( Name baseObject )
     {
         this.baseObject = baseObject;
     }
@@ -326,7 +327,7 @@ public class SearchRequest extends LdapMessage
         searchRequestLength = 0;
         
         // The baseObject
-        searchRequestLength += 1 + Length.getNbBytes( baseObject.getNbBytes() ) + baseObject.getNbBytes();
+        searchRequestLength += 1 + Length.getNbBytes( LdapDN.getNbBytes( baseObject ) ) + LdapDN.getNbBytes( baseObject );
         
         // The scope
         searchRequestLength += 1 + 1 + 1;
@@ -418,7 +419,7 @@ public class SearchRequest extends LdapMessage
             buffer.put( Length.getBytes( searchRequestLength ) ) ;
             
             // The baseObject
-            Value.encode( buffer, baseObject.getBytes() );
+            Value.encode( buffer, LdapDN.getBytes( baseObject ) );
             
             // The scope
             Value.encodeEnumerated( buffer, scope );
@@ -481,6 +482,35 @@ public class SearchRequest extends LdapMessage
         sb.append( filter.toString() );
         
         sb.append(")");
+        
+        return sb.toString();
+    }
+    
+    /**
+     * @return A string that represent the atributes list
+     */
+    private String buildAttributes()
+    {
+        StringBuffer sb = new StringBuffer();
+
+        NamingEnumeration attrs = attributes.getAll();
+        boolean isFirst = true;
+        
+        while ( attrs.hasMoreElements() )
+        {
+        	Attribute attr = (BasicAttribute)attrs.nextElement();
+        	
+        	if ( isFirst )
+        	{
+        		isFirst = false;
+        	}
+        	else
+        	{
+        		sb.append( ", " );
+        	}
+        	
+        	sb.append( attr.getID() );
+        }
         
         return sb.toString();
     }
@@ -565,6 +595,10 @@ public class SearchRequest extends LdapMessage
         sb.append( "        Types Only : " ).append( typesOnly ).append( "\n" );
         sb.append( "        Filter : '" ).append( buildFilter() ).append( "'\n" );
         
+        if ( ( attributes != null ) && ( attributes.size() != 0 ) )
+        {
+        	sb.append( "        Attributes : " ).append( buildAttributes() ).append( "\n" );
+        }
         return sb.toString();
     }
 }

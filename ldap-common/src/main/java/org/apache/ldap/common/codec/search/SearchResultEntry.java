@@ -22,8 +22,8 @@ import org.apache.asn1.ber.tlv.Value;
 import org.apache.asn1.ber.tlv.UniversalTag;
 import org.apache.ldap.common.codec.LdapConstants;
 import org.apache.ldap.common.codec.LdapMessage;
-import org.apache.ldap.common.codec.util.LdapDN;
 import org.apache.ldap.common.codec.util.LdapString;
+import org.apache.ldap.common.name.LdapDN;
 import org.apache.ldap.common.util.AttributeUtils;
 import org.apache.ldap.common.util.StringTools;
 
@@ -32,6 +32,7 @@ import java.nio.ByteBuffer;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.naming.Name;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
@@ -65,7 +66,7 @@ public class SearchResultEntry extends LdapMessage
     //~ Instance fields ----------------------------------------------------------------------------
 
     /** The DN of the returned entry */
-    private LdapDN objectName;
+    private Name objectName;
 
     /** The attributes list. It contains javax.naming.directory.Attribute */
     private Attributes partialAttributeList;
@@ -114,7 +115,7 @@ public class SearchResultEntry extends LdapMessage
      */
     public String getObjectName()
     {
-        return ( ( objectName == null ) ? null : objectName.getString() );
+        return ( ( objectName == null ) ? null : objectName.toString() );
     }
 
     /**
@@ -122,7 +123,7 @@ public class SearchResultEntry extends LdapMessage
      *
      * @param objectName The objectName to set.
      */
-    public void setObjectName( LdapDN objectName )
+    public void setObjectName( Name objectName )
     {
         this.objectName = objectName;
     }
@@ -224,7 +225,7 @@ public class SearchResultEntry extends LdapMessage
     public int computeLength()
     {
         // The entry
-        searchResultEntryLength = 1 + Length.getNbBytes( objectName.getNbBytes() ) + objectName.getNbBytes();
+        searchResultEntryLength = 1 + Length.getNbBytes( LdapDN.getNbBytes( objectName ) ) + LdapDN.getNbBytes( objectName );
         
         // The attributes sequence
         attributesLength = 0;
@@ -345,7 +346,7 @@ public class SearchResultEntry extends LdapMessage
             buffer.put( Length.getBytes( searchResultEntryLength ) ) ;
             
             // The objectName
-            Value.encode( buffer, objectName.getBytes() );
+            Value.encode( buffer, LdapDN.getBytes( objectName ) );
             
             // The attributes sequence
             buffer.put( UniversalTag.SEQUENCE_TAG );

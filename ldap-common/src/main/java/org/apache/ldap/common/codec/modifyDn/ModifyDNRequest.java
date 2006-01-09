@@ -19,13 +19,16 @@ package org.apache.ldap.common.codec.modifyDn;
 import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 
+import javax.naming.Name;
+
 import org.apache.asn1.codec.EncoderException;
 import org.apache.asn1.ber.tlv.Length;
 import org.apache.asn1.ber.tlv.Value;
 import org.apache.ldap.common.codec.LdapConstants;
 import org.apache.ldap.common.codec.LdapMessage;
-import org.apache.ldap.common.codec.util.LdapDN;
-import org.apache.ldap.common.codec.util.LdapRDN;
+import org.apache.ldap.common.name.Rdn;
+import org.apache.ldap.common.name.LdapDN;
+import org.apache.ldap.common.util.StringTools;
 
 
 /**
@@ -43,16 +46,16 @@ public class ModifyDNRequest extends LdapMessage
     //~ Instance fields ----------------------------------------------------------------------------
 
     /** The DN to be modified. */
-    private LdapDN entry;
+    private Name entry;
 
     /** The new RDN to be added to the RDN or to the new superior, if present */
-    private LdapRDN newRDN;
+    private Rdn newRDN;
 
     /** If the previous RDN is to be deleted, this flag will be set to true */
     private boolean deleteOldRDN;
 
     /** The optional superior, which will be concatened to the newRdn */
-    private LdapDN newSuperior;
+    private Name newSuperior;
 
     /** The modify DN request length */
     private transient int modifyDNRequestLength;
@@ -85,14 +88,14 @@ public class ModifyDNRequest extends LdapMessage
      */
     public String getEntry()
     {
-        return ( ( entry == null ) ? "" : entry.getString() );
+        return ( ( entry == null ) ? "" : entry.toString() );
     }
 
     /**
      * Set the modification DN.
      * @param entry The entry to set.
      */
-    public void setEntry( LdapDN entry )
+    public void setEntry( Name entry )
     {
         this.entry = entry;
     }
@@ -124,7 +127,7 @@ public class ModifyDNRequest extends LdapMessage
      */
     public String getNewRDN()
     {
-        return ( ( newRDN == null ) ? "" : newRDN.getString() );
+        return ( ( newRDN == null ) ? "" : newRDN.toString() );
     }
 
     /**
@@ -132,7 +135,7 @@ public class ModifyDNRequest extends LdapMessage
      *
      * @param newRDN The newRDN to set.
      */
-    public void setNewRDN( LdapRDN newRDN )
+    public void setNewRDN( Rdn newRDN )
     {
         this.newRDN = newRDN;
     }
@@ -144,7 +147,7 @@ public class ModifyDNRequest extends LdapMessage
      */
     public String getNewSuperior()
     {
-        return ( ( newSuperior == null ) ? "" : newSuperior.getString() );
+        return ( ( newSuperior == null ) ? "" : newSuperior.toString() );
     }
 
     /**
@@ -152,7 +155,7 @@ public class ModifyDNRequest extends LdapMessage
      *
      * @param newSuperior The newSuperior to set.
      */
-    public void setNewSuperior( LdapDN newSuperior )
+    public void setNewSuperior( Name newSuperior )
     {
         this.newSuperior = newSuperior;
     }
@@ -179,16 +182,16 @@ public class ModifyDNRequest extends LdapMessage
     */
     public int computeLength()
     {
-
+    	int newRdnlength = StringTools.getBytesUtf8( newRDN.toString() ).length;
         modifyDNRequestLength =
-            1 + Length.getNbBytes( entry.getNbBytes() ) + entry.getNbBytes() +
-            1 + Length.getNbBytes( newRDN.getNbBytes() ) + newRDN.getNbBytes() +
+            1 + Length.getNbBytes( LdapDN.getNbBytes( entry ) ) + LdapDN.getNbBytes( entry ) +
+            1 + Length.getNbBytes( newRdnlength ) + newRdnlength +
             1 + 1 + 1; // deleteOldRDN
 
         if ( newSuperior != null )
         {
-            modifyDNRequestLength += 1 + Length.getNbBytes( newSuperior.getNbBytes() ) +
-                newSuperior.getNbBytes();
+            modifyDNRequestLength += 1 + Length.getNbBytes( LdapDN.getNbBytes( newSuperior ) ) +
+            	LdapDN.getNbBytes( newSuperior );
         }
 
         return 1 + Length.getNbBytes( modifyDNRequestLength ) + modifyDNRequestLength;
@@ -222,10 +225,11 @@ public class ModifyDNRequest extends LdapMessage
             buffer.put( Length.getBytes( modifyDNRequestLength ) ) ;
 
             // The entry
-            Value.encode( buffer, entry.getBytes() );
+            
+            Value.encode( buffer, LdapDN.getBytes( entry ) );
 
             // The newRDN
-            Value.encode( buffer, newRDN.getBytes() );
+            Value.encode( buffer, newRDN.toString() );
 
             // The flag deleteOldRdn
             Value.encode( buffer, deleteOldRDN );
@@ -235,11 +239,14 @@ public class ModifyDNRequest extends LdapMessage
             {
                 // Encode the reference
                 buffer.put( (byte) LdapConstants.MODIFY_DN_REQUEST_NEW_SUPERIOR_TAG );
-                buffer.put( Length.getBytes( newSuperior.getNbBytes() ) );
+                
+                int newSuperiorLength = LdapDN.getNbBytes( newSuperior ); 
+                
+                buffer.put( Length.getBytes( newSuperiorLength ) );
 
-                if ( newSuperior.getNbBytes() != 0 )
+                if ( newSuperiorLength != 0 )
                 {
-                    buffer.put( newSuperior.getBytes() );
+                    buffer.put( LdapDN.getBytes( newSuperior ) );
                 }
             }
         }

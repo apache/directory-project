@@ -17,6 +17,8 @@
 package org.apache.ldap.common.codec.search;
 
 import javax.naming.InvalidNameException;
+import javax.naming.Name;
+import javax.naming.NamingException;
 
 import org.apache.asn1.codec.DecoderException;
 import org.apache.asn1.ber.grammar.IGrammar;
@@ -35,9 +37,9 @@ import org.apache.ldap.common.codec.LdapConstants;
 import org.apache.ldap.common.codec.LdapMessage;
 import org.apache.ldap.common.codec.LdapMessageContainer;
 import org.apache.ldap.common.codec.LdapStatesEnum;
-import org.apache.ldap.common.codec.util.LdapDN;
 import org.apache.ldap.common.codec.util.LdapString;
 import org.apache.ldap.common.codec.util.LdapStringEncodingException;
+import org.apache.ldap.common.name.LdapDN;
 import org.apache.ldap.common.util.StringTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -134,7 +136,7 @@ public class SearchRequestGrammar extends AbstractGrammar implements IGrammar
                         TLV                  tlv = ldapMessageContainer.getCurrentTLV();
 
                         // We have to check that this is a correct DN
-                        LdapDN baseObject = LdapDN.EMPTY_LDAPDN;
+                        Name baseObject = LdapDN.EMPTY_LDAPDN;
                         
                         // We have to handle the special case of a 0 length base object,
                         // which means that the search is done from the default root.
@@ -143,11 +145,19 @@ public class SearchRequestGrammar extends AbstractGrammar implements IGrammar
                             try
                             {
                                 baseObject = new LdapDN( tlv.getValue().getData() );
+                                baseObject = LdapDN.normalize( baseObject );
                             }
                             catch ( InvalidNameException ine )
                             {
-                                log.error( "The root DN " + baseObject.toString() + " is invalid" );
-                                throw new DecoderException( "The root DN " + baseObject.toString() + " is invalid" );
+                            	String msg = "The root DN " + baseObject.toString() + " is invalid"; 
+                                log.error( msg + " : " + ine.getMessage());
+                                throw new DecoderException( msg, ine );
+                            }
+                            catch ( NamingException ne )
+                            {
+                            	String msg = "The root DN " + baseObject.toString() + " cannot be modified";
+                                log.error( msg + " : " + ne.getMessage() );
+                                throw new DecoderException( msg, ne );
                             }
                         }
                         

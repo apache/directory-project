@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.naming.Name;
 
@@ -1073,7 +1071,7 @@ public class LdapNameTest extends TestCase
     /**
      * Class to test for toOid( Name, Map)
      */
-    public void testLdapNameToOid() throws Exception
+    /*public void testLdapNameToOid() throws Exception
     {
         ArrayList list = new ArrayList() ;
         list.add( "ou=People" ) ;
@@ -1090,10 +1088,12 @@ public class LdapNameTest extends TestCase
         assertTrue( result.toString().equals( 
             "2.5.4.11=People,0.9.2342.19200300.100.1.25=example,0.9.2342.19200300.100.1.25=com" ) ) ;
     }
+    */
 
     /**
      * Class to test for toOid( Name, Map)
      */
+    /*
     public void testLdapNameToOidEmpty() throws Exception
     {
         LdapName name = new LdapName() ;
@@ -1106,5 +1106,5 @@ public class LdapNameTest extends TestCase
         LdapName result = LdapName.toOidName( name, oids );
         assertTrue( result.toString().equals( "" ) ) ;
     }
-
+    */
 }

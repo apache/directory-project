@@ -32,11 +32,9 @@ import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.NoSuchElementException;
 
 import org.apache.ldap.common.util.NamespaceTools;
-import org.apache.ldap.common.util.StringTools;
 
 import javax.naming.InvalidNameException;
 import javax.naming.Name;
@@ -929,6 +927,7 @@ public class LdapName implements Name
     }
     
 
+    /*
     public static LdapName toOidName( LdapName dn, Map oids ) throws InvalidNameException
     {
     	if ( ( dn == null ) || ( dn.size() == 0 ) )
@@ -985,5 +984,6 @@ public class LdapName implements Name
     	
     	return newDn;
     }
+    */
 }
 

@@ -19,11 +19,13 @@ package org.apache.ldap.common.codec.del;
 import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 
+import javax.naming.Name;
+
 import org.apache.asn1.codec.EncoderException;
 import org.apache.asn1.ber.tlv.Length;
 import org.apache.ldap.common.codec.LdapConstants;
 import org.apache.ldap.common.codec.LdapMessage;
-import org.apache.ldap.common.codec.util.LdapDN;
+import org.apache.ldap.common.name.LdapDN;
 
 
 /**
@@ -37,7 +39,7 @@ public class DelRequest extends LdapMessage
     //~ Instance fields ----------------------------------------------------------------------------
 
     /** The entry to be deleted */
-    private LdapDN entry;
+    private Name entry;
 
     //~ Constructors -------------------------------------------------------------------------------
 
@@ -68,7 +70,7 @@ public class DelRequest extends LdapMessage
      */
     public String getEntry()
     {
-        return ( ( entry == null ) ? "" : entry.getString() );
+        return ( ( entry == null ) ? "" : entry.toString() );
     }
 
     /**
@@ -76,7 +78,7 @@ public class DelRequest extends LdapMessage
      *
      * @param entry The entry to set.
      */
-    public void setEntry( LdapDN entry )
+    public void setEntry( Name entry )
     {
         this.entry = entry;
     }
@@ -95,7 +97,7 @@ public class DelRequest extends LdapMessage
     public int computeLength()
     {
         // The entry
-        return 1 + Length.getNbBytes( entry.getNbBytes() ) + entry.getNbBytes();
+        return 1 + Length.getNbBytes( LdapDN.getNbBytes( entry ) ) + LdapDN.getNbBytes( entry );
     }
 
     /**
@@ -121,8 +123,8 @@ public class DelRequest extends LdapMessage
             buffer.put( LdapConstants.DEL_REQUEST_TAG );
 
             // The entry
-            buffer.put( Length.getBytes( entry.getNbBytes() ) );
-            buffer.put( entry.getBytes() );
+            buffer.put( Length.getBytes( LdapDN.getNbBytes( entry ) ) );
+            buffer.put( LdapDN.getBytes( entry ) );
         }
         catch ( BufferOverflowException boe )
         {

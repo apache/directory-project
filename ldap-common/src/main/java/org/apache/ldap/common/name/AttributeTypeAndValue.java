@@ -14,11 +14,15 @@
  *   limitations under the License.
  *
  */
-package org.apache.ldap.common.codec;
+package org.apache.ldap.common.name;
+
+import java.io.Serializable;
 
 import javax.naming.InvalidNameException;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.ldap.common.util.StringTools;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A Attribute Type And Value, which is the basis of all RDN.
@@ -35,13 +39,27 @@ import org.apache.commons.lang.StringUtils;
  * 
  * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  */
-public class AttributeTypeAndValue implements Cloneable, Comparable
+public class AttributeTypeAndValue implements Cloneable, Comparable, Serializable
 {
+    /**
+     * Declares the Serial Version Uid.
+     * 
+     * @see <a href="http://c2.com/cgi/wiki?AlwaysDeclareSerialVersionUid">Always Declare Serial Version Uid</a>
+     */
+    private static final long serialVersionUID = 1L;
+
+    /** The LoggerFactory used by this class */
+    private static Logger log = LoggerFactory.getLogger( AttributeTypeAndValue.class );
+
     /** The Name type */
     private String type;
     
     /** The name value */
     private String value;
+    
+    /** Two values used for comparizon */
+    private static final boolean CASE_SENSITIVE = true;
+    private static final boolean CASE_INSENSITIVE = false;
     
     /**
      * Construct an empty AttributeTypeAndValue
@@ -62,8 +80,14 @@ public class AttributeTypeAndValue implements Cloneable, Comparable
      */ 
     public AttributeTypeAndValue( String type, String value ) throws InvalidNameException
     {
+    	if ( StringTools.isEmpty( type ) || StringTools.isEmpty( type.trim() ) )
+    	{
+    		log.error( "The type cannot be empty or null" );
+    		throw new InvalidNameException( "Null or empty type is not allowed" );
+    	}
+    	
         this.type = type;
-        this.value = value;
+        this.value = StringTools.isEmpty( value ) ? "" : value;
     }
     
     /**
@@ -83,7 +107,7 @@ public class AttributeTypeAndValue implements Cloneable, Comparable
      */
     public void setType( String type ) throws InvalidNameException
     {
-        if ( StringUtils.isEmpty( type ) )
+        if ( StringTools.isEmpty( type ) )
         {
             throw new InvalidNameException( "The AttributeTypeAndValue type cannot be null : " );
         }
@@ -98,9 +122,9 @@ public class AttributeTypeAndValue implements Cloneable, Comparable
      */
     public void setTypeNormalized( String type ) throws InvalidNameException
     {
-        this.type = StringUtils.lowerCase( StringUtils.trim( type ) );
+        this.type = StringTools.lowerCase( StringTools.trim( type ) );
 
-        if ( StringUtils.isEmpty( this.type ) )
+        if ( StringTools.isEmpty( this.type ) )
         {
             throw new InvalidNameException( "The AttributeTypeAndValue type cannot be null : " );
         }
@@ -123,7 +147,7 @@ public class AttributeTypeAndValue implements Cloneable, Comparable
      */
     public void setValue( String value )
     {
-        this.value = StringUtils.isEmpty( value ) ? "" : value;
+        this.value = StringTools.isEmpty( value ) ? "" : value;
     }
 
     /**
@@ -133,11 +157,15 @@ public class AttributeTypeAndValue implements Cloneable, Comparable
      */
     public void setValueNormalized( String value )
     {
-        this.value = StringUtils.trim( value );
+    	String newValue = StringTools.trim( value );
 
-        if ( StringUtils.isEmpty( value ) )
+        if ( StringTools.isEmpty( newValue ) )
         {
             this.value = "";
+        }
+        else
+        {
+        	this.value = newValue; 
         }
     }
     
@@ -159,13 +187,14 @@ public class AttributeTypeAndValue implements Cloneable, Comparable
     }
     
     /**
-     * Compares two NamezComponent. They are equals if :
-     * - types are equals,
-     * - values are equals
-     * - comparizon are case insensitive
+     * Compares two NameComponents. They are equals if :
+     * - types are equals, case insensitive,
+     * - values are equals, case sensitive
      * 
      * @param object
-     * @return
+     * @return 0 if both NC are equals, otherwise a positive value if
+     * the original NC is superior to the second one, a negative value 
+     * if the second NC is superior.
      */
     public int compareTo( Object object )
     {
@@ -173,33 +202,108 @@ public class AttributeTypeAndValue implements Cloneable, Comparable
         {
             AttributeTypeAndValue nc = (AttributeTypeAndValue)object;
             
-            return ( compare( type, nc.type ) && compare( value, nc.value ) ? 0 : -1 );
+            int res = compareType( type, nc.type );
+            
+            if ( res != 0 )
+            {
+            	return res;
+            }
+            else
+            {
+            	return compareValue( value, nc.value, CASE_SENSITIVE );
+            }
         }
         else
         {
-            return -1;
+            return 1;
         }
     }
     
     /**
-     * Compare two strings, trimed and case insensitive
+     * Compares two NameComponents. They are equals if :
+     * - types are equals, case insensitive,
+     * - values are equals, case insensitive
+     * 
+     * @param object
+     * @return 0 if both NC are equals, otherwise a positive value if
+     * the original NC is superior to the second one, a negative value 
+     * if the second NC is superior.
+     */
+    public int compareToIgnoreCase( Object object )
+    {
+        if ( object instanceof AttributeTypeAndValue )
+        {
+            AttributeTypeAndValue nc = (AttributeTypeAndValue)object;
+            
+            int res = compareType( type, nc.type );
+            
+            if ( res != 0 )
+            {
+            	return res;
+            }
+            else
+            {
+            	return compareValue( value, nc.value, CASE_INSENSITIVE );
+            }
+        }
+        else
+        {
+            return 1;
+        }
+    }
+    
+    /**
+     * Compare two types, trimed and case insensitive
      * @param val1 First String
      * @param val2 Second String
      * @return true if both strings are equals or null.
      */
-    private boolean compare( String val1, String val2 )
+    private int compareType( String val1, String val2 )
     {
-        if ( StringUtils.isEmpty( val1 ) )
+        if ( StringTools.isEmpty( val1 ) )
         {
-            return StringUtils.isEmpty( val2 );
+            return StringTools.isEmpty( val2 ) ? 0 : -1;
         }
-        else if ( StringUtils.isEmpty( val2 ) )
+        else if ( StringTools.isEmpty( val2 ) )
         {
-            return false;
+            return 1;
         }
         else
         {
-            return ( StringUtils.lowerCase( StringUtils.trim( val1 ) ) ).equals(StringUtils.lowerCase( StringUtils.trim( val2 ) ) );
+            return ( StringTools.trim( val1 ) ).compareToIgnoreCase( StringTools.trim( val2 ) );
+        }
+    }
+
+    /**
+     * Compare two values
+     * @param val1 First String
+     * @param val2 Second String
+     * @return true if both strings are equals or null.
+     */
+    private int compareValue( String val1, String val2, boolean sensitivity )
+    {
+        if ( StringTools.isEmpty( val1 ) )
+        {
+            return StringTools.isEmpty( val2 ) ? 0 : -1;
+        }
+        else if ( StringTools.isEmpty( val2 ) )
+        {
+            return 1;
+        }
+        else
+        {
+        	int res = 0;
+        	
+        	if ( sensitivity == CASE_SENSITIVE )
+        	{
+        		res = ( StringTools.trim( val1 ) ).compareTo( StringTools.trim( val2 ) );
+        	}
+        	else
+        	{
+        		res = ( StringTools.trim( val1 ) ).compareToIgnoreCase( StringTools.trim( val2 ) );
+        	}
+        	
+    		return (res < 0 ? -1 : res > 0 ? 1 : 0 );
         }
     }
 
@@ -212,8 +316,8 @@ public class AttributeTypeAndValue implements Cloneable, Comparable
      */
     public String normalize()
     {
-        return StringUtils.lowerCase( StringUtils.trim( type ) ) + '=' +
-        StringUtils.trim( value );
+        return StringTools.lowerCase( StringTools.trim( type ) ) + '=' +
+        StringTools.trim( value );
     }
 
     /**
@@ -225,7 +329,17 @@ public class AttributeTypeAndValue implements Cloneable, Comparable
     {
         StringBuffer sb = new StringBuffer();
         
-        sb.append( type ).append( "=" ).append( value );
+        if ( StringTools.isEmpty( type ) || StringTools.isEmpty( type.trim() ) )
+        {
+        	return "";
+        }
+        
+        sb.append( type ).append( "=" );
+        
+        if ( value != null )
+        {
+        	sb.append( value );
+        }
         
         return sb.toString();
     }

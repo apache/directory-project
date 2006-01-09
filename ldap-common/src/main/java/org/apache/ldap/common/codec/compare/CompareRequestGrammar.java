@@ -17,6 +17,8 @@
 package org.apache.ldap.common.codec.compare;
 
 import javax.naming.InvalidNameException;
+import javax.naming.Name;
+import javax.naming.NamingException;
 
 import org.apache.asn1.codec.DecoderException;
 import org.apache.asn1.ber.grammar.IGrammar;
@@ -30,9 +32,10 @@ import org.apache.ldap.common.codec.LdapConstants;
 import org.apache.ldap.common.codec.LdapMessage;
 import org.apache.ldap.common.codec.LdapMessageContainer;
 import org.apache.ldap.common.codec.LdapStatesEnum;
-import org.apache.ldap.common.codec.util.LdapDN;
 import org.apache.ldap.common.codec.util.LdapString;
 import org.apache.ldap.common.codec.util.LdapStringEncodingException;
+//import org.apache.ldap.common.name.LdapDN;
+import org.apache.ldap.common.name.LdapDN;
 import org.apache.ldap.common.util.StringTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -126,7 +129,7 @@ public class CompareRequestGrammar extends AbstractGrammar implements IGrammar
 
                         // Get the Value and store it in the CompareRequest
                         TLV tlv = ldapMessageContainer.getCurrentTLV();
-                        LdapDN entry = null;
+                        Name entry = null;
 
                         // We have to handle the special case of a 0 length matched DN
                         if ( tlv.getLength().getLength() == 0 )
@@ -138,13 +141,22 @@ public class CompareRequestGrammar extends AbstractGrammar implements IGrammar
                             try
                             {
                                 entry = new LdapDN( tlv.getValue().getData() );
-                                compareRequest.setEntry( entry );
+                                entry = LdapDN.normalize( entry );
                             }
                             catch ( InvalidNameException ine )
                             {
-                                log.error( "The DN to compare  (" + StringTools.dumpBytes( tlv.getValue().getData() ) + ") is invalid" );
-                                throw new DecoderException( "Invalid DN " + StringTools.dumpBytes( tlv.getValue().getData() ) + ", : " + ine.getMessage() );
+                            	String msg = "The DN to compare  (" + StringTools.dumpBytes( tlv.getValue().getData() ) + ") is invalid"; 
+                                log.error( msg + " : " + ine.getMessage());
+                                throw new DecoderException( msg, ine );
                             }
+                            catch ( NamingException ne )
+                            {
+                            	String msg = "The DN to compare  (" + StringTools.dumpBytes( tlv.getValue().getData() ) + ") is invalid";
+                                log.error( msg + " : " + ne.getMessage() );
+                                throw new DecoderException( msg, ne );
+                            }
+
+                            compareRequest.setEntry( entry );
                         }
 
                         if ( log.isDebugEnabled() )
@@ -211,7 +223,8 @@ public class CompareRequestGrammar extends AbstractGrammar implements IGrammar
                         {
                             try
                             {
-                                compareRequest.setAttributeDesc( new LdapString( tlv.getValue().getData() ) );
+                            	LdapString type = LdapDN.normalizeAttribute( tlv.getValue().getData() );
+                                compareRequest.setAttributeDesc( type );
                             }
                             catch ( LdapStringEncodingException lsee )
                             {

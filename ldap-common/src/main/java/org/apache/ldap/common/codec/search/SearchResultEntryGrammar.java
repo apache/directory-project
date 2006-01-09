@@ -17,6 +17,8 @@
 package org.apache.ldap.common.codec.search;
 
 import javax.naming.InvalidNameException;
+import javax.naming.Name;
+import javax.naming.NamingException;
 
 import org.apache.asn1.codec.DecoderException;
 import org.apache.asn1.ber.grammar.IGrammar;
@@ -30,9 +32,10 @@ import org.apache.ldap.common.codec.LdapConstants;
 import org.apache.ldap.common.codec.LdapMessage;
 import org.apache.ldap.common.codec.LdapMessageContainer;
 import org.apache.ldap.common.codec.LdapStatesEnum;
-import org.apache.ldap.common.codec.util.LdapDN;
 import org.apache.ldap.common.codec.util.LdapString;
 import org.apache.ldap.common.codec.util.LdapStringEncodingException;
+//import org.apache.ldap.common.name.LdapDN;
+import org.apache.ldap.common.name.LdapDN;
 import org.apache.ldap.common.util.StringTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -141,22 +144,34 @@ public class SearchResultEntryGrammar extends AbstractGrammar implements IGramma
                         TLV                  tlv                  =
                             ldapMessageContainer.getCurrentTLV();
 
-                        // Store the value.
+                    	Name objectName = LdapDN.EMPTY_LDAPDN;
+
+                    	// Store the value.
                         if ( tlv.getLength().getLength() == 0 )
                         {
-                            searchResultEntry.setObjectName( LdapDN.EMPTY_LDAPDN );
+                            searchResultEntry.setObjectName( objectName );
                         }
                         else
                         {
                             try
                             {
-                                searchResultEntry.setObjectName( new LdapDN( tlv.getValue().getData() ) );
+                            	objectName = new LdapDN( tlv.getValue().getData() );
+                            	objectName = LdapDN.normalize( objectName );
                             }
                             catch ( InvalidNameException ine )
                             {
-                                log.error(" The DN " + StringTools.dumpBytes( tlv.getValue().getData() ) + "is invalid : " + ine.getMessage() );
-                                throw new DecoderException( "The Dn is invalid : " + ine.getMessage() );
+                            	String msg = "The DN " + StringTools.dumpBytes( tlv.getValue().getData() ) + "is invalid : " + ine.getMessage(); 
+                                log.error( msg + " : " + ine.getMessage());
+                                throw new DecoderException( msg, ine );
                             }
+                            catch ( NamingException ne )
+                            {
+                            	String msg = "The DN " + StringTools.dumpBytes( tlv.getValue().getData() ) + "is invalid : " + ne.getMessage();
+                                log.error( msg + " : " + ne.getMessage() );
+                                throw new DecoderException( msg, ne );
+                            }
+
+                            searchResultEntry.setObjectName( objectName );
                         }
 
                         if ( log.isDebugEnabled() )
@@ -270,7 +285,7 @@ public class SearchResultEntryGrammar extends AbstractGrammar implements IGramma
                         {
                             try
                             {
-                                type = new LdapString( tlv.getValue().getData() );
+                            	type = LdapDN.normalizeAttribute( tlv.getValue().getData() );
                                 searchResultEntry.addAttributeValues( type );
                             }
                             catch ( LdapStringEncodingException lsee )

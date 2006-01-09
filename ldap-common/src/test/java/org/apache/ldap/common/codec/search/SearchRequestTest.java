@@ -18,6 +18,8 @@ package org.apache.ldap.common.codec.search;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.naming.directory.Attributes;
 
@@ -25,6 +27,9 @@ import org.apache.asn1.codec.DecoderException;
 import org.apache.asn1.codec.EncoderException;
 import org.apache.asn1.ber.Asn1Decoder;
 import org.apache.asn1.ber.IAsn1Container;
+import org.apache.ldap.common.name.DnOidContainer;
+import org.apache.ldap.common.schema.DeepTrimToLowerNormalizer;
+import org.apache.ldap.common.schema.OidNormalizer;
 import org.apache.ldap.common.util.StringTools;
 import org.apache.ldap.common.codec.AttributeValueAssertion;
 import org.apache.ldap.common.codec.Control;
@@ -50,6 +55,23 @@ import junit.framework.TestCase;
  * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  */
 public class SearchRequestTest extends TestCase {
+    protected void setUp() throws Exception
+    {
+        super.setUp();
+        
+        Map oids = new HashMap(); 
+        oids.put( "dc", new OidNormalizer( "dc", new  DeepTrimToLowerNormalizer() ) );
+        oids.put( "domaincomponent", new OidNormalizer( "dc", new  DeepTrimToLowerNormalizer() ) );
+        oids.put( "0.9.2342.19200300.100.1.25", new OidNormalizer( "dc", new  DeepTrimToLowerNormalizer() ) );
+        oids.put( "ou", new OidNormalizer( "ou", new  DeepTrimToLowerNormalizer() ) );
+        oids.put( "organizationalUnitName", new OidNormalizer( "ou", new  DeepTrimToLowerNormalizer() ) );
+        oids.put( "2.5.4.11", new OidNormalizer( "ou", new  DeepTrimToLowerNormalizer() ) );
+        oids.put( "objectclass", new OidNormalizer( "objectclass", new  DeepTrimToLowerNormalizer() ) );
+        oids.put( "2.5.4.0", new OidNormalizer( "objectclass", new  DeepTrimToLowerNormalizer() ) );
+		
+        DnOidContainer.setOids( oids );
+	}
+	
     /**
      * Test the decoding of a SearchRequest with no controls.
      * The search filter is : 
@@ -1873,4 +1895,152 @@ public class SearchRequestTest extends TestCase {
            Assert.fail( ee.getMessage() );
        }
     }    
+
+    /**
+     * Test the decoding of a SearchRequest with no controls but with
+     * oid attributes.
+     * The search filter is : 
+     * (&(|(objectclass=top)(2.5.4.11=contacts))(!(organizationalUnitName=ttt)))
+     */
+    public void testDecodeSearchRequestGlobalNoControlsOidAndAlias()
+    {
+        Asn1Decoder ldapDecoder = new LdapDecoder();
+
+        ByteBuffer  stream      = ByteBuffer.allocate( 0xA1 );
+        stream.put(
+            new byte[]
+            {
+                0x30, (byte)0x81, (byte)0x9E, // LDAPMessage ::=SEQUENCE {
+				0x02, 0x01, 0x01, 	          //        messageID MessageID
+				0x63, (byte)0x81, (byte)0x98,                   //	      CHOICE { ..., searchRequest SearchRequest, ...
+                        			     	  // SearchRequest ::= APPLICATION[3] SEQUENCE {
+				0x04, 0x1F, 		     	  //    baseObject LDAPDN,
+				'u', 'i', 'd', '=', 'a', 'k', 'a', 'r', 'a', 's', 'u', 'l', 'u', ',', 'd', 'c', '=',
+                'e', 'x', 'a', 'm', 'p', 'l', 'e', ',', 'd', 'c', '=', 'c', 'o', 'm',
+				0x0A, 0x01, 0x01,        	  //    scope           ENUMERATED {
+                					     	  //        baseObject              (0),
+				                         	  //        singleLevel             (1),
+				                         	  //        wholeSubtree            (2) },
+				0x0A, 0x01, 0x03,        	  //    derefAliases    ENUMERATED {
+									     	  //        neverDerefAliases       (0),
+									     	  //        derefInSearching        (1),
+									     	  //        derefFindingBaseObj     (2),
+									     	  //        derefAlways             (3) },
+				                         	  //    sizeLimit INTEGER (0 .. maxInt), (1000)
+				0x02, 0x02, 0x03, (byte)0xE8,
+                					     	  //    timeLimit INTEGER (0 .. maxInt), (1000)
+				0x02, 0x02, 0x03, (byte)0xE8,
+				0x01, 0x01, (byte)0xFF,   	  //    typesOnly BOOLEAN, (TRUE)
+				                         	  //    filter    Filter,
+				(byte)0xA0, 0x4D,        	  // Filter ::= CHOICE {
+				                         	  //    and             [0] SET OF Filter,
+				(byte)0xA1, 0x2A,        	  //    or              [1] SET of Filter,
+				(byte)0xA3, 0x12,        	  //    equalityMatch   [3] AttributeValueAssertion,
+									     	  // AttributeValueAssertion ::= SEQUENCE {
+								 	          //    attributeDesc   AttributeDescription (LDAPString),
+				0x04, 0x0B, 'o', 'b', 'j', 'e', 'c', 't', 'c', 'l', 'a', 's', 's',
+									          //    assertionValue  AssertionValue (OCTET STRING) }
+				0x04, 0x03, 't', 'o', 'p',
+				(byte)0xA3, 0x14,             //    equalityMatch   [3] AttributeValueAssertion,
+				                              // AttributeValueAssertion ::= SEQUENCE {
+				0x04, 0x08, '2', '.', '5', '.', '4', '.', '1', '1',         //    attributeDesc   AttributeDescription (LDAPString),
+			                                  //    assertionValue  AssertionValue (OCTET STRING) }
+				0x04, 0x08, 'c', 'o', 'n', 't', 'a', 'c', 't', 's',
+				(byte)0xA2, 0x1F,             //    not             [2] Filter,
+				(byte)0xA3, 0x1D,             //    equalityMatch   [3] AttributeValueAssertion,
+			                                  // AttributeValueAssertion ::= SEQUENCE {
+		 	                                  //    attributeDesc   AttributeDescription (LDAPString),
+                0x04, 0x16, 'o', 'r', 'g', 'a', 'n', 'i', 'z', 'a', 't', 'i', 'o', 'n', 'a', 'l', 'U', 'n', 'i', 't', 'N', 'a', 'm', 'e',
+			                                  //    assertionValue  AssertionValue (OCTET STRING) }
+                0x04, 0x03, 't', 't', 't',
+              						          //    attributes      AttributeDescriptionList }
+                0x30, 0x15,				      // AttributeDescriptionList ::= SEQUENCE OF AttributeDescription
+                0x04, 0x05, 'a', 't', 't', 'r', '0', // AttributeDescription ::= LDAPString
+                0x04, 0x05, 'a', 't', 't', 'r', '1', // AttributeDescription ::= LDAPString
+                0x04, 0x05, 'a', 't', 't', 'r', '2'  // AttributeDescription ::= LDAPString
+            } );
+
+        stream.flip();
+
+        // Allocate a BindRequest Container
+        IAsn1Container ldapMessageContainer = new LdapMessageContainer();
+
+        try
+        {
+            ldapDecoder.decode( stream, ldapMessageContainer );
+        }
+        catch ( DecoderException de )
+        {
+            de.printStackTrace();
+            Assert.fail( de.getMessage() );
+        }
+    	
+        LdapMessage message = ( ( LdapMessageContainer ) ldapMessageContainer ).getLdapMessage();
+        SearchRequest sr      = message.getSearchRequest();
+
+        Assert.assertEquals( 1, message.getMessageId() );
+        Assert.assertEquals( "uid=akarasulu,dc=example,dc=com", sr.getBaseObject().toString() );
+        Assert.assertEquals( LdapConstants.SCOPE_SINGLE_LEVEL, sr.getScope() );
+        Assert.assertEquals( LdapConstants.DEREF_ALWAYS, sr.getDerefAliases() );
+        Assert.assertEquals( 1000, sr.getSizeLimit() );
+        Assert.assertEquals( 1000, sr.getTimeLimit() );
+        Assert.assertEquals( true, sr.isTypesOnly() );
+        
+        // (& (...
+        AndFilter andFilter = (AndFilter)sr.getFilter();
+        Assert.assertNotNull(andFilter);
+        
+        ArrayList andFilters = andFilter.getAndFilter();
+        
+        // (& (| (...
+        Assert.assertEquals(2, andFilters.size());
+        OrFilter orFilter = (OrFilter)andFilters.get(0);
+        Assert.assertNotNull(orFilter);
+        
+        // (& (| (obectclass=top) (...
+        ArrayList orFilters = orFilter.getOrFilter();
+        Assert.assertEquals(2, orFilters.size());
+        AttributeValueAssertionFilter equalityMatch = (AttributeValueAssertionFilter)orFilters.get(0);  
+        Assert.assertNotNull(equalityMatch);
+        
+        AttributeValueAssertion assertion = equalityMatch.getAssertion();
+        Assert.assertNotNull(assertion);
+        
+        Assert.assertEquals("objectclass", assertion.getAttributeDesc().toString());
+        Assert.assertEquals("top", assertion.getAssertionValue().toString());
+        
+        // (& (| (objectclass=top) (ou=contacts) ) (...
+        equalityMatch = (AttributeValueAssertionFilter)orFilters.get(1);  
+        Assert.assertNotNull(equalityMatch);
+        
+        assertion = equalityMatch.getAssertion();
+        Assert.assertNotNull(assertion);
+        
+        Assert.assertEquals("ou", assertion.getAttributeDesc().toString());
+        Assert.assertEquals("contacts", assertion.getAssertionValue().toString());
+        
+        // (& (| (objectclass=top) (ou=contacts) ) (! ...
+        NotFilter notFilter = ( NotFilter )andFilters.get(1);
+        Assert.assertNotNull(notFilter);
+        
+        // (& (| (objectclass=top) (ou=contacts) ) (! (objectclass=ttt) ) )
+        equalityMatch = (AttributeValueAssertionFilter)notFilter.getNotFilter();  
+        Assert.assertNotNull(equalityMatch);
+        
+        assertion = equalityMatch.getAssertion();
+        Assert.assertNotNull(assertion);
+        
+        Assert.assertEquals("ou", assertion.getAttributeDesc().toString());
+        Assert.assertEquals("ttt", assertion.getAssertionValue().toString());
+        
+        Attributes attributes = sr.getAttributes();
+        
+        for (int i = 0; i < attributes.size(); i++) 
+        {
+        	Assert.assertNotNull( attributes.get( "attr" + i ) );
+        }
+
+        // We won't check the encoding, as it has changed because of 
+        // attributes transformations
+    }
 }

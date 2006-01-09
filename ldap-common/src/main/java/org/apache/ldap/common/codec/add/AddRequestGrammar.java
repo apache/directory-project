@@ -17,6 +17,8 @@
 package org.apache.ldap.common.codec.add;
 
 import javax.naming.InvalidNameException;
+import javax.naming.Name;
+import javax.naming.NamingException;
 
 import org.apache.asn1.codec.DecoderException;
 import org.apache.asn1.ber.grammar.IGrammar;
@@ -30,9 +32,10 @@ import org.apache.ldap.common.codec.LdapConstants;
 import org.apache.ldap.common.codec.LdapMessage;
 import org.apache.ldap.common.codec.LdapMessageContainer;
 import org.apache.ldap.common.codec.LdapStatesEnum;
-import org.apache.ldap.common.codec.util.LdapDN;
 import org.apache.ldap.common.codec.util.LdapString;
 import org.apache.ldap.common.codec.util.LdapStringEncodingException;
+//import org.apache.ldap.common.name.LdapDN;
+import org.apache.ldap.common.name.LdapDN;
 import org.apache.ldap.common.util.StringTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -132,16 +135,27 @@ public class AddRequestGrammar extends AbstractGrammar implements IGrammar
                         }
                         else
                         {
+                        	Name entry = null;
+                        	
                             try
                             {
-                                addRequest.setEntry( new LdapDN(
-                                        tlv.getValue().getData() ) );
+                            	entry = new LdapDN( tlv.getValue().getData() );
+                            	entry = LdapDN.normalize( entry );
                             }
                             catch ( InvalidNameException ine )
                             {
-                                log.error( "The DN is invalid : " + StringTools.dumpBytes(tlv.getValue().getData()) + " : " + ine.getMessage() );
-                                throw new DecoderException( "Incorrect DN given : " + ine.getMessage() );
+                            	String msg = "The DN is invalid : " + StringTools.dumpBytes(tlv.getValue().getData()) + " : " + ine.getMessage(); 
+                                log.error( msg + " : " + ine.getMessage());
+                                throw new DecoderException( msg, ine );
                             }
+                            catch ( NamingException ne )
+                            {
+                            	String msg = "The DN is invalid : " + StringTools.dumpBytes(tlv.getValue().getData()) + " : " + ne.getMessage();
+                                log.error( msg + " : " + ne.getMessage() );
+                                throw new DecoderException( msg, ne );
+                            }
+
+                            addRequest.setEntry( entry );
                         }
                         
                         if ( log.isDebugEnabled() )
@@ -251,7 +265,7 @@ public class AddRequestGrammar extends AbstractGrammar implements IGrammar
                         {
                             try
                             {
-                                type = new LdapString( tlv.getValue().getData() );
+                                type = LdapDN.normalizeAttribute( tlv.getValue().getData() );
                                 
                                 addRequest.addAttributeType( type );
                             }

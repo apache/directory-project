@@ -17,6 +17,8 @@
 package org.apache.ldap.common.codec.modify;
 
 import javax.naming.InvalidNameException;
+import javax.naming.Name;
+import javax.naming.NamingException;
 
 import org.apache.asn1.codec.DecoderException;
 import org.apache.asn1.ber.grammar.IGrammar;
@@ -32,9 +34,9 @@ import org.apache.ldap.common.codec.LdapConstants;
 import org.apache.ldap.common.codec.LdapMessage;
 import org.apache.ldap.common.codec.LdapMessageContainer;
 import org.apache.ldap.common.codec.LdapStatesEnum;
-import org.apache.ldap.common.codec.util.LdapDN;
 import org.apache.ldap.common.codec.util.LdapString;
 import org.apache.ldap.common.codec.util.LdapStringEncodingException;
+import org.apache.ldap.common.name.LdapDN;
 import org.apache.ldap.common.util.StringTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -130,24 +132,36 @@ public class ModifyRequestGrammar extends AbstractGrammar implements IGrammar
 
                         TLV                  tlv                  =
                             ldapMessageContainer.getCurrentTLV();
+                        
+                        Name object = LdapDN.EMPTY_LDAPDN;
 
                         // Store the value.
                         if ( tlv.getLength().getLength() == 0 )
                         {
-                            modifyRequest.setObject( LdapDN.EMPTY_LDAPDN );
+                            modifyRequest.setObject( object );
                         }
                         else
                         {
+                        	
                             try
                             {
-                                modifyRequest.setObject( new LdapDN(
-                                        tlv.getValue().getData() ) );
+                                object = new LdapDN( tlv.getValue().getData() );
+                                object = LdapDN.normalize( object );
                             }
                             catch ( InvalidNameException ine )
                             {
-                                log.error( "Invalid DN " + StringTools.dumpBytes( tlv.getValue().getData() ) + ", : " + ine.getMessage() );
-                                throw new DecoderException( "Invalid object DN : " + ine.getMessage() );
+                            	String msg = "Invalid DN " + StringTools.dumpBytes( tlv.getValue().getData() ) + ", : " + ine.getMessage(); 
+                                log.error( msg + " : " + ine.getMessage());
+                                throw new DecoderException( msg, ine );
                             }
+                            catch ( NamingException ne )
+                            {
+                            	String msg = "Invalid DN " + StringTools.dumpBytes( tlv.getValue().getData() ) + ", : " + ne.getMessage();
+                                log.error( msg + " : " + ne.getMessage() );
+                                throw new DecoderException( msg, ne );
+                            }
+
+                            modifyRequest.setObject( object );
                         }
                         
                         if ( log.isDebugEnabled() )
@@ -361,7 +375,7 @@ public class ModifyRequestGrammar extends AbstractGrammar implements IGrammar
                         {
                             try
                             {
-                                type = new LdapString( tlv.getValue().getData() );
+                                type = LdapDN.normalizeAttribute(tlv.getValue().getData() );
                                 modifyRequest.addAttributeTypeAndValues( type );
                             }
                             catch ( LdapStringEncodingException lsee )

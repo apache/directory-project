@@ -63,7 +63,6 @@ import org.apache.ldap.common.codec.search.SearchResultEntry;
 import org.apache.ldap.common.codec.search.SearchResultReference;
 import org.apache.ldap.common.codec.search.SubstringFilter;
 import org.apache.ldap.common.codec.search.controls.PSearchControl;
-import org.apache.ldap.common.codec.util.LdapDN;
 import org.apache.ldap.common.codec.util.LdapString;
 import org.apache.ldap.common.codec.util.LdapStringEncodingException;
 import org.apache.ldap.common.codec.util.LdapURL;
@@ -107,6 +106,7 @@ import org.apache.ldap.common.message.SearchResponseReferenceImpl;
 import org.apache.ldap.common.message.UnbindRequestImpl;
 import org.apache.ldap.common.message.spi.Provider;
 import org.apache.ldap.common.message.spi.TransformerSpi;
+import org.apache.ldap.common.name.LdapDN;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

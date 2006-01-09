@@ -14,13 +14,14 @@
  *   limitations under the License.
  *
  */
-package org.apache.ldap.common.codec.util;
+package org.apache.ldap.common.name;
 
 import java.util.List;
 
 import javax.naming.InvalidNameException;
 import javax.naming.Name;
 
+import org.apache.ldap.common.util.DNUtils;
 import org.apache.ldap.common.util.StringTools;
 
 import javax.naming.NameParser ;
@@ -55,25 +56,51 @@ import javax.naming.NameParser ;
  * 
  * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  */
-public class DNParser implements NameParser
+public class LdapDnParser implements NameParser
 {
-    public static void parse( String dn, List rdns ) throws InvalidNameException
+	private static LdapDnParser instance = new LdapDnParser();
+	
+	/**
+	 * A private constructor. It's useless, as this object is totally stateless,
+	 * but we need to expose a NameParser.
+	 *
+	 */
+	private LdapDnParser()
+	{
+	}
+	
+	/**
+	 * Get a reference to the NameParser. Needed to be compliant with the JNDI API
+	 * @return An instance of the NameParser
+	 */
+	public static NameParser getNameParser()
+	{
+		return instance;
+	}
+	
+	/** 
+	 * Parse a DN 
+	 * @param dn The DN to be parsed
+	 * @param rdns The list that will contain the RDNs
+	 * @throws InvalidNameException If the DN is invalid
+	 */
+    public static void parseInternal( String dn, List rdns ) throws InvalidNameException
     {
         // We won't decode the LdapDN using the bytes.
         char[] chars = dn.trim().toCharArray();
         
         if ( chars.length == 0 )
         {
-            // Wa have an empty DN, just get out of the function.
+            // We have an empty DN, just get out of the function.
             return;
         }
         
         int pos = 0;
-        LdapRDN rdn = new LdapRDN();
+        Rdn rdn = new Rdn();
 
         // <name>             ::= <name-component> <name-components>
         // <name-components> ::= <spaces> <separator> <spaces> <name-component> <name-components> | e
-        if ( ( pos = RDNParser.parse( chars, pos, rdn ) ) != DNUtils.PARSING_ERROR )
+        if ( ( pos = RdnParser.parse( chars, pos, rdn ) ) != DNUtils.PARSING_ERROR )
         {
             do
             {
@@ -89,8 +116,10 @@ public class DNParser implements NameParser
 
                 chars[pos] = ',';
                 pos++;
+
+                //pos = StringUtils.trimLeft( chars, pos );
             }
-            while ( ( pos = RDNParser.parse( chars, pos, rdn ) ) != DNUtils.PARSING_ERROR );
+            while ( ( pos = RdnParser.parse( chars, pos, rdn ) ) != DNUtils.PARSING_ERROR );
         }
         else
         {
@@ -98,11 +127,6 @@ public class DNParser implements NameParser
         }
     }
     
-    private static Name internalParse( String dn ) throws InvalidNameException
-    {
-        return new LdapDN( dn );
-    }
-
     /**
      * Parse a String and return a LdapDN if the String is a valid DN
      * @param dn The DN to parse
@@ -111,6 +135,6 @@ public class DNParser implements NameParser
      */
     public Name parse( String dn ) throws InvalidNameException
     {
-        return DNParser.internalParse( dn );
+        return new LdapDN( dn );
     }
 }

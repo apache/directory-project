@@ -22,8 +22,8 @@ import org.apache.asn1.ber.tlv.UniversalTag;
 import org.apache.asn1.ber.tlv.Value;
 import org.apache.ldap.common.codec.LdapConstants;
 import org.apache.ldap.common.codec.LdapMessage;
-import org.apache.ldap.common.codec.util.LdapDN;
 import org.apache.ldap.common.codec.util.LdapString;
+import org.apache.ldap.common.name.LdapDN;
 import org.apache.ldap.common.util.StringTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +35,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.naming.Name;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
@@ -72,7 +73,7 @@ public class ModifyRequest extends LdapMessage
     //~ Instance fields ----------------------------------------------------------------------------
 
     /** The DN to be modified. */
-    private LdapDN object;
+    private Name object;
 
     /** The modifications list. This is an array of ModificationItem. */
     private ArrayList modifications;
@@ -209,7 +210,7 @@ public class ModifyRequest extends LdapMessage
      */
     public String getObject()
     {
-        return ( ( object == null ) ? "" : object.getString() );
+        return ( ( object == null ) ? "" : object.toString() );
     }
 
     /**
@@ -217,7 +218,7 @@ public class ModifyRequest extends LdapMessage
      * 
      * @param object The DN to set.
      */
-    public void setObject( LdapDN object )
+    public void setObject( Name object )
     {
         this.object = object;
     }
@@ -287,7 +288,7 @@ public class ModifyRequest extends LdapMessage
     public int computeLength()
     {
         // Initialized with object
-        modifyRequestLength = 1 + Length.getNbBytes( object.getNbBytes() ) + object.getNbBytes();
+        modifyRequestLength = 1 + Length.getNbBytes( LdapDN.getNbBytes( object ) ) + LdapDN.getNbBytes( object );
         
         // Modifications
         modificationsLength = 0;
@@ -404,7 +405,7 @@ public class ModifyRequest extends LdapMessage
             buffer.put( Length.getBytes( modifyRequestLength ) ) ;
             
             // The entry
-            Value.encode( buffer, object.getBytes() );
+            Value.encode( buffer, LdapDN.getBytes( object ) );
             
             // The modifications sequence
             buffer.put( UniversalTag.SEQUENCE_TAG );
