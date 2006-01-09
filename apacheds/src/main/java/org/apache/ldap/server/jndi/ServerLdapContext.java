@@ -120,8 +120,7 @@ public class ServerLdapContext extends ServerDirContext implements LdapContext
      * @see javax.naming.ldap.LdapContext#setRequestControls(
      * javax.naming.ldap.Control[])
      */
-    public void setRequestControls( Control[] requestControls )
-        throws NamingException
+    public void setRequestControls( Control[] requestControls ) throws NamingException
     {
         this.requestControls = requestControls;
     }

@@ -55,13 +55,13 @@ class SearchResponseIterator implements Iterator
     private boolean done = false;
     private Object prefetched;
 
+
     /**
      * Creates a search response iterator for the resulting enumeration
      * over a search request.
      *
      * @param req the search request to generate responses to
      * @param underlying the underlying JNDI enumeration containing SearchResults
-     * @param handler TODO
      */
     public SearchResponseIterator( SearchRequest req, NamingEnumeration underlying )
     {
@@ -136,11 +136,13 @@ class SearchResponseIterator implements Iterator
         }
     }
 
+    
     public boolean hasNext()
     {
         return !done;
     }
 
+    
     public Object next()
     {
         Object next = prefetched;

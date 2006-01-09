@@ -44,8 +44,6 @@ import org.apache.ldap.common.filter.ExprNode;
 import org.apache.ldap.common.filter.FilterParserImpl;
 import org.apache.ldap.common.filter.PresenceNode;
 import org.apache.ldap.common.filter.SimpleNode;
-import org.apache.ldap.common.name.DnOidContainer;
-import org.apache.ldap.common.name.LdapDN;
 import org.apache.ldap.common.name.LdapName;
 import org.apache.ldap.common.util.NamespaceTools;
 import org.apache.ldap.server.DirectoryService;
@@ -205,7 +203,6 @@ public abstract class ServerDirContext extends ServerContext implements EventDir
         if ( null == attrs )
         {
             super.bind( name, obj );
-
             return;
         }
 
@@ -213,37 +210,28 @@ public abstract class ServerDirContext extends ServerContext implements EventDir
         if ( null == obj )
         {
             Attributes clone = ( Attributes ) attrs.clone();
-
             Name target = buildTarget( name );
-
             getNexusProxy().add( target.toString(), target, clone );
-
             return;
         }
 
         // First, use state factories to do a transformation
         DirStateFactory.Result res = DirectoryManager.getStateToBind( obj, name, this, getEnvironment(), attrs );
-
         Attributes outAttrs = res.getAttributes();
 
         if ( outAttrs != attrs )
         {
             Name target = buildTarget( name );
-
             Attributes attributes = ( Attributes ) attrs.clone();
-
             if ( outAttrs != null && outAttrs.size() > 0 )
             {
                 NamingEnumeration list = outAttrs.getAll();
-
                 while ( list.hasMore() )
                 {
                     attributes.put( ( Attribute ) list.next() );
                 }
             }
-
             getNexusProxy().add( target.toString(), target, attributes );
-
             return;
         }
 
@@ -251,7 +239,6 @@ public abstract class ServerDirContext extends ServerContext implements EventDir
         if ( obj instanceof Referenceable )
         {
             obj = ( ( Referenceable ) obj ).getReference();
-
             throw new NamingException( "Do not know how to store Referenceables yet!" );
         }
 
@@ -259,51 +246,39 @@ public abstract class ServerDirContext extends ServerContext implements EventDir
         if ( obj instanceof Reference )
         {
             // Store as ref and add outAttrs
-
             throw new NamingException( "Do not know how to store References yet!" );
         }
         else if ( obj instanceof Serializable )
         {
             // Serialize and add outAttrs
-
             Attributes attributes = ( Attributes ) attrs.clone();
-
             if ( outAttrs != null && outAttrs.size() > 0 )
             {
                 NamingEnumeration list = outAttrs.getAll();
-
                 while ( list.hasMore() )
                 {
                     attributes.put( ( Attribute ) list.next() );
                 }
             }
-
             Name target = buildTarget( name );
 
             // Serialize object into entry attributes and add it.
-
             JavaLdapSupport.serialize( attributes, obj );
-
             getNexusProxy().add( target.toString(), target, attributes );
         }
         else if ( obj instanceof DirContext )
         {
             // Grab attributes and merge with outAttrs
-
             Attributes attributes = ( ( DirContext ) obj ).getAttributes( "" );
-
             if ( outAttrs != null && outAttrs.size() > 0 )
             {
                 NamingEnumeration list = outAttrs.getAll();
-
                 while ( list.hasMore() )
                 {
                     attributes.put( ( Attribute ) list.next() );
                 }
             }
-
             Name target = buildTarget( name );
-
             getNexusProxy().add( target.toString(), target, attributes );
         }
         else
@@ -330,12 +305,10 @@ public abstract class ServerDirContext extends ServerContext implements EventDir
     public void rebind( Name name, Object obj, Attributes attrs ) throws NamingException
     {
         Name target = buildTarget( name );
-
         if ( getNexusProxy().hasEntry( target ) )
         {
             getNexusProxy().delete( target );
         }
-
         bind( name, obj, attrs );
     }
 
@@ -362,20 +335,14 @@ public abstract class ServerDirContext extends ServerContext implements EventDir
         }
 
         Name target = buildTarget( name );
-
         String rdn = name.get( name.size() - 1 );
-
         String rdnAttribute = NamespaceTools.getRdnAttribute( rdn );
-
         String rdnValue = NamespaceTools.getRdnValue( rdn );
 
         // Clone the attributes and add the Rdn attributes
         Attributes attributes = ( Attributes ) attrs.clone();
-
         boolean doRdnPut = attributes.get( rdnAttribute ) == null;
-
         doRdnPut = doRdnPut || attributes.get( rdnAttribute ).size() == 0;
-
         doRdnPut = doRdnPut || ! attributes.get( rdnAttribute ).contains( rdnValue );
 
         if ( doRdnPut )
@@ -388,7 +355,6 @@ public abstract class ServerDirContext extends ServerContext implements EventDir
 
         // Initialize the new context
         ServerLdapContext ctx = new ServerLdapContext( getPrincipal(), getNexusProxy(), getEnvironment(), target );
-
         Control [] controls = ( ( ServerLdapContext ) this ).getRequestControls();
 
         if ( controls != null )
@@ -401,7 +367,6 @@ public abstract class ServerDirContext extends ServerContext implements EventDir
         }
 
         ctx.setRequestControls( controls );
-
         return ctx;
     }
 
@@ -486,7 +451,6 @@ public abstract class ServerDirContext extends ServerContext implements EventDir
     public NamingEnumeration search( Name name, Attributes matchingAttributes, String[] attributesToReturn ) throws NamingException
     {
         SearchControls ctls = new SearchControls();
-
         Name target = buildTarget( name );
 
         // If we need to return specific attributes add em to the SearchControls
@@ -499,7 +463,6 @@ public abstract class ServerDirContext extends ServerContext implements EventDir
         if ( null == matchingAttributes || matchingAttributes.size() <= 0 )
         {
             PresenceNode filter = new PresenceNode( "objectClass" );
-
             return getNexusProxy().search( target , getEnvironment(), filter, ctls );
         }
 
@@ -575,10 +538,8 @@ public abstract class ServerDirContext extends ServerContext implements EventDir
     {
     	/*Name newName = new LdapDN( name.toString() );
     	newName = LdapDN.oidToName( newName, DnOidContainer.getOids() );
-    	
-    	
         Name target = buildTarget( ((LdapDN)newName).toLdapName() );*/
-        
+
         Name target = buildTarget( name );
         return getNexusProxy().search( target, getEnvironment(), filter, cons );
     }
@@ -592,7 +553,6 @@ public abstract class ServerDirContext extends ServerContext implements EventDir
             throws NamingException
     {
         ExprNode filterNode;
-
         Name target = buildTarget( name );
 
         try
@@ -605,9 +565,7 @@ public abstract class ServerDirContext extends ServerContext implements EventDir
                 new InvalidSearchFilterException (
                 "Encountered parse exception while parsing the filter: '"
                 + filter + "'" );
-
             isfe.setRootCause( pe );
-
             throw isfe;
         }
         catch ( IOException ioe )
@@ -728,7 +686,6 @@ public abstract class ServerDirContext extends ServerContext implements EventDir
                                    NamingListener namingListener ) throws NamingException
     {
         int start;
-
         StringBuffer buf = new StringBuffer( filterExpr );
 
         // Scan until we hit the end of the string buffer

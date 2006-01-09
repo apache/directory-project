@@ -157,13 +157,9 @@ public abstract class ServerContext implements EventContext
     protected ServerContext( LdapPrincipal principal, DirectoryPartitionNexus nexusProxy, Hashtable env, Name dn )
     {
         this.dn = ( LdapName ) dn.clone();
-
         this.env = ( Hashtable ) env.clone();
-
         this.env.put( PROVIDER_URL, dn.toString() );
-
         this.nexusProxy = nexusProxy;
-
         this.principal = principal;
     }
 
@@ -293,19 +289,14 @@ public abstract class ServerContext implements EventContext
     public Context createSubcontext( Name name ) throws NamingException
     {
         Attributes attributes = new LockableAttributesImpl();
-
         LdapName target = buildTarget( name );
 
         String rdn = name.get( name.size() - 1 );
-
         String rdnAttribute = NamespaceTools.getRdnAttribute( rdn );
-
         String rdnValue = NamespaceTools.getRdnValue( rdn );
 
         attributes.put( rdnAttribute, rdnValue );
-
         attributes.put( JavaLdapSupport.OBJECTCLASS_ATTR, JavaLdapSupport.JCONTAINER_ATTR );
-
         attributes.put( JavaLdapSupport.OBJECTCLASS_ATTR, JavaLdapSupport.TOP_ATTR );
         
         /*
@@ -316,13 +307,9 @@ public abstract class ServerContext implements EventContext
          * environment besides whats in the hashtable for env.
          */
         nexusProxy.add( target.toString(), target, attributes );
-        
         ServerLdapContext ctx = new ServerLdapContext( principal, nexusProxy, env, target );
-
         Control [] controls = ( Control [] ) ( ( ServerLdapContext ) this ).getRequestControls().clone();
-
         ctx.setRequestControls( controls );
-
         return ctx;
     }
 
@@ -342,7 +329,6 @@ public abstract class ServerContext implements EventContext
     public void destroySubcontext( Name name ) throws NamingException
     {
         Name target = buildTarget( name );
-
         if ( target.size() == 0 )
         {
             throw new LdapNoPermissionException( "can't delete the rootDSE" );
@@ -368,15 +354,12 @@ public abstract class ServerContext implements EventContext
     {
         // First, use state factories to do a transformation
         DirStateFactory.Result res = DirectoryManager.getStateToBind( obj, name, this, env, null );
-
         Attributes outAttrs = res.getAttributes();
 
         if ( outAttrs != null )
         {
             Name target = buildTarget( name );
-
             nexusProxy.add( target.toString(), target, outAttrs );
-
             return;
         }
 
@@ -390,19 +373,15 @@ public abstract class ServerContext implements EventContext
         if ( obj instanceof Reference )
         {
             // Store as ref and add outAttrs
-
             throw new NamingException( "Do not know how to store References yet!" );
         }
         else if ( obj instanceof Serializable )
         {
             // Serialize and add outAttrs
-
             Attributes attributes = new LockableAttributesImpl();
-
             if ( outAttrs != null && outAttrs.size() > 0 )
             {
                 NamingEnumeration list = outAttrs.getAll();
-
                 while ( list.hasMore() )
                 {
                     attributes.put( ( Attribute ) list.next() );
@@ -412,21 +391,16 @@ public abstract class ServerContext implements EventContext
             Name target = buildTarget( name );
 
             // Serialize object into entry attributes and add it.
-
             JavaLdapSupport.serialize( attributes, obj );
-
             nexusProxy.add( target.toString(), target, attributes );
         }
         else if ( obj instanceof DirContext )
         {
             // Grab attributes and merge with outAttrs
-
             Attributes attributes = ( ( DirContext ) obj ).getAttributes( "" );
-
             if ( outAttrs != null && outAttrs.size() > 0 )
             {
                 NamingEnumeration list = outAttrs.getAll();
-
                 while ( list.hasMore() )
                 {
                     attributes.put( ( Attribute ) list.next() );
@@ -434,7 +408,6 @@ public abstract class ServerContext implements EventContext
             }
 
             Name target = buildTarget( name );
-
             nexusProxy.add( target.toString(), target, attributes );
         }
         else
@@ -459,22 +432,16 @@ public abstract class ServerContext implements EventContext
     public void rename( Name oldName, Name newName ) throws NamingException
     {
         Name oldDn = buildTarget( oldName );
-
         Name newDn = buildTarget( newName );
-
         if ( oldDn.size() == 0 )
         {
             throw new LdapNoPermissionException( "can't rename the rootDSE" );
         }
 
         Name oldBase = oldName.getPrefix( 1 );
-
         Name newBase = newName.getPrefix( 1 );
-
         String newRdn = newName.get( newName.size() - 1 );
-
         String oldRdn = oldName.get( oldName.size() - 1 );
-                
         boolean delOldRdn = true;
             
         /*
@@ -484,11 +451,8 @@ public abstract class ServerContext implements EventContext
         if ( null != env.get( DELETE_OLD_RDN_PROP ) )
         {
             String delOldRdnStr = ( String ) env.get( DELETE_OLD_RDN_PROP );
-
             delOldRdn = ! delOldRdnStr.equals( "false" );
-
             delOldRdn = delOldRdn || delOldRdnStr.equals( "no" );
-
             delOldRdn = delOldRdn || delOldRdnStr.equals( "0" );
         }
 
@@ -507,7 +471,6 @@ public abstract class ServerContext implements EventContext
         else
         {
             Name parent = newDn.getPrefix( 1 );
-            
             if ( newRdn.equalsIgnoreCase( oldRdn ) )
             {
                 nexusProxy.move( oldDn, parent );
@@ -535,12 +498,10 @@ public abstract class ServerContext implements EventContext
     public void rebind( Name name, Object obj ) throws NamingException
     {
         Name target = buildTarget( name );
-
         if ( nexusProxy.hasEntry( target ) )
         {
             nexusProxy.delete( target );
         }
-
         bind( name, obj );
     }
 
@@ -708,13 +669,9 @@ public abstract class ServerContext implements EventContext
     {
         // Conduct a special one level search at base for all objects
         Name base = buildTarget( name );
-
         PresenceNode filter = new PresenceNode( "objectClass" );
-
         SearchControls ctls = new SearchControls();
-
         ctls.setSearchScope( SearchControls.ONELEVEL_SCOPE );
-
         return nexusProxy.search( base , getEnvironment(), filter, ctls );
     }
 
@@ -757,7 +714,6 @@ public abstract class ServerContext implements EventContext
          
         // 1). Find the Dn for name and walk it from the head to tail
         Name fqn = buildTarget( name );
-
         String head = prefix.get( 0 );
         
         // 2). Walk the fqn trying to match for the head of the prefix
@@ -775,9 +731,7 @@ public abstract class ServerContext implements EventContext
         }
 
         String msg = "The prefix '" + prefix + "' is not an ancestor of this ";
-
         msg += "entry '" + dn + "'";
-
         throw new NamingException( msg );
     }
 
@@ -849,7 +803,6 @@ public abstract class ServerContext implements EventContext
         
         // Add to left hand side of cloned DN the relative name arg
         target.addAll( target.size(), relativeName );
-
         return target;
     }
 }
