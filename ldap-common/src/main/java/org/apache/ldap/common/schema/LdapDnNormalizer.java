@@ -32,13 +32,13 @@ import org.apache.ldap.common.name.DnOidContainer;
  * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Rev: 359114 $
  */
-public class DNNormalizer implements Normalizer
+public class LdapDnNormalizer implements Normalizer
 {
 	private static DnOidContainer oidContainer = DnOidContainer.getInstance();
 	
 	public static void setOidContainer( DnOidContainer oidContainer )
 	{
-		DNNormalizer.oidContainer = oidContainer;
+		LdapDnNormalizer.oidContainer = oidContainer;
 	}
 	
     /**
@@ -48,11 +48,11 @@ public class DNNormalizer implements Normalizer
     {
     	if ( value instanceof String )
     	{
-    		return DNNormalizer.normalize( (String)value );
+    		return LdapDnNormalizer.normalize( (String)value );
     	}
     	else
     	{
-    		return DNNormalizer.normalize( (Name)value );
+    		return LdapDnNormalizer.normalize( (Name)value );
     	}
     }
 
