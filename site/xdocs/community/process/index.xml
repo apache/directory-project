@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="akarasulu@apache.org">Alex Karasulu</author>
+    <title>Apache Directory Project: Process</title>
+  </properties>
+
+  <body>
+    <section name="The Directory Community">
+     <p>
+      Welcome to the Directory community!
+     </p>
+     <p>
+      The Apache Directory Project, like all other projects at Apache, 
+      is a <em>meritocracy</em> and follows the <em>Apache Way</em> of
+      community and project management.  The following documents
+      help define these terms and form the guidelines by which the 
+      Directory Project operates.
+     </p>
+     <ul>
+       <li><a href="http://jakarta.apache.org/site/decisions.html">
+         Meritocracy</a></li>
+       <li><a
+         href="http://nagoya.apache.org/wiki/apachewiki.cgi?ApacheWay">
+	 The Apache Way</a></li>
+       <li><a href="http://jakarta.apache.org/site/roles.html">Roles
+         and Responsibilities</a></li>
+       <li><a href="http://jakarta.apache.org/site/guidelines.html">
+         Jakarta Project Guidelines</a></li>
+       <li><a href="http://incubator.apache.org/index.html">
+         The Apache Incubator Project</a></li>
+       <li><a href="http://apache.org/foundation/">The Apache Software
+         Foundation</a> (ASF)</li>
+       <li><a
+     href="http://www.apache.org/licenses/cla.pdf">
+         Contributor license Agreement</a> [PDF]</li>
+       <li><a href="http://james.apache.org/contribute.html">Getting Involved</a></li>
+     </ul>
+    </section>
+    <section name="Opening up the Directory Project's Repositories">
+      <p>
+        The Directory Project continually looks at ways to cooperate 
+        better with other projects, especially here at Apache.
+        Code reuse by us and others using our APIs is one of our
+        primary goals.
+      </p>
+      <p>
+       If you are from another Apache project, and would like all the
+       committers from your project to have access to the Directory
+       Repositories, all you need to do is ask the Directory PMC
+      </p>
+       <p>
+         The PMC will let you know if your request is accepted or
+         not. If you are interested in commit privileges, but are not
+         part of one of the Apache projects, then you have to do it
+         the old fashioned way and participate on the mailing lists
+         and post patches, etc. We are taking advantage of the Apache
+         infrastructure to make this happen.
+       </p>
+    </section>
+  </body>
+</document>

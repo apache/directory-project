@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<project
+  xmlns:j="jelly:core"
+  xmlns:ant="jelly:ant"
+  xmlns:maven="jelly:maven"
+  xmlns:deploy="deploy"
+  xmlns:m="maven">
+
+  <preGoal name="site:site">
+    <copy toDir="${basedir}/target/docs/download.cgi" 
+       file="${basedir}/xdocs/download.cgi"/>
+    <copy toDir="${basedir}/target/docs/download.html" 
+       file="${basedir}/xdocs/download.html"/>
+    <copy toDir="${basedir}/target/docs/.htaccess" 
+       file="${basedir}/xdocs/.htaccess"/>
+  </preGoal>
+
+  <!-- default maven.xml file -->
+
+   <!-- generate avalon meta-data and include any needed jars -->
+   <preGoal name="jar:jar">
+    <attainGoal name="avalon:meta"/>
+
+    <j:forEach var="dep" items="${pom.dependencies}">
+     <j:if test="${dep.getProperty('jar.include')=='true'}">
+     <ant:unjar
+      dest="${maven.build.dest}"
+      src="${maven.repo.local}/${dep.artifactDirectory}/jars/${dep.artifact}"/>
+     </j:if>
+    </j:forEach>
+  
+  </preGoal>
+
+  <!-- create an 'uberjar' -->
+  <goal name="jar:complete">
+    <attainGoal name="jar:jar"/>
+    <ant:delete dir="${maven.build.dir}/complete_tmp"/>
+    <ant:mkdir dir="${maven.build.dir}/complete_tmp"/>
+    <ant:unjar
+       dest="${maven.build.dir}/complete_tmp"
+       src="${maven.build.dir}/${maven.final.name}.jar"/>
+    <j:forEach var="dep" items="${pom.dependencies}">
+      <ant:unjar
+       dest="${maven.build.dir}/complete_tmp"
+       src="${maven.repo.local}/${dep.artifactDirectory}/jars/${dep.artifact}"/>
+    </j:forEach>
+    <ant:jar
+      jarfile="${maven.build.dir}/${pom.artifactId}-complete-${pom.currentVersion}.jar"
+      basedir="${maven.build.dir}/complete_tmp"
+      index="true"/>
+    <ant:delete dir="${maven.build.dir}/complete_tmp/"/>
+  </goal>
+
+</project>

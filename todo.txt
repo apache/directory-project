@@ -1,0 +1,9 @@
+ o need a profile for mina build to make sure we do not attempt to build 
+   things that depend on jdk 1.5 when building with jdk 1.4.
+ o figure out what we're going to do with sitedocs and how we're going to
+   build and deploy them
+ o need to designate deps as transitive verses test for most
+   projects
+ o the plugin list is inherited so we do not need to keep telling poms how to
+   compile for jdk 1.4 - we do this all over and can delete these lines if
+   we include this info in the top level pom

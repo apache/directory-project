@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.apache.directory</groupId>
+    <artifactId>build</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <groupId>org.apache.directory.server</groupId>
+  <version>0.9.4-SNAPSHOT</version>
+  <artifactId>apacheds-build</artifactId>
+  <name>apacheds-build</name>
+  <packaging>pom</packaging>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.directory</groupId>
+      <artifactId>org.apache.ldap.common</artifactId>
+      <version>0.9.4-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+  
+  <modules>
+    <module>../apacheds</module>
+    <module>../apacheds-shared</module>
+    <module>../apacheds-plugin</module>
+    <module>../apacheds-core-unit</module>
+    <module>../apacheds-server</module>
+    <module>../apacheds-server-unit</module>
+    <module>../apacheds-server-main</module>
+  </modules>
+</project>
