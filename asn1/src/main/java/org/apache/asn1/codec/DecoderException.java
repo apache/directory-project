@@ -34,10 +34,20 @@ public class DecoderException extends Exception {
     /**
      * Creates a DecoderException
      * 
-     * @param pMessage A message with meaning to a human
+     * @param message A message with meaning to a human
      */
-    public DecoderException(String pMessage) {
-        super(pMessage);
+    public DecoderException(String message) {
+        super( message );
+    }
+
+    /**
+     * Creates a DecoderException
+     * 
+     * @param message A message with meaning to a human
+     * @param cause The Exception which caused the error
+     */
+    public DecoderException(String message, Throwable cause ) {
+        super( message, cause );
     }
 
 }  
