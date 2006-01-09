@@ -31,7 +31,7 @@ import org.apache.ldap.common.util.StringTools;
  * 
  * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  */
-public class DNParserTest extends TestCase
+public class LdapDnParserTest extends TestCase
 {
     //~ Methods ------------------------------------------------------------------------------------
 
