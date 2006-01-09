@@ -18,14 +18,12 @@ package org.apache.ldap.common.codec.util;
 
 import org.apache.asn1.codec.DecoderException;
 
-import org.apache.commons.httpclient.URIException;
-import org.apache.commons.httpclient.util.URIUtil;
-
 import org.apache.ldap.common.filter.FilterParserImpl;
+import org.apache.ldap.common.name.LdapDN;
 import org.apache.ldap.common.util.StringTools;
-import org.apache.ldap.common.codec.util.LdapDN;
 import org.apache.ldap.common.codec.util.LdapString;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
@@ -559,6 +557,171 @@ public class LdapURL extends LdapString
     }
 
     /**
+     * From commons-httpclients.
+     * 
+     * Converts the byte array of HTTP content characters to a string. If
+     * the specified charset is not supported, default system encoding
+     * is used.
+     *
+     * @param data the byte array to be encoded
+     * @param offset the index of the first byte to encode
+     * @param length the number of bytes to encode 
+     * @param charset the desired character encoding
+     * @return The result of the conversion.
+     * 
+     * @since 3.0
+     */
+    public static String getString( final byte[] data, int offset, int length, String charset ) 
+    {
+        if (data == null) 
+        {
+            throw new IllegalArgumentException("Parameter may not be null");
+        }
+
+        if (charset == null || charset.length() == 0) 
+        {
+            throw new IllegalArgumentException("charset may not be null or empty");
+        }
+
+        try 
+        {
+            return new String(data, offset, length, charset);
+        } 
+        catch (UnsupportedEncodingException e) 
+        {
+            return new String(data, offset, length);
+        }
+    }
+
+
+    /**
+     * From commons-httpclients.
+     * 
+     * Converts the byte array of HTTP content characters to a string. If
+     * the specified charset is not supported, default system encoding
+     * is used.
+     *
+     * @param data the byte array to be encoded
+     * @param charset the desired character encoding
+     * @return The result of the conversion.
+     * 
+     * @since 3.0
+     */
+    public static String getString(final byte[] data, String charset) 
+    {
+        return getString(data, 0, data.length, charset);
+    }
+
+    /**
+     * Converts the specified string to byte array of ASCII characters.
+     *
+     * @param data the string to be encoded
+     * @return The string as a byte array.
+     * 
+     * @since 3.0
+     */
+    public static byte[] getAsciiBytes(final String data) 
+    {
+
+        if (data == null) 
+        {
+            throw new IllegalArgumentException("Parameter may not be null");
+        }
+
+        try 
+        {
+            return data.getBytes("US-ASCII");
+        } 
+        catch (UnsupportedEncodingException e) 
+        {
+            throw new HttpClientError("HttpClient requires ASCII support");
+        }
+    }
+
+    /**
+     * From commons-codec.
+     * 
+     * Decodes an array of URL safe 7-bit characters into an array of 
+     * original bytes. Escaped characters are converted back to their 
+     * original representation.
+     *
+     * @param bytes array of URL safe characters
+     * @return array of original bytes 
+     * @throws DecoderException Thrown if URL decoding is unsuccessful
+     */
+    private static final byte[] decodeUrl(byte[] bytes) 
+         throws UrlDecoderException
+    {
+        if (bytes == null) 
+        {
+            return null;
+        }
+        
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream(); 
+        
+        for (int i = 0; i < bytes.length; i++) 
+        {
+            int b = bytes[i];
+            
+            if (b == '+') 
+            {
+                buffer.write(' ');
+            } 
+            else if (b == '%') 
+            {
+                try 
+                {
+                    int u = Character.digit((char)bytes[++i], 16);
+                    int l = Character.digit((char)bytes[++i], 16);
+                    
+                    if (u == -1 || l == -1) 
+                    {
+                        throw new UrlDecoderException("Invalid URL encoding");
+                    }
+                    
+                    buffer.write((char)((u << 4) + l));
+                } 
+                catch(ArrayIndexOutOfBoundsException e) 
+                {
+                    throw new UrlDecoderException("Invalid URL encoding");
+                }
+            } 
+            else 
+            {
+                buffer.write(b);
+            }
+        }
+        
+        return buffer.toByteArray(); 
+    }
+
+    /**
+     * From commons-httpclients.
+     * 
+     * Unescape and decode a given string regarded as an escaped string with the
+     * default protocol charset.
+     *
+     * @param escaped a string
+     * @return the unescaped string
+     * 
+     * @throws URIException if the string cannot be decoded (invalid)
+     * 
+     * @see URI#getDefaultProtocolCharset
+     */
+    private static String decode(String escaped) throws URIException 
+    {
+        try 
+        {
+            byte[] rawdata = decodeUrl(getAsciiBytes(escaped));
+            return getString( rawdata, "UTF-8" );
+        } 
+        catch (UrlDecoderException e) 
+        {
+            throw new URIException(e.getMessage());
+        }
+    }
+
+    /**
      * Parse a string and check that it complies with RFC 2253.
      * Here, we will just call the LdapDN parser to do the job.
      * 
@@ -578,7 +741,7 @@ public class LdapURL extends LdapString
 
         try
         {
-            dn = new LdapDN( URIUtil.decode( new String( chars, pos, end - pos ) ) );
+            dn = new LdapDN( decode( new String( chars, pos, end - pos ) ) );
         }
         catch ( URIException ue )
         {
@@ -636,7 +799,7 @@ public class LdapURL extends LdapString
                             return -1;
                         }
 
-                        String decodedAttr = URIUtil.decode( attribute );
+                        String decodedAttr = decode( attribute );
 
 
                         if ( hAttributes.contains( decodedAttr ) == false )
@@ -683,7 +846,7 @@ public class LdapURL extends LdapString
                     return -1;
                 }
 
-                String decodedAttr = URIUtil.decode( attribute );
+                String decodedAttr = decode( attribute );
 
 
                 if ( hAttributes.contains( decodedAttr ) == false )
@@ -720,7 +883,7 @@ public class LdapURL extends LdapString
 
         try
         {
-            filter       = URIUtil.decode( new String( chars, pos, end - pos ) );
+            filter       = decode( new String( chars, pos, end - pos ) );
             filterParser.parse( filter );
         }
         catch ( URIException ue )
@@ -869,7 +1032,7 @@ public class LdapURL extends LdapString
                     }
                     else
                     {
-                        value = new String( URIUtil.decode( new String( chars, start, i - start ) ) ).trim();
+                        value = new String( decode( new String( chars, start, i - start ) ) ).trim();
 
                         if ( value.length() == 0 )
                         {
@@ -904,7 +1067,7 @@ public class LdapURL extends LdapString
                     }
 
                     // An optionnal value
-                    extension = new String( URIUtil.decode( new String( chars, start, i - start ) ) )
+                    extension = new String( decode( new String( chars, start, i - start ) ) )
                             .trim();
 
                     if ( extension.length() == 0 )
@@ -935,12 +1098,12 @@ public class LdapURL extends LdapString
 
             if ( extension == null )
             {
-                extension = new String( URIUtil.decode(
+                extension = new String( decode(
                             new String( chars, start, chars.length - start ) ) ).trim();
             }
             else
             {
-                value = new String( URIUtil.decode(
+                value = new String( decode(
                             new String( chars, start, chars.length - start ) ) ).trim();
             }
 
