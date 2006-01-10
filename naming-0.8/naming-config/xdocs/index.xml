@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<document>
+ <properties>
+  <title>Naming Config</title>
+ </properties>
+
+ <body>
+
+ <section name="Contents">
+   <p>
+     Config contains an 
+     <a href="./apidocs/org/apache/naming/config/XmlConfigurator.html">
+     XmlConfigurator</a> that can load a JNDI tree with environment properties
+     and resource references based on data in an XML configuration file. See
+     <a href="../using.html">Using</a> for an example.    
+   </p>
+ </section>
+ <section name="Usage">
+   <p>
+     Used with naming-core, this package enables you to configure JNDI 
+     properties and resources similarly to what can be done in a J2EE container,
+     but not requiring a container. Database connection pools, for example, can
+     be configured and made available through JNDI for components in standalone
+     applications.  
+   </p>
+  </section>
+
+  <section name="Dependencies">
+   <p>
+     naming-core, naming-factory, naming-java, commons-logging (1.0.3), 
+     commons-collections (3.1), commons-beanutils (1.6.1), 
+     commons-digester (1.4.1) and commons-lang (1.0.1) are all required for
+     basic configuration operations. commons-dbcp (1.0) and  
+     commons-pool (1.0.1) are required if you want configure database
+     connections, and hsqldb (1.7.1) is required to run the unit tests. 
+     Applications that create sendmail or mail session resources require
+     javamail API and activation jars.
+   </p>
+  </section>
+ </body>
+</document>
+

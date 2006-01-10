@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<document>
+ <properties>
+  <title>Naming Factory</title>
+ </properties>
+
+ <body>
+
+ <section name="Contents">
+   <p>
+     The factory package contains JNDI object factories (i.e., classes that
+     implement the 
+<a href="http://java.sun.com/products/jndi/1.2/javadoc/javax/naming/spi/ObjectFactory.html">
+     ObjectFactory</a> interface defined in the JNDI SPI). The factories
+     provided support mail sessions, bean class factories, and resource env references.
+   </p>
+ </section>
+ <section name="Usage">
+   <p>
+     Used with naming-core and naming-java, this package can be used to set up JNDI
+     resources in a container or standalone application.  The APIs can be used
+     directly to configure factories, or naming-config can be used to configure
+     factories using xml configuration files.  
+   </p>
+  </section>
+
+  <section name="Dependencies">
+   <p>
+     naming-core plus whatever external libraries are required by factories used.
+     The mail session factories require javamail and activation jars. 
+   </p>
+  </section>
+ </body>
+</document>
+

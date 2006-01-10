@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project default="jar" name="naming" basedir=".">
+
+<!--
+  Top level build for directory-naming.
+  Invokes targets on maven subproject directories. Build artifacts are created in
+  subproject /target and /dist directories.  For example, the jar goal creates
+  naming-core/target/naming-naming-core-0.8, naming-factory/target/naming-naming-factory-0.8 etc. 
+
+  This script is NOT maven generated and should not be regenerated until
+  either the maven ant plugin supports multiprojects or maven.xml has been
+  modified to generate something like this. 
+-->
+
+  <property name="distdir" value="./dist"/>
+  
+  <target name="jar-dependencies">
+    <ant  dir="naming-core" target="jar"/>
+    <ant  dir="naming-java" target="jar"/>
+    <ant  dir="naming-factory" target="jar"/>
+  </target>
+   
+  <target name="clean" description="Clean">
+    <delete dir="${distdir}"/>
+    <ant  dir="naming-core" target="clean"/>
+    <ant  dir="naming-factory" target="clean"/>
+    <ant  dir="naming-java" target="clean"/>
+    <ant  dir="naming-management" target="clean"/>
+    <ant  dir="naming-resources" target="clean"/>
+    <ant  dir="naming-config" target="clean"/>
+  </target>
+  
+  <target name="test" depends="jar-dependencies" description="Test">
+    <ant  dir="naming-management" target="test"/>
+    <ant  dir="naming-resources" target="test"/>
+    <ant  dir="naming-config" target="test"/>
+  </target>
+  
+  <target name="jar" depends="jar-dependencies" description="Jar">
+    <ant  dir="naming-management" target="jar"/>
+    <ant  dir="naming-resources" target="jar"/>
+    <ant  dir="naming-config" target="jar"/>
+  </target>
+
+  <target name="dist" description="Dist">
+    <ant  dir="naming-core" target="dist"/>
+    <ant  dir="naming-java" target="dist"/>
+    <ant  dir="naming-factory" target="dist"/>
+    <ant  dir="naming-management" target="dist"/>
+    <ant  dir="naming-resources" target="dist"/>
+    <ant  dir="naming-config" target="dist"/>
+  </target>
+
+  <target name="javadoc" depends="jar-dependencies" description="Javadoc">
+    <ant  dir="naming-core" target="javadoc"/>
+    <ant  dir="naming-java" target="javadoc"/>
+    <ant  dir="naming-factory" target="javadoc"/>
+    <ant  dir="naming-management" target="javadoc"/>
+    <ant  dir="naming-resources" target="javadoc"/>
+    <ant  dir="naming-config" target="javadoc"/>
+    <javadoc destdir="${distdir}/docs/api">
+      <packageset dir="${basedir}/naming-core/src/java"/>
+      <packageset dir="${basedir}/naming-factory/src/java"/>
+      <packageset dir="${basedir}/naming-resources/src/java"/> 
+      <packageset dir="${basedir}/naming-management/src/java"/>
+      <packageset dir="${basedir}/naming-config/src/java"/>  
+      <packageset dir="${basedir}/naming-java/src/java"/> 
+      <classpath>
+        <fileset dir="${basedir}">
+          <include name="**/*.jar"/>
+        </fileset>
+      </classpath>
+    </javadoc>
+  </target> 
+</project>

@@ -1,0 +1,174 @@
+<?xml version="1.0"?>
+<project>
+  
+  <version>3</version>
+  <name>directory-naming</name>
+  <artifactId>naming-parent</artifactId>
+  <groupId>incubator-directory</groupId>
+  <currentVersion>0.8</currentVersion>
+
+  <organization>
+    <name>Apache Software Foundation</name>
+    <url>http://www.apache.org</url>
+    <logo>http://incubator.apache.org/images/apache-incubator-logo.png</logo>
+  </organization>
+  <logo>http://incubator.apache.org/directory/images/apache-directory-logo.png</logo>
+
+  <inceptionYear>2003</inceptionYear>
+  <package>org.apache.naming</package>
+
+  <shortDescription>Apache Directory Naming Component</shortDescription>
+
+  <!-- Gump integration -->
+  <gumpRepositoryId>apache-incubator-svn</gumpRepositoryId>
+
+  <description>
+      Apache Directory Naming is a re-usable JNDI component.
+  </description>
+
+  <url>http://incubator.apache.org/directory/subprojects/naming/</url>
+  <issueTrackingUrl>http://nagoya.apache.org/jira/browse/DIRNAMING</issueTrackingUrl>
+  <siteAddress>minotaur.apache.org</siteAddress>
+  <siteDirectory>
+    /www/incubator.apache.org/directory/subprojects/naming
+  </siteDirectory>
+  <distributionDirectory>
+    /www/cvs.apache.org/dist/incubator/directory
+  </distributionDirectory>
+
+    <repository>
+      <connection>scm:svn:http://svn.apache.org/repos/asf/incubator:directory/naming/trunk/${module.path}</connection>
+      <url>http://svn.apache.org/viewcvs.cgi/incubator/directory/naming/trunk/${module.path}/?root=Apache-SVN</url>
+      <developerConnection>scm:svn:https://svn.apache.org/repos/asf/incubator:directory/naming/trunk/${module.path}</developerConnection>
+    </repository>
+  
+  <mailingLists>
+    <mailingList>
+      <name>Directory User List</name>
+      <subscribe>directory-user-subscribe@incubator.apache.org</subscribe>
+      <unsubscribe>directory-user-unsubscribe@incubator.apache.org</unsubscribe>
+      <archive>http://nagoya.apache.org:8080/eyebrowse/SummarizeList?listName=directory-user@incubator.apache.org</archive>
+    </mailingList>
+    <mailingList>
+      <name>Directory Developer List</name>
+      <subscribe>directory-dev-subscribe@incubator.apache.org</subscribe>
+      <unsubscribe>directory-dev-unsubscribe@incubator.apache.org</unsubscribe>
+      <archive>http://nagoya.apache.org:8080/eyebrowse/SummarizeList?listName=directory-dev@incubator.apache.org</archive>
+    </mailingList>
+  </mailingLists>
+
+  <developers>
+    <developer>
+      <name>Henri Yandell</name>
+      <id>bayard</id>
+      <email>bayard@apache.org</email>
+      <organization></organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Phil Steitz</name>
+      <id>psteitz</id>
+      <email>psteitz@apache.org</email>
+      <organization></organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Brett Porter</name>
+      <id>brett</id>
+      <email>brett@apache.org</email>
+      <organization>f2 network</organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+      <timezone>+10</timezone>
+    </developer>
+  </developers>
+
+  <dependencies>    
+    <dependency>
+      <id>junit</id>
+      <version>3.8.1</version>
+    </dependency> 
+  </dependencies>
+  
+  <build>
+
+    <nagEmailAddress>directory-dev@incubator.apache.org</nagEmailAddress>
+    <sourceDirectory>${basedir}/src/java</sourceDirectory>
+    <unitTestSourceDirectory>${basedir}/src/test</unitTestSourceDirectory>
+    <integrationUnitTestSourceDirectory/>
+    <aspectSourceDirectory/>
+
+    <!-- Unit test classes -->
+    <unitTest>
+      <includes>
+        <include>**/*Test*</include>
+      </includes>
+      <excludes>
+        <exclude>**/Abstract*</exclude>
+      </excludes>
+      <resources>
+        <resource>
+          <directory>${basedir}/src/test</directory>
+          <includes>
+            <include>**/*.xml</include>
+            <include>**/*.properties</include>
+          </includes>
+        </resource>
+      </resources>
+    </unitTest>
+
+   
+    <!-- J A R  R E S O U R C E S -->
+    <!-- Resources that are packaged up inside the JAR file -->
+    <resources>
+
+      <resource>
+        <directory>${basedir}/../</directory>
+        <targetPath>META-INF</targetPath>
+        <includes>
+          <include>LICENSE.txt</include>
+          <include>NOTICE.txt</include>
+          <include>INCUBATOR-DISCLAIMER.txt</include>
+        </includes>
+      </resource>
+
+
+      <resource>
+        <directory>${basedir}/src/java</directory>
+        <includes>
+          <include>**/*.properties</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>${basedir}/src/conf</directory>
+        <includes>
+          <include>**/*.dtd</include>
+        </includes>
+      </resource>
+    </resources>
+  </build>
+  
+  <reports>
+     <!-- <report>maven-changelog-plugin</report> -->
+     <!-- <report>maven-changes-plugin</report> -->
+     <!-- <report>maven-checkstyle-plugin</report> -->
+     <!-- <report>maven-clover-plugin</report> -->
+     <!-- <report>maven-developer-activity-plugin</report> -->
+     <!-- <report>maven-file-activity-plugin</report> -->
+     <report>maven-javadoc-plugin</report>
+     <!-- <report>maven-jellydoc-plugin</report> -->
+     <!-- <report>maven-junit-report-plugin</report> -->
+     <!-- <report>maven-jxr-plugin</report> -->
+     <!-- <report>maven-license-plugin</report> -->
+     <!-- <report>maven-linkcheck-plugin</report> -->
+     <!-- <report>maven-statcvs-plugin</report> -->
+     <!-- <report>maven-tasklist-plugin</report> --> 
+  </reports>
+  
+</project>
+

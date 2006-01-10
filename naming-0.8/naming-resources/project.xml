@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<project>
+   <extend>${basedir}/../project.xml</extend>  
+   <artifactId>naming-resources</artifactId>
+   <name>Naming Resources</name>
+   <dependencies>
+     
+     <dependency>
+       <groupId>${pom.groupId}</groupId>
+       <artifactId>naming-core</artifactId>
+       <version>${pom.currentVersion}</version>
+     </dependency>
+     
+     <dependency>
+       <groupId>commons-logging</groupId>
+       <artifactId>commons-logging</artifactId>
+       <version>1.0.3</version>
+     </dependency>
+     
+   </dependencies>
+     
+</project>
+

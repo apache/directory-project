@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Naming" href="http://incubator.apache.org/directory/naming/">
+
+  <title>Naming</title>
+
+  <body>
+
+    <links>
+      <item name="Directory" href="../../index.html"/>
+      <item name="ApacheDS" href="../apacheds/index.html"/>
+      <item name="LDAP" href="../ldap/index.html"/>
+      <item name="ASN.1" href="../asn1/index.html"/>
+      <item name="AuthX" href="../authx/index.html"/>
+      <item name="Kerberos" href="../kerberos/index.html"/>
+      <item name="ApSeda" href="../apseda/index.html"/>
+    </links>    
+
+    <menu name="Naming">
+      <item name="Overview" href="/index.html"/>
+      <item name="Building" href="/building.html"/>
+      <item name="Using" href="/using.html"/>
+    </menu>
+    
+    <menu name="Project Information">
+      <item name="Wiki" href="http://wiki.apache.org/directory"/>
+      <item name="Open Issues" href="${pom.issueTrackingUrl}"/>
+      <item name="Source Repositories" href="${pom.repository.url}"/>
+      <item name="Mailing Lists" href="/mailing-lists.html"/>
+      <item name="License" href="/license.html"/>
+      <item name="Notices" href="/notices.html"/>
+    </menu>
+    
+    <menu name="Packages">
+      <item name="naming-core" href="/naming-core/index.html"/>
+      <item name="naming-java" href="/naming-java/index.html"/>
+      <item name="naming-factory" href="/naming-factory/index.html"/>
+      <item name="naming-resources" href="/naming-resources/index.html"/>
+      <item name="naming-management" href="/naming-management/index.html"/>
+      <item name="naming-config" href="/naming-config/index.html"/>
+    </menu>
+
+    <menu name="API docs">
+      <item name="Combined" href="apidocs/index.html"/>
+      <item name="naming-core" href="/naming-core/apidocs/index.html"/>
+      <item name="naming-java" href="/naming-java/apidocs/index.html"/>
+      <item name="naming-factory" href="/naming-factory/apidocs/index.html"/>
+      <item name="naming-resources" href="/naming-resources/apidocs/index.html"/>
+      <item name="naming-management" href="/naming-management/apidocs/index.html"/>
+      <item name="naming-config" href="/naming-config/apidocs/index.html"/>
+    </menu>
+
+  </body>
+</project>

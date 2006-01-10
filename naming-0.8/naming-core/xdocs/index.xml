@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<document>
+ <properties>
+  <title>Naming Core</title>
+ </properties>
+
+ <body>
+
+ <section name="Contents">
+   <p>
+     Naming core contains the core JNDI implementation. The JNDI context
+     implementation is in the
+     <a href="./apidocs/org/apache/naming/NamingContext.html">NamingContext</a>
+     class. Context access control and thread/classloader binding are provided
+     by 
+     <a href="./apidocs/org/apache/naming/ContextBindings.html">ContextBindings.
+     </a>Resource references, env references and links are also supported, as
+     are <a href="./apidocs/org/apache/naming/SynchronizedContext.html">Synchronized
+     Contexts.</a>  The <a href="./apidocs/org/apache/naming/SelectorContext.html">
+     SelectorContext</a> provides dynamic delegation of JNDI operations to
+     contexts bound to running threads or classloaders (set up in 
+     <code>ContextBindings</code>).
+   </p>
+ </section>
+ <section name="Usage">
+   <p>
+     This library can be used by itself to provide core JNDI services for a
+     a container or standalone application, but no resource factories, xml
+     configuration, JNDI URL factories or file contexts are provided in core.   
+   </p>
+  </section>
+
+  <section name="Dependencies">
+   <p>
+     commons-logging 
+   </p>
+  </section>
+ </body>
+</document>
+
