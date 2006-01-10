@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<document>
+ <properties>
+  <title>Naming Management</title>
+ </properties>
+
+ <body>
+
+ <section name="Contents">
+   <p>
+     JMX Management interfaces to start / stop and query the state of
+     a naming service. 
+   </p>
+ </section>
+ <section name="Usage">
+   <p>
+     Can be used to manage JNDI services in a JMX environment.
+   </p>
+  </section>
+
+  <section name="Dependencies">
+   <p>
+     naming-core, naming-java, mx4j-jmx (1.1.1)
+   </p>
+  </section>
+ </body>
+</document>
+

@@ -1,0 +1,74 @@
+ <!--
+   Copyright 2005 The Apache Software Foundation
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+  -->
+<project>
+  <!-- Limit maven resources included in site generation -->
+  <postGoal name="xdoc:copy-resources">  
+    <delete includeEmptyDirs="true">
+      <fileset dir="${maven.docs.dest}" 
+        includes="${maven.xdoc.copy.excludes},${maven.xdoc.copy.excludes.classic}"/>
+    </delete>
+  </postGoal>
+
+  <!-- Elimintate unlinked html files -->
+  <postGoal name="xdoc:generate-from-pom">  
+    <delete>
+      <fileset dir="${maven.gen.docs}" 
+        includes="${maven.xdoc.transform.excludes}"/>
+    </delete>
+  </postGoal>
+
+  <!-- Copy navigation.xml from naming-core to the other maven subprojects -->
+  <preGoal name="multiproject:site">
+    <copy file="${basedir}/naming-core/xdocs/navigation.xml" 
+          todir="${basedir}/naming-factory/xdocs" overwrite="true"/>
+    <copy file="${basedir}/naming-core/xdocs/navigation.xml" 
+          todir="${basedir}/naming-resources/xdocs" overwrite="true"/>
+    <copy file="${basedir}/naming-core/xdocs/navigation.xml" 
+          todir="${basedir}/naming-management/xdocs" overwrite="true"/>
+    <copy file="${basedir}/naming-core/xdocs/navigation.xml" 
+          todir="${basedir}/naming-java/xdocs" overwrite="true"/>
+    <copy file="${basedir}/naming-core/xdocs/navigation.xml" 
+          todir="${basedir}/naming-config/xdocs" overwrite="true"/>
+  </preGoal>
+
+   
+ 
+  <postGoal name="multiproject:site">
+    <javadoc destdir="${maven.docs.dest}/apidocs">
+      <packageset dir="${basedir}/naming-core/src/java"/>
+      <packageset dir="${basedir}/naming-factory/src/java"/>
+      <packageset dir="${basedir}/naming-resources/src/java"/> 
+      <packageset dir="${basedir}/naming-management/src/java"/>
+      <packageset dir="${basedir}/naming-config/src/java"/>  
+      <packageset dir="${basedir}/naming-java/src/java"/> 
+      <classpath>
+        <fileset dir="${basedir}">
+          <include name="**/lib/*.jar"/>
+        </fileset>
+      </classpath>
+    </javadoc>
+  </postGoal>
+  
+
+  <!-- Delete temp copies of naming-core navigation.xml -->
+  <postGoal name="multiproject:site">
+    <delete file="${basedir}/naming-factory/xdocs/navigation.xml"/>
+    <delete file="${basedir}/naming-resources/xdocs/navigation.xml"/>
+    <delete file="${basedir}/naming-management/xdocs/navigation.xml"/>
+    <delete file="${basedir}/naming-java/xdocs/navigation.xml"/>
+    <delete file="${basedir}/naming-config/xdocs/navigation.xml"/>
+  </postGoal>
+</project>

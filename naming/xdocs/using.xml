@@ -1,0 +1,197 @@
+<?xml version="1.0"?>
+<document>
+ <properties>
+  <title>Using naming</title>
+ </properties>
+
+ <body>
+
+ <section name="Configuring JNDI resources using XMLConfigurator">
+     <p>
+     The <code>XMLConfigurator</code> allows you set JNDI environment entries 
+     and to configure and load JNDI resources using xml configuration files. 
+     The xml syntax is similar to that used by Jakarta Tomcat's 
+     <code>server.xml</code> and the J2EE <code>web.xml</code> 
+     configuration files.  For a full introduction to JNDI resources and 
+     resource factories, see
+     <a href="http://jakarta.apache.org/tomcat/tomcat-5.0-doc/jndi-resources-howto.html">
+     Tomcat JNDI Resources HOW-TO</a>
+     </p>
+     <p>
+     The structure of the configuation file is
+     <source><![CDATA[
+<naming>
+  <context>
+    <environment name="..." value="..." type="..." />
+    ...
+    <resource name="..." type="...">
+      <parameter>
+        <name>...</name>
+        <value>...</value>
+      </parameter>
+      ...
+    </resource>
+  </context>
+</naming>
+       ]]>
+       </source>
+     </p>
+     <p>
+     The <code>environment</code> entries achieve the same effect as
+     <code>env-entry</code> elements in <code>web.xml</code>.  The 
+     <code>resource</code> elements behave like <code>Resource</code> elements
+     in <code>server.xml</code>.  Note that  here "resource" starts with a
+     lower case "r" and the <code>parameter</code> elements are its content
+     (In Tomcat's <code>server.xml</code>, <code>Resource</code> is an empty
+     tag and the parameters are included in a <code>ResourceParams</code>
+     element.)
+     </p>
+     <p>
+     Here is an example, showing how to configure a database connection pool and 
+     then get a connection from the pool in your application.
+     </p>
+     <p>
+       Start by setting up a JNDI environment including a datasource in an xml 
+       configuration file, like so:
+       <source><![CDATA[
+ <naming>
+   <context>
+     <resource name="jdbc/pool" type="javax.sql.DataSource">
+       <parameter>
+         <name>driverClassName</name>
+         <value>org.hsqldb.jdbcDriver</value>
+       </parameter>
+       <parameter>
+         <name>url</name>
+         <value>jdbc:hsqldb:target/hsqldb</value>
+       </parameter>
+       <parameter>
+         <name>username</name>
+         <value>sa</value>
+       </parameter>
+       <parameter>
+         <name>password</name>
+         <value></value>
+       </parameter>
+     </resource>
+   </context>
+ </naming>
+       ]]>
+       </source>
+     </p>
+     <p>
+       The JNDI resource being configured above is a database connection pool. Naming
+       provides a default resource factory for database connection pools using Jakarta
+       Commons DBCP.  This is the factory that will be used to create the pool. In order 
+       for this factory to work, you need to have Jakarta Commons DBCP (version 1.0) 
+       and Jakarta Commons Pool (version 1.0.1) in your classpath. 
+     </p>
+     <p>
+       The parameters that follow specify the database driver, url, username and password. 
+     </p>
+     <p>
+       To use a connection from the pool at run time, you need to do three things:
+       <ol>
+         <li>
+           <p>
+             Initialize JNDI using the xml configuration file above. Assuming the xml file
+             is stored in "/example-jndi.xml", you can do this in one line:
+             <source>
+XmlConfigurator.loadConfiguration(getClass().getResourceAsStream("/example-jndi.xml"));
+             </source>
+           </p>
+         </li>
+         <li>
+           <p>
+             Perform a JNDI lookup to get a DataSource reference:
+             <source>
+Context ctx = new InitialContext();
+Context env = (Context) ctx.lookup("java:comp/env");
+DataSource ds = (DataSource) env.lookup("jdbc/pool");
+             </source>
+           </p>
+         </li>
+         <li>
+           <p>
+             Use the reference to access the database:
+             <source>
+Connection con = null;
+try {
+    con = ds.getConnection();
+       // use con to access db
+    ...
+    } finally {
+       // cleanup database access objects
+       ...
+       if (con != null) { 
+       con.close(); 
+    }
+}
+             </source>
+           </p>
+         </li>
+       </ol>
+     </p>
+     <p>
+     As in the example above, by default the root of the namespace created by
+     the <code>XmlConfigurator</code> is "java:comp/env".  This may be overridden
+     by supplying a <code>name</code> attribute in the top-level 
+     <code>context</code> element.  For example, 
+     <source><![CDATA[
+<naming>
+  <context name="myApp/config">
+  ... same as above ...
+  </context>
+</naming>
+       ]]>
+     </source>
+     would allow you to use
+     <source>
+Context ctx = new InitialContext();
+Context env = (Context) ctx.lookup("myApp/config");
+DataSource ds = (DataSource) env.lookup("jdbc/pool");
+     </source>
+    </p>
+   </section>
+   <section name="Using the Naming APIs directly to set up JNDI">
+     <p>
+       To set up and use a JNDI naming context using the JNDI APIs directly, 
+       you need to set some JNDI environment properties, create an initial context
+       and then use the standard JNDI APIs to set up bindings and perform lookups.
+     </p>
+     <p>
+       You can use a jndi.properties properties file to set the environment properties 
+       for the initial context, or you can do it as follows in your code:
+       <source>
+Hashtable env = new Hashtable();
+env.put(Context.INITIAL_CONTEXT_FACTORY,
+    "org.apache.naming.java.javaURLContextFactory");
+env.put(Context.URL_PKG_PREFIXES,"org.apache.naming");
+        </source>
+     </p>
+     <p>
+       Then create the initial context:
+       <source>
+Context initialContext = new InitialContext(env);
+       </source>
+     </p>
+     <p>
+       Once created, you can add bindings to the context using the 
+       <code>javax.naming.Context</code> API:
+       <source>
+compContext = initialContext.createSubcontext("java:comp");
+envContext =  compContext.createSubcontext("env");
+envContext.bind("host", "www.apache.org");
+envContext.bind("port", new Integer(80)); 
+       </source>
+     </p>
+     <p>
+       Now <code>initialContext.lookup("java:comp/env/host"))</code> will return 
+       a <code>String</code> holding the value "www.apache.org" and 
+       <code>initialContext.lookup("java:comp/env/port"))</code> will return an
+       <code>Integer</code> with <code>intValue</code> equal to 80.
+     </p> 
+ </section>      
+ </body>
+</document>
+

@@ -1,0 +1,32 @@
+<naming>
+  <context name="global">
+    <resource name="jdbc/pool" type="javax.sql.DataSource">
+      <parameter>
+        <name>driverClassName</name>
+        <value>org.hsqldb.jdbcDriver</value>
+      </parameter>
+      <parameter>
+        <name>url</name>
+        <value>jdbc:hsqldb:target/hsqldb</value>
+      </parameter>
+      <parameter>
+        <name>username</name>
+        <value>sa</value>
+      </parameter>
+      <parameter>
+        <name>password</name>
+        <value></value>
+      </parameter>
+    </resource>
+  </context>
+  <context name="app1" base="java:comp/env">
+    <environment name="port" value="5555" type="java.lang.Integer" />
+    <link name="datasource" context="global" rname="java:comp/env/jdbc/pool" />
+    <!-- 
+           If the ldap link test is activated, rname below needs to be a valid
+           ldap url.  Lookups from this context, starting with name will link to
+           the namespace rooted at the value of the ldap url supplied in rname
+     -->
+    <link name="fooCo"  rname="ldap://ldap.fooco.com" />
+  </context>
+</naming>

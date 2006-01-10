@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+<project>
+  
+  <version>3</version>
+  <name>directory-naming</name>
+  <artifactId>naming-parent</artifactId>
+  <groupId>directory-naming</groupId>
+  <currentVersion>0.9-SNAPSHOT</currentVersion>
+
+  <organization>
+    <name>Apache Software Foundation</name>
+    <url>http://www.apache.org</url>
+  </organization>
+   
+  <inceptionYear>2003</inceptionYear>
+  <package>org.apache.naming</package>
+
+  <shortDescription>Apache Directory Naming Component</shortDescription>
+  <logo>http://directory.apache.org/images/apache-directory-logo.png</logo>
+
+  <!-- Gump integration -->
+  <gumpRepositoryId>directory</gumpRepositoryId>
+
+  <description>
+      Apache Directory Naming is a re-usable JNDI component.
+  </description>
+
+  <url>http://directory.apache.org/subprojects/naming/</url>
+  <issueTrackingUrl>http://nagoya.apache.org/jira/browse/DIRNAMING</issueTrackingUrl>
+
+  <url>http://directory.apache.org/subprojects/naming</url>
+  <siteAddress>minotaur.apache.org</siteAddress>
+  <siteDirectory>/www/directory.apache.org/subprojects/naming</siteDirectory>
+  <distributionDirectory>/www/cvs.apache.org/dist/directory/naming</distributionDirectory>
+    
+  <repository>
+      <connection>scm:svn:http://svn.apache.org/repos/asf/directory:naming/trunk/${module.path}</connection>
+      <url>http://svn.apache.org/viewcvs.cgi/directory/naming/trunk/${module.path}/?root=Apache-SVN</url>
+      <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory/naming/trunk/${module.path}</developerConnection>
+    </repository>
+  
+  <mailingLists>
+    <mailingList>
+      <name>Directory Developer List</name>
+      <subscribe>dev-subscribe@directory.apache.org</subscribe>
+      <unsubscribe>dev-unsubscribe@directory.apache.org</unsubscribe>
+      <archive>http://www.archivum.info/dev@directory.apache.org/</archive>
+    </mailingList>
+  </mailingLists>
+
+  <developers>
+    <developer>
+      <name>Henri Yandell</name>
+      <id>bayard</id>
+      <email>bayard@apache.org</email>
+      <organization></organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Phil Steitz</name>
+      <id>psteitz</id>
+      <email>psteitz@apache.org</email>
+      <organization></organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Brett Porter</name>
+      <id>brett</id>
+      <email>brett@apache.org</email>
+      <organization>f2 network</organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+      <timezone>+10</timezone>
+    </developer>
+  </developers>
+
+  <dependencies>    
+    <dependency>
+      <artifactId>maven-site-plugin</artifactId>
+      <groupId>maven</groupId>
+      <version>1.6.1</version>
+      <type>plugin</type>
+    </dependency>
+    <dependency>
+      <id>junit</id>
+      <version>3.8.1</version>
+    </dependency> 
+  </dependencies>
+  
+  <build>
+
+    <nagEmailAddress>dev@directory.apache.org</nagEmailAddress>
+    <sourceDirectory>${basedir}/src/java</sourceDirectory>
+    <unitTestSourceDirectory>${basedir}/src/test</unitTestSourceDirectory>
+    <integrationUnitTestSourceDirectory/>
+    <aspectSourceDirectory/>
+
+    <!-- Unit test classes -->
+    <unitTest>
+      <includes>
+        <include>**/*Test*</include>
+      </includes>
+      <excludes>
+        <exclude>**/Abstract*</exclude>
+      </excludes>
+      <resources>
+        <resource>
+          <directory>${basedir}/src/test</directory>
+          <includes>
+            <include>**/*.xml</include>
+            <include>**/*.properties</include>
+          </includes>
+        </resource>
+      </resources>
+    </unitTest>
+
+   
+    <!-- J A R  R E S O U R C E S -->
+    <!-- Resources that are packaged up inside the JAR file -->
+    <resources>
+
+      <resource>
+        <directory>${basedir}/../</directory>
+        <targetPath>META-INF</targetPath>
+        <includes>
+          <include>LICENSE.txt</include>
+          <include>NOTICE.txt</include>
+        </includes>
+      </resource>
+
+
+      <resource>
+        <directory>${basedir}/src/java</directory>
+        <includes>
+          <include>**/*.properties</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>${basedir}/src/conf</directory>
+        <includes>
+          <include>**/*.dtd</include>
+        </includes>
+      </resource>
+    </resources>
+  </build>
+  
+  <reports>
+     <!-- <report>maven-changelog-plugin</report> -->
+     <!-- <report>maven-changes-plugin</report> -->
+     <!-- <report>maven-checkstyle-plugin</report> -->
+     <!-- <report>maven-clover-plugin</report> -->
+     <!-- <report>maven-developer-activity-plugin</report> -->
+     <!-- <report>maven-file-activity-plugin</report> -->
+     <report>maven-javadoc-plugin</report>
+     <!-- <report>maven-jellydoc-plugin</report> -->
+     <!-- <report>maven-junit-report-plugin</report> -->
+     <!-- <report>maven-jxr-plugin</report> -->
+     <!-- <report>maven-license-plugin</report> -->
+     <!-- <report>maven-linkcheck-plugin</report> -->
+     <!-- <report>maven-statcvs-plugin</report> -->
+     <!-- <report>maven-tasklist-plugin</report> --> 
+  </reports>
+  
+</project>
+

@@ -1,0 +1,87 @@
+<!-- 
+       Config to test mail factories and provide example of use. Missing
+       parameter values need to be filled in using valid smtp host / user
+       information.  
+-->
+<naming>
+  <context>
+  <!-- SendMailFactory test configuration -->
+  <resource name="mail/send" auth="CONTAINER"
+           type="javax.mail.internet.MimePartDataSource">
+     <parameter>
+       <name>factory</name>
+       <value>org.apache.naming.factory.SendMailFactory</value>
+     </parameter>
+     <parameter>
+        <name>mail.smtp.host</name>
+        <!-- uncomment and replace with an outbound smpt host
+        <value>your.smtp.host</value> -->
+     </parameter>
+     <parameter>
+        <name>mail.smtp.user</name>
+       <!--  uncomment and replace with a user who can send from
+               the mail host above
+       <value>someuser</value>  -->
+     </parameter>
+     <parameter>
+       <name>mail.from</name>
+       <!--  uncomment and replace with a from address
+               acceptable for the mail host above
+       <value>someuser@some.host</value>  -->
+     </parameter>
+     <parameter><name>mail.smtp.sendpartial</name>
+       <value>true</value>
+     </parameter>
+     <parameter>
+       <name>mail.smtp.dsn.notify</name>
+       <value>FAILURE</value>
+     </parameter>
+     <parameter>
+       <name>mail.smtp.dsn.ret</name>
+       <value>FULL</value>
+     </parameter>
+    </resource>
+     
+     <!-- MailSessionFactory test configuration (unauthenticated) -->
+    <resource name="mail/smtp" auth="CONTAINER"
+           type="javax.mail.Session">
+     <parameter>
+       <name>factory</name>
+       <value>org.apache.naming.factory.MailSessionFactory</value>
+     </parameter>
+     <parameter>
+       <name>mail.smtp.host</name>
+       <!-- uncomment and replace with an outbound smpt host
+       <value>your.smtp.host</value> -->
+     </parameter>
+    </resource>
+    
+    <!-- MailSessionFactory test configuration (authenticated session) -->
+     <resource name="mail/smtp-auth" auth="CONTAINER"
+           type="javax.mail.Session">
+     <parameter>
+       <name>factory</name>
+       <value>org.apache.naming.factory.MailSessionFactory</value>
+     </parameter>
+     <parameter>
+       <name>mail.smtp.auth</name>
+       <value>true</value>
+     </parameter>
+     <parameter>
+       <name>mail.smtp.host</name>
+       <!-- uncomment and replace with an outbound smpt host
+       <value>your.smtp.host</value> -->
+     </parameter>
+     <parameter>
+       <name>mail.smtp.user</name>
+       <!-- uncomment and replace with an outbound smpt host
+       <value>your.smtp.user</value> -->
+     </parameter>
+     <parameter>
+       <name>password</name>
+       <!-- uncomment and replace with user password
+       <value>your.password</value> -->
+     </parameter>
+    </resource>
+  </context>
+</naming>  

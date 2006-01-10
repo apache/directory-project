@@ -1,0 +1,57 @@
+<naming>
+  <!-- 
+       Anonymous context with base specified, different environment values
+       from test-jndi2.  Loading after jndi2 should overwrite environment entries.
+   -->
+  <context base="alt/root/context">
+    <environment name="config/host" value="www.jakarta.org" type="java.lang.String" />
+    <environment name="config/port" value="85" type="java.lang.Integer" />
+    <resource name="jdbc/pool" type="javax.sql.DataSource">
+      <parameter>
+        <name>driverClassName</name>
+        <value>org.hsqldb.jdbcDriver</value>
+      </parameter>
+      <parameter>
+        <name>url</name>
+        <value>jdbc:hsqldb:target/hsqldb</value>
+      </parameter>
+      <parameter>
+        <name>username</name>
+        <value>sa</value>
+      </parameter>
+      <parameter>
+        <name>password</name>
+        <value></value>
+      </parameter>
+    </resource>
+  </context>
+  <!-- 
+       Add another named context, default root, same environment entries
+        as jndi2.
+   -->
+  <context name="global" >
+    <environment name="config/host" value="www.apache.org" type="java.lang.String" />
+    <environment name="config/mytruebool" value="true" type="java.lang.Boolean" />
+    <environment name="config/myfalsebool" value="false" type="java.lang.Boolean" />
+    <environment name="config/port" value="80" type="java.lang.Integer" />
+    <environment name="jdbc/config/pool/user" value="dbuser" type="java.lang.String" />
+    <resource name="global/jdbc/pool" type="javax.sql.DataSource">
+      <parameter>
+        <name>driverClassName</name>
+        <value>org.hsqldb.jdbcDriver</value>
+      </parameter>
+      <parameter>
+        <name>url</name>
+        <value>jdbc:hsqldb:target/hsqldb</value>
+      </parameter>
+      <parameter>
+        <name>username</name>
+        <value>sa</value>
+      </parameter>
+      <parameter>
+        <name>password</name>
+        <value></value>
+      </parameter>
+    </resource>
+  </context> 
+</naming>

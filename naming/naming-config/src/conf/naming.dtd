@@ -1,0 +1,22 @@
+<!ELEMENT naming (context*)>
+
+<!ELEMENT context ((environment|resource)*)>
+<!ATTLIST context
+	name  CDATA #IMPLIED>
+
+<!ELEMENT environment (EMPTY)>
+<!ATTLIST environment 
+	name  CDATA #REQUIRED
+        type  CDATA #REQUIRED
+        value CDATA #REQUIRED
+>
+
+<!ELEMENT resource (parameter*)>
+<!ATTLIST resource
+	name  CDATA #REQUIRED
+        type  CDATA #REQUIRED
+>
+
+<!ELEMENT parameter (name,value)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT value (#PCDATA)>
