@@ -55,7 +55,11 @@ public class ModifyDnHandler implements MessageHandler
         ModifyDnRequest req = ( ModifyDnRequest ) request;
         LdapResult result = req.getResultResponse().getLdapResult();
 
-        System.out.println("req.getName() == [" + req.getName() +"]");
+        if ( LOG.isDebugEnabled() )
+        {
+        	LOG.debug( "req.getName() == [" + req.getName() +"]" );
+        }
+        
         if (req.getName() == null || req.getName().length() == 0)
         {
             // it is not allowed to modify the name of the Root DSE
