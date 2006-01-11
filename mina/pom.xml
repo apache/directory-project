@@ -66,18 +66,20 @@
   </licenses>
 
   <dependencies>
+
     <dependency>
       <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-simple</artifactId>
-      <version>1.0-beta9</version>
-      <scope>provided</scope>
-    </dependency>
+      <artifactId>nlog4j</artifactId>
+      <version>1.2.17</version>
+    </dependency>  
+
     <dependency>
       <groupId>easymock</groupId>
       <artifactId>easymock</artifactId>
       <version>1.2_Java1.3</version>
       <scope>test</scope>
     </dependency>
+
   </dependencies>
 
   <build>
