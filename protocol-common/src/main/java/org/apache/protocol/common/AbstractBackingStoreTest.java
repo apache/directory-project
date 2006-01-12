@@ -318,13 +318,13 @@ public abstract class AbstractBackingStoreTest extends TestCase
                 {
                     ctx.lookup( rdn );
 
-                    log.info( "Found " + rdn + ", will not create." );
+                    log.info( "Found {}, will not create.", rdn );
                 }
                 catch ( Exception e )
                 {
                     ctx.createSubcontext( rdn, attributes );
 
-                    log.info( "Created " + rdn + "." );
+                    log.info( "Created {}.", rdn );
                 }
             }
         }
@@ -366,11 +366,11 @@ public abstract class AbstractBackingStoreTest extends TestCase
 
                 Object stored = ctx.lookup( rdn );
 
-                log.debug( "Lookup for " + rdn + " returned " + stored + "." );
+                log.debug( "Lookup for {} returned {}.", rdn, stored );
 
                 if ( stored == null )
                 {
-                    log.error( rdn + " was null." );
+                    log.error( "{} was null.", rdn );
 
                     throw new IllegalStateException( "LDIF entries not being pushed to disk." );
                 }
@@ -378,7 +378,7 @@ public abstract class AbstractBackingStoreTest extends TestCase
         }
         catch ( Exception e )
         {
-            log.error( "Failed to find " + rdn );
+            log.error( "Failed to find {}", rdn );
 
             if ( log.isDebugEnabled() )
             {

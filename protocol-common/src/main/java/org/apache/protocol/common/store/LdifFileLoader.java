@@ -161,13 +161,13 @@ public class LdifFileLoader
                 try
                 {
                     ctx.lookup( rdn );
-                    log.info( "Found " + rdn + ", will not create." );
+                    log.info( "Found {}, will not create.", rdn );
                 }
                 catch ( Exception e )
                 {
                     ctx.createSubcontext( rdn, attributes );
                     count++;
-                    log.info( "Created " + rdn + "." );
+                    log.info( "Created {}.", rdn );
                 }
             }
         }
