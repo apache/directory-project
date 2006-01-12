@@ -53,7 +53,7 @@ public class ProcessPasswordChange extends CommandBase
         try
         {
             String principalName = store.changePassword( clientPrincipal, newKey );
-            log.debug( "Successfully modified principal " + principalName );
+            log.debug( "Successfully modified principal {}", principalName );
         }
         catch ( Exception e )
         {

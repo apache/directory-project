@@ -52,10 +52,7 @@ public class ChangePasswordProtocolHandler implements IoHandler
 
     public void sessionCreated( IoSession session ) throws Exception
     {
-        if ( log.isDebugEnabled() )
-        {
-            log.debug( session.getRemoteAddress() + " CREATED" );
-        }
+        log.debug( "{} CREATED", session.getRemoteAddress());
         
         session.getFilterChain().addFirst(
                 "codec",
@@ -65,40 +62,28 @@ public class ChangePasswordProtocolHandler implements IoHandler
 
     public void sessionOpened( IoSession session )
     {
-        if ( log.isDebugEnabled() )
-        {
-            log.debug( session.getRemoteAddress() + " OPENED" );
-        }
+        log.debug( "{} OPENED", session.getRemoteAddress());
     }
 
     public void sessionClosed( IoSession session )
     {
-        if ( log.isDebugEnabled() )
-        {
-            log.debug( session.getRemoteAddress() + " CLOSED" );
-        }
+        log.debug( "{} CLOSED", session.getRemoteAddress());
     }
 
     public void sessionIdle( IoSession session, IdleStatus status )
     {
-        if ( log.isDebugEnabled() )
-        {
-            log.debug( session.getRemoteAddress() + " IDLE(" + status + ")" );
-        }
+        log.debug( "{} IDLE({})", session.getRemoteAddress(), status );
     }
 
     public void exceptionCaught( IoSession session, Throwable cause )
     {
-        log.error( session.getRemoteAddress() + " EXCEPTION", cause );
+        log.debug( "{} EXCEPTION {}", session.getRemoteAddress(), cause);
         session.close();
     }
 
     public void messageReceived( IoSession session, Object message )
     {
-        if ( log.isDebugEnabled() )
-        {
-            log.debug( session.getRemoteAddress() + " RCVD: " + message );
-        }
+        log.debug( "{} RCVD: {}", session.getRemoteAddress(), message );
 
         InetAddress clientAddress = ( (InetSocketAddress) session.getRemoteAddress() ).getAddress();
         ChangePasswordRequest request = (ChangePasswordRequest) message;
@@ -125,7 +110,7 @@ public class ChangePasswordProtocolHandler implements IoHandler
     {
         if ( log.isDebugEnabled() )
         {
-            log.debug( session.getRemoteAddress() + " SENT: " + message );
+            log.debug( "{} SENT: {}", session.getRemoteAddress(), message );
         }
     }
 }
