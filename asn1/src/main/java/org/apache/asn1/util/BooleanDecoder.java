@@ -61,3 +61,4 @@ public class BooleanDecoder
         return bytes[0] != 0;
     }
 }
+

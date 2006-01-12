@@ -40,9 +40,6 @@ public abstract class AbstractGrammar implements IGrammar
     /** The logger */
     private static final Logger log = LoggerFactory.getLogger( AbstractGrammar.class );
 
-    /** A speedup for logs */
-    private static boolean DEBUG;
-
     //~ Instance fields ----------------------------------------------------------------------------
 
     /** Table of transitions. It's a two dimension array, the first dimension
@@ -57,7 +54,6 @@ public abstract class AbstractGrammar implements IGrammar
     
     public AbstractGrammar()
     {
-    	DEBUG = log.isDebugEnabled();
     }
 
     //~ Methods ------------------------------------------------------------------------------------
@@ -100,7 +96,7 @@ public abstract class AbstractGrammar implements IGrammar
 
         int tlvLength      = tlv.getSize();
 
-        if ( DEBUG )
+        if ( log.isDebugEnabled() )
         {
             log.debug(
                 "Expected Length = " + ( ( Asn1Object ) object ).getExpectedLength() +
@@ -184,7 +180,7 @@ public abstract class AbstractGrammar implements IGrammar
                 }
             }
 
-            if ( DEBUG )
+            if ( log.isDebugEnabled() )
             {
                 log.debug( transition.toString( container.getCurrentGrammarType(),
                         currentGrammar.getStatesEnum() ) );
@@ -196,12 +192,12 @@ public abstract class AbstractGrammar implements IGrammar
                     ( nextState != IStates.END_STATE ) )
             {
 
-                if ( DEBUG )
+                if ( log.isDebugEnabled() )
                 {
                     log.debug(
-                        "Switching from grammar " +
-                        container.getStates().getGrammarName( currentGrammar ) +
-                        " to grammar " + container.getStates().getGrammarName( ( nextState >> 8 ) - 1 ) );
+                        "Switching from grammar {} to grammar {}",
+                        container.getStates().getGrammarName( currentGrammar ),
+                        container.getStates().getGrammarName( ( nextState >> 8 ) - 1 ) );
                 }
 
                 // We have a grammar switch, so we change the current state to the initial
@@ -246,3 +242,4 @@ public abstract class AbstractGrammar implements IGrammar
         this.statesEnum = statesEnum;
     }
 }
+

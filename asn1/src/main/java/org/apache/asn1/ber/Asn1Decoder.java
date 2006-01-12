@@ -47,9 +47,6 @@ public class Asn1Decoder implements ITLVBerDecoderMBean
     /** The logger */
     private static final Logger log = LoggerFactory.getLogger( Asn1Decoder.class );
     
-    /** A speedup for logs */
-    private static boolean DEBUG;
-
     /** This flag is used to indicate that there are more bytes in the stream */
     private static final boolean MORE = true;
 
@@ -77,7 +74,6 @@ public class Asn1Decoder implements ITLVBerDecoderMBean
         indefiniteLengthAllowed = false;
         maxLengthLength         = 1;
         maxTagLength            = 1;
-        DEBUG = log.isDebugEnabled();
     }
 
     //~ Methods ------------------------------------------------------------------------------------
@@ -244,7 +240,7 @@ public class Asn1Decoder implements ITLVBerDecoderMBean
             current = current.getParent();
         }
         
-        log.debug("TLV Tree : " + sb.toString());
+        log.debug("TLV Tree : {}", sb.toString());
     }
     
     /**
@@ -293,10 +289,10 @@ public class Asn1Decoder implements ITLVBerDecoderMBean
         throws DecoderException
     {
 
-        if ( DEBUG )
+        if ( log.isDebugEnabled() )
         {
             Tag tag = container.getCurrentTLV().getTag();
-            log.debug( tag.toString() + " has been decoded" );
+            log.debug( "Tag {} has been decoded", tag.toString() );
         }
         
         // Create a link between the current TLV with its parent
@@ -407,9 +403,9 @@ public class Asn1Decoder implements ITLVBerDecoderMBean
 
                 byte octet = stream.get();
 
-                if ( DEBUG )
+                if ( log.isDebugEnabled() )
                 {
-                    log.debug( "  current byte : " + Asn1StringUtils.dumpByte( octet ) );
+                    log.debug( "  current byte : {}", Asn1StringUtils.dumpByte( octet ) );
                 }
 
                 length.incCurrentLength();
@@ -477,21 +473,21 @@ public class Asn1Decoder implements ITLVBerDecoderMBean
         // exceeded by the current TLV.
         TLV parentTLV = container.getParentTLV();
         
-        if ( DEBUG )
+        if ( log.isDebugEnabled() )
         {
-            log.debug(getParentLength(parentTLV));
+            log.debug( "Parent length : {}", new Integer( getParentLength( parentTLV ) ) );
         }
         
         if (parentTLV == null) 
         {
             // This is the first TLV, so we can't check anything. We will
             // just store this TLV as the root of the PDU
-            tlv.setExpectedLength(length.getLength());
-            container.setParentTLV(tlv);
+            tlv.setExpectedLength( length.getLength() );
+            container.setParentTLV( tlv );
             
-            if ( DEBUG )
+            if ( log.isDebugEnabled() )
             {
-                log.debug("Root TLV[" + tlv.getLength().getLength() + "]");
+                log.debug( "Root TLV[{}]", new Integer( tlv.getLength().getLength() ) );
             }
         }
         else
@@ -505,7 +501,7 @@ public class Asn1Decoder implements ITLVBerDecoderMBean
             {
                 // The expected length is lower than the Value length of the
                 // current TLV. This is an error...
-                log.error("tlv[" + expectedLength + ", " + currentLength + "]");
+                log.error("tlv[{}, {}]", new Integer( expectedLength ), new Integer( currentLength ) );
                 throw new DecoderException("The current Value length is above the expected length");
             }
             
@@ -593,9 +589,9 @@ public class Asn1Decoder implements ITLVBerDecoderMBean
             
         }
 
-        if ( DEBUG )
+        if ( log.isDebugEnabled() )
         {
-            log.debug( length.toString() + " has been decoded" );
+            log.debug( "Length {} has been decoded", length.toString() );
         }
 
         if ( length.getLength() == 0 )
@@ -722,7 +718,7 @@ public class Asn1Decoder implements ITLVBerDecoderMBean
     private boolean treatTLVDoneState( ByteBuffer stream, IAsn1Container container )
         throws DecoderException
     {
-        if ( DEBUG )
+        if ( log.isDebugEnabled() )
         {
             dumpTLVTree(container);
         }
@@ -821,29 +817,26 @@ public class Asn1Decoder implements ITLVBerDecoderMBean
 
         boolean hasRemaining = stream.hasRemaining();
 
-        if ( DEBUG )
-        {
-            log.debug( ">>>==========================================" );
-            log.debug( "--> Decoding a PDU" );
-            log.debug( ">>>------------------------------------------" );
-        }
+        log.debug( ">>>==========================================" );
+        log.debug( "--> Decoding a PDU" );
+        log.debug( ">>>------------------------------------------" );
 
         while ( hasRemaining )
         {
 
-            if ( DEBUG )
+            if ( log.isDebugEnabled() )
             {
-                log.debug( "--- State = " + stateToString( container.getState() ) + " ---" );
+                log.debug( "--- State = {} ---", stateToString( container.getState() ) );
 
                 if (stream.hasRemaining())
                 {
                     byte octet = stream.get(stream.position());
 
-                    log.debug( "  current byte : " + Asn1StringUtils.dumpByte( octet ) );
+                    log.debug( "  current byte : {}", Asn1StringUtils.dumpByte( octet ) );
                 }
                 else
                 {
-                    log.debug( "  no more byte to decode in the stream");
+                    log.debug( "  no more byte to decode in the stream" );
                 }
             }
 
@@ -908,10 +901,7 @@ public class Asn1Decoder implements ITLVBerDecoderMBean
                 case TLVStateEnum.PDU_DECODED :
                     // We have to deal with the case where there are
                     // more bytes in the buffer, but the PDU has been decoded.
-                    if ( log.isWarnEnabled() )
-                    {
-                        log.warn("The PDU has been fully decoded but there are still bytes in the buffer.");
-                    }
+                    log.warn( "The PDU has been fully decoded but there are still bytes in the buffer." );
                     
                     hasRemaining = false;
                     
@@ -919,17 +909,17 @@ public class Asn1Decoder implements ITLVBerDecoderMBean
             }
         }
 
-        if ( DEBUG )
+        if ( log.isDebugEnabled() )
         {
             log.debug( "<<<------------------------------------------" );
             
             if ( container.getState() == TLVStateEnum.PDU_DECODED )
             {
-                log.debug( "<-- Stop decoding : " + container.getCurrentTLV().toString() );
+                log.debug( "<-- Stop decoding : {}", container.getCurrentTLV().toString() );
             }
             else
             {
-                log.debug( "<-- End decoding : " + container.getCurrentTLV().toString() );
+                log.debug( "<-- End decoding : {}", container.getCurrentTLV().toString() );
             }
             
             log.debug( "<<<==========================================" );
@@ -1019,3 +1009,4 @@ public class Asn1Decoder implements ITLVBerDecoderMBean
     }
 
 } // end class TLVTagDecoder
+
