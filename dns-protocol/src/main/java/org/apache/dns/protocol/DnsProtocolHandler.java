@@ -49,10 +49,7 @@ public class DnsProtocolHandler implements IoHandler
 
     public void sessionCreated( IoSession session ) throws Exception
     {
-        if ( log.isDebugEnabled() )
-        {
-            log.debug( session.getRemoteAddress() + " CREATED" );
-        }
+        log.debug( "{} CREATED", session.getRemoteAddress() );
         
         session.getFilterChain().addFirst(
                 "codec",
@@ -61,26 +58,17 @@ public class DnsProtocolHandler implements IoHandler
 
     public void sessionOpened( IoSession session )
     {
-        if ( log.isDebugEnabled() )
-        {
-            log.debug( session.getRemoteAddress() + " OPENED" );
-        }
+        log.debug( "{} OPENED", session.getRemoteAddress() );
     }
 
     public void sessionClosed( IoSession session )
     {
-        if ( log.isDebugEnabled() )
-        {
-            log.debug( session.getRemoteAddress() + " CLOSED" );
-        }
+        log.debug( "{} CLOSED", session.getRemoteAddress() );
     }
 
     public void sessionIdle( IoSession session, IdleStatus status )
     {
-        if ( log.isDebugEnabled() )
-        {
-            log.debug( session.getRemoteAddress() + " IDLE(" + status + ")" );
-        }
+        log.debug( "{} IDLE({})", session.getRemoteAddress(), status );
     }
 
     public void exceptionCaught( IoSession session, Throwable cause )
@@ -91,10 +79,7 @@ public class DnsProtocolHandler implements IoHandler
 
     public void messageReceived( IoSession session, Object message )
     {
-        if ( log.isDebugEnabled() )
-        {
-            log.debug( session.getRemoteAddress() + " RCVD: " + message );
-        }
+        log.debug( "{} RCVD: {}", session.getRemoteAddress(), message );
 
         DnsMessage request = (DnsMessage) message;
 
@@ -117,9 +102,6 @@ public class DnsProtocolHandler implements IoHandler
 
     public void messageSent( IoSession session, Object message )
     {
-        if ( log.isDebugEnabled() )
-        {
-            log.debug( session.getRemoteAddress() + " SENT: " + message );
-        }
+        log.debug( "{} SENT: {}", session.getRemoteAddress(), message );
     }
 }

@@ -61,7 +61,7 @@ public class DnsServer
             registry.bind( udpService, handler );
             registry.bind( tcpService, handler );
 
-            log.debug( name + " listening on port " + port );
+            log.debug( "{} listening on port {}", name, new Integer( port ) );
         }
         catch ( IOException ioe )
         {
@@ -84,6 +84,6 @@ public class DnsServer
         udpService = null;
         tcpService = null;
 
-        log.debug( config.getName() + " has stopped listening on port " + config.getPort() );
+        log.debug( "{} has stopped listening on port {}", config.getName(), new Integer( config.getPort() ) );
     }
 }
