@@ -320,10 +320,7 @@ public abstract class ServerContext implements EventContext
          * environment besides whats in the hashtable for env.
          */
         nexusProxy.add( target.toString(), target, attributes );
-        ServerLdapContext ctx = new ServerLdapContext( service, principal, target );
-        Control [] controls = ( Control [] ) ( ( ServerLdapContext ) this ).getRequestControls().clone();
-        ctx.setRequestControls( controls );
-        return ctx;
+        return new ServerLdapContext( service, principal, target );
     }
 
 

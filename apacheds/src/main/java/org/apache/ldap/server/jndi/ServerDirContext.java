@@ -35,7 +35,6 @@ import javax.naming.directory.ModificationItem;
 import javax.naming.directory.SearchControls;
 import javax.naming.event.EventDirContext;
 import javax.naming.event.NamingListener;
-import javax.naming.ldap.Control;
 import javax.naming.spi.DirStateFactory;
 import javax.naming.spi.DirectoryManager;
 
