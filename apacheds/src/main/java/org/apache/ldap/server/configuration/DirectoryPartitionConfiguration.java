@@ -31,6 +31,7 @@ import javax.naming.directory.BasicAttributes;
 import org.apache.ldap.common.name.LdapName;
 import org.apache.ldap.common.schema.Normalizer;
 import org.apache.ldap.server.partition.DirectoryPartition;
+import org.apache.ldap.server.partition.Oid;
 import org.apache.ldap.server.partition.impl.btree.jdbm.JdbmDirectoryPartition;
 import org.apache.ldap.server.schema.MatchingRuleRegistry;
 
@@ -48,7 +49,7 @@ public class DirectoryPartitionConfiguration
 
     private String name;
     private String suffix;
-    private Set indexedAttributes = new HashSet(); // Set<String>
+    private Set indexedAttributes; // Set<String>
     private Attributes contextEntry = new BasicAttributes( true );
     private DirectoryPartition contextPartition = new JdbmDirectoryPartition();
     
@@ -57,6 +58,7 @@ public class DirectoryPartitionConfiguration
      */
     protected DirectoryPartitionConfiguration()
     {
+        setIndexedAttributes( new HashSet() );
     }
     
     /**
@@ -102,6 +104,16 @@ public class DirectoryPartitionConfiguration
             // TODO Attribute name must be normalized and validated
             newIndexedAttributes.add( attribute );
         }
+        
+        // Add default indices
+        newIndexedAttributes.add( Oid.ALIAS );
+        newIndexedAttributes.add( Oid.EXISTANCE );
+        newIndexedAttributes.add( Oid.HIERARCHY );
+        newIndexedAttributes.add( Oid.NDN );
+        newIndexedAttributes.add( Oid.ONEALIAS );
+        newIndexedAttributes.add( Oid.SUBALIAS );
+        newIndexedAttributes.add( Oid.UPDN );
+
         this.indexedAttributes = newIndexedAttributes;
     }
     

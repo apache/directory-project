@@ -416,30 +416,13 @@ public class DefaultDirectoryPartitionNexus extends DirectoryPartitionNexus
         DirectoryPartition partition = config.getContextPartition();
 
         // Turn on default indices
-        MutableDirectoryPartitionConfiguration mcfg =
-            new MutableDirectoryPartitionConfiguration();
-        mcfg.setName( config.getName() );
-        mcfg.setSuffix( config.getSuffix() );
-        mcfg.setContextEntry( config.getContextEntry() );
-        mcfg.setContextPartition( partition );
-        
-        Set indexedAttrs = config.getIndexedAttributes();
-        indexedAttrs.add( Oid.ALIAS );
-        indexedAttrs.add( Oid.EXISTANCE );
-        indexedAttrs.add( Oid.HIERARCHY );
-        indexedAttrs.add( Oid.NDN );
-        indexedAttrs.add( Oid.ONEALIAS );
-        indexedAttrs.add( Oid.SUBALIAS );
-        indexedAttrs.add( Oid.UPDN );
-        mcfg.setIndexedAttributes( indexedAttrs );
-        
         String key = config.getSuffix();
         if( partitions.containsKey( key ) )
         {
             throw new ConfigurationException( "Duplicate partition suffix: " + key );
         }
 
-        partition.init( factoryCfg, mcfg );
+        partition.init( factoryCfg, config );
         partitions.put( partition.getSuffix( true ).toString(), partition );
         
         Attribute namingContexts = rootDSE.get( NAMINGCTXS_ATTR );
