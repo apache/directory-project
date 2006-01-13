@@ -17,38 +17,42 @@
 package org.apache.ldap.server.jndi;
 
 
-import java.io.IOException;
-import java.io.FileFilter;
 import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.InetSocketAddress;
 import java.util.Hashtable;
 import java.util.Iterator;
 
-import javax.naming.NamingException;
 import javax.naming.Context;
-import javax.naming.directory.DirContext;
+import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.BasicAttributes;
+import javax.naming.directory.DirContext;
 
+import org.apache.changepw.ChangePasswordConfiguration;
+import org.apache.changepw.ChangePasswordServer;
+import org.apache.commons.lang.StringUtils;
 import org.apache.kerberos.kdc.KdcConfiguration;
 import org.apache.kerberos.kdc.KerberosServer;
 import org.apache.kerberos.store.JndiPrincipalStoreImpl;
 import org.apache.kerberos.store.PrincipalStore;
 import org.apache.ldap.common.exception.LdapConfigurationException;
+import org.apache.ldap.common.exception.LdapNamingException;
 import org.apache.ldap.server.DirectoryService;
 import org.apache.ldap.server.configuration.ServerStartupConfiguration;
 import org.apache.ldap.server.protocol.ExtendedOperationHandler;
 import org.apache.ldap.server.protocol.LdapProtocolProvider;
+import org.apache.mina.common.DefaultIoFilterChainBuilder;
+import org.apache.mina.common.IoFilterChainBuilder;
 import org.apache.mina.common.TransportType;
 import org.apache.mina.registry.Service;
 import org.apache.mina.registry.ServiceRegistry;
-import org.apache.ntp.NtpServer;
 import org.apache.ntp.NtpConfiguration;
+import org.apache.ntp.NtpServer;
 import org.apache.protocol.common.LoadStrategy;
 import org.apache.protocol.common.store.LdifFileLoader;
-import org.apache.changepw.ChangePasswordServer;
-import org.apache.changepw.ChangePasswordConfiguration;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,6 +71,7 @@ public class ServerContextFactory extends CoreContextFactory
     private static final String LDIF_FILES_DN = "ou=loadedLdifFiles,ou=configuration,ou=system";
 
     private static Service ldapService;
+    private static Service ldapsService;
     private static KerberosServer kdcServer;
     private static ChangePasswordServer changePasswordServer;
     private static NtpServer ntpServer;
@@ -91,6 +96,16 @@ public class ServerContextFactory extends CoreContextFactory
                     log.info( "Unbind of LDAP Service complete: " + ldapService );
                 }
                 ldapService = null;
+            }
+
+            if ( ldapsService != null )
+            {
+                minaRegistry.unbind( ldapsService );
+                if ( log.isInfoEnabled() )
+                {
+                    log.info( "Unbind of LDAPS Service complete: " + ldapService );
+                }
+                ldapsService = null;
             }
 
             if ( kdcServer != null )
@@ -137,48 +152,11 @@ public class ServerContextFactory extends CoreContextFactory
         if ( cfg.isEnableNetworking() )
         {
             setupRegistry( cfg );
-            startLdapProtocol( cfg, env );
-
-            if ( cfg.isEnableKerberos() )
-            {
-                try
-                {
-                    KdcConfiguration kdcConfiguration = new KdcConfiguration( env, LoadStrategy.PROPS );
-                    PrincipalStore kdcStore = new JndiPrincipalStoreImpl( kdcConfiguration, this );
-                    kdcServer = new KerberosServer( kdcConfiguration, minaRegistry, kdcStore );
-                }
-                catch ( Throwable t )
-                {
-                    log.error( "Failed to start the Kerberos service", t );
-                }
-            }
-
-            if ( cfg.isEnableChangePassword() )
-            {
-                try
-                {
-                    ChangePasswordConfiguration changePasswordConfiguration = new ChangePasswordConfiguration( env, LoadStrategy.PROPS );
-                    PrincipalStore store = new JndiPrincipalStoreImpl( changePasswordConfiguration, this );
-                    changePasswordServer = new ChangePasswordServer( changePasswordConfiguration, minaRegistry, store );
-                }
-                catch ( Throwable t )
-                {
-                    log.error( "Failed to start the Change Password service", t );
-                }
-            }
-
-            if ( cfg.isEnableNtp() )
-            {
-                try
-                {
-                    NtpConfiguration ntpConfig = new NtpConfiguration( env, LoadStrategy.PROPS );
-                    ntpServer = new NtpServer( ntpConfig, minaRegistry );
-                }
-                catch ( Throwable t )
-                {
-                    log.error( "Failed to start the NTP service", t );
-                }
-            }
+            startLDAP( cfg, env );
+            startLDAPS( cfg, env );
+            startKerberos(cfg, env);
+            startChangePassword(cfg, env);
+            startNTP(cfg, env);
         }
     }
 
@@ -359,11 +337,68 @@ public class ServerContextFactory extends CoreContextFactory
      *
      * @throws NamingException if there are problems starting the LDAP provider
      */
-    private void startLdapProtocol( ServerStartupConfiguration cfg, Hashtable env ) throws NamingException
+    private void startLDAP( ServerStartupConfiguration cfg, Hashtable env ) throws NamingException
     {
+        // Skip if disabled
         int port = cfg.getLdapPort();
-        Service service = new Service( "ldap", TransportType.SOCKET, new InetSocketAddress( port ) );
+        if( port < 0 )
+        {
+            return;
+        }
+        
+        Service service = new Service( "LDAP", TransportType.SOCKET, new InetSocketAddress( port ) );
+        startLDAP0( cfg, env, service, new DefaultIoFilterChainBuilder() );
+    }
 
+    /**
+     * Starts up the LDAPS protocol provider to service LDAPS requests
+     *
+     * @throws NamingException if there are problems starting the LDAPS provider
+     */
+    private void startLDAPS( ServerStartupConfiguration cfg, Hashtable env ) throws NamingException
+    {
+        // Skip if disabled
+        if( !cfg.isEnableLdaps() )
+        {
+            return;
+        }
+
+        // We use the reflection API in case this is not running on JDK 1.5+.
+        IoFilterChainBuilder chain;
+        try
+        {
+            chain = ( IoFilterChainBuilder ) Class.forName(
+                    "org.apache.ldap.server.jndi.ssl.LdapsInitializer",
+                    true,
+                    ServerContextFactory.class.getClassLoader() ).getMethod(
+                            "init", new Class[] { ServerStartupConfiguration.class } ).invoke(
+                                    null, new Object[] { cfg } );
+        }
+        catch( InvocationTargetException e )
+        {
+            if( e.getCause() instanceof NamingException )
+            {
+                throw ( NamingException ) e.getCause();
+            }
+            else
+            {
+                throw ( NamingException ) new NamingException(
+                        "Failed to load LDAPS initializer." ).initCause( e.getCause() );
+            }
+        }
+        catch( Exception e )
+        {
+            throw ( NamingException ) new NamingException(
+                    "Failed to load LDAPS initializer." ).initCause( e );
+        }
+
+        Service service = new Service( "LDAPS", TransportType.SOCKET, new InetSocketAddress( cfg.getLdapsPort() ) );
+        startLDAP0( cfg, env, service, chain );
+    }
+
+    private void startLDAP0( ServerStartupConfiguration cfg, Hashtable env, Service service, IoFilterChainBuilder chainBuilder )
+            throws LdapNamingException, LdapConfigurationException
+    {
         // Register all extended operation handlers.
         LdapProtocolProvider protocolProvider = new LdapProtocolProvider( ( Hashtable ) env.clone() );
         
@@ -376,21 +411,71 @@ public class ServerContextFactory extends CoreContextFactory
         
         try
         {
-            minaRegistry.bind( service, protocolProvider.getHandler() );
+            minaRegistry.bind( service, protocolProvider.getHandler(), chainBuilder );
             ldapService = service;
             
             if ( log.isInfoEnabled() )
             {
-                log.info( "Successful bind of LDAP Service completed: " + ldapService );
+                log.info( "Successful bind of " + service.getName() + " Service completed: " + ldapService );
             }
         }
         catch ( IOException e )
         {
-            String msg = "Failed to bind the LDAP protocol service to the service registry: " + service;
+            String msg = "Failed to bind the " + service.getName() + " protocol service to the service registry: " + service;
             LdapConfigurationException lce = new LdapConfigurationException( msg );
             lce.setRootCause( e );
             log.error( msg, e );
             throw lce;
+        }
+    }
+
+
+    private void startKerberos(ServerStartupConfiguration cfg, Hashtable env) {
+        if ( cfg.isEnableKerberos() )
+        {
+            try
+            {
+                KdcConfiguration kdcConfiguration = new KdcConfiguration( env, LoadStrategy.PROPS );
+                PrincipalStore kdcStore = new JndiPrincipalStoreImpl( kdcConfiguration, this );
+                kdcServer = new KerberosServer( kdcConfiguration, minaRegistry, kdcStore );
+            }
+            catch ( Throwable t )
+            {
+                log.error( "Failed to start the Kerberos service", t );
+            }
+        }
+    }
+
+
+    private void startChangePassword(ServerStartupConfiguration cfg, Hashtable env) {
+        if ( cfg.isEnableChangePassword() )
+        {
+            try
+            {
+                ChangePasswordConfiguration changePasswordConfiguration = new ChangePasswordConfiguration( env, LoadStrategy.PROPS );
+                PrincipalStore store = new JndiPrincipalStoreImpl( changePasswordConfiguration, this );
+                changePasswordServer = new ChangePasswordServer( changePasswordConfiguration, minaRegistry, store );
+            }
+            catch ( Throwable t )
+            {
+                log.error( "Failed to start the Change Password service", t );
+            }
+        }
+    }
+
+
+    private void startNTP(ServerStartupConfiguration cfg, Hashtable env) {
+        if ( cfg.isEnableNtp() )
+        {
+            try
+            {
+                NtpConfiguration ntpConfig = new NtpConfiguration( env, LoadStrategy.PROPS );
+                ntpServer = new NtpServer( ntpConfig, minaRegistry );
+            }
+            catch ( Throwable t )
+            {
+                log.error( "Failed to start the NTP service", t );
+            }
         }
     }
 }

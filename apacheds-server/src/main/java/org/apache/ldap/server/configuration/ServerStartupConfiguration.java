@@ -44,6 +44,12 @@ public class ServerStartupConfiguration extends StartupConfiguration
     private ServiceRegistry minaServiceRegistry = new SimpleServiceRegistry();
     private int ldapPort = 389;
     private int ldapsPort = 636;
+    private File ldapsCertificateFile = new File(
+            this.getWorkingDirectory().getPath() + File.separator +
+            "certificates" + File.separator +
+            "server.cert" );
+    private String ldapsCertificatePassword = "changeit";
+    private boolean enableLdaps = false;
     private boolean enableKerberos = false;
     private boolean enableChangePassword = false;
     private boolean enableNtp = false;
@@ -151,6 +157,69 @@ public class ServerStartupConfiguration extends StartupConfiguration
     {
         ConfigurationUtil.validatePortNumber( ldapsPort );
         this.ldapsPort = ldapsPort;
+    }
+    
+    /**
+     * Returns <tt>true</tt> if LDAPS is enabled.
+     */
+    public boolean isEnableLdaps()
+    {
+        return enableLdaps;
+    }
+
+    /**
+     * Sets if LDAPS is enabled or not.
+     */
+    protected void setEnableLdaps( boolean enableLdaps )
+    {
+        this.enableLdaps = enableLdaps;
+    }
+    
+    /**
+     * Returns the path of the X509 (or JKS) certificate file for LDAPS.
+     * The default value is <tt>"&lt;WORKDIR&gt;/certificates/server.cert"</tt>. 
+     * @return
+     */
+    public File getLdapsCertificateFile()
+    {
+        return ldapsCertificateFile;
+    }
+    
+    /**
+     * Sets the path of the SunX509 certificate file (either PKCS12 or JKS format)
+     * for LDAPS.
+     */
+    protected void setLdapsCertificateFile( File ldapsCertificateFile )
+    {
+        if( ldapsCertificateFile == null )
+        {
+            throw new ConfigurationException( "LdapsCertificateFile cannot be null." );
+        }
+        this.ldapsCertificateFile = ldapsCertificateFile;
+    }
+    
+    /**
+     * Returns the password which is used to load the the SunX509 certificate file
+     * (either PKCS12 or JKS format).
+     * The default value is <tt>"changeit"</tt>.  This is the same value with what
+     * <a href="http://jakarta.apache.org/tomcat/">Apache Jakarta Tomcat</a> uses by
+     * default.
+     */
+    public String getLdapsCertificatePassword()
+    {
+        return ldapsCertificatePassword;
+    }
+    
+    /**
+     * Sets the password which is used to load the LDAPS certificate file.
+     */
+    protected void setLdapsCertificatePassword( String ldapsCertificatePassword )
+    {
+        if( ldapsCertificatePassword == null )
+        {
+            throw new ConfigurationException( "LdapsCertificatePassword cannot be null." );
+        }
+        this.ldapsCertificatePassword = ldapsCertificatePassword;
     }
 
     /**
