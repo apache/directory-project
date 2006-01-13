@@ -125,4 +125,19 @@ public class MutableServerStartupConfiguration extends
     {
         super.setLdifFilters( ldifFilters );
     }
+
+    public void setEnableLdaps( boolean enableLdaps )
+    {
+        super.setEnableLdaps( enableLdaps );
+    }
+
+    public void setLdapsCertificateFile( File ldapsCertificateFile )
+    {
+        super.setLdapsCertificateFile( ldapsCertificateFile );
+    }
+
+    public void setLdapsCertificatePassword( String ldapsCertificatePassword )
+    {
+        super.setLdapsCertificatePassword( ldapsCertificatePassword );
+    }
 }
