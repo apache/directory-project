@@ -29,7 +29,6 @@ import javax.naming.ldap.LdapContext;
 import org.apache.ldap.common.NotImplementedException;
 import org.apache.ldap.server.DirectoryService;
 import org.apache.ldap.server.authn.LdapPrincipal;
-import org.apache.ldap.server.partition.DirectoryPartitionNexus;
 
 
 /**
@@ -68,9 +67,9 @@ public class ServerLdapContext extends ServerDirContext implements LdapContext
      * @param env the environment properties used by this context
      * @param dn the distinguished name of this context
      */
-    ServerLdapContext( LdapPrincipal principal, DirectoryPartitionNexus nexusProxy, Hashtable env, Name dn )
+    ServerLdapContext( DirectoryService service, LdapPrincipal principal, Name dn )
     {
-        super( principal, nexusProxy, env, dn );
+        super( service, principal, dn );
     }
 
 
@@ -91,8 +90,7 @@ public class ServerLdapContext extends ServerDirContext implements LdapContext
     public LdapContext newInstance( Control[] requestControls )
         throws NamingException
     {
-        ServerLdapContext ctx = new ServerLdapContext( getPrincipal(), getNexusProxy(),
-                getEnvironment(), getDn() );
+        ServerLdapContext ctx = new ServerLdapContext( getService(), getPrincipal(), getDn() );
         ctx.setRequestControls( requestControls );
         return ctx;
     }

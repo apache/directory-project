@@ -69,6 +69,9 @@ public abstract class ServerContext implements EventContext
     /** property key used for deleting the old RDN on a rename */
     public static final String DELETE_OLD_RDN_PROP = "java.naming.ldap.deleteRDN";
 
+    /** The directory service which owns this context **/
+    private final DirectoryService service;
+    
     /** The interceptor proxy to the backend nexus */
     private final DirectoryPartitionNexus nexusProxy;
 
@@ -105,6 +108,8 @@ public abstract class ServerContext implements EventContext
      */
     protected ServerContext( DirectoryService service, Hashtable env ) throws NamingException
     {
+        this.service = service;
+        
         // set references to cloned env and the proxy
         this.nexusProxy = new DirectoryPartitionNexusProxy( this, service );
         
@@ -154,12 +159,13 @@ public abstract class ServerContext implements EventContext
      * @param env the environment properties used by this context
      * @param dn the distinguished name of this context
      */
-    protected ServerContext( LdapPrincipal principal, DirectoryPartitionNexus nexusProxy, Hashtable env, Name dn )
+    protected ServerContext( DirectoryService service, LdapPrincipal principal, Name dn )
     {
+        this.service = service;
         this.dn = ( LdapName ) dn.clone();
-        this.env = ( Hashtable ) env.clone();
+        this.env = ( Hashtable ) service.getConfiguration().getEnvironment();
         this.env.put( PROVIDER_URL, dn.toString() );
-        this.nexusProxy = nexusProxy;
+        this.nexusProxy = new DirectoryPartitionNexusProxy( this, service );;
         this.principal = principal;
     }
 
@@ -168,6 +174,13 @@ public abstract class ServerContext implements EventContext
     // New Impl Specific Public Methods
     // ------------------------------------------------------------------------
 
+    /**
+     * Returns the {@link DirectoryService} which manages this context.
+     */
+    public DirectoryService getService()
+    {
+        return service;
+    }
 
     /**
      * Gets the principal of the authenticated user which also happens to own
@@ -298,9 +311,19 @@ public abstract class ServerContext implements EventContext
         attributes.put( rdnAttribute, rdnValue );
         attributes.put( JavaLdapSupport.OBJECTCLASS_ATTR, JavaLdapSupport.JCONTAINER_ATTR );
         attributes.put( JavaLdapSupport.OBJECTCLASS_ATTR, JavaLdapSupport.TOP_ATTR );
-
+        
+        /*
+         * Add the new context to the server which as a side effect adds 
+         * operational attributes to the attributes refering instance which
+         * can them be used to initialize a new ServerLdapContext.  Remember
+         * we need to copy over the controls as well to propagate the complete 
+         * environment besides whats in the hashtable for env.
+         */
         nexusProxy.add( target.toString(), target, attributes );
-        return new ServerLdapContext( principal, nexusProxy, env, target );
+        ServerLdapContext ctx = new ServerLdapContext( service, principal, target );
+        Control [] controls = ( Control [] ) ( ( ServerLdapContext ) this ).getRequestControls().clone();
+        ctx.setRequestControls( controls );
+        return ctx;
     }
 
 
@@ -519,14 +542,14 @@ public abstract class ServerContext implements EventContext
      */
     public Object lookup( String name ) throws NamingException
     {
-    	if ( StringTools.isEmpty( name ) )
-    	{
-    		return lookup( LdapName.EMPTY_LDAP_NAME );
-    	}
-    	else
-    	{
-    		return lookup( new LdapName( name ) );
-    	}
+        if ( StringTools.isEmpty( name ) )
+        {
+            return lookup( LdapName.EMPTY_LDAP_NAME );
+        }
+        else
+        {
+            return lookup( new LdapName( name ) );
+        }
     }
 
 
@@ -565,7 +588,7 @@ public abstract class ServerContext implements EventContext
         }
         
         // Initialize and return a context since the entry is not a java object
-        ServerLdapContext ctx = new ServerLdapContext( principal, nexusProxy, env, target );
+        ServerLdapContext ctx = new ServerLdapContext( service, principal, target );
             
         // Need to add controls to propagate extended ldap operational env
         Control [] controls = ( ( ServerLdapContext ) this ).getRequestControls();
