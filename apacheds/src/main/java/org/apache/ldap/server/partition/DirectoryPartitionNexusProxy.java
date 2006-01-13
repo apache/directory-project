@@ -91,6 +91,7 @@ public class DirectoryPartitionNexusProxy extends DirectoryPartitionNexus
         c.add( "schemaService" );
         c.add( "subentryService" );
         c.add( "operationalAttributeService" );
+        c.add( "referralService" );
         c.add( "eventService" );
         LOOKUP_BYPASS = Collections.unmodifiableCollection( c );
 
@@ -101,6 +102,7 @@ public class DirectoryPartitionNexusProxy extends DirectoryPartitionNexus
         c.add( "schemaService" );
         c.add( "subentryService" );
         c.add( "operationalAttributeService" );
+        c.add( "referralService" );
         c.add( "eventService" );
         GETMATCHEDDN_BYPASS = Collections.unmodifiableCollection( c );
     }

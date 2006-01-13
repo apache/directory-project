@@ -36,6 +36,7 @@ import org.apache.ldap.server.authz.AuthorizationService;
 import org.apache.ldap.server.exception.ExceptionService;
 import org.apache.ldap.server.normalization.NormalizationService;
 import org.apache.ldap.server.operational.OperationalAttributeService;
+import org.apache.ldap.server.referral.ReferralService;
 import org.apache.ldap.server.schema.SchemaService;
 import org.apache.ldap.server.schema.bootstrap.*;
 import org.apache.ldap.server.subtree.SubentryService;
@@ -159,6 +160,11 @@ public class StartupConfiguration extends Configuration
         interceptorCfg = new MutableInterceptorConfiguration();
         interceptorCfg.setName( "schemaService" );
         interceptorCfg.setInterceptor( new SchemaService() );
+        list.add( interceptorCfg );
+
+        interceptorCfg = new MutableInterceptorConfiguration();
+        interceptorCfg.setName( "referralService" );
+        interceptorCfg.setInterceptor( new ReferralService() );
         list.add( interceptorCfg );
         
         interceptorCfg = new MutableInterceptorConfiguration();

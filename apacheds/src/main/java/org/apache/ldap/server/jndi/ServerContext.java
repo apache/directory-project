@@ -298,19 +298,9 @@ public abstract class ServerContext implements EventContext
         attributes.put( rdnAttribute, rdnValue );
         attributes.put( JavaLdapSupport.OBJECTCLASS_ATTR, JavaLdapSupport.JCONTAINER_ATTR );
         attributes.put( JavaLdapSupport.OBJECTCLASS_ATTR, JavaLdapSupport.TOP_ATTR );
-        
-        /*
-         * Add the new context to the server which as a side effect adds 
-         * operational attributes to the attributes refering instance which
-         * can them be used to initialize a new ServerLdapContext.  Remember
-         * we need to copy over the controls as well to propagate the complete 
-         * environment besides whats in the hashtable for env.
-         */
+
         nexusProxy.add( target.toString(), target, attributes );
-        ServerLdapContext ctx = new ServerLdapContext( principal, nexusProxy, env, target );
-        Control [] controls = ( Control [] ) ( ( ServerLdapContext ) this ).getRequestControls().clone();
-        ctx.setRequestControls( controls );
-        return ctx;
+        return new ServerLdapContext( principal, nexusProxy, env, target );
     }
 
 

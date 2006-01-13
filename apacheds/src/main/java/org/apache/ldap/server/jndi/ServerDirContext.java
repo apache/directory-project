@@ -35,7 +35,6 @@ import javax.naming.directory.ModificationItem;
 import javax.naming.directory.SearchControls;
 import javax.naming.event.EventDirContext;
 import javax.naming.event.NamingListener;
-import javax.naming.ldap.Control;
 import javax.naming.spi.DirStateFactory;
 import javax.naming.spi.DirectoryManager;
 
@@ -350,24 +349,9 @@ public abstract class ServerDirContext extends ServerContext implements EventDir
             attributes.put( rdnAttribute, rdnValue );
         }
 
-        // Add the new context to the server which as a side effect adds
+        // Add the new entry to the server and return the new context
         getNexusProxy().add( target.toString(), target, attributes );
-
-        // Initialize the new context
-        ServerLdapContext ctx = new ServerLdapContext( getPrincipal(), getNexusProxy(), getEnvironment(), target );
-        Control [] controls = ( ( ServerLdapContext ) this ).getRequestControls();
-
-        if ( controls != null )
-        {
-        	controls = ( Control[] ) controls.clone();
-        }
-        else
-        {
-        	controls = new Control[0];
-        }
-
-        ctx.setRequestControls( controls );
-        return ctx;
+        return new ServerLdapContext( getPrincipal(), getNexusProxy(), getEnvironment(), target );
     }
 
 
