@@ -153,6 +153,11 @@ public class StartupConfiguration extends Configuration
         list.add( interceptorCfg );
 
         interceptorCfg = new MutableInterceptorConfiguration();
+        interceptorCfg.setName( "referralService" );
+        interceptorCfg.setInterceptor( new ReferralService() );
+        list.add( interceptorCfg );
+
+        interceptorCfg = new MutableInterceptorConfiguration();
         interceptorCfg.setName( "exceptionService" );
         interceptorCfg.setInterceptor( new ExceptionService() );
         list.add( interceptorCfg );
@@ -160,11 +165,6 @@ public class StartupConfiguration extends Configuration
         interceptorCfg = new MutableInterceptorConfiguration();
         interceptorCfg.setName( "schemaService" );
         interceptorCfg.setInterceptor( new SchemaService() );
-        list.add( interceptorCfg );
-
-        interceptorCfg = new MutableInterceptorConfiguration();
-        interceptorCfg.setName( "referralService" );
-        interceptorCfg.setInterceptor( new ReferralService() );
         list.add( interceptorCfg );
         
         interceptorCfg = new MutableInterceptorConfiguration();

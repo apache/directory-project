@@ -223,7 +223,16 @@ public class ReferralService extends BaseInterceptor
                 if ( urlDn.equals( farthest ) )
                 {
                     // according to the protocol there is no need for the dn since it is the same as this request
-                    list.add( ldapUrl.getScheme() + "://" + ldapUrl.getHost() );
+                    StringBuffer buf = new StringBuffer();
+                    buf.append( ldapUrl.getScheme() );
+                    buf.append( ldapUrl.getHost() );
+                    if ( ldapUrl.getPort() > 0 )
+                    {
+                        buf.append( ":" );
+                        buf.append( ldapUrl.getPort() );
+                    }
+                    
+                    list.add( buf.toString() );
                     continue;
                 }
                 
@@ -241,9 +250,22 @@ public class ReferralService extends BaseInterceptor
                 }
 
                 urlDn.addAll( extra );
-                list.add( ldapUrl.getScheme() + "://" + ldapUrl.getHost() + "/" + urlDn );
+                
+                
+                
+                StringBuffer buf = new StringBuffer();
+                buf.append( ldapUrl.getScheme() );
+                buf.append( ldapUrl.getHost() );
+                if ( ldapUrl.getPort() > 0 )
+                {
+                    buf.append( ":" );
+                    buf.append( ldapUrl.getPort() );
+                }
+                buf.append( "/" );
+                buf.append( urlDn );
+                list.add( buf.toString() );
             }
-            LdapReferralException lre = new LdapReferralException( getRefs( referral ) );
+            LdapReferralException lre = new LdapReferralException( list );
             throw lre;
         }
         else if ( refval.equals( FOLLOW ) )
@@ -255,18 +277,6 @@ public class ReferralService extends BaseInterceptor
             throw new LdapNamingException( "Undefined value for " + Context.REFERRAL  + " key: " 
                 + refval, ResultCodeEnum.OTHER );
         }
-    }
-
-    
-    static List getRefs( Attributes referral ) throws NamingException
-    {
-        Attribute ref = referral.get( REF_ATTR );
-        List list = new ArrayList( ref.size() );
-        for ( int ii = 0; ii < ref.size(); ii++ )
-        {
-            list.add( ref.get( ii ) );
-        }
-        return list;
     }
     
     
