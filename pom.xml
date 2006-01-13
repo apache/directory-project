@@ -9,7 +9,9 @@
   <modules>
     <module>asn1</module>
     <module>mina</module>
+    <!-- 
     <module>apacheds</module>
+    -->
     <module>common</module>
   </modules>
   <dependencies>
@@ -54,6 +56,16 @@
   </distributionManagement>
 
   <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.4</source>
+          <target>1.4</target>
+        </configuration>
+      </plugin>
+    </plugins>
     <extensions>
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
