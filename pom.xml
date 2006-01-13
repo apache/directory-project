@@ -8,17 +8,9 @@
   <packaging>pom</packaging>
   <modules>
     <module>asn1</module>
-    <module>mina-build</module>
+    <module>mina</module>
     <module>apacheds</module>
-    <module>protocol-common</module>
-    <module>kerberos-common</module>
-    <module>ldap-common</module>
-    <module>changepw-protocol</module>
-    <module>dhcp-protocol</module>
-    <module>dns-protocol</module>
-    <module>kerberos-protocol</module>
-    <module>ldap-protocol</module>
-    <module>ntp-protocol</module>
+    <module>common</module>
   </modules>
   <dependencies>
    <dependency>
@@ -29,15 +21,7 @@
     </dependency>
   </dependencies>
   <repositories>
-    <!-- For ibiblio standard: might want to add a mirror as well later            
-    <repository>
-      <id>ibiblio</id>
-      <name>Standard Ibiblio Repository</name>
-      <url>http://ibiblio.org/maven2</url>
-    </repository>
-    -->
- 
-    <!-- For our snapshots (do not upload release jars or non-apache jars here)    -->
+    <!-- For snapshots (no release jars or non-apache jars)           -->
     <repository>
       <id>apache.snapshots</id>
       <name>Apache Snapshot Repository</name>
