@@ -9,7 +9,7 @@
   <modules>
     <module>asn1</module>
     <module>mina-build</module>
-    <module>apacheds-build</module>
+    <module>apacheds</module>
     <module>protocol-common</module>
     <module>kerberos-common</module>
     <module>ldap-common</module>
