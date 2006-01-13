@@ -18,6 +18,7 @@ package org.apache.asn1.ber;
 
 
 import org.apache.asn1.codec.DecoderException;
+import org.apache.asn1.ber.grammar.IStates;
 import org.apache.asn1.ber.tlv.TLV;
 import org.apache.asn1.ber.tlv.TLVStateEnum;
 import org.apache.asn1.ber.tlv.Tag;
@@ -727,10 +728,26 @@ public class Asn1Decoder implements ITLVBerDecoderMBean
         container.getGrammar().executeAction( container );
 
         // Check if the PDU has been fully decoded.
-        if ( isTLVDecoded(container) )
+        if ( isTLVDecoded( container ) )
         {
-            // Change the state to DECODED
-            container.setState( TLVStateEnum.PDU_DECODED );
+        	if ( container.getState() == IStates.GRAMMAR_END )  
+        	{
+        		// Change the state to DECODED
+        		container.setState( TLVStateEnum.PDU_DECODED );
+        	}
+        	else
+        	{
+        		if ( container.isGrammarEndAllowed() )
+        		{
+            		// Change the state to DECODED
+            		container.setState( TLVStateEnum.PDU_DECODED );
+        		}
+        		else
+        		{
+        			log.error( "The PDU is decoded, but we should have had more TLVs" );
+        			throw new DecoderException( "Truncated PDU. Some elements are lacking, accordingly to the grammar" );
+        		}
+        	}
             
         }
         else
@@ -803,7 +820,7 @@ public class Asn1Decoder implements ITLVBerDecoderMBean
      * 
      * @throws DecoderException Thrown if anything went wrong!
      */
-    public void decode( ByteBuffer stream, IAsn1Container container ) throws org.apache.asn1.codec.DecoderException
+    public void decode( ByteBuffer stream, IAsn1Container container ) throws DecoderException
     {
 
         /* We have to deal with the current state. This is an
@@ -844,6 +861,8 @@ public class Asn1Decoder implements ITLVBerDecoderMBean
             {
 
                 case TLVStateEnum.TAG_STATE_START :
+                	// Reset the GrammarEnd flag first
+                	container.grammarEndAllowed( false );
                     hasRemaining = treatTagStartState( stream, container );
 
                     break;

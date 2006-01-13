@@ -133,4 +133,17 @@ public interface IAsn1Container
      * @param The new parent TLV 
      */
     public void setParentTLV( TLV parentTLV);
+    
+    /**
+     * Check that we can have a end state after this transition
+     * @return true if this can be the last transition
+     */
+    public boolean isGrammarEndAllowed();
+    
+    /**
+     * Set the flag to allow a end transition
+     * @param endAllowed true or false, depending on the next
+     * transition being an end or not.
+     */
+    public void grammarEndAllowed( boolean grammarEndAllowed );
 }

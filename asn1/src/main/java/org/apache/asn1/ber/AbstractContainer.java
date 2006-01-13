@@ -64,6 +64,9 @@ public class AbstractContainer implements IAsn1Container
 
     /** The parent TLV */
     protected TLV parentTLV;
+    
+    /** The grammar end transition flag */
+    protected boolean grammarEndAllowed;
 
     //~ Methods ------------------------------------------------------------------------------------
 
@@ -139,6 +142,25 @@ public class AbstractContainer implements IAsn1Container
     public void setState( int state )
     {
         this.state = state;
+    }
+
+    /**
+     * Check that we can have a end state after this transition
+     * @return true if this can be the last transition
+     */
+    public boolean isGrammarEndAllowed()
+    {
+    	return grammarEndAllowed;
+    }
+    
+    /**
+     * Set the flag to allow a end transition
+     * @param endAllowed true or false, depending on the next
+     * transition being an end or not.
+     */
+    public void grammarEndAllowed( boolean grammarEndAllowed )
+    {
+    	this.grammarEndAllowed = grammarEndAllowed;
     }
 
     /**
