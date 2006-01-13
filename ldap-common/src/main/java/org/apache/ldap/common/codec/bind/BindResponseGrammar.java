@@ -163,6 +163,9 @@ public class BindResponseGrammar extends AbstractGrammar implements IGrammar
                             bindResponseMessage.setServerSaslCreds( tlv.getValue().getData() );
                         }
                         
+                        // We can have an END transition
+                        ldapMessageContainer.grammarEndAllowed( true );
+                        
                         if ( log.isDebugEnabled() )
                         {
                             log.debug( "The SASL credentials value is : " + bindResponseMessage.getServerSaslCreds().toString() );

@@ -133,9 +133,12 @@ public class ExtendedRequestGrammar extends AbstractGrammar implements IGrammar
                             extendedRequest.setRequestName( new OID( tlv.getValue().getData() ) );
                         }
 
+                        // We can have an END transition
+                        ldapMessageContainer.grammarEndAllowed( true );
+
                         if ( log.isDebugEnabled() )
                         {
-                            log.debug( "OID read : " + extendedRequest.getRequestName() );
+                            log.debug( "OID read : {}", extendedRequest.getRequestName() );
                         }
                     }
                 } );
@@ -180,9 +183,12 @@ public class ExtendedRequestGrammar extends AbstractGrammar implements IGrammar
                             extendedRequest.setRequestValue(tlv.getValue().getData() );
                         }
 
+                        // We can have an END transition
+                        ldapMessageContainer.grammarEndAllowed( true );
+
                         if ( log.isDebugEnabled() )
                         {
-                            log.debug( "Extended value : " + extendedRequest.getRequestValue() );
+                            log.debug( "Extended value : {}", extendedRequest.getRequestValue() );
                         }
                     }
                 } );

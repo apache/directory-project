@@ -31,7 +31,6 @@ import org.apache.ldap.common.codec.LdapConstants;
 import org.apache.ldap.common.codec.LdapMessage;
 import org.apache.ldap.common.codec.LdapMessageContainer;
 import org.apache.ldap.common.codec.LdapStatesEnum;
-//import org.apache.ldap.common.name.LdapDN;
 import org.apache.ldap.common.name.LdapDN;
 import org.apache.ldap.common.util.StringTools;
 import org.slf4j.Logger;
@@ -131,6 +130,9 @@ public class DelRequestGrammar extends AbstractGrammar implements IGrammar
 
                         // then we associate it to the ldapMessage Object
                         ldapMessage.setProtocolOP( delRequest );
+                        
+                        // We can have an END transition
+                        ldapMessageContainer.grammarEndAllowed( true );
                         
                         if ( log.isDebugEnabled() )
                         {

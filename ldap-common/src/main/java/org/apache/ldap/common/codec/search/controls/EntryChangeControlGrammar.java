@@ -145,6 +145,9 @@ public class EntryChangeControlGrammar extends AbstractGrammar implements IGramm
 	                		log.error( msg );
 	                    	throw new DecoderException( msg );
                 	}
+
+                    // We can have an END transition
+                    entryChangeContainer.grammarEndAllowed( true );
                 }
                 catch ( IntegerDecoderException e )
                 {
@@ -219,6 +222,9 @@ public class EntryChangeControlGrammar extends AbstractGrammar implements IGramm
 	                }
 	                
 	                entryChangeContainer.getEntryChangeControl().setPreviousDn( previousDn );
+
+	                // We can have an END transition
+                    entryChangeContainer.grammarEndAllowed( true );
                 }
             }
         };
@@ -282,6 +288,9 @@ public class EntryChangeControlGrammar extends AbstractGrammar implements IGramm
                     }
                     
                     entryChangeContainer.getEntryChangeControl().setChangeNumber( changeNumber );
+
+                    // We can have an END transition
+                    entryChangeContainer.grammarEndAllowed( true );
                 }
                 catch ( IntegerDecoderException e )
                 {

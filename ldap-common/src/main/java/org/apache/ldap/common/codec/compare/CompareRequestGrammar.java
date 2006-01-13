@@ -34,7 +34,6 @@ import org.apache.ldap.common.codec.LdapMessageContainer;
 import org.apache.ldap.common.codec.LdapStatesEnum;
 import org.apache.ldap.common.codec.util.LdapString;
 import org.apache.ldap.common.codec.util.LdapStringEncodingException;
-//import org.apache.ldap.common.name.LdapDN;
 import org.apache.ldap.common.name.LdapDN;
 import org.apache.ldap.common.util.StringTools;
 import org.slf4j.Logger;
@@ -298,7 +297,10 @@ public class CompareRequestGrammar extends AbstractGrammar implements IGrammar
                                 }
                             }
                         }
-                   }
+
+                        // We can have an END transition
+                        ldapMessageContainer.grammarEndAllowed( true );
+                    }
                 } );
     }
 

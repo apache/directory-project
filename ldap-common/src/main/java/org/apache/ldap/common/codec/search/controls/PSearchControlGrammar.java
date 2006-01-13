@@ -171,6 +171,9 @@ public class PSearchControlGrammar extends AbstractGrammar implements IGrammar
                             }
                             
                             psearchContainer.getPSearchControl().setReturnECs( returnECs );
+
+                            // We can have an END transition
+                            psearchContainer.grammarEndAllowed( true );
                         }
                         catch ( BooleanDecoderException e )
                         {

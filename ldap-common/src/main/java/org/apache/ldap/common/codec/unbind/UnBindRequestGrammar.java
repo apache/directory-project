@@ -116,6 +116,9 @@ public class UnBindRequestGrammar extends AbstractGrammar implements IGrammar
 
                         unBindRequest.setParent( ldapMessage );
 
+                        // We can have an END transition
+                        ldapMessageContainer.grammarEndAllowed( true );
+                        
                         // And we associate it to the ldapMessage Object
                         ldapMessage.setProtocolOP( unBindRequest );
                     }

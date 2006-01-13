@@ -90,6 +90,9 @@ public class ControlValueAction extends GrammarAction
             control.setControlValue( decoded );
         }
         
+        // We can have an END transition
+        ldapMessageContainer.grammarEndAllowed( true );
+        
         if ( log.isDebugEnabled() )
         {
             if ( control.getControlValue() instanceof byte[] )

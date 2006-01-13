@@ -481,6 +481,9 @@ public class ModifyRequestGrammar extends AbstractGrammar implements IGrammar
 					        }
                         }
                         
+                        // We can have an END transition
+                        ldapMessageContainer.grammarEndAllowed( true );
+                        
                         if ( log.isDebugEnabled() )
                         {
                             log.debug( "Value modified : " + value );

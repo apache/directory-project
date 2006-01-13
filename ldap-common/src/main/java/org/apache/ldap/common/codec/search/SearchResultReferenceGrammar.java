@@ -143,15 +143,15 @@ public class SearchResultReferenceGrammar extends AbstractGrammar implements IGr
                             catch ( LdapURLEncodingException luee )
                             {
                                 String badUrl = new String( tlv.getValue().getData() );
-                                log.error( "The URL " + badUrl + " is not valid : " + luee.getMessage() );
+                                log.error( "The URL {} is not valid : {}", badUrl, luee.getMessage() );
                                 throw new DecoderException( "Invalid URL : " + luee.getMessage() );
                             }
                         }
                         
-                        if ( log.isDebugEnabled() )
-                        {
-                            log.debug( "Search reference URL found : " + url );
-                        }
+                        log.debug( "Search reference URL found : {}", url );
+                        
+                        // We can have an END transition
+                        ldapMessageContainer.grammarEndAllowed( true );
                         
                         return;
                     }

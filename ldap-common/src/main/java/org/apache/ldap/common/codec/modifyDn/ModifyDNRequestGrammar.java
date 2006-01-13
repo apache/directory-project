@@ -298,6 +298,9 @@ public class ModifyDNRequestGrammar extends AbstractGrammar implements IGrammar
                             throw new DecoderException( bde.getMessage() );
                         }
 
+                        // We can have an END transition
+                        ldapMessageContainer.grammarEndAllowed( true );
+                        
                         if ( log.isDebugEnabled() )
                         {
                             if ( modifyDNRequest.isDeleteOldRDN() )
@@ -388,6 +391,9 @@ public class ModifyDNRequestGrammar extends AbstractGrammar implements IGrammar
                             modifyDNRequest.setNewSuperior( newSuperior );
                         }
 
+                        // We can have an END transition
+                        ldapMessageContainer.grammarEndAllowed( true );
+                        
                         if ( log.isDebugEnabled() )
                         {
                             log.debug( "New superior DN " + newSuperior );

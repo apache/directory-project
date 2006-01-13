@@ -117,6 +117,7 @@ public class AbandonRequestGrammar extends AbstractGrammar implements IGrammar
                                 log.debug( "AbandonMessage Id has been decoded : " + abandonnedMessageId );
                             }
 
+                            ldapMessageContainer.grammarEndAllowed( true );
                             return;
                         }
                         catch ( IntegerDecoderException ide )

@@ -70,8 +70,13 @@ public class LdapMessageGrammar extends AbstractGrammar implements IGrammar
         // LDAPMessage --> SEQUENCE { ... (Tag)
         // We have a LDAPMessage, and the tag must be 0x30
         super.transitions[LdapStatesEnum.LDAP_MESSAGE_TAG][UniversalTag.SEQUENCE_TAG] = new GrammarTransition(
-                LdapStatesEnum.LDAP_MESSAGE_TAG, LdapStatesEnum.LDAP_MESSAGE_VALUE,
-                new GrammarAction( "LdapMessage Tag" )
+                LdapStatesEnum.LDAP_MESSAGE_TAG, LdapStatesEnum.LDAP_MESSAGE_VALUE, null );
+
+         // LDAPMessage --> SEQUENCE { ... (Value)
+        // Nothing to do, it's a constructed TLV. It's just a phantom transition ...
+        super.transitions[LdapStatesEnum.LDAP_MESSAGE_VALUE][UniversalTag.SEQUENCE_TAG] = new GrammarTransition(
+                LdapStatesEnum.LDAP_MESSAGE_VALUE, LdapStatesEnum.LDAP_MESSAGE_ID_TAG, 
+                new GrammarAction( "LdapMessage initialization" )
                 {
                     public void action( IAsn1Container container ) throws DecoderException
                     {
@@ -79,20 +84,25 @@ public class LdapMessageGrammar extends AbstractGrammar implements IGrammar
                         LdapMessageContainer ldapMessageContainer = ( LdapMessageContainer )
                             container;
 
+                        TLV   tlv       = ldapMessageContainer.getCurrentTLV();
+
+                        // The Length should not be null
+                        if ( tlv.getLength().getLength() == 0 )
+                        {
+                        	log.error( "The LdapMessage has a zero length. This is not allowed" );
+                        	throw new DecoderException( "The LdapMessage should not be empty" );
+                        }
+
                         // First, create a empty LdapMessage Object
                         LdapMessage ldapMessage = new LdapMessage();
 
                         // Then stores it into the container
                         ldapMessageContainer.setLdapMessage( ldapMessage );
+                        ldapMessageContainer.grammarEndAllowed( false );
 
                         return;
                     }
                 } );
-
-         // LDAPMessage --> SEQUENCE { ... (Value)
-        // Nothing to do, it's a constructed TLV. It's just a phantom transition ...
-        super.transitions[LdapStatesEnum.LDAP_MESSAGE_VALUE][UniversalTag.SEQUENCE_TAG] = new GrammarTransition(
-                LdapStatesEnum.LDAP_MESSAGE_VALUE, LdapStatesEnum.LDAP_MESSAGE_ID_TAG, null );
 
         //--------------------------------------------------------------------------------------------
         // LdapMessage Message ID
@@ -120,6 +130,13 @@ public class LdapMessageGrammar extends AbstractGrammar implements IGrammar
                         // The current TLV should be a integer
                         // We get it and store it in MessageId
                         TLV   tlv       = ldapMessageContainer.getCurrentTLV();
+                        
+                        // The Length should not be null
+                        if ( tlv.getLength().getLength() == 0 )
+                        {
+                        	log.error( "The messageId has a zero length. This is not allowed" );
+                        	throw new DecoderException( "The messageId should not be null" );
+                        }
 
                         Value value     = tlv.getValue();
 

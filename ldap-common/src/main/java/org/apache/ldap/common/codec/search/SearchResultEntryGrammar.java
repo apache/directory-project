@@ -34,7 +34,6 @@ import org.apache.ldap.common.codec.LdapMessageContainer;
 import org.apache.ldap.common.codec.LdapStatesEnum;
 import org.apache.ldap.common.codec.util.LdapString;
 import org.apache.ldap.common.codec.util.LdapStringEncodingException;
-//import org.apache.ldap.common.name.LdapDN;
 import org.apache.ldap.common.name.LdapDN;
 import org.apache.ldap.common.util.StringTools;
 import org.slf4j.Logger;
@@ -161,13 +160,13 @@ public class SearchResultEntryGrammar extends AbstractGrammar implements IGramma
                             catch ( InvalidNameException ine )
                             {
                             	String msg = "The DN " + StringTools.dumpBytes( tlv.getValue().getData() ) + "is invalid : " + ine.getMessage(); 
-                                log.error( msg + " : " + ine.getMessage());
+                                log.error( "{} : {}", msg, ine.getMessage());
                                 throw new DecoderException( msg, ine );
                             }
                             catch ( NamingException ne )
                             {
                             	String msg = "The DN " + StringTools.dumpBytes( tlv.getValue().getData() ) + "is invalid : " + ne.getMessage();
-                                log.error( msg + " : " + ne.getMessage() );
+                                log.error( "{} : {}", msg, ne.getMessage() );
                                 throw new DecoderException( msg, ne );
                             }
 
@@ -176,7 +175,7 @@ public class SearchResultEntryGrammar extends AbstractGrammar implements IGramma
 
                         if ( log.isDebugEnabled() )
                         {
-                            log.debug( "Search Result Entry DN found : " + searchResultEntry.getObjectName() );
+                            log.debug( "Search Result Entry DN found : {}", searchResultEntry.getObjectName() );
                         }
                     }
                 } );
@@ -239,6 +238,10 @@ public class SearchResultEntryGrammar extends AbstractGrammar implements IGramma
                             ldapMessage.getSearchResultEntry();
 
                         searchResultEntry.addPartialAttributeList();
+
+                        // The length could be null, so
+                        // we can have an END transition
+                        ldapMessageContainer.grammarEndAllowed( true );
                     }
                 } );
 
@@ -290,15 +293,12 @@ public class SearchResultEntryGrammar extends AbstractGrammar implements IGramma
                             }
                             catch ( LdapStringEncodingException lsee )
                             {
-                                log.error( "Invalid attribute type : " + StringTools.dumpBytes( tlv.getValue().getData() ) );
+                                log.error( "Invalid attribute type : {}", StringTools.dumpBytes( tlv.getValue().getData() ) );
                                 throw new DecoderException( "The attribute type is invalid : " + lsee.getMessage() );
                             }
                         }
                         
-                        if ( log.isDebugEnabled() )
-                        {
-                            log.debug( "Attribute type : " + type );
-                        }
+                        log.debug( "Attribute type : {}", type );
                     }
                 } );
 
@@ -367,6 +367,8 @@ public class SearchResultEntryGrammar extends AbstractGrammar implements IGramma
                         if ( tlv.getLength().getLength() == 0 )
                         {
                             searchResultEntry.addAttributeValue( "" );
+
+                            log.debug( "The attribute value is null" );
                         }
                         else
                         {
@@ -376,21 +378,21 @@ public class SearchResultEntryGrammar extends AbstractGrammar implements IGramma
                                 
                                 if ( log.isDebugEnabled() )
                                 {
-                                    log.debug( "Attribute value " + StringTools.dumpBytes( (byte[])value ) );
+                                    log.debug( "Attribute value {}", StringTools.dumpBytes( (byte[])value ) );
                                 }
                             }
                             else
                             {
                                 value = StringTools.utf8ToString( tlv.getValue().getData() );
 
-                                if ( log.isDebugEnabled() )
-                                {
-                                    log.debug( "Attribute value " + value );
-                                }
+                                log.debug( "Attribute value {}", value );
                             }
 
                             searchResultEntry.addAttributeValue( value );
                         }
+
+                        // We can have an END transition
+                        ldapMessageContainer.grammarEndAllowed( true );
                     }
                 } );
 

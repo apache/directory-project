@@ -144,9 +144,12 @@ public class ExtendedResponseGrammar extends AbstractGrammar implements IGrammar
 			                    extendedResponse.setResponseName( new OID( tlv.getValue().getData() ) );
 			                }
                             
-                            if ( log.isDebugEnabled() )
+	                        // We can have an END transition
+	                        ldapMessageContainer.grammarEndAllowed( true );
+
+	                        if ( log.isDebugEnabled() )
                             {
-                                log.debug( "OID read : " + extendedResponse.getResponseName() );
+                                log.debug( "OID read : {}", extendedResponse.getResponseName() );
                             }
 			            }
 			        } );
@@ -191,9 +194,12 @@ public class ExtendedResponseGrammar extends AbstractGrammar implements IGrammar
                             extendedResponse.setResponse( tlv.getValue().getData() );
                         }
                         
+                        // We can have an END transition
+                        ldapMessageContainer.grammarEndAllowed( true );
+
                         if ( log.isDebugEnabled() )
                         {
-                            log.debug( "Extended value : " + extendedResponse.getResponse() );
+                            log.debug( "Extended value : {}" + extendedResponse.getResponse() );
                         }
                     }
                 } );

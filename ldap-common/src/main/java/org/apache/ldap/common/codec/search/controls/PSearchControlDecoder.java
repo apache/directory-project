@@ -34,6 +34,7 @@ public class PSearchControlDecoder implements ControlDecoder
 {
     private final static String CONTROL_TYPE_OID = "2.16.840.1.113730.3.4.3";
     
+    private static final Asn1Decoder decoder = new Asn1Decoder();
     
     public String getControlType()
     {
@@ -43,9 +44,6 @@ public class PSearchControlDecoder implements ControlDecoder
 
     public Asn1Object decode(byte[] controlBytes) throws DecoderException
     {
-        // @todo if Asn1Decoder is reusable and thread safe the we should reuse it
-        // instead of creating a new one every time.
-        Asn1Decoder decoder = new Asn1Decoder();
         ByteBuffer bb = ByteBuffer.wrap( controlBytes );
         PSearchControlContainer container = new PSearchControlContainer();
         decoder.decode( bb, container );

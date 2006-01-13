@@ -163,10 +163,7 @@ public class SearchRequestGrammar extends AbstractGrammar implements IGrammar
                         
                         searchRequest.setBaseObject(baseObject);
 
-                        if ( log.isDebugEnabled() )
-                        {
-                            log.debug( "Searching with root DN : " + baseObject );
-                        }
+                        log.debug( "Searching with root DN : {}", baseObject );
                        
                         return;
                     }
@@ -218,7 +215,7 @@ public class SearchRequestGrammar extends AbstractGrammar implements IGrammar
                         }
                         catch ( IntegerDecoderException ide )
                         {
-                            log.error( "The scope is not in [0..2] : " + value.toString() );
+                            log.error( "The scope is not in [0..2] : {}", value.toString() );
                             throw new DecoderException( "The scope is not in [0..2] : " + value.toString() );
                         }
                         
@@ -294,7 +291,7 @@ public class SearchRequestGrammar extends AbstractGrammar implements IGrammar
                         }
                         catch ( IntegerDecoderException ide )
                         {
-                            log.error( "The derefAlias is not in [0..3] : " + value.toString() );
+                            log.error( "The derefAlias is not in [0..3] : {}", value.toString() );
                             throw new DecoderException( "The derefAlias is not in [0..3] : " + value.toString() );
                         }
                         
@@ -366,7 +363,7 @@ public class SearchRequestGrammar extends AbstractGrammar implements IGrammar
                         }
                         catch ( IntegerDecoderException ide )
                         {
-                            log.error( "The sizeLimit is not a valid Integer: " + value.toString() );
+                            log.error( "The sizeLimit is not a valid Integer: {}", value.toString() );
                             throw new DecoderException( "The sizeLimit is not a valid Integer: " + value.toString() );
                         }
 
@@ -374,7 +371,7 @@ public class SearchRequestGrammar extends AbstractGrammar implements IGrammar
 
                         if ( log.isDebugEnabled() )
                         {
-                            log.debug( "The sizeLimit value is set to " + sizeLimit + " objects" );
+                            log.debug( "The sizeLimit value is set to {} objects", new Integer( sizeLimit ) );
                         }
 
                         return;
@@ -423,7 +420,7 @@ public class SearchRequestGrammar extends AbstractGrammar implements IGrammar
                         }
                         catch ( IntegerDecoderException ide )
                         {
-                            log.error( "The timeLimit is not a valid Integer: " + value.toString() );
+                            log.error( "The timeLimit is not a valid Integer: {}", value.toString() );
                             throw new DecoderException( "The timeLimit is not a valid Integer: " + value.toString() );
                         }
                         
@@ -431,7 +428,7 @@ public class SearchRequestGrammar extends AbstractGrammar implements IGrammar
 
                         if ( log.isDebugEnabled() )
                         {
-                            log.debug( "The timeLimit value is set to " + timeLimit + " seconds" );
+                            log.debug( "The timeLimit value is set to {} seconds", new Integer( timeLimit ) );
                         }
 
                         return;
@@ -483,15 +480,16 @@ public class SearchRequestGrammar extends AbstractGrammar implements IGrammar
                         }
                         catch ( BooleanDecoderException bde )
                         {
-                            log.error("The types only flag " + StringTools.dumpBytes( value.getData() ) + 
-                                    " is invalid : " + bde.getMessage() + ". It should be 0 or 255" );
+                            log.error("The types only flag {} is invalid : {}. It should be 0 or 255",
+                            		StringTools.dumpBytes( value.getData() ), 
+                                    bde.getMessage() );
                         
                             throw new DecoderException( bde.getMessage() );
                         }
 
                         if ( log.isDebugEnabled() )
                         {
-                            log.debug( "The search will return " + ( searchRequest.isTypesOnly() ? 
+                            log.debug( "The search will return {}", ( searchRequest.isTypesOnly() ? 
                                         "only attributs type" : 
                                         "attributes types and values" ) );
                         }
@@ -671,6 +669,9 @@ public class SearchRequestGrammar extends AbstractGrammar implements IGrammar
                         	searchRequest.initAttributes();
                         }
 
+                        // We can have an END transition
+                        ldapMessageContainer.grammarEndAllowed( true );
+
                         return;
                     }
                 } );
@@ -706,13 +707,16 @@ public class SearchRequestGrammar extends AbstractGrammar implements IGrammar
                         }
                         catch ( LdapStringEncodingException lsee )
                         {
-                            log.error( "Cannot decode the attribute description : " + StringTools.dumpBytes( tlv.getValue().getData() ) );
+                            log.error( "Cannot decode the attribute description : {}", StringTools.dumpBytes( tlv.getValue().getData() ) );
                             throw new DecoderException( "Cannot decode the attribute description" );
                         }
                         
+                        // We can have an END transition
+                        ldapMessageContainer.grammarEndAllowed( true );
+
                         if ( log.isDebugEnabled() )
                         {
-                            log.debug( "Decoded Attribute Description : " + attributeDescription.getString() );
+                            log.debug( "Decoded Attribute Description : {}", attributeDescription.getString() );
                         }
 
                         return;

@@ -160,7 +160,9 @@ public class LdapControlGrammar extends AbstractGrammar implements IGrammar
                 LdapStatesEnum.CONTROL_TYPE_TAG,
                 LdapStatesEnum.CONTROL_TYPE_VALUE, null );
 
-        // Control ::= SEQUENCE { (Value)
+        // Control ::= SEQUENCE {
+        //    controlType  LDAPOID, (Value)
+        //
         // Store the value in the control object created before
         super.transitions[LdapStatesEnum.CONTROL_TYPE_VALUE][UniversalTag.OCTET_STRING_TAG] = new GrammarTransition(
                 LdapStatesEnum.CONTROL_TYPE_VALUE, LdapStatesEnum.CONTROL_LOOP_OR_CRITICAL_OR_VALUE_TAG, 
@@ -212,6 +214,9 @@ public class LdapControlGrammar extends AbstractGrammar implements IGrammar
                                 throw new DecoderException( lsee.getMessage() );
                         	}
                         }
+                        
+                        // We can have an END transition
+                        ldapMessageContainer.grammarEndAllowed( true );
                         
                         if ( log.isDebugEnabled() )
                         {
@@ -270,6 +275,9 @@ public class LdapControlGrammar extends AbstractGrammar implements IGrammar
                         
                             throw new DecoderException( bde.getMessage() );
                         }
+                        
+                        // We can have an END transition
+                        ldapMessageContainer.grammarEndAllowed( true );
                         
                         if ( log.isDebugEnabled() )
                         {

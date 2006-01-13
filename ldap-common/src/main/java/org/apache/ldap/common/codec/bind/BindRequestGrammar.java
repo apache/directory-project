@@ -106,7 +106,6 @@ public class BindRequestGrammar extends AbstractGrammar implements IGrammar
                 {
                     public void action( IAsn1Container container )
                     {
-
                         LdapMessageContainer ldapMessageContainer = ( LdapMessageContainer )
                             container;
                         LdapMessage      ldapMessage          =
@@ -285,6 +284,9 @@ public class BindRequestGrammar extends AbstractGrammar implements IGrammar
                             authentication.setSimple( tlv.getValue().getData() );
                         }
 
+                        // We can have an END transition
+                        ldapMessageContainer.grammarEndAllowed( true );
+                        
                         if ( log.isDebugEnabled() )
                         {
                             log.debug( "The simple authentication is : " + authentication.getSimple() );
@@ -355,6 +357,9 @@ public class BindRequestGrammar extends AbstractGrammar implements IGrammar
                             }
                         }
 
+                        // We can have an END transition
+                        ldapMessageContainer.grammarEndAllowed( true );
+                        
                         if ( log.isDebugEnabled() )
                         {
                             log.debug( "The mechanism is : " + authentication.getMechanism() );
@@ -425,6 +430,9 @@ public class BindRequestGrammar extends AbstractGrammar implements IGrammar
                             credentials.setCredentials( tlv.getValue().getData() );
                         }
 
+                        // We can have an END transition
+                        ldapMessageContainer.grammarEndAllowed( true );
+                        
                         if ( log.isDebugEnabled() )
                         {
                             log.debug( "The credentials are : " + credentials.getCredentials() );

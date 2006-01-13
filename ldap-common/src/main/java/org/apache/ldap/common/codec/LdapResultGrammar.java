@@ -349,6 +349,9 @@ public class LdapResultGrammar extends AbstractGrammar implements IGrammar
                             }
                         }
 
+                        // We can have an END transition
+                        ldapMessageContainer.grammarEndAllowed( true );
+                        
                         if ( log.isDebugEnabled() )
                         {
                             log.debug( "The error message is : " + ldapResult.getErrorMessage() );
@@ -441,6 +444,9 @@ public class LdapResultGrammar extends AbstractGrammar implements IGrammar
                                 ldapResult.addReferral( LdapURL.EMPTY_URL );
                             }
                         }
+                        
+                        // We can have an END transition
+                        ldapMessageContainer.grammarEndAllowed( true );
                         
                         if ( log.isDebugEnabled() )
                         {
