@@ -9,9 +9,7 @@
   <modules>
     <module>asn1</module>
     <module>mina</module>
-    <!-- 
     <module>apacheds</module>
-    -->
     <module>common</module>
   </modules>
   <dependencies>
