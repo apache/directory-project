@@ -353,20 +353,7 @@ public abstract class ServerDirContext extends ServerContext implements EventDir
         getNexusProxy().add( target.toString(), target, attributes );
 
         // Initialize the new context
-        ServerLdapContext ctx = new ServerLdapContext( getService(), getPrincipal(), target );
-        Control [] controls = ( ( ServerLdapContext ) this ).getRequestControls();
-
-        if ( controls != null )
-        {
-            controls = ( Control[] ) controls.clone();
-        }
-        else
-        {
-            controls = new Control[0];
-        }
-
-        ctx.setRequestControls( controls );
-        return ctx;
+        return new ServerLdapContext( getService(), getPrincipal(), target );
     }
 
 
