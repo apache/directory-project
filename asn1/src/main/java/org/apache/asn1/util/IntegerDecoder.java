@@ -48,6 +48,12 @@ public class IntegerDecoder
 
         byte[] bytes  = value.getData();
 
+        if ( ( bytes == null ) || ( bytes.length == 0 ) )
+        {
+            throw new IntegerDecoderException(
+                "The value is 0 byte long. This is not allowed for an integer" );
+        }
+
         if ( bytes.length > 4 )
         {
             throw new IntegerDecoderException(
