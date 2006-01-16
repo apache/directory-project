@@ -476,7 +476,7 @@ public class Asn1Decoder implements ITLVBerDecoderMBean
         
         if ( log.isDebugEnabled() )
         {
-            log.debug( "Parent length : {}", new Integer( getParentLength( parentTLV ) ) );
+            log.debug( "Parent length : {}", getParentLength( parentTLV ) );
         }
         
         if (parentTLV == null) 
