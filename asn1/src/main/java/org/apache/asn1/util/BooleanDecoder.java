@@ -47,6 +47,12 @@ public class BooleanDecoder
     {
         byte[] bytes  = value.getData();
 
+        if ( ( bytes == null ) || ( bytes.length == 0 ) )
+        {
+            throw new BooleanDecoderException(
+                "The value is 0 byte long. This is not allowed for a boolean" );
+        }
+
         if ( bytes.length != 1 )
         {
             throw new BooleanDecoderException(
