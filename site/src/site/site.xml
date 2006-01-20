@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project>
+<project name="Apache Directory Project">
 
- <title>Apache Directory Project</title>
+   <bannerLeft>
+     <name>Apache Diretory Project</name>
+     <src>images/apache-directory-logo.png</src>
+     <href>http://directory.apache.org/</href>
+   </bannerLeft>
 
- <body>
+   <title>Apache Directory Project</title>
 
+   <body>
     <links>
       <item name="ApacheDS" href="/subprojects/apacheds/index.html"/>
       <item name="LDAP" href="/subprojects/ldap.html"/>
