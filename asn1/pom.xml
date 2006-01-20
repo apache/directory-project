@@ -35,6 +35,9 @@
           <target>1.4</target>
         </configuration>
       </plugin>
+      <plugin>
+        <artifactId>maven-site-plugin</artifactId>
+      </plugin>
     </plugins>
   </build>
 </project>
