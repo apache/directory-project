@@ -11,6 +11,12 @@
   <name>asn1</name>
   <packaging>jar</packaging>  
   <version>0.3.4-SNAPSHOT</version>
+  <distributionManagement>
+    <site>
+      <id>apacheds.websites</id>
+      <url>scp://minotaur.apache.org/www/directory.apache.org/newsite/subprojects/asn1/</url>
+    </site>
+  </distributionManagement>
   <dependencies>
     <dependency>
       <groupId>org.slf4j</groupId>
