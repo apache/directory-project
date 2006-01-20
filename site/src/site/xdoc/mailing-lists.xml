@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="akarasulu@apache.org">Alex Karasulu</author>
+    <title>Apache Directory E-Mail Lists</title>
+  </properties> 
+
+<body>
+
+<section name="Please follow netiquette!">
+  <p>
+    A mailing list is an electronic discussion forum that anyone can subscribe
+    to. When someone sends an email message to the mailing list, a copy of that 
+    message is broadcast to everyone who is subscribed to that mailing list. 
+    Mailing lists provide a simple and effective communication mechanism. With 
+    potentially thousands of subscribers, there is a
+    <a href="http://jakarta.apache.org/site/mail.html">common set of etiquette
+    guidelines</a> that you should observe.</p>
+</section>
+  <section name="The lists">
+    <subsection name="The Directory Developers and Users List">
+      <p>
+        All mail and concerns are managed via one list per incubator project. 
+        Although we left the incubator we're not discriminating between users and developers yet. 
+        As long a traffic is not extremely high, we will keep it as is.
+      </p>      
+      <p>
+	<em>Light Traffic</em>
+<a href="mailto:dev-subscribe@directory.apache.org">Subscribe</a>
+<a href="mailto:dev-unsubscribe@directory.apache.org">Unsubscribe</a>
+<a href="http://www.archivum.info/dev@directory.apache.org/">Archive</a>
+      </p>
+    </subsection>
+
+    <subsection name="The Directory SVN List">
+      <p>
+        This is kind of a misnomer.  We use subversion but the change 
+        notification still uses cvs since we were originally going to use CVS
+        but switched to SVN.
+      </p>
+      <p>
+	<em>Medium Traffic</em> 
+<a href="mailto:commits-subscribe@directory.apache.org">Subscribe</a>  
+<a href="mailto:commits-unsubscribe@directory.apache.org">Unsubscribe</a>  
+      </p>
+      <p>
+        Changes to the Directory Subversion repository are echoed to this list.
+      </p>
+    </subsection>
+</section>
+
+</body>
+
+</document>

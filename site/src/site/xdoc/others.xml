@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="akarasulu@apache.org">Alex Karasulu</author>
+    <title>Others using Directory Software</title>
+  </properties> 
+  
+  <body>
+
+    <section name="Others using Apache Directory Software">
+        <table>
+          <tr>
+            <th>Company/Project</th>
+            <th>Summary</th>
+          </tr>
+          <tr>
+            <td><a href="http://directory.fedora.redhat.com/"> 
+               <img src="images/fedora-logo.png"/></a>
+            </td>
+            <td>The NT4 LDAP Service of Fedora Directory Server
+            is based on Apache Directory Server.</td>
+          </tr>
+          <tr>
+            <td><a href="http://portals.apache.org/jetspeed-2/"> 
+               <img src="images/jetspeed-logo.gif"/></a>
+            </td>
+            <td>Jetspeed-2 is the next-generation enterprise portal at Apache. 
+            It provides an embedded LDAP configuration through the Apache Directory Server.</td>
+          </tr>
+          <tr>
+            <td><a href="http://safehaus.org/"> 
+               <img src="http://safehaus.org/safehaus-small.gif"/></a>
+            </td>
+            <td>An effort focusing on developing security products and services
+                to augment the value of the Apache Directory Server.</td>
+          </tr>
+        </table>
+    </section>
+  </body>
+</document>

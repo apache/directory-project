@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <properties>
+    <author email="jmachols@apache.org">Jeff Machols</author>
+    <title>Apache Directory Project: Contributors</title>
+  </properties>
+  <body> 
+    <section name="Jeff Machols">
+      <p>
+        (jmachols at apache dot org)          
+      </p>
+      
+      <p> 
+        Jeff is one of the original members of the LDAPd group founded by 
+        Alex Karasulu. He came into the Apache Software Foundation when it 
+        absorbed the LDAPd source code and members.
+      </p>
+    </section>
+    
+    <section name="Background">
+      <p> 
+        Jeff had the good fortune of becoming associated with Alex Karasulu 
+        at a pivotal time early in 2002. Alex had some frustrations with LDAP 
+        due to deficiencies in all of the servers he used and was toying with 
+        the idea of writing one. Jeff's initial role was simply to serve as a 
+        sounding board for ideas. As time went on and he heard not only the 
+        ideas but, the passion of Alex about this endeavor, Jeff eagerly
+        accepted Alex's invitation to become involved in the LDAPd project.
+      </p>
+      
+      <p> 
+        Jeff's primary focus on the project is the client side of LDAP. After a 
+        struggle implementing Unix user authentication with other LDAP servers 
+        and clients, he saw additional opportunity for improvement. The goal of 
+        the client and LDAP common sub-project is to provide a set LDAP tools 
+        to match the ease of use, flexibility and rich features of Eve. 
+      </p>
+      
+      <p> 
+        Jeff's also worked closely with the Apache Infrastructure team, 
+        especially Noel Bergman, to import the LDAPd CVS source code into 
+        Subversion. The Apache Directory project was one of the first to 
+        implement Subversion. 
+      </p>
+    </section>
+  </body>
+</document>
+

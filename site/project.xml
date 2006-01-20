@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project>
+  <pomVersion>3</pomVersion>
+  <groupId>directory</groupId>
+  <id>directory-sitedocs</id>
+  <name>Apache Directory</name>
+
+  <inceptionYear>2003</inceptionYear>
+  <logo>/images/apache-directory-logo.png</logo>
+  <url>http://directory.apache.org</url>
+
+  <issueTrackingUrl>
+    http://nagoya.apache.org/jira/secure/BrowseProject.jspa?id=10400
+  </issueTrackingUrl>
+
+  <siteAddress>minotaur.apache.org</siteAddress>
+  <siteDirectory>
+    /www/directory.apache.org
+  </siteDirectory>
+  <distributionDirectory>
+    /www/cvs.apache.org/dist/directory
+  </distributionDirectory>
+  
+
+  <shortDescription>Apache Directory Project</shortDescription>
+  
+  <description>
+    Long Directory Project description from inside POM.
+  </description>
+  
+  <dependencies>
+    <dependency>
+      <artifactId>maven-site-plugin</artifactId>
+      <groupId>maven</groupId>
+      <version>1.6.1</version>
+      <type>plugin</type>
+    </dependency>
+  </dependencies>
+
+  <mailingLists>
+    <mailingList>
+      <name>Directory Developer List</name>
+      <subscribe>
+            dev-subscribe@directory.apache.org
+      </subscribe>
+      <unsubscribe>
+            dev-unsubscribe@directory.apache.org
+      </unsubscribe>
+      <archive>
+            http://nagoya.apache.org/eyebrowse/SummarizeList?listId=181
+      </archive>
+    </mailingList>
+    <mailingList>
+      <name>Directory User List</name>
+      <subscribe>
+            user-subscribe@directory.apache.org
+      </subscribe>
+      <unsubscribe>
+            user-unsubscribe@directory.apache.org
+      </unsubscribe>
+      <archive>
+            http://nagoya.apache.org/eyebrowse/SummarizeList?listId=181
+      </archive>
+    </mailingList>
+    <mailingList>
+      <name>Directory SCM List</name>
+      <subscribe>
+            scm-subscribe@directory.apache.org
+      </subscribe>
+      <unsubscribe>
+            scm-unsubscribe@directory.apache.org
+      </unsubscribe>
+      <archive>
+            http://nagoya.apache.org/eyebrowse/SummarizeList?listId=181
+      </archive>
+    </mailingList>
+    <mailingList>
+      <name>Directory PMC List</name>
+      <subscribe>
+            pmc-subscribe@directory.apache.org
+      </subscribe>
+      <unsubscribe>
+            pmc-unsubscribe@directory.apache.org
+      </unsubscribe>
+    </mailingList>
+  </mailingLists>
+  
+  <developers/>
+  
+  <licenses>
+    <license>
+      <name>Apache 2.0 License</name>
+      <url>
+http://cvs.apache.org/viewcvs.cgi/directory/LICENSE.txt?rev=157357&amp;root=Apache-SVN&amp;view=markup
+        </url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <dependencies/>
+  <reports>
+    <report>maven-license-plugin</report>
+  </reports>
+</project>
