@@ -25,7 +25,7 @@
   <area shape="rect" alt="DHCP Provider" href="subprojects/providers/dhcp" target="subprojects/providers/dhcp/" title="DHCP Provider" coords="128,210,202,225" />
   <area shape="rect" alt="NTP Provider" href="subprojects/providers/ntp/" target="subprojects/providers/ntp/" title="NTP Provider" coords="44,209,118,224" />
 </map>
-<img usemap="server" src="./images/50k-ft-architecture.png"/>
+<img usemap="server" src="images/50k-ft-architecture.png"/>
     </section>
     <section name="Our Vision">
       <p>
