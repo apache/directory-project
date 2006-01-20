@@ -3,8 +3,8 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.directory</groupId>
   <version>1.0-SNAPSHOT</version>
-  <artifactId>directory-site</artifactId>
-  <name>Apache Directory Server</name>
+  <artifactId>directory</artifactId>
+  <name>Apache Directory Project</name>
 
   <issueManagement>
     <system>JIRA</system>
@@ -33,8 +33,9 @@
     </license>
   </licenses>
   <scm>
-    <connection>XXXXsvn co https://svn.apache.org/repos/asf/directory/trunks</connection>
-    <url>http://svn.apache.org/viewcvs.cgi/directory/trunks</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/directory</connection>
+    <url>http://svn.apache.org/viewcvs.cgi/directory</url>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory</developerConnection>
   </scm>
   <organization>
     <name>Apache Software Foundation</name>
