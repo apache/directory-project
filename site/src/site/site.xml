@@ -8,8 +8,6 @@
      <href>http://directory.apache.org/</href>
    </bannerLeft>
 
-   <title>Apache Directory Project</title>
-
    <body>
     <links>
       <item name="ApacheDS" href="/subprojects/apacheds/index.html"/>
