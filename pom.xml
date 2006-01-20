@@ -47,6 +47,10 @@
   </pluginRepositories>
 
   <distributionManagement>
+    <site>
+      <id>apache.websites</id>
+      <url>scp://minotaur.apache.org/www/directory.apache.org/new-site</url>
+    </site>
     <snapshotRepository>
       <id>apache.snapshots</id>
       <url>scpexe://cvs.apache.org/www/cvs.apache.org/maven-snapshot-repository</url>
