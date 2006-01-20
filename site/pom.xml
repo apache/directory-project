@@ -9,7 +9,7 @@
   <distributionManagement>
     <site>
       <id>apache.websites</id>
-      <url>scp://minotaur.apache.org/www/directory.apachce.org/newsite/</url>
+      <url>scp://minotaur.apache.org/www/directory.apache.org/newsite/</url>
     </site>
   </distributionManagement>
   <build>
