@@ -44,6 +44,9 @@ public class AbstractContainer implements IAsn1Container
     /** Store a stack of the current states used when switching grammars */
     protected int[] stateStack;
 
+    /** Store a stack of allowed pop */
+    protected boolean[] popAllowedStack;
+
     /** The number of stored grammars */
     protected int nbGrammars;
 
@@ -68,10 +71,13 @@ public class AbstractContainer implements IAsn1Container
     /** The grammar end transition flag */
     protected boolean grammarEndAllowed;
 
+    /** The grammar pop transition flag */
+    protected boolean grammarPopAllowed;
+
     //~ Methods ------------------------------------------------------------------------------------
 
     /**
-     * DOCUMENT ME!
+     * Get the current grammar
      *
      * @return Returns the grammar used to decode a LdapMessage.
      */
@@ -93,13 +99,14 @@ public class AbstractContainer implements IAsn1Container
     /**
      * Switch to another grammar
      *
-     * @param currentState DOCUMENT ME!
+     * @param currentState The current state in the current grammar
      * @param grammar The grammar to add.
      */
     public void switchGrammar( int currentState, int grammar )
     {
         stateStack[currentGrammar] = currentState;
         currentGrammar++;
+        popAllowedStack[currentGrammar] = false;
         grammarStack[currentGrammar] = grammars[( grammar >> 8 ) - 1];
     }
 
@@ -111,6 +118,7 @@ public class AbstractContainer implements IAsn1Container
     public int restoreGrammar()
     {
         grammarStack[currentGrammar] = null;
+        popAllowedStack[currentGrammar] = false;
         currentGrammar--;
 
         if ( currentGrammar >= 0 )
@@ -161,6 +169,25 @@ public class AbstractContainer implements IAsn1Container
     public void grammarEndAllowed( boolean grammarEndAllowed )
     {
     	this.grammarEndAllowed = grammarEndAllowed;
+    }
+
+    /**
+     * Check that we can have a pop after this transition
+     * @return true if this can be the last transition before a pop
+     */
+    public boolean isGrammarPopAllowed( )
+    {
+        return popAllowedStack[currentGrammar];
+    }
+    
+    /**
+     * Set the flag to allow a pop transition
+     * @param popAllowed true or false, depending on the next
+     * transition allows a pop or not.
+     */
+    public void grammarPopAllowed( boolean grammarPopAllowed )
+    {
+        popAllowedStack[currentGrammar] = grammarPopAllowed;
     }
 
     /**

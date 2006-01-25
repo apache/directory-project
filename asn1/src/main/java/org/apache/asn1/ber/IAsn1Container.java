@@ -146,4 +146,17 @@ public interface IAsn1Container
      * transition being an end or not.
      */
     public void grammarEndAllowed( boolean grammarEndAllowed );
+
+    /**
+     * Check that we can have a pop state after this transition
+     * @return true if we can pop the grammar
+     */
+    public boolean isGrammarPopAllowed();
+    
+    /**
+     * Set the flag to allow a pop of the current grammar
+     * @param popAllowed true or false, depending on the next
+     * transition allows a pop or not.
+     */
+    public void grammarPopAllowed( boolean grammarPopAllowed );
 }

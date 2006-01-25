@@ -174,9 +174,29 @@ public abstract class AbstractGrammar implements IGrammar
                 {
 
                     // We have finished with the current grammar, so we have to continue with the
-                    // previous one.
-                    currentState = container.restoreGrammar();
-                    continue;
+                    // previous one, only if allowed
+                    
+                    if ( container.isGrammarPopAllowed() )
+                    {
+                        if ( log.isDebugEnabled() )
+                        {
+                            log.debug( "Pop grammar {}, state = {}", container.getStates().getGrammarName( currentGrammar ), 
+                                    currentGrammar.getStatesEnum().getState( container.getCurrentGrammarType(), currentState ) );
+                        }
+                        
+                        currentState = container.restoreGrammar();
+                        continue;
+                    }
+                    else
+                    {
+                        String msg = "Cannot pop the grammar " + 
+                                      container.getStates().getGrammarName( currentGrammar ) +
+                                      " for state " + 
+                                      currentGrammar.getStatesEnum().getState( container.getCurrentGrammarType(), currentState );
+                        // We can't pop the grammar
+                        log.error( msg );
+                        throw new DecoderException( msg );
+                    }
                 }
             }
 
@@ -191,6 +211,11 @@ public abstract class AbstractGrammar implements IGrammar
             if ( ( ( nextState & IStates.GRAMMAR_SWITCH_MASK ) != 0 ) &&
                     ( nextState != IStates.END_STATE ) )
             {
+
+                if ( transition.hasAction() )
+                {
+                    transition.getAction().action( container );
+                }
 
                 if ( log.isDebugEnabled() )
                 {
