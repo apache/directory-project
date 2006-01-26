@@ -8,12 +8,12 @@
      <href>http://directory.apache.org/</href>
    </bannerLeft>
    <body>
-    <links>
-       <item name="ApacheDS"  href="/newsite/subprojects/apacheds/index.html"/>
-       <item name="Naming"  href="/newsite/subprojects/naming/index.html"/>
-       <item name="Network Layer (MINA)"  href="/newsite/subprojects/network/index.html"/>
-       <item name="Directory"  href="/newsite/index.html"/>
-    </links>
+     <links>
+       <item name="ApacheDS" href="http://directory.apache.org/newsite/subprojects/apacheds/index.html"/>
+       <item name="Naming" href="http://directory.apache.org/newsite/subprojects/naming/index.html"/>
+       <item name="Network Layer (MINA)" href="http://directory.apache.org/newsite/subprojects/network/index.html"/>
+       <item name="Directory" href="http://directory.apache.org/newsite/index.html"/>
+     </links>
     <!--<menu name="About Directory">
       <item name="Overview" href="/index.html"/>
       <item name="Community" href="/community/index.html" collapse="true">
