@@ -14,12 +14,19 @@
             <th>Summary</th>
           </tr>
           <tr>
-            <td><a href="http://directory.fedora.redhat.com/"> 
-               <img src="images/fedora-logo.png"/></a>
+            <td><a href="http://geronimo.apache.org/">
+               <img src="http://geronimo.apache.org/images/geronimo-logo.png"/></a>
+            </td>
+            <td>Apache Geronimo is the J2EE server project of ASF.</td>
+          </tr>
+          <tr>
+            <td><a href="http://directory.fedora.redhat.com/">
+               <img src="http://fedora.redhat.com/images/header-fedora_logo01.png"/></a>
             </td>
             <td>The NT4 LDAP Service of Fedora Directory Server
             is based on Apache Directory Server.</td>
           </tr>
+
           <tr>
             <td><a href="http://portals.apache.org/jetspeed-2/"> 
                <img src="images/jetspeed-logo.gif"/></a>

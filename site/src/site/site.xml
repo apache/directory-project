@@ -9,8 +9,12 @@
    </bannerLeft>
    <body>
     <links>
+       <item name="ApacheDS"  href="/newsite/subprojects/apacheds/index.html"/>
+       <item name="Naming"  href="/newsite/subprojects/apacheds/index.html"/>
+       <item name="Network Layer (MINA)"  href="/newsite/subprojects/network/index.html"/>
+       <item name="Directory"  href="/newsite/index.html"/>
     </links>
-    <menu name="About Directory">
+    <!--<menu name="About Directory">
       <item name="Overview" href="/index.html"/>
       <item name="Community" href="/community/index.html" collapse="true">
         <item name="Who We Are" href="/community/who/index.html" collapse="true">
@@ -45,19 +49,18 @@
             href="/community/history/naming-commons.html"/>
         </item>
       </item>      
-      <item name="Documentation" href="/doc/index.html" collapse="true">
+       <item name="Documentation" href="/doc/index.html" collapse="true">
         <item name="Wiki" href="/doc/wiki.html"/>
         <item name="Articles" href="/doc/articles.html"/>
-      </item>    
-      <item name="Others Using Directory Software" href="/others.html"/>
-    </menu>
+      </item>
+    </menu> -->
 
    <menu name="Project Categories">
      <item name="ApacheDS" href="/subprojects/apacheds/index.html"/>
      <item name="Naming" href="/subprojects/naming/index.html"/>
      <item name="Network Layer (MINA)" href="/subprojects/network/index.html" />
    </menu>
-
+<!--
     <menu name="Resources">
       <item name="IRC" href="/irc.html"/>
       <item name="Jira" href=
@@ -67,8 +70,7 @@
       <item name="License" href="/license.html"/>
       <item name="Downloads" href="http://cvs.apache.org/dist/directory"/>
       <item name="Subversion" href="/svn.html"/>
-      <item name="Special Thanks" href="/thanks.html"/>
-    </menu>
+    </menu>-->
     <!-- Commented out (menu entry still useful as a placeholder for the next event)
     <menu name="ApacheCon US 2005"> 	 
       <item name="ApacheCon US 2005" href="http://www.apachecon.com/"
@@ -76,5 +78,9 @@
     </menu>
     -->
     ${reports}
+    <menu name="">
+      <item name="Others Using Directory Software" href="/others.html"/>
+      <item name="Special Thanks" href="/thanks.html"/>
+    </menu>
  </body>
 </project>
