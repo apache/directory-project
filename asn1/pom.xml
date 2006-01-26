@@ -7,8 +7,8 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>org.apache.directory</groupId>
-  <artifactId>org.apache.asn1</artifactId>
-  <name>asn1</name>
+  <artifactId>directory-asn1</artifactId>
+  <name>Apache ASN.1 Codec</name>
   <packaging>jar</packaging>  
   <version>0.3.4-SNAPSHOT</version>
   <distributionManagement>
