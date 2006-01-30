@@ -7,11 +7,14 @@
   <name>Apache Directory Project</name>
   <url>http://directory.apache.org/newsite/</url>
   <packaging>pom</packaging>
+  
   <issueManagement>
     <system>JIRA</system>
     <url>http://issues.apache.org/jira/browse/DIR</url>
   </issueManagement>
+  
   <inceptionYear>2003</inceptionYear>
+  
   <mailingLists>
     <mailingList>
       <name>The Directory Developers List</name>
@@ -27,6 +30,7 @@
       <archive>http://mail-archives.apache.org/mod_mbox/directory-commits</archive>
     </mailingList>
   </mailingLists>
+  
   <developers>
     <developer>
       <id>adc</id>
@@ -50,6 +54,7 @@
     </developer>
     <developer>
       <id>erodriguez</id>
+      <url>http://directory.apache.org/newsite/community/who/erodriguez.html</url>
     </developer>
     <developer>
       <id>ersiner</id>
@@ -57,15 +62,18 @@
     </developer>
     <developer>
       <id>jmachols</id>
+      <url>http://directory.apache.org/community/who/jmachols.html</url>
     </developer>
     <developer>
       <id>niklas</id>
     </developer>
     <developer>
       <id>noel</id>
+      <url>http://directory.apache.org/community/who/noel.html</url>
     </developer>
     <developer>
       <id>psteitz</id>
+      <url>http://directory.apache.org/community/who/psteitz.html</url>
     </developer>
     <developer>
       <id>szoerner</id>
@@ -77,26 +85,38 @@
     </developer>
     <developer>
       <id>vtence</id>
+      <url>http://directory.apache.org/community/who/vtence.html</url>
     </developer>
     <developer>
       <id>wesmckean</id>
+      <url>http://directory.apache.org/community/who/wesmckean.html</url>
     </developer>
   </developers>
+  
+  <contributors>
+    <contributor>
+      <name>Nick Faiz</name>
+    </contributor>
+  </contributors>
+
   <licenses>
     <license>
       <name>Apache License, Version 2.0</name>
       <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
     </license>
   </licenses>
+
   <scm>
     <connection>scm:svn:http://svn.apache.org/repos/asf/directory</connection>
     <url>http://svn.apache.org/viewcvs.cgi/directory</url>
     <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory</developerConnection>
   </scm>
+
   <organization>
     <name>Apache Software Foundation</name>
     <url>http://www.apache.org</url>
   </organization>
+
   <build>
     <plugins>
       <plugin>
@@ -105,6 +125,7 @@
       </plugin>
     </plugins>
   </build>
+
   <reporting>
     <excludeDefaults>true</excludeDefaults>
     <plugins>
@@ -125,10 +146,12 @@
       </plugin>
     </plugins>
   </reporting>
+
   <distributionManagement>
     <site>
       <id>apache.websites</id>
       <url>scp://minotaur.apache.org/www/directory.apache.org/newsite/</url>
     </site>
   </distributionManagement>
+
 </project>

@@ -81,6 +81,7 @@
     <menu name="">
       <item name="Others Using Directory Software" href="/others.html"/>
       <item name="Special Thanks" href="/thanks.html"/>
+      <item name="Downloads" href="http://cvs.apache.org/dist/directory/"/>
     </menu>
  </body>
 </project>
