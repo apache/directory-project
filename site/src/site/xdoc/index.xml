@@ -10,22 +10,20 @@
     <section name="What is it?">
       <p>
         Before going into all the details here's what the Apache Directory
-        Server looks like.  Feel free to navigate the image map to the various
-        components of the server.  This will naturally lead to several 
-        questions which will hopefully be answered further below.
+        Server looks like from an architectural perspective.
       </p>
 
-      <map name="server">
+      <map name="directory">
   <area shape="rect" alt="Network Layer" href="subprojects/network/index.html" target="subprojects/network/index.html" title="Network Layer" coords="39,155,603,175" />
-  <area shape="rect" alt="Protocol Providers" href="subprojects/providers.html" target="subprojects/providers.html" title="Protocol Providers" coords="44,175,595,207" />
-  <area shape="rect" alt="Apache Directory Server Core" href="subprojects/apacheds/projects/apacheds-core/index.html" target="subprojects/apacheds/projects/apacheds-core/index.html" title="Apache Directory Server Core" coords="209,277,612,443" />
-  <area shape="rect" alt="Kerberos Provider" href="subprojects/providers/kerberos/index.html" target="subprojects/providers/kerberos/index.html" title="Kerberos Provider" coords="457,210,530,225" />
-  <area shape="rect" alt="LDAP Provider" href="subprojects/providers/ldap/index.html" target="subprojects/providers/ldap/index.html" title="LDAP Provider" coords="374,210,448,225"/>
-  <area shape="rect" alt="DNS Provider" href="subprojects/providers/dns" target="subprojects/providers/dns" title="DNS Provider" coords="209,210,283,224" />
-  <area shape="rect" alt="DHCP Provider" href="subprojects/providers/dhcp" target="subprojects/providers/dhcp/" title="DHCP Provider" coords="128,210,202,225" />
-  <area shape="rect" alt="NTP Provider" href="subprojects/providers/ntp/" target="subprojects/providers/ntp/" title="NTP Provider" coords="44,209,118,224" />
+  <area shape="rect" alt="Protocol Providers" href="subprojects/apacheds/projects/index.html" target="subprojects/apacheds/projects/index.html" title="Protocol Providers" coords="44,175,595,207" />
+  <area shape="rect" alt="Apache Directory Server Core" href="subprojects/apacheds/projects/index.html" target="subprojects/apacheds/projects/index.html" title="Apache Directory Server Core" coords="209,277,612,443" />
+  <area shape="rect" alt="Kerberos Provider" href="subprojects/apacheds/projects/index.html" target="subprojects/apacheds/projects/index.html" title="Kerberos Provider" coords="457,210,530,225" />
+  <area shape="rect" alt="LDAP Provider" href="subprojects/apacheds/projects/index.html" target="subprojects/apacheds/projects/index.html" title="LDAP Provider" coords="374,210,448,225"/>
+  <area shape="rect" alt="DNS Provider" href="subprojects/apacheds/projects/index.html" target="subprojects/apacheds/projects/index.html" title="DNS Provider" coords="209,210,283,224" />
+  <area shape="rect" alt="DHCP Provider" href="subprojects/apacheds/projects/index.html" target="subprojects/apacheds/projects/index.html" title="DHCP Provider" coords="128,210,202,225" />
+  <area shape="rect" alt="NTP Provider" href="subprojects/apacheds/projects/index.html" target="subprojects/apacheds/projects/index.html" title="NTP Provider" coords="44,209,118,224" />
 </map>
-<img usemap="server" src="images/50k-ft-architecture.png"/>
+<img usemap="directory" src="images/50k-ft-architecture.png"/>
     </section>
     <section name="Our Vision">
       <p>
