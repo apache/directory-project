@@ -382,7 +382,35 @@ public class Value implements Cloneable, Serializable
         try
         {
             buffer.put( UniversalTag.INTEGER_TAG );
-            buffer.put( Length.getBytes( getNbBytes( value ) ) );
+            buffer.put( (byte)getNbBytes( value ) );
+            buffer.put( getBytes( value ) );
+        }
+        catch ( BufferOverflowException boe )
+        {
+            throw new EncoderException("The PDU buffer size is too small !"); 
+        }
+
+        return;
+    }
+
+    /**
+     * Encode an integer value 
+     * 
+     * @param buffer The PDU in which the value will be put
+     * @param tag The tag if it's not an UNIVERSAL one
+     * @param value The integer to be encoded
+     */
+    public static void encode( ByteBuffer buffer, byte tag, int value ) throws EncoderException
+    {
+        if ( buffer == null )
+        {
+            throw new EncoderException( "Cannot put a PDU in a null buffer !" );
+        }
+
+        try
+        {
+            buffer.put( tag );
+            buffer.put( (byte)getNbBytes( value ) );
             buffer.put( getBytes( value ) );
         }
         catch ( BufferOverflowException boe )
