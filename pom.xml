@@ -11,6 +11,7 @@
     <module>mina</module>
     <module>apacheds</module>
     <module>common</module>
+    <module>daemon</module>
   </modules>
   <dependencies>
    <dependency>
