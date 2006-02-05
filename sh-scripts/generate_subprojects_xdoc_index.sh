@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # One of the ugliest hacks you can find around!
 #
