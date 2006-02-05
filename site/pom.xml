@@ -69,18 +69,18 @@
     </developer>
     <developer>
       <id>jmachols</id>
-      <url>http://directory.apache.org/community/who/jmachols.html</url>
+      <url>http://directory.apache.org/newsite/community/who/jmachols.html</url>
     </developer>
     <developer>
       <id>niklas</id>
     </developer>
     <developer>
       <id>noel</id>
-      <url>http://directory.apache.org/community/who/noel.html</url>
+      <url>http://directory.apache.org/newsite/community/who/noel.html</url>
     </developer>
     <developer>
       <id>psteitz</id>
-      <url>http://directory.apache.org/community/who/psteitz.html</url>
+      <url>http://directory.apache.org/newsite/community/who/psteitz.html</url>
     </developer>
     <developer>
       <id>szoerner</id>
@@ -92,11 +92,11 @@
     </developer>
     <developer>
       <id>vtence</id>
-      <url>http://directory.apache.org/community/who/vtence.html</url>
+      <url>http://directory.apache.org/newsite/community/who/vtence.html</url>
     </developer>
     <developer>
       <id>wesmckean</id>
-      <url>http://directory.apache.org/community/who/wesmckean.html</url>
+      <url>http://directory.apache.org/newsite/community/who/wesmckean.html</url>
     </developer>
   </developers>
   
@@ -128,7 +128,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-site-plugin</artifactId>
-        <version>2.0-SNAPSHOT</version>
+        <version>2.0-beta-4</version>
       </plugin>
     </plugins>
   </build>
