@@ -27,7 +27,7 @@ function get_xml_element # xml_file, xpath, xml_element
 }
 
 
-poms=$(for pom in $(find . -name "pom.xml"); do echo "${pom}"; done)
+poms=$(for pom in $(find . -name "pom.xml" | sed 's/^\.\/pom.xml$//'); do echo "${pom}"; done)
 
 get_xml_element '/project/name' ./pom.xml name
 project_name=$xml_element_content
