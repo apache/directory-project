@@ -49,19 +49,23 @@ echo '  <section name="'${project_name}' Subprojects">'
 echo '   <p>'${project_name}' is composed of several subprojects. Here is the list of them with brief descriptions:</p>'
 
 echo '   <table>'
-echo '    <tr><td>Project</td><td>Description</td></tr>'
+echo '    <tr><th>Name</th><th>Description</th><th>Module Folder</th><th>Id</th><th>Apidocs</th><th>Source Xref</th></tr>'
 
 for pom in $poms
 do
 	project_dir=$(echo $pom | sed 's/\.\/\(.*\)\/pom\.xml/\1/')
+	
 	get_xml_element '/project/name' $pom name
 	project_name=$xml_element_content
+	
+	get_xml_element '/project/artifactId' $pom artifactId
+	project_artifactId=$xml_element_content
+	
 	if [ "$project_name" == "" ]
 	then
-		get_xml_element '/project/artifactId' $pom artifactId
-	        project_artifactId=$xml_element_content
 		project_name=$project_artifactId
 	fi
+	
 	get_xml_element '/project/description' $pom description
 	project_description=$xml_element_content
 	if [ "$project_description" == "" ]
@@ -69,7 +73,7 @@ do
                 project_description="To be described..."
         fi
 
-	echo "     <tr><td>${project_name}</td><td>$project_description</td></tr>"
+	echo "    <tr> <td>${project_name}</td> <td width=\"30%\">${project_description}</td> <td>${project_dir}</td> <td>${project_artifactId}</td> <td><a href=\"${project_artifactId}/apidocs/index.html\"> >>> </a></td> <td> >>> </td> </tr>"
 done
 
 echo '   </table>'

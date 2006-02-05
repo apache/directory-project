@@ -9,10 +9,10 @@
    </bannerLeft>
    <body>
      <links>
-       <item name="ApacheDS" href="/projects/apacheds/index.html"/>
-       <item name="Naming" href="/projects/naming/index.html"/>
-       <item name="Network Layer (MINA)" href="/projects/network/index.html"/>
-       <item name="Directory" href="/index.html"/>
+       <item name="ApacheDS" href="projects/apacheds/index.html"/>
+       <item name="Naming" href="projects/naming/index.html"/>
+       <item name="Network Layer (MINA)" href="projects/network/index.html"/>
+       <item name="Directory" href="index.html"/>
      </links>
     <!--<menu name="About Directory">
       <item name="Overview" href="/index.html"/>
@@ -56,9 +56,9 @@
     </menu> -->
 
    <menu name="Project Categories">
-     <item name="ApacheDS" href="/projects/apacheds/index.html"/>
-     <item name="Naming" href="/projects/naming/index.html"/>
-     <item name="Network Layer (MINA)" href="/projects/network/index.html" />
+     <item name="ApacheDS" href="projects/apacheds/index.html"/>
+     <item name="Naming" href="projects/naming/index.html"/>
+     <item name="Network Layer (MINA)" href="projects/network/index.html" />
    </menu>
 <!--
     <menu name="Resources">
@@ -79,8 +79,8 @@
     -->
     ${reports}
     <menu name="">
-      <item name="Others Using Directory Software" href="/others.html"/>
-      <item name="Special Thanks" href="/thanks.html"/>
+      <item name="Others Using Directory Software" href="others.html"/>
+      <item name="Special Thanks" href="thanks.html"/>
       <item name="Downloads" href="http://cvs.apache.org/dist/directory/"/>
     </menu>
  </body>
