@@ -3,10 +3,11 @@
 # One of the ugliest hacks you can find around!
 #
 # This script finds all subprojects by looking at pom.xmls starting from
-# where it's invoked and generates a table of project names and descriptions.
+# where it's invoked and generates an index page with a table of project
+# names and descriptions. The generated document is a complete xdoc doc.
 # If there is no name element in project then it takes the artifactId.
-# If there is no description element in the project then it prints "To be described...".
-# This script ignores './pom.xml'.
+# If there is no description element in the project then it prints
+# "To be described...".
 
 xml_element_content=""
 
@@ -28,7 +29,27 @@ function get_xml_element # xml_file, xpath, xml_element
 
 poms=$(for pom in $(find . -name "pom.xml"); do echo "${pom}"; done)
 
-echo -e '<table>\n<tr><td>Project</td><td>Description</td></tr>'
+get_xml_element '/project/name' ./pom.xml name
+project_name=$xml_element_content
+if [ "$project_name" == "" ]
+then
+	get_xml_element '/project/artifactId' ./pom.xml artifactId
+	project_artifactId=$xml_element_content
+	project_name=$project_artifactId
+fi
+
+
+echo '<?xml version="1.0" encoding="UTF-8"?>'
+echo '<document>'
+echo ' <properties>'
+echo '  <title>'${project_name}' - Subprojects</title>'
+echo ' </properties>'
+echo ' <body>'
+echo '  <section name="'${project_name}' Subprojects">'
+echo '   <p>'${project_name}' is composed of several subprojects. Here is the list of them with brief descriptions:</p>'
+
+echo '   <table>'
+echo '    <tr><td>Project</td><td>Description</td></tr>'
 
 for pom in $poms
 do
@@ -48,7 +69,10 @@ do
                 project_description="To be described..."
         fi
 
-	echo -e "<tr><td>${project_name}</td><td>$project_description</td></tr>"
+	echo "     <tr><td>${project_name}</td><td>$project_description</td></tr>"
 done
 
-echo '</table>'
+echo '   </table>'
+echo '  </section>'
+echo ' </body>'
+echo '</document>'
