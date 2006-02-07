@@ -4,7 +4,7 @@
   <groupId>org.apache.directory</groupId>
   <version>1.0-SNAPSHOT</version>
   <artifactId>build</artifactId>
-  <name>build</name>
+  <name>Apache Directory Build</name>
   <packaging>pom</packaging>
   <modules>
     <module>asn1</module>
