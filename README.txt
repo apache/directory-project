@@ -1,9 +1,4 @@
-                  W O R K   I N   P R O G R E S S
-                  ===============================
-
 This is the trunk for all directory projects.  
-
-This has to be rewritten again to account for the structural changes.
 
 Branches
 --------

@@ -5,6 +5,7 @@
   <version>1.0-SNAPSHOT</version>
   <artifactId>build</artifactId>
   <name>Apache Directory Build</name>
+  <inceptionYear>2004</inceptionYear>
   <packaging>pom</packaging>
   <modules>
     <module>mina</module>
@@ -49,11 +50,39 @@
   <distributionManagement>
     <snapshotRepository>
       <id>apache.snapshots</id>
-      <url>scpexe://cvs.apache.org/www/cvs.apache.org/maven-snapshot-repository</url>
+      <url>
+        scpexe://cvs.apache.org/www/cvs.apache.org/maven-snapshot-repository
+      </url>
     </snapshotRepository>
+    <repository>
+      <name>ASF Mirrored M2 Distributions</name>
+      <id>apache.snapshots</id>
+      <url>
+        scpexe://minotaur.apache.org/www/www.apache.org/dist/maven-repository
+      </url>
+    </repository>
+
   </distributionManagement>
 
+  <licenses>
+    <license>
+      <name>Apache Software License 2.0</name>
+      <url>http://directory.apache.org/license.html</url>
+    </license>
+  </licenses>
+
   <build>
+    <resources>
+      <resource>
+        <directory>${basedir}</directory>
+        <targetPath>META-INF</targetPath>
+        <filtering>true</filtering>
+        <includes>
+          <include>NOTICE.txt</include>
+          <include>LICENSE.txt</include>
+        </includes>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
