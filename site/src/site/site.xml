@@ -10,8 +10,8 @@
    <body>
      <links>
        <item name="ApacheDS" href="projects/apacheds/index.html"/>
-       <item name="Naming" href="projects/naming/index.html"/>
-       <item name="Network Layer (MINA)" href="projects/network/index.html"/>
+       <item name="Naming" href="projects/g/index.html"/>
+       <item name="MINA (Network Layer)" href="projects/mina/index.html"/>
        <item name="Directory" href="index.html"/>
      </links>
     <!--<menu name="About Directory">
@@ -58,7 +58,7 @@
    <menu name="Project Categories">
      <item name="ApacheDS" href="projects/apacheds/index.html"/>
      <item name="Naming" href="projects/naming/index.html"/>
-     <item name="Network Layer (MINA)" href="projects/network/index.html" />
+     <item name="MINA (Network Layer)" href="projects/mina/index.html" />
    </menu>
 <!--
     <menu name="Resources">
