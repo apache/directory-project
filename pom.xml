@@ -74,6 +74,12 @@
   <build>
     <resources>
       <resource>
+        <directory>${basedir}/src/main/resources</directory>
+        <includes>
+          <include>*/**</include>
+        </includes>
+      </resource>
+      <resource>
         <directory>${basedir}</directory>
         <targetPath>META-INF</targetPath>
         <filtering>true</filtering>
@@ -83,6 +89,14 @@
         </includes>
       </resource>
     </resources>
+    <testResources>
+      <testResource>
+        <directory>${basedir}/src/test/resources</directory>
+        <includes>
+          <include>*/**</include>
+        </includes>
+      </testResource>
+    </testResources>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
