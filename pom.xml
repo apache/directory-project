@@ -7,7 +7,6 @@
   <name>Apache Directory Build</name>
   <packaging>pom</packaging>
   <modules>
-    <module>asn1</module>
     <module>mina</module>
     <module>apacheds</module>
     <module>shared</module>
