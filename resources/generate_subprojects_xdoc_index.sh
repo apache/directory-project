@@ -9,35 +9,13 @@
 # If there is no description element in the project then it prints
 # "To be described...".
 
-xml_element_content=""
+poms=$(for pom in $(find . -name "pom.xml" | sed "s/^\.\/pom.xml$//"); do echo "${pom}"; done)
 
-function get_xml_element # xml_file, xpath, xml_element
-{
-	xpath=$1
-	xml_file=$2
-	xml_element=$3
-
-	xml_result=$(xml_grep $xpath $xml_file 2> /dev/null)
-	if [ "$xml_result" != "" ]
-	then
-		xml_element_content=$(echo $xml_result | tr -d '\n' | sed "s/.*<${xml_element}>\(.*\)<\/${xml_element}>.*/\1/" | tr -s ' ')
-	else
-		xml_element_content=""
-	fi
-}
-
-
-poms=$(for pom in $(find . -name "pom.xml" | sed 's/^\.\/pom.xml$//'); do echo "${pom}"; done)
-
-get_xml_element '/project/name' ./pom.xml name
-project_name=$xml_element_content
+project_name=$(pomname.sh ./pom.xml)
 if [ "$project_name" == "" ]
 then
-	get_xml_element '/project/artifactId' ./pom.xml artifactId
-	project_artifactId=$xml_element_content
-	project_name=$project_artifactId
+	project_name=$(pomartifactId.sh ./pom.xml)
 fi
-
 
 echo '<?xml version="1.0" encoding="UTF-8"?>'
 echo '<document>'
@@ -49,31 +27,28 @@ echo '  <section name="'${project_name}' Subprojects">'
 echo '   <p>'${project_name}' is composed of several subprojects. Here is the list of them with brief descriptions:</p>'
 
 echo '   <table>'
-echo '    <tr><th>Name</th><th>Description</th><th>Module Folder</th><th>Id</th><th>Apidocs</th><th>Source Xref</th></tr>'
+echo '    <tr><th>Name</th><th>Description</th></tr>'
 
 for pom in $poms
 do
-	project_dir=$(echo $pom | sed 's/\.\/\(.*\)\/pom\.xml/\1/')
+	#project_dir=$(echo $pom | sed 's/\.\/\(.*\)\/pom\.xml/\1/')
 	
-	get_xml_element '/project/name' $pom name
-	project_name=$xml_element_content
+	project_name=$(pomname.sh $pom)
 	
-	get_xml_element '/project/artifactId' $pom artifactId
-	project_artifactId=$xml_element_content
+	project_artifactId=$(pomartifactId.sh $pom)
 	
 	if [ "$project_name" == "" ]
 	then
 		project_name=$project_artifactId
 	fi
 	
-	get_xml_element '/project/description' $pom description
-	project_description=$xml_element_content
+	project_description=$(pomdesc.sh $pom)
 	if [ "$project_description" == "" ]
         then
                 project_description="To be described..."
         fi
 
-	echo "    <tr> <td>${project_name}</td> <td width=\"30%\">${project_description}</td> <td>${project_dir}</td> <td>${project_artifactId}</td> <td><a href=\"${project_artifactId}/apidocs/index.html\"> >>> </a></td> <td> >>> </td> </tr>"
+	echo "    <tr> <td>${project_name}</td> <td>${project_description}</td> </tr>"
 done
 
 echo '   </table>'

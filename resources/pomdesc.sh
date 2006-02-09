@@ -9,4 +9,4 @@ then
 	exit 1
 fi
 
-xmlstarlet sel -t -m "/project/description" -v "text()" -n $1 | grep -v '^[ tab]*$' | tr -s ' ' | sed 's/^ //g'
+xmlstarlet sel -t -m "/project/description" -v "text()" -n $1 | tr '\n' ' ' | tr -s ' ' | sed 's/^ //g'
