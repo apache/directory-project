@@ -12,7 +12,14 @@
   <name>Apache MINA</name>
   <packaging>pom</packaging>
 
-  <url>http://directory.apache.org/newsite/projects/network/</url>
+  <url>http://directory.apache.org/newsite/projects/mina/</url>
+
+  <distributionManagement>
+    <site>
+      <id>apache.websites</id>
+      <url>scp://minotaur.apache.org/www/directory.apache.org/newsite/projects/mina/</url>
+    </site>
+  </distributionManagement>
 
   <issueManagement>
     <system>jira</system>
@@ -190,12 +197,38 @@ Use JDK 1.5 to make sure these modules build.
         <artifactId>maven-site-plugin</artifactId>
         <version>2.0-SNAPSHOT</version>
       </plugin>
+      <plugin>
+        <inherited>false</inherited>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>site</phase>
+            <configuration>
+              <tasks>
+                <javadoc destdir="target/site/apidocs" author="true" use="true" windowtitle="Apache MINA">
+                  <sourcepath>
+                    <dirset dir=".">
+                      <include name="*/src/main/java"/>
+                    </dirset>
+                  </sourcepath>
+                  <package name="org.apache.mina.*"/>
+                </javadoc>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
 
     </plugins>
   </build>
 
   <reporting>
     <plugins>
+      <!-- This has been disabled to due license expiration issue. -->
       <!-- <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-clover-plugin</artifactId>
@@ -204,14 +237,17 @@ Use JDK 1.5 to make sure these modules build.
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
       </plugin>
-      <plugin>
+      <!-- This is no longer needed while it cannot do 
+           fully connected multi module apidocs. -->
+      <!-- <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-      </plugin>
+      </plugin> -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>taglist-maven-plugin</artifactId>
       </plugin>
+      <!-- This has been disabled due to incorrect functioning. -->
       <!-- <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>jxr-maven-plugin</artifactId>

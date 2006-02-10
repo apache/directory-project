@@ -11,9 +11,9 @@
 
   <body>
      <links>
-       <item name="ApacheDS" href="http://directory.apache.org/newsite/subprojects/apacheds/index.html"/>
-       <item name="Naming" href="http://directory.apache.org/subprojects/naming/index.html"/>
-       <item name="Network Layer (MINA)" href="http://directory.apache.org/newsite/subprojects/network/index.html"/>
+       <item name="ApacheDS" href="http://directory.apache.org/newsite/projects/apacheds/index.html"/>
+       <item name="Naming" href="http://directory.apache.org/projects/naming/index.html"/>
+       <item name="Network Layer (MINA)" href="http://directory.apache.org/newsite/projects/mina/index.html"/>
        <item name="Directory" href="http://directory.apache.org/newsite/index.html"/>
     </links>
  
@@ -38,15 +38,19 @@
       <item name="JavaDocs" href="/apidocs-examples/index.html"/>
       <item name="Source code" href="/xref-examples/index.html"/>
     </menu>
- 
+
+-->
+
     <menu name="MINA References">
       <item name="JavaDocs" href="/apidocs/index.html"/>
+    </menu>
+<!--
       <item name="Source code" href="/xref/index.html"/>
       <item name="Source code (SVN)" href="http://svn.apache.org/viewcvs.cgi/directory/network/trunk/?root=Apache-SVN"/>
       <item name="Wiki" href="http://wiki.apache.org/directory/MinaHome"/>
     </menu>
 -->
- 
-    <!-- ${reports} -->
+
+    ${reports}
   </body>
 </project>
