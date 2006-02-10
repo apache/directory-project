@@ -9,9 +9,9 @@
    </bannerLeft>
    <body>
      <links>
-       <item name="ApacheDS" href="projects/apacheds/index.html"/>
-       <item name="Naming" href="projects/g/index.html"/>
-       <item name="MINA (Network Layer)" href="projects/mina/index.html"/>
+       <item name="ApacheDS" href="http://directory.apache.org/newsite/projects/apacheds/index.html"/>
+       <item name="Naming" href="http://directory.apache.org/newsite/projects/g/index.html"/>
+       <item name="MINA (Network Layer)" href="http://directory.apache.org/newsite/projects/mina/index.html"/>
        <item name="Directory" href="index.html"/>
      </links>
     <!--<menu name="About Directory">
@@ -81,7 +81,7 @@
     <menu name="">
       <item name="Others Using Directory Software" href="others.html"/>
       <item name="Special Thanks" href="thanks.html"/>
-      <item name="Downloads" href="http://cvs.apache.org/dist/directory/"/>
+      <item name="Downloads" href="http://www.apache.org/dyn/closer.cgi/directory/"/>
     </menu>
  </body>
 </project>
