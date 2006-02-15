@@ -206,13 +206,15 @@ Use JDK 1.5 to make sure these modules build.
             <phase>site</phase>
             <configuration>
               <tasks>
-                <javadoc destdir="target/site/apidocs" author="true" use="true" windowtitle="Apache MINA">
+                <javadoc destdir="target/site/apidocs"
+                         use="true"
+                         windowtitle="Apache MINA"
+                         defaultexcludes="yes"
+                         packagenames="org.apache.mina.*"
+                         excludepackagenames="**.support.*,**.examples.*">
                   <sourcepath>
-                    <dirset dir=".">
-                      <include name="*/src/main/java"/>
-                    </dirset>
+                    <dirset dir="." includes="*/src/main/java"/>
                   </sourcepath>
-                  <package name="org.apache.mina.*"/>
                 </javadoc>
               </tasks>
             </configuration>
