@@ -1,15 +1,13 @@
 #!/bin/sh
 
-# One of the ugliest hacks you can find around!
-#
-# This script finds all subprojects by looking at pom.xmls starting from
+# This script finds all modules by looking at pom.xmls starting from
 # where it's invoked and generates an index page with a table of project
 # names and descriptions. The generated document is a complete xdoc doc.
 # If there is no name element in project then it takes the artifactId.
 # If there is no description element in the project then it prints
 # "To be described...".
 
-poms=$(for pom in $(find . -name "pom.xml" | sed "s/^\.\/pom.xml$//"); do echo "${pom}"; done)
+modules=$(pommodules.sh ./pom.xml)
 
 project_name=$(pomname.sh ./pom.xml)
 if [ "$project_name" == "" ]
@@ -29,9 +27,9 @@ echo '   <p>'${project_name}' is composed of several modules. Here is the list o
 echo '   <table>'
 echo '    <tr><th>Name</th><th>Description</th></tr>'
 
-for pom in $poms
+for module in $modules
 do
-	#project_dir=$(echo $pom | sed 's/\.\/\(.*\)\/pom\.xml/\1/')
+	pom=$module/pom.xml
 	
 	project_name=$(pomname.sh $pom)
 	
