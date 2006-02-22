@@ -8,7 +8,7 @@
   <name>Apache Directory Project</name>
   <packaging>pom</packaging>
    
-  <url>http://directory.apache.org/newsite/</url>
+  <url>http://directory.apache.org/</url>
   
   <issueManagement>
     <system>JIRA</system>
@@ -20,7 +20,7 @@
   <distributionManagement>
     <site>
       <id>apache.websites</id>
-      <url>scp://minotaur.apache.org/www/directory.apache.org/newsite/</url>
+      <url>scp://minotaur.apache.org/www/directory.apache.org/</url>
     </site>
   </distributionManagement>
   
@@ -54,7 +54,7 @@
     </developer>
     <developer>
       <id>akarasulu</id>
-      <url>http://directory.apache.org/newsite/community/who/akarasulu.html</url>
+      <url>http://directory.apache.org/community/who/akarasulu.html</url>
     </developer>
     <developer>
       <id>bayard</id>
@@ -67,46 +67,46 @@
     </developer>
     <developer>
       <id>elecharny</id>
-      <url>http://directory.apache.org/newsite/community/who/elecharny.html</url>
+      <url>http://directory.apache.org/community/who/elecharny.html</url>
     </developer>
     <developer>
       <id>erodriguez</id>
-      <url>http://directory.apache.org/newsite/community/who/erodriguez.html</url>
+      <url>http://directory.apache.org/community/who/erodriguez.html</url>
     </developer>
     <developer>
       <id>ersiner</id>
-      <url>http://directory.apache.org/newsite/community/who/ersiner.html</url>
+      <url>http://directory.apache.org/community/who/ersiner.html</url>
     </developer>
     <developer>
       <id>jmachols</id>
-      <url>http://directory.apache.org/newsite/community/who/jmachols.html</url>
+      <url>http://directory.apache.org/community/who/jmachols.html</url>
     </developer>
     <developer>
       <id>niklas</id>
     </developer>
     <developer>
       <id>noel</id>
-      <url>http://directory.apache.org/newsite/community/who/noel.html</url>
+      <url>http://directory.apache.org/community/who/noel.html</url>
     </developer>
     <developer>
       <id>psteitz</id>
-      <url>http://directory.apache.org/newsite/community/who/psteitz.html</url>
+      <url>http://directory.apache.org/community/who/psteitz.html</url>
     </developer>
     <developer>
       <id>szoerner</id>
-      <url>http://directory.apache.org/newsite/community/who/szoerner.html</url>
+      <url>http://directory.apache.org/community/who/szoerner.html</url>
     </developer>
     <developer>
       <id>trustin</id>
-      <url>http://directory.apache.org/newsite/community/who/trustin.html</url>
+      <url>http://directory.apache.org/community/who/trustin.html</url>
     </developer>
     <developer>
       <id>vtence</id>
-      <url>http://directory.apache.org/newsite/community/who/vtence.html</url>
+      <url>http://directory.apache.org/community/who/vtence.html</url>
     </developer>
     <developer>
       <id>wesmckean</id>
-      <url>http://directory.apache.org/newsite/community/who/wesmckean.html</url>
+      <url>http://directory.apache.org/community/who/wesmckean.html</url>
     </developer>
   </developers>
   
