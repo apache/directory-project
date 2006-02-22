@@ -1,7 +1,7 @@
 ##############  W O R K  I N  P R O G R E S S  ############## 
 
-To generate the whole site for this project change to the
-"site" directory under root project and execute
+To generate the main site for Apache Directory Project 
+change to the "site" directory under root project and execute
 
 	mvn site
 
