@@ -19,12 +19,13 @@
 
       <subsection name="Some Background">
       <p>
-	    Stefan Zoerner (Zörner in his native spelling) lives with his family near Hamburg, Germany. 
+	    Stefan Zoerner lives with his family near Hamburg, Germany. 
 	    He collects ancient postcards and Sun workstations and likes to write IT related articles (about LDAP topics, sometimes).
-	    In May 2004, Stefan published a German LDAP book for Java developers ("LDAP für Java-Entwickler"), 
+	    In May 2004, Stefan published a German LDAP book for Java developers
+	    (<a href="http://www.entwickler-press.de/buecher/ldap/">LDAP fuer Java-Entwickler</a>), 
 	    the second edition appeared in November 2005:
 	  </p>
-	  <p><a href="http://www.entwickler-press.de/buecher/ldap/"><img src="images/szoerner_cover_ldap2_100x149.gif"/></a></p>
+	  <p><a href="http://www.entwickler-press.de/buecher/ldap/"><img src="../../images/szoerner_cover_ldap2_100x149.gif"/></a></p>
 	  <p>
 	    The book itself is server independent, and Stefan was interested whether
 	    the examples work on Apache Directory Server as well. This is how he found the project. 	    
