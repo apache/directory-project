@@ -4,7 +4,7 @@
 
   <groupId>org.apache.directory</groupId>
   <artifactId>directory-sitedocs</artifactId>
-  <version>1.0-RC1-SNAPSHOT</version>
+  <version>1.0-RC1</version>
   <name>Apache Directory Project</name>
   <packaging>pom</packaging>
    
