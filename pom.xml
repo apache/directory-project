@@ -2,7 +2,7 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.directory</groupId>
-  <version>1.0</version>
+  <version>1.0.1</version>
   <artifactId>build</artifactId>
   <name>Apache Directory Build</name>
   <inceptionYear>2004</inceptionYear>
@@ -22,13 +22,22 @@
     </dependency>
   </dependencies>
   <repositories>
-    <!-- For releases 
+    <!-- Mirrors for release jars: will add 3 just in case -->
     <repository>
       <id>playboy.mirror</id>
       <name>Apache Repository @ Playboy</name>
       <url>http://mirrors.playboy.com/apache/maven-repository/</url>
     </repository>
-                                               -->
+    <repository>
+      <id>seekmeup.mirror</id>
+      <name>Apache Repository @ Seekmeup</name>
+      <url>http://apache.seekmeup.com/apache/maven-repository/</url>
+    </repository>
+    <repository>
+      <id>mirrormax.mirror</id>
+      <name>Apache Repository @ MirrorMax</name>
+      <url>http://apache.mirrormax.net/apache/maven-repository/</url>
+    </repository>
     
     <!-- For snapshots (no release jars or non-apache jars)           -->
     <repository>
