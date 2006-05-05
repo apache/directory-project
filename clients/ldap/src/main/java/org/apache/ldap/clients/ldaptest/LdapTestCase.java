@@ -321,3 +321,4 @@ public class LdapTestCase
         m_testCaseName = a_string;
     }
 }
+

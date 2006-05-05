@@ -373,3 +373,4 @@ public class LdapTestSession
         m_sessionName = a_string;
     } 
 }
+

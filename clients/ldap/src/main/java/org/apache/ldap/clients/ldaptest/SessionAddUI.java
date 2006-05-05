@@ -588,3 +588,4 @@ public class SessionAddUI extends JPanel
         }
     }
 }
+
