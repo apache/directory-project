@@ -292,3 +292,4 @@ public class LdapInputParser
         return ( StringBuffer ) m_entryList.get( a_index ) ;
     }
 }
+
