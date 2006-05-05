@@ -15,15 +15,25 @@
  */ 
 
 
+
+
+
 package org.apache.naming.config;
 
+
+
 import java.sql.Connection;
+
 import java.sql.ResultSet;
+
 import java.sql.Statement;
 
 import java.util.Hashtable;
 
+
+
 import javax.naming.Context;
+
 import javax.naming.InitialContext;
 
 import javax.naming.directory.Attributes;
@@ -37,39 +47,70 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimePartDataSource;
 
+
 import javax.sql.DataSource;
+
+
 
 import junit.framework.TestCase;
 
 import org.apache.naming.ContextBindings;
 import org.apache.naming.NamingContextFactory;
 
+
+
 /**
+
  * Test case for the XML configuration methods, testing environment entries
+
  * and database connection resource factories.
+
  * 
+
  * @author <a href="brett@apache.org">Brett Porter</a>
+
  * @version $Id: XmlConfiguratorTest.java,v 1.2 2003/12/01 02:02:45 brett Exp $
+
  */
+
 public class XmlConfiguratorTest extends TestCase
+
 {
+
     public XmlConfiguratorTest(String name) {
+
         super(name);
+
     }
 
+
+
     /*
+
      * @see TestCase#setUp()
+
      */
+
     protected void setUp() throws Exception {
+
         super.setUp();
+
     }
 
+
+
     /*
+
      * @see TestCase#tearDown()
+
      */
+
     protected void tearDown() throws Exception {
+
         super.tearDown();
+
         XmlConfigurator.destroyInitialContext();
+
     }
     
     /** 
@@ -84,6 +125,8 @@ public class XmlConfiguratorTest extends TestCase
      * name attribute of top-level context element in test-jndi2.xml
      */
     protected static String ALT_ROOT="alt/root/context";
+
+
 
     /**
      * Test for correctly configured environment entries.
@@ -387,5 +430,8 @@ public class XmlConfiguratorTest extends TestCase
         msg.setContent("this is a test", "text/plain");
         Transport.send(msg);
     }
+
 }
+
+
 
