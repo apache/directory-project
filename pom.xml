@@ -2,7 +2,7 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.directory</groupId>
-  <version>1.0.4</version>
+  <version>1.0.5-SNAPSHOT</version>
   <artifactId>build</artifactId>
   <name>Apache Directory Build</name>
   <inceptionYear>2004</inceptionYear>
@@ -26,7 +26,7 @@
     <repository>
       <id>apache.snapshots</id>
       <name>Apache Snapshot Repository</name>
-      <url>http://cvs.apache.org/maven-snapshot-repository</url>
+      <url>http://minotaur.apache.org/maven-snapshot-repository</url>
     </repository>
     
     <!-- Temp repo for 3rd party jars that are not in ibiblio.org yet.-->
@@ -48,7 +48,7 @@
     <pluginRepository>
       <id>apache.snapshots</id>
       <name>Apache Snapshot Plugins</name>
-      <url>http://cvs.apache.org/maven-snapshot-repository</url>
+      <url>http://minotaur.apache.org/maven-snapshot-repository</url>
     </pluginRepository>
   </pluginRepositories>
 
@@ -56,7 +56,7 @@
     <snapshotRepository>
       <id>apache.snapshots</id>
       <url>
-        scp://cvs.apache.org/www/cvs.apache.org/maven-snapshot-repository
+        scp://minotaur.apache.org/www/cvs.apache.org/maven-snapshot-repository
       </url>
     </snapshotRepository>
     <repository>
