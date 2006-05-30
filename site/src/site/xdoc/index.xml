@@ -14,7 +14,7 @@
       </p>
 
       <map name="directory">
-  <area shape="rect" alt="Network Layer" href="subprojects/network/index.html" target="subprojects/network/index.html" title="Network Layer" coords="39,155,603,175" />
+  <area shape="rect" alt="Network Layer" href="subprojects/mina/index.html" target="subprojects/mina/index.html" title="Network Layer" coords="39,155,603,175" />
   <area shape="rect" alt="Protocol Providers" href="subprojects/apacheds/subsubprojects/index.html" target="subprojects/apacheds/subsubprojects/index.html" title="Protocol Providers" coords="44,175,595,207" />
   <area shape="rect" alt="Apache Directory Server Core" href="subprojects/apacheds/subsubprojects/index.html" target="subprojects/apacheds/subsubprojects/index.html" title="Apache Directory Server Core" coords="209,277,612,443" />
   <area shape="rect" alt="Kerberos Provider" href="subprojects/apacheds/subsubprojects/index.html" target="subprojects/apacheds/subsubprojects/index.html" title="Kerberos Provider" coords="457,210,530,225" />
