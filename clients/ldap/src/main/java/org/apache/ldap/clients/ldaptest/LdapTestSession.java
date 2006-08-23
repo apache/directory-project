@@ -211,8 +211,7 @@ package org.apache.ldap.clients.ldaptest;
  * for the testing framework.  Each session will have a host, port and bind 
  * information.  These sessions are "where the tests are run".
  *
- * @author <a href="mailto:jmachols@apache.org">Jeff Machols</a>
- * @author $Author: jmachols $
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
 public class LdapTestSession

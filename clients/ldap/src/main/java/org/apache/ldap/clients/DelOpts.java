@@ -211,8 +211,7 @@ import org.apache.commons.cli.ParseException;
 /**
  * Delete operation command line options bean.
  *
- * @author <a href="mailto:jmachols@comcast.net">Jeff Machols</a>
- * @author $Author: jmachols $
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
 

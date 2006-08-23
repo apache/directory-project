@@ -226,8 +226,7 @@ import javax.swing.border.TitledBorder;
 /**
 
  * 
- * @author <a href="mailto:jmachols@apache.org">Jeff Machols</a>
- * @author $Author: jmachols $
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
 public class SessionAddUI extends JPanel

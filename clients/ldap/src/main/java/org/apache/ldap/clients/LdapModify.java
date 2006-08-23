@@ -230,8 +230,7 @@ import org.apache.ldap.common.message.ResultCodeEnum;
 /**
  * Ldap Modify Client
  * 
- * @author <a href="mailto:jmachols@comcast.net">Jeff Machols </a>
- * @author $$Author: jmachols $$
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $$Revision$$
  */
 public class LdapModify extends LdapBind

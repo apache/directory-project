@@ -210,8 +210,7 @@ import org.apache.ldap.common.message.ScopeEnum;
 /**
  * Class to hold the parameters for a search operation.  
  *
- * @author <a href="mailto:jmachols@apache.org">Jeff Machols</a>
- * @author $Author: jmachols $
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
 public class LdapSearchParameters 

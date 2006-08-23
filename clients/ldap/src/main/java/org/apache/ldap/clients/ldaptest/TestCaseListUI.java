@@ -225,8 +225,7 @@ import javax.swing.ListSelectionModel;
  * Test Case Management window.  This will list all the current tests cases
  *  and allow the user to add new, modify or delete tests
  * 
- * @author <a href="mailto:jmachols@apache.org">Jeff Machols</a>
- * @author $Author: jmachols $
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
 public class TestCaseListUI extends JPanel

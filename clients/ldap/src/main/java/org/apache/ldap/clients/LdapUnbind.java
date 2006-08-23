@@ -208,8 +208,7 @@ package org.apache.ldap.clients;
 /**
  * Unbind operation 
  *
- * @author <a href="mailto:jmachols@comcast.net">Jeff Machols</a>
- * @author $Author: jmachols $
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
 public class LdapUnbind 

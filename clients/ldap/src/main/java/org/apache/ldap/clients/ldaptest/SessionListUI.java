@@ -225,8 +225,7 @@ import javax.swing.ListSelectionModel;
  * Session Management window.  This will list all the current sessions and 
  * allow the user to add new, modify or delete sessions
  * 
- * @author <a href="mailto:jmachols@apache.org">Jeff Machols</a>
- * @author $Author: jmachols $
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
 public class SessionListUI extends JPanel

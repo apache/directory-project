@@ -211,8 +211,7 @@ package org.apache.ldap.clients.ldaptest;
  * is the ldap operation and the parameters that go along with it.  These
  * cases will be paired up with session for test runs.
  *
- * @author <a href="mailto:jmachols@apache.org">Jeff Machols</a>
- * @author $Author: jmachols $
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
 public class LdapTestCase

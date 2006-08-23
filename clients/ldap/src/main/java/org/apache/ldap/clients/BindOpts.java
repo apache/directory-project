@@ -212,8 +212,7 @@ import org.apache.commons.cli.ParseException;
 /**
  * @TODO : using a default configuration file could be an option?
  *
- * @author <a href="mailto:jmachols@comcast.net">Jeff Machols</a>
- * @author $Author: jmachols $
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
 public class BindOpts

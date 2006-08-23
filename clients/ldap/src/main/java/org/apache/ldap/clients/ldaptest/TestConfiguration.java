@@ -219,8 +219,7 @@ import org.xml.sax.SAXException;
  * This is the configuration for the LdapTester App.  This will contain the
  * sessions, test cases, and test runs.
  *
- * @author <a href="mailto:jmachols@apache.org">Jeff Machols</a>
- * @author $Author: jmachols $
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
 public class TestConfiguration

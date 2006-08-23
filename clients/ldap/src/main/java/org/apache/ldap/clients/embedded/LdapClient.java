@@ -213,8 +213,7 @@ import javax.naming.NamingEnumeration;
 /**
  * Interface into the LDAPd session
  *
- * @author <a href="mailto:jmachols@comcast.net">Jeff Machols</a>
- * @author $Author: jmachols $
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
 

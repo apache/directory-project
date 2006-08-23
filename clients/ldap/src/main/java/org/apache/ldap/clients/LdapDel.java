@@ -218,8 +218,7 @@ import org.apache.ldap.common.message.DeleteRequest;
 /**
  * Ldap client for the DELETE operation
  * 
- * @author <a href="mailto:jmachols@comcast.net">Jeff Machols </a>
- * @author $Author: jmachols $
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
 public class LdapDel extends LdapBind

@@ -227,8 +227,7 @@ import javax.swing.JTextArea;
  * Ldap Server.  The test cases will be ldap operations.  Test runs will 
  * be created and will contain the sessions and cases to be performed.
  * 
- * @author <a href="mailto:jmachols@apache.org">Jeff Machols</a>
- * @author $Author: jmachols $
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
 public class LdapTester

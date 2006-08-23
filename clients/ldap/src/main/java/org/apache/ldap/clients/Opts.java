@@ -215,8 +215,7 @@ import org.apache.commons.cli.ParseException;
 /**
  * Command line option bean
  * 
- * @author <a href="mailto:jmachols@comcast.net">Jeff Machols </a>
- * @author $Author: jmachols $
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
 public abstract class Opts

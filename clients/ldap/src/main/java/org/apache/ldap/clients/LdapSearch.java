@@ -227,8 +227,7 @@ import org.apache.ldap.common.message.SearchResponseEntryImpl;
 /**
  * Ldap client for the Search operation
  * 
- * @author <a href="mailto:jmachols@comcast.net">Jeff Machols </a>
- * @author $Author: jmachols $
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
 public class LdapSearch extends LdapBind
