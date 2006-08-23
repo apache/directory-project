@@ -59,7 +59,7 @@ import java.lang.reflect.Method;
  * &lt;/resource&gt;
  * </pre>
  *
- * @author <a href="mailto:aner at ncstech.com">Aner Perez</a>
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  */
 public class BeanFactory
     implements ObjectFactory {

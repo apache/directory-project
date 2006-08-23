@@ -53,7 +53,7 @@ import org.apache.naming.NamingContextFactory;
  * (what new InitialContext() returns); or {@link #destroyAll}, which destroys
  * all defined contexts (named or "anonymous").
  * 
- * @author <a href="brett@apache.org">Brett Porter</a>
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Id: XmlConfigurator.java,v 1.2 2003/12/01 02:02:45 brett Exp $
  */
 public class XmlConfigurator {

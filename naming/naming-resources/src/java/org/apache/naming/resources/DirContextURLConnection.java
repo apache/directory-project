@@ -43,7 +43,7 @@ import org.apache.naming.resources.ResourceAttributes;
  * queries using the right names. Content handler is also not used; the 
  * content is directly returned.
  * 
- * @author <a href="mailto:remm@apache.org">Remy Maucherat</a>
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
 public class DirContextURLConnection 

@@ -21,7 +21,7 @@ package org.apache.naming;
 /**
  * Represents a binding in a NamingContext.
  *
- * @author Remy Maucherat
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$ $Date: 2003/10/13 08:16:47 $
  */
 

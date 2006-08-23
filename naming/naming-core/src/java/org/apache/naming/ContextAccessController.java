@@ -36,7 +36,7 @@ import java.util.Hashtable;
  *     <dd>{@link #checkSecurityToken(Object,Object)}</dd>
  * </dl>
  * 
- * @author Remy Maucherat
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$ $Date: 2003/11/30 05:15:06 $
  */
 

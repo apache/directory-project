@@ -21,7 +21,7 @@ import java.util.HashMap;
 /**
  * Implements a special purpose cache.
  * 
- * @author <a href="mailto:remm@apache.org">Remy Maucherat</a>
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision: 1.3 $
  */
 public class ResourceCache {

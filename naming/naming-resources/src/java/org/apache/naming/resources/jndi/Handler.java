@@ -21,7 +21,7 @@ import org.apache.naming.resources.DirContextURLStreamHandler;
 /**
  * Stream handler to a JNDI directory context.
  * 
- * @author <a href="mailto:remm@apache.org">Remy Maucherat</a>
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
 public class Handler 

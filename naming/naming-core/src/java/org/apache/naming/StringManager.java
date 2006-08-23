@@ -41,8 +41,7 @@ import java.util.ResourceBundle;
  * <p>Please see the documentation for java.util.ResourceBundle for
  * more information.
  *
- * @author James Duncan Davidson [duncan@eng.sun.com]
- * @author James Todd [gonzo@eng.sun.com]
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  */
 
 public class StringManager {

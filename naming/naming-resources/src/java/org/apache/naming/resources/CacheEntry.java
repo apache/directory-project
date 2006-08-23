@@ -21,7 +21,7 @@ import javax.naming.directory.DirContext;
 /**
  * Implements a cache entry.
  * 
- * @author <a href="mailto:remm@apache.org">Remy Maucherat</a>
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision: 1.2 $
  */
 public class CacheEntry {

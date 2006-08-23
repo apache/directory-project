@@ -57,7 +57,7 @@ import javax.naming.Context;
  *  Also includes <code>unbind</code> methods and methods for determining
  *  whether or not classloaders and threads are bound to contexts.   
  * 
- * @author Remy Maucherat
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Rev$ $Date$
  */
 

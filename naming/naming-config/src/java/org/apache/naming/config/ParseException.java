@@ -20,7 +20,7 @@ package org.apache.naming.config;
 /**
  * Exception during reading of an XML configuration file.
  * 
- * @author <a href="brett@apache.org">Brett Porter</a>
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Id: ParseException.java,v 1.1 2003/11/14 20:43:26 brett Exp $
  */
 public class ParseException extends Exception

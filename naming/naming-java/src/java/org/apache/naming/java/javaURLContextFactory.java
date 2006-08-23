@@ -43,7 +43,7 @@ import org.apache.naming.ContextBindings;
  * {@link javax.naming.spi.NamingManager#getURLContext(java.lang.String, java.util.Hashtable)}.</li>
  * </ul>
  * 
- * @author Remy Maucherat
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$ $Date$
  */
 

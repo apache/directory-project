@@ -24,7 +24,7 @@ import javax.naming.NameNotFoundException;
  * This should be used only by the proxy context. Actual contexts should return
  * properly populated exceptions.
  * 
- * @author <a href="mailto:remm@apache.org">Remy Maucherat</a>
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
 public class ImmutableNameNotFoundException

@@ -46,7 +46,7 @@ import org.apache.naming.NamingEntry;
 /**
  * WAR Directory Context implementation.
  *
- * @author Remy Maucherat
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$ $Date: 2004/09/16 23:19:54 $
  */
 

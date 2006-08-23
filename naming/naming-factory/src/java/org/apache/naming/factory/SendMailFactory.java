@@ -74,8 +74,7 @@ import javax.naming.spi.ObjectFactory;
  * &lt;/resource>
  * </pre>
  *
- * @author Glenn Nielsen 
- * @author Rich Catlett
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  */
 
 public class SendMailFactory implements ObjectFactory 

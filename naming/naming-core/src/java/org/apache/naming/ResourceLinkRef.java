@@ -24,7 +24,7 @@ import javax.naming.StringRefAddr;
 /**
  * Represents a reference address to a resource.
  *
- * @author Remy Maucherat
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$ $Date: 2003/10/13 08:16:47 $
  */
 

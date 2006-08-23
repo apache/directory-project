@@ -36,7 +36,7 @@ import javax.naming.NamingException;
  * in NamingExceptions.  The URL header (or initial component) is stripped
  * before delegating operations on names / name strings.
  * 
- * @author Remy Maucherat
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$ $Date: 2003/11/30 05:22:15 $
  */
 

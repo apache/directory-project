@@ -30,7 +30,7 @@ import org.apache.naming.EjbRef;
 /**
  * Object factory for EJBs.
  * 
- * @author Remy Maucherat
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$ $Date: 2003/10/13 08:15:11 $
  */
 

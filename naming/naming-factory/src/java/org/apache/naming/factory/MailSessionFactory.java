@@ -55,7 +55,7 @@ import javax.naming.spi.ObjectFactory;
  * &lt;/resource&gt;
  * </pre>
  *
- * @author Craig R. McClanahan
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$ $Date: 2003/10/13 08:15:11 $
  */
 

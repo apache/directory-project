@@ -27,7 +27,7 @@ import javax.management.Notification;
 /**
  * Implementation of the NamingService JMX MBean.
  * 
- * @author <a href="mailto:remm@apache.org">Remy Maucherat</a>
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
 

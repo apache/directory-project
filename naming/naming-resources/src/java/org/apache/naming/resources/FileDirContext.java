@@ -43,7 +43,7 @@ import org.apache.naming.NamingEntry;
 /**
  * Filesystem Directory Context implementation helper class.
  *
- * @author Remy Maucherat
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a> 
  * @version $Revision$ $Date: 2003/10/13 08:15:54 $
  */
 

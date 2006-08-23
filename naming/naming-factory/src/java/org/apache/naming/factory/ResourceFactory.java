@@ -29,7 +29,7 @@ import org.apache.naming.ResourceRef;
 /**
  * Object factory for Resources.
  * 
- * @author Remy Maucherat
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$ $Date: 2003/10/13 08:15:11 $
  */
 

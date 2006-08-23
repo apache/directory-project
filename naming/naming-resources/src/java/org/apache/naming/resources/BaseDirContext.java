@@ -33,7 +33,7 @@ import org.apache.naming.NameParserImpl;
 /**
  * Directory Context implementation helper class.
  *
- * @author Remy Maucherat
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$ $Date: 2003/11/30 05:22:15 $
  */
 

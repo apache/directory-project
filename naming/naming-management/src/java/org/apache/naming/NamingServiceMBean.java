@@ -19,7 +19,7 @@ package org.apache.naming;
 /**
  * Naming MBean interface.
  * 
- * @author <a href="mailto:remm@apache.org">Remy Maucherat</a>
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$
  */
 

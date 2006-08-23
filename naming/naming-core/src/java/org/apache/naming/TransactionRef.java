@@ -23,7 +23,7 @@ import javax.naming.Context;
 /**
  * Represents a reference address to a transaction.
  *
- * @author Remy Maucherat
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$ $Date: 2003/11/30 05:15:06 $
  */
 

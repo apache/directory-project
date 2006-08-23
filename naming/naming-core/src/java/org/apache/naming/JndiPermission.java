@@ -31,7 +31,7 @@ import java.security.BasicPermission;
  * <li> permission org.apache.naming.JndiPermission "*";</li>
  * </p>
  *
- * @author Glenn Nielsen
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
  * @version $Revision$ $Date: 2003/11/30 05:15:06 $
  */
 

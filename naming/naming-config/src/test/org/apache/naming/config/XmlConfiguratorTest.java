@@ -67,7 +67,7 @@ import org.apache.naming.NamingContextFactory;
 
  * 
 
- * @author <a href="brett@apache.org">Brett Porter</a>
+ * @author <a href="mailto:dev@directory.apache.org">Apache Directory Project</a>
 
  * @version $Id: XmlConfiguratorTest.java,v 1.2 2003/12/01 02:02:45 brett Exp $
 
