@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project>
   <modelVersion>4.0.0</modelVersion>
+  <organization>
+    <name>Apache Directory Project (ApacheDS)</name>
+    <url>http://directory.apache.org</url>
+  </organization>
   <groupId>org.apache.directory</groupId>
   <version>1.0.5-SNAPSHOT</version>
   <artifactId>build</artifactId>
