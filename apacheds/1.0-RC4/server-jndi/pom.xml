@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.apache.directory.server</groupId>
+    <artifactId>build</artifactId>
+    <version>1.0-RC4</version>
+  </parent>
+  <artifactId>apacheds-server-jndi</artifactId>
+  <name>ApacheDS Server JNDI</name>
+  <description>
+    The JNDI provider which launches the core and associated network 
+    services: Changepw, Kerberos, LDAP, and NTP if all are configured.
+    By default only LDAP is configured to startup.
+  </description>
+  <packaging>jar</packaging>  
+  <dependencies>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>nlog4j</artifactId>
+      <version>1.2.25</version>
+      <scope>provided</scope>
+    </dependency>  
+    <dependency>
+      <groupId>org.apache.directory.server</groupId>
+      <artifactId>apacheds-protocol-changepw</artifactId>
+      <version>${pom.version}</version>
+    </dependency>  
+    <dependency>
+      <groupId>org.apache.directory.server</groupId>
+      <artifactId>apacheds-protocol-ntp</artifactId>
+      <version>${pom.version}</version>
+    </dependency>  
+    <dependency>
+      <groupId>org.apache.directory.server</groupId>
+      <artifactId>apacheds-protocol-kerberos</artifactId>
+      <version>${pom.version}</version>
+    </dependency>  
+    <dependency>
+      <groupId>org.apache.directory.server</groupId>
+      <artifactId>apacheds-protocol-ldap</artifactId>
+      <version>${pom.version}</version>
+    </dependency>  
+    <dependency>
+      <groupId>org.apache.directory.server</groupId>
+      <artifactId>apacheds-core</artifactId>
+      <version>${pom.version}</version>
+    </dependency>  
+  </dependencies>
+</project>
+
