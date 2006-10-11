@@ -6,7 +6,9 @@
     <description>The Apache Directory Project aims to produce a high performance and production quality LDAP server written in Java.</description>
   </properties>
   <body>
-    
+
+<b><a href="releases.html">ApacheDS 1.0 is out!</a>    
+
     <section name="What is it?">
       <p>
         Before going into all the details here's what the Apache Directory
