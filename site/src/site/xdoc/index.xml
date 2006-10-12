@@ -7,8 +7,12 @@
   </properties>
   <body>
 
-<b><a href="releases.html">ApacheDS 1.0 is out!</a>    
-
+    <section name="News">
+    <ul>
+      <li><b><a href="http://www.opengroup.org/openbrand/register/brand3527.htm">ApacheDS 1.0 has been certified by the Open Group as an LDAPv3 compatible server!</a></b></li>
+      <li><b><a href="subprojects/apacheds/releases.html">ApacheDS 1.0 is out!</a></b></li>
+    </ul>
+    </section>
     <section name="What is it?">
       <p>
         Before going into all the details here's what the Apache Directory
