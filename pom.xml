@@ -32,6 +32,12 @@
       <id>apache.snapshots</id>
       <name>Apache Snapshot Repository</name>
       <url>http://people.apache.org/maven-snapshot-repository</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
     </repository>
     
     <!-- Temp repo for 3rd party jars that are not in ibiblio.org yet.-->
@@ -54,11 +60,23 @@
       <id>snapshots</id>
       <name>snapshot plugins</name>
       <url>http://snapshots.repository.codehaus.org</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
     </pluginRepository>
     <pluginRepository>
       <id>apache.snapshots</id>
       <name>Apache Snapshot Plugins</name>
       <url>http://people.apache.org/repo/m2-snapshot-repository</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
     </pluginRepository>
   </pluginRepositories>
 
