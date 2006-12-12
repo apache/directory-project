@@ -1,0 +1,187 @@
+body
+{
+	text-align:center;
+	font-family:arial, times,sans-serif;
+	font-size:12px;
+	color:#666666;
+	background-color:white;
+	width:800px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+h1
+{
+	margin-top:10px;
+	font-size:28px;
+	color:#FFBA27;
+	font-weight:normal;
+}
+
+
+h2
+{
+	font-size:20px;
+	color:#CCCCCC;
+	font-weight:normal;
+	margin-top:-18px;
+}
+
+h3
+{
+	font-size:14px;
+	color:#FFBA27;
+	font-weight:normal;
+	border: 1px solid #AAAAAA;
+	margin:0;
+	height:16px;
+	padding:5px 5px 5px 5px;
+	background:#F7F7F7;
+}
+
+#top
+{
+	text-align:left;
+    width:800px;
+    border-bottom: 1px solid #CCCCCC;
+}
+
+#container
+{
+    width:800px;
+}
+
+#sideMenu
+{
+	margin-top:15px;
+	border-right:1px solid #CCCCCC;
+	width:160px;
+	position:relative;
+	margin-right:18px;
+	text-align:left;
+	float:left;
+	padding:0;
+}
+
+#announcement
+{
+	margin-top:65px;
+	width:155px;
+	position:relative;
+	/*margin-left:-15px;*/
+	margin-left:0px;
+	margin-right:8px;
+	float:left;
+	padding:0px 0px 0px 0px;
+}
+
+a
+{
+	font-family:arial;
+	color:#FFBA27;
+	font-size:16px;
+	white-space : nowrap;
+	text-decoration:none;
+}
+
+a.inText
+{
+	color:#FFBA27;
+	font-size:12px;
+	white-space : nowrap;
+	text-decoration:none;
+}
+
+#panelcontent
+{
+	padding:9px 9px 9px 9px;
+	margin-top:-1px;
+	border:1px solid #AAAAAA;
+
+	margin-left:0px;
+
+	font-family:normal;
+	font-family:arial, times,sans-serif;
+	font-size:12px;
+
+	word-spacing:2px;
+	color:#AAaAAA;
+	line-height:1.4em;
+}
+
+a:hover
+{
+	text-decoration:underline;
+}
+
+#MainCopy
+{
+	margin:0;
+	/*margin-left:200px;*/
+	margin-top:15px;
+}
+
+#content
+{
+	margin-top:15px;
+	width:590px;
+	text-align:left;
+	margin:0;
+	padding:0px 0px 0px 0px;
+	float: left;
+}
+
+p.assistiveText
+{
+	border:none;
+	padding:0;
+	display:block;
+	margin-top:0px;
+	margin-bottom:1px;
+}
+
+li.menu
+{
+	margin:0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+}
+
+ul.menu
+{
+	color:#AAAAAA;
+	list-style-type:none;
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+}
+
+#footer
+{
+	margin-top:40px;
+	text-align:right;
+    width:800px;
+	border-top:1px solid #CCCCCC;
+	font-family:arial, times,sans-serif;
+	font-size:12px;
+	clear:both;
+	color:#AAaAAA;
+}
+
+label {
+	float: left;
+	width: 140px;
+	font-weight: bold;
+}
+
+input, textarea {
+	width: 180px;
+	margin-bottom: 5px;
+}
+
+textarea {
+	width: 250px;
+	height: 150px;
+}
+
+.boxes {
+	width: 1em;
+}

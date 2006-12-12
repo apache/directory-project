@@ -1,0 +1,8 @@
+MIDlet-1: HausKeys, , org.safehaus.midlets.HausKeys
+MIDlet-Jar-Size: 33355
+MIDlet-Jar-URL: HausKeys.jar
+MIDlet-Name: HausKeys
+MIDlet-Vendor: Safehaus
+MIDlet-Version: 1.0
+MicroEdition-Configuration: CLDC-1.0
+MicroEdition-Profile: MIDP-1.0

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><project>
+<!--
+
+  Licensed to the Apache Software Foundation (ASF) under one
+  or more contributor license agreements.  See the NOTICE file
+  distributed with this work for additional information
+  regarding copyright ownership.  The ASF licenses this file
+  to you under the Apache License, Version 2.0 (the
+  "License"); you may not use this file except in compliance
+  with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing,
+  software distributed under the License is distributed on an
+  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  KIND, either express or implied.  See the License for the
+  specific language governing permissions and limitations
+  under the License.
+
+-->
+
+  <parent>
+    <artifactId>build</artifactId>
+    <groupId>org.safehaus.triplesec</groupId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>triplesec-webapp-changelog</artifactId>
+  <packaging>war</packaging>
+  <name>Triplesec Webapp for Changelog Service</name>
+  <build>
+    <outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>
+    <finalName>triplesec-webapp-changelog</finalName>
+  </build>
+  
+  <dependencies>
+    <dependency>
+      <groupId>${pom.groupId}</groupId>
+      <artifactId>triplesec-integration</artifactId>
+      <version>${pom.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>${pom.groupId}</groupId>
+      <artifactId>triplesec-changelog</artifactId>
+      <version>${pom.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.derby</groupId>
+      <artifactId>derby</artifactId>
+      <version>10.1.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>myfaces</groupId>
+      <artifactId>myfaces-api</artifactId>
+      <version>1.1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>myfaces</groupId>
+      <artifactId>myfaces-impl</artifactId>
+      <version>1.1.0</version>
+    </dependency>
+      <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jstl</artifactId>
+      <version>1.1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.0.3</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-el</groupId>
+      <artifactId>commons-el</artifactId>
+      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-digester</groupId>
+      <artifactId>commons-digester</artifactId>
+      <version>1.5</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <version>1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
+      <version>1.6.1</version>
+    </dependency>
+    <dependency>
+      <groupId>tomcat</groupId>
+      <artifactId>jasper-runtime</artifactId>
+      <version>5.5.9</version>
+    </dependency>
+    <dependency>
+      <groupId>tomcat</groupId>
+      <artifactId>jasper-compiler</artifactId>
+      <version>5.5.9</version>
+    </dependency>
+    <dependency>
+      <groupId>tomcat</groupId>
+      <artifactId>jasper-compiler-jdt</artifactId>
+      <version>5.5.9</version>
+    </dependency>
+    <dependency>
+      <groupId>xerces</groupId>
+      <artifactId>xmlParserAPIs</artifactId>
+      <version>2.6.2</version>
+    </dependency>
+    <dependency>
+      <groupId>xerces</groupId>
+      <artifactId>xercesImpl</artifactId>
+      <version>2.6.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>jetty</groupId>
+      <artifactId>org.mortbay.jetty</artifactId>
+      <version>5.1.8</version>
+    </dependency>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.11</version>
+    </dependency>
+  </dependencies>
+
+
+  <profiles>
+    <profile>
+      <id>default</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+           <plugin>
+              <artifactId>maven-surefire-plugin</artifactId>
+              <configuration>
+                <excludes>
+                  <!-- Do not run this test since it never exists -->
+                  <exclude>**/RunChangelogUITest.java</exclude>
+                  <!-- Avoid normal integration tests -->
+                  <exclude>**/*ITest.java</exclude>
+                  <exclude>**/*IntegrationTest.java</exclude>
+                </excludes>
+              </configuration>
+            </plugin>
+         </plugins>
+       </build>
+    </profile>
+    <profile>
+      <id>integration</id>
+      <activation>
+        <property><name>integration</name></property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <systemProperties>
+                <property>
+                  <name>org.safehaus.triplesec.integration.resourcesDirectory</name>
+                  <value>${basedir}/src/test/resources</value>
+                </property>
+              </systemProperties>
+              <excludes>
+                <!-- Do not run this test since it never exists -->
+                <exclude>**/RunChangelogUITest.java</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>ui</id>
+      <activation>
+        <property><name>ui</name></property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <systemProperties>
+                <property>
+                  <name>org.safehaus.triplesec.integration.resourcesDirectory</name>
+                  <value>${basedir}/src/test/resources</value>
+                </property>
+                <property>
+                  <name>org.safehaus.triplesec.integration.webapps</name>
+                  <value>changelogui</value>
+                </property>
+                <property>
+                  <name>org.safehaus.triplesec.integration.webappWarBase.changelogui</name>
+                  <value>${basedir}/target/${pom.artifactId}.war</value>
+                </property>
+              </systemProperties>
+              <includes>
+                <include>**/RunChangelogUI.java</include>
+              </includes>
+              <excludes>
+                <exclude>**/*Test.java</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>

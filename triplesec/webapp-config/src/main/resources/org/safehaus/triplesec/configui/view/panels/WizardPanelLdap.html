@@ -1,0 +1,44 @@
+<!--
+
+  Licensed to the Apache Software Foundation (ASF) under one
+  or more contributor license agreements.  See the NOTICE file
+  distributed with this work for additional information
+  regarding copyright ownership.  The ASF licenses this file
+  to you under the Apache License, Version 2.0 (the
+  "License"); you may not use this file except in compliance
+  with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing,
+  software distributed under the License is distributed on an
+  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  KIND, either express or implied.  See the License for the
+  specific language governing permissions and limitations
+  under the License.
+
+-->
+
+<wicket:extend>
+    <p>
+        The LDAP service can be enabled for remote configuration
+        and management of the server. The embedded Admin UI application
+        in the Triplesec server requires the LDAP server to be active.
+        If you intend to use this Admin UI, then LDAP activation is
+        required.
+    </p>
+    <p>
+        If you don't understand the ramifications of turning the LDAP
+        service off, then use the defaults.
+    </p>
+    <br/>
+    <label for="enableLdap">Enable LDAP?</label>
+    <input class="boxes" wicket:id="enableLdap" id="enableLdap" type="checkbox"/><br />
+
+    <label for="ldapPort">Port</label>
+    <input wicket:id="ldapPort" id="ldapPort" type="text" /><br />
+
+    <label for="allowAnonymousAccess">Anonymous Access?</label>
+    <input class="boxes" wicket:id="allowAnonymousAccess" id="allowAnonymousAccess" type="checkbox"/><br />
+
+</wicket:extend>

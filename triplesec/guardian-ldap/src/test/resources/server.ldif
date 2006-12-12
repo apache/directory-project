@@ -1,0 +1,334 @@
+#
+#  Licensed to the Apache Software Foundation (ASF) under one
+#  or more contributor license agreements.  See the NOTICE file
+#  distributed with this work for additional information
+#  regarding copyright ownership.  The ASF licenses this file
+#  to you under the Apache License, Version 2.0 (the
+#  "License"); you may not use this file except in compliance
+#  with the License.  You may obtain a copy of the License at
+#  
+#    http://www.apache.org/licenses/LICENSE-2.0
+#  
+#  Unless required by applicable law or agreed to in writing,
+#  software distributed under the License is distributed on an
+#  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+#  KIND, either express or implied.  See the License for the
+#  specific language governing permissions and limitations
+#  under the License. 
+#  
+#
+#
+#   EXAMPLE.COM is freely and reserved for testing according to this RFC:
+#
+#   http://www.rfc-editor.org/rfc/rfc2606.txt
+#
+#
+
+#
+# This ACI allows brouse access to the root suffix and one level below that to anyone.
+# At this level there is nothing critical exposed.  Everything that matters is one or
+# more levels below this.
+#
+
+dn: cn=browseRootAci,dc=example,dc=com
+objectClass: top
+objectClass: subentry
+objectClass: accessControlSubentry
+subtreeSpecification: { maximum 1 }
+prescriptiveACI: { identificationTag "browseRoot", precedence 100, authenticationLevel none, itemOrUserFirst userFirst: { userClasses { allUsers }, userPermissions { { protectedItems {entry}, grantsAndDenials { grantReturnDN, grantBrowse } } } } }
+
+dn: ou=Users, dc=example, dc=com
+objectclass: top
+objectclass: organizationalunit
+ou: Users
+
+#
+# This ACI allows users to modify a limited set of attributes in their own user
+# entry as well as read, compare those attributes.  The user's entry must be 
+# browseable and the DN must be returnable.
+#
+
+dn: cn=allowSelfModificationsAci,dc=example,dc=com
+objectClass: top
+objectClass: subentry
+objectClass: accessControlSubentry
+subtreeSpecification: { base "ou=users", maximum 1 }
+prescriptiveACI: { identificationTag "allowSelfModifications", precedence 14, authenticationLevel simple, itemOrUserFirst userFirst: { userClasses { thisEntry }, userPermissions  {  { protectedItems {entry}, grantsAndDenials { grantReturnDN, grantModify, grantBrowse, grantRead, grantDiscloseOnError } }, { protectedItems {allAttributeValues {userPassword, krb5Key, givenName, cn, commonName, surName, sn, objectClass }}, grantsAndDenials { grantModify, grantAdd, grantRemove, grantRead, grantDiscloseOnError, grantCompare } } } } }
+
+#
+# This ACI allows users to access a limited set of attributes in their own user
+# entry as well as compare those attributes.  The user's entry must be browseable 
+# and the DN must be returnable.
+#
+
+dn: cn=allowSelfAccessAci,dc=example,dc=com
+objectClass: top
+objectClass: subentry
+objectClass: accessControlSubentry
+subtreeSpecification: { base "ou=users", maximum 1 }
+prescriptiveACI: { identificationTag "allowSelfAccess", precedence 15, authenticationLevel simple, itemOrUserFirst userFirst: { userClasses { thisEntry }, userPermissions  {  { protectedItems {entry}, grantsAndDenials { grantReturnDN, grantBrowse, grantRead, grantDiscloseOnError } }, { protectedItems {allAttributeValues {uid, userPassword, givenName, cn, commonName, surName, sn, objectClass, creatorsName, modifiersName, createTimestamp, modifyTimestamp, krb5AccountDisabled, description, apacheSamType }}, grantsAndDenials { grantRead, grantDiscloseOnError, grantCompare } } } } }
+
+dn: ou=Groups, dc=example, dc=com
+objectclass: top
+objectclass: organizationalunit
+ou: Groups
+
+dn: cn=superUsers, ou=Groups, dc=example, dc=com
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: superUsers
+uniqueMember: uid=admin, ou=system
+
+dn: cn=userAdmins, ou=Groups, dc=example, dc=com
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: userAdmin
+uniqueMember: uid=admin, ou=system
+
+dn: cn=applicationAdmins, ou=Groups, dc=example, dc=com
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: applicationAdmin
+uniqueMember: uid=admin, ou=system
+
+dn: cn=groupAdmins, ou=Groups, dc=example, dc=com
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: groupAdmin
+uniqueMember: uid=admin, ou=system
+
+#
+# This ACI allows members of the superUsers group to have full modify and read access
+# to the entire realm as does the system administrator principal: uid=admin, ou=system.
+#
+# The only thing these users cannot do is modify the system partition.  They are only
+# restricted to superUser rights within this realm partition
+#
+ 
+dn: cn=superUsersAci,dc=example,dc=com
+objectClass: top
+objectClass: subentry
+objectClass: accessControlSubentry
+subtreeSpecification: { }
+prescriptiveACI: { identificationTag "superUsersAci", precedence 20, authenticationLevel simple,  itemOrUserFirst userFirst: { userClasses { userGroup { "cn=superUsers,ou=groups,dc=example,dc=com" } }, userPermissions { { protectedItems {entry, allUserAttributeTypesAndValues},  grantsAndDenials { grantRead, grantReturnDN, grantBrowse, grantDiscloseOnError, grantCompare, grantAdd, grantRename, grantRemove, grantModify, grantImport, grantExport } } } } }
+
+#
+# This ACI allows members of the userAdmin group to have full modify and read access
+# to user accounts besides their own.  Hence they can administer users in the system.
+#
+ 
+dn: cn=userAdminsAci,dc=example,dc=com
+objectClass: top
+objectClass: subentry
+objectClass: accessControlSubentry
+subtreeSpecification: { base "ou=users", maximum 1 }
+prescriptiveACI: { identificationTag "userAdminsAci", precedence 16, authenticationLevel simple,  itemOrUserFirst userFirst: { userClasses { userGroup { "cn=userAdmins,ou=groups,dc=example,dc=com" } }, userPermissions { { protectedItems {entry, allUserAttributeTypesAndValues},  grantsAndDenials { grantRead, grantReturnDN, grantBrowse, grantDiscloseOnError, grantCompare, grantAdd, grantRename, grantRemove, grantModify, grantImport, grantExport } } } } }
+
+
+#
+# This ACI allows members of the applicationAdmin group to have full modify and read access
+# to all applications in the realm.  Adding users to this group is like a wild card for 
+# application access.
+#
+ 
+dn: cn=applicationAdminsAci,dc=example,dc=com
+objectClass: top
+objectClass: subentry
+objectClass: accessControlSubentry
+subtreeSpecification: { base "ou=applications" }
+prescriptiveACI: { identificationTag "applicationAdminsAci", precedence 17, authenticationLevel simple,  itemOrUserFirst userFirst: { userClasses { userGroup { "cn=applicationAdmins,ou=groups,dc=example,dc=com" } }, userPermissions { { protectedItems {entry, allUserAttributeTypesAndValues},  grantsAndDenials { grantRead, grantReturnDN, grantBrowse, grantDiscloseOnError, grantCompare, grantAdd, grantRename, grantRemove, grantModify, grantImport, grantExport } } } } }
+
+
+#
+# This ACI allows members of the groupAdmins group to have full modify and read access
+# to all groups in the realm other than the superUsers, userAdmins, groupAdmins, and the 
+# applicationAdmins groups.
+#
+# The rational behind this is to prevent these users from changing their or other
+# users' access rights for the entire system by modifying their membership in these 
+# groups. Making someone a groupAdmin should not open the door to their ability to
+# grant themselves or others system wide administrative abilities.
+#
+# Really the groupAdmins group is intended for users that have the ability to manage 
+# group membership in specific application administration groups and that's all.  
+# These types of admins should not have the right to promote others to system level
+# administrators or complete super users.
+#
+ 
+dn: cn=groupAdminsAci,dc=example,dc=com
+objectClass: top
+objectClass: subentry
+objectClass: accessControlSubentry
+subtreeSpecification: { base "ou=groups", specificExclusions { chopBefore: "cn=userAdmins", chopBefore: "cn=groupAdmins", chopBefore: "cn=applicationAdmins", chopBefore: "cn=superUsers" } }
+prescriptiveACI: { identificationTag "groupAdminsAci", precedence 18, authenticationLevel simple,  itemOrUserFirst userFirst: { userClasses { userGroup { "cn=groupAdmins,ou=groups,dc=example,dc=com" } }, userPermissions { { protectedItems {entry, allUserAttributeTypesAndValues},  grantsAndDenials { grantRead, grantReturnDN, grantBrowse, grantDiscloseOnError, grantCompare, grantAdd, grantRename, grantRemove, grantModify, grantImport, grantExport } } } } }
+
+dn: uid=krbtgt, ou=Users, dc=example,dc=com
+cn: Kerberos Server
+sn: Server
+givenname: Kerberos
+objectclass: top
+objectclass: uidObject
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+objectclass: krb5Principal
+objectclass: krb5KDCEntry
+ou: Users
+uid: krbtgt
+krb5PrincipalName: krbtgt/EXAMPLE.COM@EXAMPLE.COM
+krb5KeyVersionNumber: 0
+mail: admin@example.com
+roomnumber: 667
+userpassword: secret
+
+dn: ou=applications,dc=example,dc=com
+objectClass: top
+objectClass: organizationalunit
+ou: applications
+
+dn: appName=mockApplication,ou=applications,dc=example,dc=com
+objectClass: top
+objectClass: policyApplication
+appName: mockApplication
+userPassword:: dGVzdGluZw==
+
+dn: ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: permissions
+
+dn: permName=mockPerm0,ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com
+objectClass: top
+objectClass: policyPermission
+permName: mockPerm0
+
+dn: permName=mockPerm1,ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com
+objectClass: top
+objectClass: policyPermission
+permName: mockPerm1
+
+dn: permName=mockPerm2,ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com
+objectClass: top
+objectClass: policyPermission
+permName: mockPerm2
+
+dn: permName=mockPerm3,ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com
+objectClass: top
+objectClass: policyPermission
+permName: mockPerm3
+
+dn: permName=mockPerm4,ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com
+objectClass: top
+objectClass: policyPermission
+permName: mockPerm4
+
+dn: permName=mockPerm5,ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com
+objectClass: top
+objectClass: policyPermission
+permName: mockPerm5
+
+dn: permName=mockPerm6,ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com
+objectClass: top
+objectClass: policyPermission
+permName: mockPerm6
+
+dn: permName=mockPerm7,ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com
+objectClass: top
+objectClass: policyPermission
+permName: mockPerm7
+
+dn: permName=mockPerm8,ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com
+objectClass: top
+objectClass: policyPermission
+permName: mockPerm8
+
+dn: permName=mockPerm9,ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com
+objectClass: top
+objectClass: policyPermission
+permName: mockPerm9
+
+dn: ou=roles,appName=mockApplication,ou=applications,dc=example,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: roles
+
+dn: roleName=mockRole0,ou=roles,appName=mockApplication,ou=applications,dc=example,dc=com
+objectClass: policyRole
+objectClass: top
+roleName: mockRole0
+
+dn: roleName=mockRole1,ou=roles,appName=mockApplication,ou=applications,dc=example,dc=com
+objectClass: top
+objectClass: policyRole
+grants: mockPerm0
+roleName: mockRole1
+
+dn: roleName=mockRole2,ou=roles,appName=mockApplication,ou=applications,dc=example,dc=com
+objectClass: top
+objectClass: policyRole
+grants: mockPerm1
+roleName: mockRole2
+
+dn: roleName=mockRole3,ou=roles,appName=mockApplication,ou=applications,dc=example,dc=com
+objectClass: top
+objectClass: policyRole
+grants: mockPerm3
+grants: mockPerm2
+roleName: mockRole3
+
+dn: roleName=mockRole4,ou=roles,appName=mockApplication,ou=applications,dc=example,dc=com
+objectClass: top
+objectClass: policyRole
+grants: mockPerm9
+grants: mockPerm7
+grants: mockPerm6
+grants: mockPerm5
+grants: mockPerm4
+roleName: mockRole4
+
+dn: ou=profiles,appName=mockApplication,ou=applications,dc=example,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: profiles
+
+dn: profileId=mockProfile0,ou=profiles,appName=mockApplication,ou=applications,dc=example,dc=com
+objectClass: top
+objectClass: policyProfile
+user: akarasulu
+profileId: mockProfile0
+
+dn: profileId=mockProfile1,ou=profiles,appName=mockApplication,ou=applications,dc=example,dc=com
+objectClass: top
+objectClass: policyProfile
+roles: mockRole2
+roles: mockRole1
+user: akarasulu
+profileId: mockProfile1
+
+dn: profileId=mockProfile2,ou=profiles,appName=mockApplication,ou=applications,dc=example,dc=com
+objectClass: top
+objectClass: policyProfile
+grants: mockPerm0
+roles: mockRole2
+user: akarasulu
+profileId: mockProfile2
+
+dn: profileId=mockProfile3,ou=profiles,appName=mockApplication,ou=applications,dc=example,dc=com
+objectClass: top
+objectClass: policyProfile
+grants: mockPerm7
+grants: mockPerm0
+roles: mockRole3
+user: akarasulu
+profileId: mockProfile3
+
+dn: profileId=mockProfile4,ou=profiles,appName=mockApplication,ou=applications,dc=example,dc=com
+objectClass: top
+objectClass: policyProfile
+denials: mockPerm7
+grants: mockPerm0
+roles: mockRole4
+roles: mockRole3
+user: akarasulu
+profileId: mockProfile4
+

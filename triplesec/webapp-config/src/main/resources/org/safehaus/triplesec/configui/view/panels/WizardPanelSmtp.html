@@ -1,0 +1,48 @@
+<!--
+
+  Licensed to the Apache Software Foundation (ASF) under one
+  or more contributor license agreements.  See the NOTICE file
+  distributed with this work for additional information
+  regarding copyright ownership.  The ASF licenses this file
+  to you under the Apache License, Version 2.0 (the
+  "License"); you may not use this file except in compliance
+  with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing,
+  software distributed under the License is distributed on an
+  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  KIND, either express or implied.  See the License for the
+  specific language governing permissions and limitations
+  under the License.
+
+-->
+
+<wicket:extend>
+    <p>
+       Triplesec uses Email and SMS to send activation and download links 
+       for Hauskeys applications it assembles for registered users.  Enter
+       your mail server host name and additional authentication parameters if 
+       your mail server requires authentication.
+    </p>
+
+    <label for="smtpAuthenticate">Authenticate?</label>
+    <input class="boxes" wicket:id="smtpAuthenticate" id="smtpAuthenticate" type="checkbox"/><br/>
+
+    <label for="smtpUsername">Username</label>
+    <input wicket:id="smtpUsername" id="smtpUsername" type="text"/><br/>
+
+    <label for="smtpPassword">Password</label>
+    <input wicket:id="smtpPassword" id="smtpPassword" type="password"/><br/>
+
+    <label for="smtpHost">Host</label>
+    <input wicket:id="smtpHost" id="smtpHost" type="text"/><br/>
+
+    <label for="smtpSubject">Subject</label>
+    <input wicket:id="smtpSubject" id="smtpSubject" type="text"/><br/>
+
+    <label for="smtpFrom">From</label>
+    <input wicket:id="smtpFrom" id="smtpFrom" type="text"/><br/>
+
+</wicket:extend>

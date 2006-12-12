@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+ <properties>
+  <title>Triplesec Modules</title>
+ </properties>
+ <body>
+  <section name="Triplesec Modules">
+   <p>Triplesec is composed of several modules. Here is the list of them with brief descriptions:</p>
+   <table>
+    <tr> <th>Name</th> <th>Description</th> </tr>
+    <tr> <td>Triplesec Crypto API</td> <td>Cryptography packages for various algorithms. </td> </tr>
+    <tr> <td>Apache Directory Build</td> <td>To be described...</td> </tr>
+    <tr> <td>Triplesec JAAS Login Module</td> <td>A JAAS LoginModule which accounts for SAM execeptions. </td> </tr>
+    <tr> <td>Triplesec Main</td> <td>To be described...</td> </tr>
+    <tr> <td>Triplesec OTP API</td> <td>One Time Password Algorithm API </td> </tr>
+    <tr> <td>Triplesec Profile API</td> <td>Triplesec Profile API </td> </tr>
+    <tr> <td>Triplesec SMS API</td> <td>Short Message Service API for Triplesec Server </td> </tr>
+    <tr> <td>Triplesec Store</td> <td>To be described...</td> </tr>
+    <tr> <td>Triplesec Test Profiles</td> <td>To be described...</td> </tr>
+    <tr> <td>Triplesec Server Tools</td> <td>Contained within this executable jar are various commandline utilities for triplesec server. </td> </tr>
+    <tr> <td>Triplesec Unit Testing</td> <td>To be described...</td> </tr>
+    <tr> <td>Triplesec SAM Verifier</td> <td>The Verifier for the SAM Subsystem </td> </tr>
+    <tr> <td>Triplesec Webapp for Activation of Accounts</td> <td>To be described...</td> </tr>
+    <tr> <td>Triplesec Webapp for Administration</td> <td>To be described...</td> </tr>
+    <tr> <td>Triplesec Webapp for Server Configuration</td> <td>To be described...</td> </tr>
+    <tr> <td>Triplesec Webapp for Demo</td> <td>To be described...</td> </tr>
+    <tr> <td>Triplesec Webapp for Registration of Accounts</td> <td>To be described...</td> </tr>
+    <tr> <td>Triplesec Webapp for Root</td> <td>To be described...</td> </tr>
+   </table>
+  </section>
+ </body>
+</document>

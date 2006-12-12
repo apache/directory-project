@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Triplesec Server</title>
+</head>
+
+<body>
+<h1>Triplesec Console</h1>
+
+<!--
+This really needs to be a JSP.  We have to ask the server which apps are installed and 
+decide what links to show here.  Might be a good idea to have each web application 
+register itself with the LDAP server under ou=configuration for this kind of coordination
+between the web applications.  I guess if the http service is activated this minimal 
+webapplication for the webroot should be available.
+-->
+
+<ul>
+	<li><a href="/registration/">Account Registration</a></li>
+	<li><a href="/demo/">401k Management Demo</a></li>
+</ul>
+</body>
+
+</html>
