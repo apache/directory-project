@@ -6,8 +6,8 @@
 find . -type d -name target | xargs rm -rf
 
 if [ `uname` == "CYGWIN_NT-5.1" ]; then
-  rm -rf $(cygpath "$HOME_PATH"/.m2/repository/org/apache/{directory,mina});
+  rm -rf $(cygpath "$HOME_PATH"/.m2/repository/org/apache/{directory});
 else
-  rm -rf ~/.m2/repository/org/apache/{directory,mina}
+  rm -rf ~/.m2/repository/org/apache/{directory}
 fi
 
