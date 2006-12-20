@@ -127,11 +127,11 @@
       <artifactId>commons-cli</artifactId>
     </dependency>
     <dependency>
-      <groupId>springframework</groupId>
+      <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
     </dependency>
     <dependency>
-      <groupId>springframework</groupId>
+      <groupId>org.springframework</groupId>
       <artifactId>spring-beans</artifactId>
     </dependency>
     <dependency>
@@ -139,7 +139,7 @@
       <artifactId>commons-logging</artifactId>
     </dependency>
     <dependency>
-      <groupId>springframework</groupId>
+      <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
     </dependency>
   </dependencies>
@@ -148,7 +148,6 @@
       <plugin>
         <groupId>org.apache.directory.daemon</groupId>
         <artifactId>daemon-plugin</artifactId>
-        <version>1.0-SNAPSHOT</version>
         <configuration>
           <excludes>
             <exclude>

@@ -20,6 +20,7 @@
 package org.safehaus.triplesec.jaas;
 
 
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
@@ -308,7 +309,13 @@ public class SafehausLoginModule implements LoginModule
         
         try
         {
-            module.initialize( subject, cbHandler, sharedState, options );
+            Map krb5ModuleOptions = new HashMap( options );
+            if ( krb5ModuleOptions.containsKey( ALLOW_ADMIN ) )
+            {
+                krb5ModuleOptions.remove( ALLOW_ADMIN );
+            }
+            
+            module.initialize( subject, cbHandler, sharedState, krb5ModuleOptions );
             return module.login();
         }
         catch ( LoginException le )
