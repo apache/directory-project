@@ -31,7 +31,6 @@
     <dependency>
       <groupId>wicket</groupId>
       <artifactId>wicket</artifactId>
-      <version>1.2-beta2</version>
     </dependency>
   </dependencies>
 </project>

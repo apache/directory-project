@@ -34,12 +34,10 @@
     <dependency>
       <groupId>wicket</groupId>
       <artifactId>wicket-spring</artifactId>
-      <version>1.2-rc3</version>
     </dependency>
     <dependency>
       <groupId>wicket</groupId>
       <artifactId>wicket-extensions</artifactId>
-      <version>1.2-rc3</version>
     </dependency>
     <dependency>
       <groupId>org.apache.derby</groupId>
