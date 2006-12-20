@@ -60,7 +60,6 @@
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
-      <version>1.2.11</version>
     </dependency>
     <dependency>
       <groupId>${pom.groupId}</groupId>
@@ -80,12 +79,10 @@
     <dependency>
       <groupId>org.apache.directory.shared</groupId>
       <artifactId>shared-ldap</artifactId>
-      <version>0.9.5.3-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>nlog4j</artifactId>
-      <version>1.2.25</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>

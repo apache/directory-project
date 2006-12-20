@@ -34,13 +34,11 @@
     <dependency>
       <artifactId>nlog4j</artifactId>
       <groupId>org.slf4j</groupId>
-      <version>1.2.25</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <artifactId>shared-ldap</artifactId>
       <groupId>org.apache.directory.shared</groupId>
-      <version>0.9.5.3-SNAPSHOT</version>
     </dependency>
     <dependency>
       <artifactId>triplesec-guardian-api</artifactId>

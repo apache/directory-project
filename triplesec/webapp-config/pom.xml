@@ -51,13 +51,6 @@
       <artifactId>wicket</artifactId>
       <version>1.2-beta2</version>
     </dependency>
-	<!--
-    <dependency>
-      <groupId>wicket</groupId>
-      <artifactId>wicket-extensions</artifactId>
-      <version>1.2-beta2</version>
-    </dependency>
-	-->
     <dependency>
       <groupId>servletapi</groupId>
       <artifactId>servletapi</artifactId>
@@ -67,7 +60,6 @@
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
-      <version>1.2.11</version>
     </dependency>
     <dependency>
       <groupId>${pom.groupId}</groupId>
@@ -95,13 +87,11 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>nlog4j</artifactId>
-      <version>1.2.25</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>1.2</version>
       <scope>provided</scope>
     </dependency>
  

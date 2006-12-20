@@ -36,7 +36,6 @@
     <dependency>
       <artifactId>nlog4j</artifactId>
       <groupId>org.slf4j</groupId>
-      <version>1.2.25</version>
     </dependency>
     <dependency>
       <artifactId>triplesec-guardian-ldap</artifactId>

@@ -35,8 +35,6 @@ import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.NameCallback;
 import javax.security.auth.callback.PasswordCallback;
 
-import com.sun.security.auth.module.Krb5LoginModule;
-
 import org.safehaus.otp.HotpErrorConstants;
 import org.safehaus.triplesec.guardian.ApplicationPolicy;
 import org.safehaus.triplesec.guardian.Profile;
@@ -57,7 +55,6 @@ public class SafehausLoginModule implements LoginModule
     private static final Logger log = LoggerFactory.getLogger( SafehausLoginModule.class );
     
     /** the underlying LoginModule is the Krb5LoginModule */
-    LoginModule module = new Krb5LoginModule();
     private NameCallback profileIdCallback;
     private PasswordCallback passwordCallback;
     private RealmCallback realmCallback;
@@ -68,6 +65,38 @@ public class SafehausLoginModule implements LoginModule
     private Map options;
     private PolicyCallback policyCallback;
     private Profile profile;
+    LoginModule module;
+
+
+    public SafehausLoginModule()
+    {
+        String javaVendor = System.getProperty( "java.vendor" );
+        if ( javaVendor.equalsIgnoreCase( "IBM Corporation" ) )
+        {
+            /// init IBM's Krb5LoginModule
+            try
+            {
+                module = ( LoginModule ) Class.forName( "com.ibm.security.auth.module.Krb5LoginModule" ).newInstance();
+            }
+            catch ( Exception e )
+            {
+                e.printStackTrace();
+            }
+        }
+        
+        if ( javaVendor.equalsIgnoreCase( "Sun Microsystems Inc." ) )
+        {
+            /// init SUN's Krb5LoginModule
+            try
+            {
+                module = ( LoginModule ) Class.forName( "com.sun.security.auth.module.Krb5LoginModule" ).newInstance();
+            }
+            catch ( Exception e )
+            {
+                e.printStackTrace();
+            }
+        }
+    }
 
 
     public boolean abort() throws LoginException

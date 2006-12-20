@@ -55,7 +55,6 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>nlog4j</artifactId>
-      <version>1.2.25</version>
     </dependency>
     <dependency>
       <groupId>${pom.groupId}</groupId>
@@ -66,7 +65,6 @@
     <dependency>
       <groupId>tomcat</groupId>
       <artifactId>servlet-api</artifactId>
-      <version>5.5.12</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>

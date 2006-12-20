@@ -27,8 +27,6 @@ import javax.security.auth.login.LoginException;
 import javax.security.auth.Subject;
 import javax.security.auth.callback.CallbackHandler;
 
-import com.sun.security.auth.module.Krb5LoginModule;
-
 import org.safehaus.otp.HotpErrorConstants;
 
 
@@ -41,8 +39,38 @@ import org.safehaus.otp.HotpErrorConstants;
 public class OldSafehausLoginModule implements LoginModule
 {
     /** the underlying LoginModule is the Krb5LoginModule */
-    LoginModule module = new Krb5LoginModule();
+    LoginModule module;
 
+
+    public OldSafehausLoginModule()
+    {
+        String javaVendor = System.getProperty( "java.vendor" );
+        if ( javaVendor.equalsIgnoreCase( "IBM Corporation" ) )
+        {
+            /// init IBM's Krb5LoginModule
+            try
+            {
+                module = ( LoginModule ) Class.forName( "com.ibm.security.auth.module.Krb5LoginModule" ).newInstance();
+            }
+            catch ( Exception e )
+            {
+                e.printStackTrace();
+            }
+        }
+        
+        if ( javaVendor.equalsIgnoreCase( "Sun Microsystems Inc." ) )
+        {
+            /// init SUN's Krb5LoginModule
+            try
+            {
+                module = ( LoginModule ) Class.forName( "com.sun.security.auth.module.Krb5LoginModule" ).newInstance();
+            }
+            catch ( Exception e )
+            {
+                e.printStackTrace();
+            }
+        }
+    }
 
     public boolean abort() throws LoginException
     {
