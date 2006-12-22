@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<batchResponse xmlns="urn:oasis:names:tc:DSML:2.0:core">
+	<modDNResponse requestID="60">
+		<resultCode code="0" descr="success"/>
+	</modDNResponse>
+</batchResponse>

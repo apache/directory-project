@@ -1,0 +1,180 @@
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one
+  or more contributor license agreements.  See the NOTICE file
+  distributed with this work for additional information
+  regarding copyright ownership.  The ASF licenses this file
+  to you under the Apache License, Version 2.0 (the
+  "License"); you may not use this file except in compliance
+  with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing,
+  software distributed under the License is distributed on an
+  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  KIND, either express or implied.  See the License for the
+  specific language governing permissions and limitations
+  under the License.
+-->
+<project name="ldapstudio-complete" default="bundle">
+    <property name="project.name" value="ldapstudio-complete" />
+    <property name="project.version" value="1.0.0" />
+    <property name="ldapstudio-complete.output" value="${basedir}/target" />
+    <property name="ldapstudio-complete.build" value="${ldapstudio-complete.output}/LDAP Studio" />    
+    
+    <!-- Setting up OS Name-->
+    <condition property="ldapstudio-rcp.os.name" value="macosx" >
+            <os name="Mac OS X"/>
+    </condition>
+    <condition property="ldapstudio-rcp.os.name" value="linux" >
+            <os family="unix" />
+    </condition>
+    <condition property="ldapstudio-rcp.os.name" value="win32">
+            <os family="windows" />
+    </condition>
+
+    <!-- Setting up OS Extension-->
+    <condition property="ldapstudio-rcp.os.extension" value=".app" >
+        <equals arg1="${ldapstudio-rcp.os.name}" arg2="macosx"/>
+    </condition>
+    <condition property="ldapstudio-rcp.os.extension" value="" >
+        <equals arg1="${ldapstudio-rcp.os.name}" arg2="linux"/>
+    </condition>
+    <condition property="ldapstudio-rcp.os.extension" value=".exe">
+        <equals arg1="${ldapstudio-rcp.os.name}" arg2="win32"/>
+    </condition>
+
+    <!-- ================================== -->
+    <!--                HELP                -->
+    <!-- ================================== -->
+    <target name="help" description="Shows help">
+        <echo>Available commands:</echo>
+	<echo>  bundle - Generate and bundles a complete version of LDAP Studio</echo>
+	<echo>      When bundling you can specify the target operating system using this option:</echo>
+	<echo>          o -Dldapstudio-rcp.os.name=macosx for Mac OS X</echo>
+	<echo>          o -Dldapstudio-rcp.os.name=linux for Linux</echo>
+	<echo>          o -Dldapstudio-rcp.os.name=win32 for Windows</echo>
+	<echo>      and the target architecture using this option:</echo>
+	<echo>          o -Dldapstudio-rcp.os.arch=i386 for i386 architecture</echo>
+	<echo>          o -Dldapstudio-rcp.os.arch=ppc for PowerPC architecture</echo>
+        <echo>  clean - Delete any generated file (javadoc, classes, jars, distribution)</echo>
+        <echo>  javadoc - Generate Javadoc files</echo>
+	<echo>  resolve - Resolves the library dependencies using Ivy</echo>
+    </target>
+
+    <!-- ================================== -->
+    <!--               BUNDLE               -->
+    <!-- ================================== -->
+    <target name="bundle" description="Bundles the complete application">
+        <!-- Creation of the folders -->
+        <mkdir dir="${ldapstudio-complete.build}" />
+
+        <!-- Creation of the RCP LDAP Studio application -->
+        <ant dir="ldapstudio-rcp" inheritAll="no" />
+        <!-- Copy of the RCP app -->
+        <copy todir="${ldapstudio-complete.build}">
+            <fileset dir="${basedir}/ldapstudio-rcp/target/LDAP Studio">
+                <include name="**" />
+            </fileset>
+        </copy>
+
+        <!-- Creation of the Schemas Plugin -->
+        <ant dir="ldapstudio-schemas-plugin" inheritAll="no" />
+        <!-- Copy of the Schemas Plugin in the "plugins" folder of the RCP app -->
+        <copy todir="${ldapstudio-complete.build}/plugins">
+            <fileset dir="${basedir}/ldapstudio-schemas-plugin/target">
+                <include name="*.jar" />
+            </fileset>
+        </copy>
+
+        <!-- Creation of the Import/Export Plugin -->
+        <ant dir="ldapstudio-importexport-plugin" inheritAll="no" />
+        <!-- Copy of the Import/Export Plugin in the "plugins" folder of the RCP app -->
+        <copy todir="${ldapstudio-complete.build}/plugins">
+            <fileset dir="${basedir}/ldapstudio-importexport-plugin/target">
+                <include name="*.jar" />
+            </fileset>
+        </copy>
+
+	<!-- Creation of the DSML Plugin -->
+        <ant dir="ldapstudio-dsml-plugin" inheritAll="no" />
+        <!-- Copy of the DSML Plugin in the "plugins" folder of the RCP app -->
+        <copy todir="${ldapstudio-complete.build}/plugins">
+            <fileset dir="${basedir}/ldapstudio-dsml-plugin/target">
+                <include name="*.jar" />
+            </fileset>
+        </copy>
+
+	<!-- Creation of the Browser Plugin -->
+        <ant dir="ldapstudio-ldapbrowser" inheritAll="no" />
+        <!-- Copy of the DSML Plugin in the "plugins" folder of the RCP app -->
+        <copy todir="${ldapstudio-complete.build}/plugins">
+            <fileset dir="${basedir}/ldapstudio-ldapbrowser/target">
+                <include name="*.jar" />
+            </fileset>
+        </copy>
+
+        <!-- Setting Permissions -->
+        <antcall target="setPermission_${ldapstudio-rcp.os.name}" />
+    </target>
+	
+    <!-- ================================== -->
+    <!--        Set Right Permissions       -->
+    <!-- ================================== -->
+    <target name="setPermission_macosx" description="Sets the right permissions on Mac OS X">
+        <chmod file="${ldapstudio-complete.build}/LDAP Studio.app/Contents/MacOS/LDAPStudio" perm="755"/>
+    </target>
+    
+    <target name="setPermission_linux" description="Sets the right permissions on Linux">
+        <chmod file="${ldapstudio-complete.build}/LDAP Studio" perm="755"/>
+    </target>
+
+    <target name="setPermission_win32" description="Sets the right permissions on Windows">
+        <chmod file="${ldapstudio-complete.build}/LDAP Studio.exe" perm="755" />
+    </target>
+
+    <!-- ================================== -->
+    <!--              JAVADOC               -->
+    <!-- ================================== -->
+    <target name="javadoc" description="Generate Javadoc files">
+        <ant dir="ldapstudio-rcp" inheritAll="no" target="javadoc" />
+        <ant dir="ldapstudio-schemas-plugin" inheritAll="no" target="javadoc" />
+        <ant dir="ldapstudio-importexport-plugin" inheritAll="no" target="javadoc" />
+        <ant dir="ldapstudio-dsml-plugin" inheritAll="no" target="javadoc" />
+        <ant dir="ldapstudio-dsml-parser" inheritAll="no" target="javadoc" />
+        <ant dir="ldapstudio-dsml-command" inheritAll="no" target="javadoc" />
+        <ant dir="ldapstudio-ldapbrowser" inheritAll="no" target="javadoc" />
+        <ant dir="ldapstudio-browser-core" inheritAll="no" target="javadoc" />
+        <ant dir="ldapstudio-browser-ui" inheritAll="no" target="javadoc" />
+    </target>
+
+    <!-- ================================== -->
+    <!--              RESOLVE               -->
+    <!-- ================================== -->
+    <target name="resolve" description="Resolves the library dependencies using Ivy">
+        <ant dir="ldapstudio-rcp" inheritAll="no" target="resolve" />
+        <ant dir="ldapstudio-schemas-plugin" inheritAll="no" target="resolve" />
+        <ant dir="ldapstudio-importexport-plugin" inheritAll="no" target="resolve" />
+        <ant dir="ldapstudio-dsml-plugin" inheritAll="no" target="resolve" />
+        <ant dir="ldapstudio-dsml-parser" inheritAll="no" target="resolve" />
+        <ant dir="ldapstudio-dsml-command" inheritAll="no" target="resolve" />
+        <ant dir="ldapstudio-ldapbrowser" inheritAll="no" target="resolve" />
+        <ant dir="ldapstudio-browser-core" inheritAll="no" target="resolve" />
+    </target>
+
+    <!-- ================================== -->
+    <!--               CLEAN                -->
+    <!-- ================================== -->
+    <target name="clean" description="Deletes any generated file (javadoc, classes, jars, distribution)">
+        <ant dir="ldapstudio-rcp" inheritAll="no" target="clean"/>
+        <ant dir="ldapstudio-schemas-plugin" inheritAll="no" target="clean"/>
+        <ant dir="ldapstudio-importexport-plugin" inheritAll="no" target="clean"/>
+        <ant dir="ldapstudio-dsml-plugin" inheritAll="no" target="clean" />
+        <ant dir="ldapstudio-dsml-parser" inheritAll="no" target="clean" />
+        <ant dir="ldapstudio-dsml-command" inheritAll="no" target="clean" />
+        <ant dir="ldapstudio-ldapbrowser" inheritAll="no" target="clean" />
+        <ant dir="ldapstudio-browser-core" inheritAll="no" target="clean" />
+        <ant dir="ldapstudio-browser-ui" inheritAll="no" target="clean" />
+        <delete dir="${ldapstudio-complete.output}" />
+    </target>
+</project>
