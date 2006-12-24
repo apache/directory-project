@@ -1,4 +1,4 @@
-                        Triplesec Strong Identity Server 
+                        Triplesec Strong Identity Server
                         ================================
 
 Documentation
@@ -6,7 +6,7 @@ Documentation
 
 Documentation in the form of a User's Guide and tutorials are available here:
 
-     http://triplesec.safehaus.org
+     http://cwiki.apache.org/DIRxTRIPLESEC
 
 
 Running
@@ -74,7 +74,7 @@ manage your realm.  With it you can add, remove and modify, applications,
 roles, users, groups, and permissions.  For more information about the admin
 tool you can consult it's User's Guide here:
 
-   http://docs.safehaus.org/display/TRIPLESEC/Administration+Tool+User's+Guide
+   http://cwiki.apache.org/DIRxTRIPLESEC/administration-tool-users-guide.html
 
 Thanks and enjoy,
 Triplesec Development Team
