@@ -57,10 +57,8 @@ Source: {#SourceBase}\${app.license.name}; DestDir: {app}; DestName: ${app.licen
 Source: {#SourceBase}\${app.readme.name}; DestDir: {app}; DestName: ${app.readme.name}
 Source: {#SourceBase}\${app.icon.name}; DestDir: {app}; DestName: ${app.icon.name}
 Source: {#SourceBase}\admin-tool.ico; DestDir: {app}; DestName: admin-tool.ico
-Source: {#SourceBase}\COPYING.txt; DestDir: {app}; DestName: COPYING.txt
 ; empty var & lib\ext directory structure
 Source: {#SourceBase}\var\*; DestDir: "{app}\var\"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: {#SourceBase}\licenses\*; DestDir: "{app}\licenses\"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: {#SourceBase}\webapps\*; DestDir: "{app}\webapps\"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: {#SourceBase}\guardian\*; DestDir: "{app}\guardian\"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: {#SourceBase}\lib\ext; DestDir: "{app}\lib"; Flags: ignoreversion recursesubdirs createallsubdirs
