@@ -22,7 +22,7 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.safehaus.triplesec</groupId>
+    <groupId>org.apache.directory.triplesec</groupId>
     <artifactId>build</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>

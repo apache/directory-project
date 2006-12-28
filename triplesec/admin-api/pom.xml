@@ -22,7 +22,7 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.safehaus.triplesec</groupId>
+    <groupId>org.apache.directory.triplesec</groupId>
     <artifactId>build</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
@@ -34,21 +34,6 @@
   </description>
   <packaging>jar</packaging>  
   <dependencies>
-    <!-- 
-    <dependency>
-      <groupId>${pom.groupId}</groupId>
-      <artifactId>triplesec-guardian-api</artifactId>
-      <version>${pom.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.directory.server</groupId>
-      <artifactId>apacheds-server-integration</artifactId>
-      <version>1.0-SNAPSHOT</version>
-      <scope>test</scope>
-    </dependency>
-     -->
-
     <dependency>
       <groupId>${pom.groupId}</groupId>
       <artifactId>triplesec-guardian-api</artifactId>

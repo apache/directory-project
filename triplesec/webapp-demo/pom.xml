@@ -20,7 +20,7 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.safehaus.triplesec</groupId>
+    <groupId>org.apache.directory.triplesec</groupId>
     <artifactId>build</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
@@ -42,7 +42,6 @@
     <dependency>
       <groupId>org.apache.derby</groupId>
       <artifactId>derby</artifactId>
-      <version>10.1.1.0</version>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
@@ -55,9 +54,8 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>servletapi</groupId>
-      <artifactId>servletapi</artifactId>
-      <version>2.3</version>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-servlet_2.4_spec</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -89,7 +87,6 @@
     <dependency>
       <groupId>jcharts</groupId>
       <artifactId>jcharts</artifactId>
-      <version>0.6.0</version>
     </dependency>
    <dependency>
       <groupId>commons-httpclient</groupId>

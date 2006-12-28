@@ -27,9 +27,9 @@ import wicket.Session;
  */
 public class PageAuthorizationStrategy extends SimplePageAuthorizationStrategy
 {
-    public PageAuthorizationStrategy(Class securePageType)
+    public PageAuthorizationStrategy(Class securePageType, Class loginPageType)
     {
-        super( securePageType );
+        super( securePageType, loginPageType );
     }
 
     protected boolean isAuthorized()

@@ -20,7 +20,7 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.safehaus.triplesec</groupId>
+    <groupId>org.apache.directory.triplesec</groupId>
     <artifactId>build</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
@@ -32,7 +32,7 @@
     <plugins>
       <plugin>
         <groupId>org.mortbay.jetty</groupId>
-        <artifactId>maven-jetty6-plugin</artifactId>
+        <artifactId>maven-jetty-plugin</artifactId>
         <configuration>
           <scanIntervalSeconds>10</scanIntervalSeconds>
           <systemProperties>
@@ -51,9 +51,8 @@
       <artifactId>wicket</artifactId>
     </dependency>
     <dependency>
-      <groupId>servletapi</groupId>
-      <artifactId>servletapi</artifactId>
-      <version>2.3</version>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-servlet_2.4_spec</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>

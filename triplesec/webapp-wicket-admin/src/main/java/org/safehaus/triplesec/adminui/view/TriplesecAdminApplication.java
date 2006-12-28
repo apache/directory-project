@@ -57,7 +57,7 @@ public class TriplesecAdminApplication extends WebApplication
 
         // set authorization strategy
         getSecuritySettings().setAuthorizationStrategy(
-            new PageAuthorizationStrategy( AuthenticatedPage.class )
+            new PageAuthorizationStrategy( AuthenticatedPage.class, LoginPage.class )
         );
 
         // set unauthorized instantiation instantiation listener
