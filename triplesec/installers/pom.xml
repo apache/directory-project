@@ -151,18 +151,18 @@
         <configuration>
           <excludes>
             <exclude>
-              org.safehaus.triplesec:triplesec-webapp-registration
+              ${pom.groupId}:triplesec-webapp-registration
             </exclude>
             <exclude>
-              org.safehaus.triplesec:triplesec-webapp-activation
+              ${pom.groupId}:triplesec-webapp-activation
             </exclude>
-            <exclude>org.safehaus.triplesec:triplesec-swing-admin</exclude>
-            <exclude>org.safehaus.triplesec:triplesec-webapp-config</exclude>
-            <exclude>org.safehaus.triplesec:triplesec-webapp-root</exclude>
-            <exclude>org.safehaus.triplesec:triplesec-guardian-ldap</exclude>
-            <exclude>org.safehaus.triplesec:triplesec-jaas</exclude>
-            <exclude>org.safehaus.triplesec:triplesec-guardian-api</exclude>
-            <exclude>org.safehaus.triplesec:triplesec-tools</exclude>
+            <exclude>${pom.groupId}:triplesec-swing-admin</exclude>
+            <exclude>${pom.groupId}:triplesec-webapp-config</exclude>
+            <exclude>${pom.groupId}:triplesec-webapp-root</exclude>
+            <exclude>${pom.groupId}:triplesec-guardian-ldap</exclude>
+            <exclude>${pom.groupId}:triplesec-jaas</exclude>
+            <exclude>${pom.groupId}:triplesec-guardian-api</exclude>
+            <exclude>${pom.groupId}:triplesec-tools</exclude>
             <exclude>aopalliance:aopalliance</exclude>
             <exclude>xerces:xerces</exclude>
             <exclude>checkstyle:checkstyle</exclude>
@@ -190,17 +190,18 @@
             <name>triplesec</name>
             <version>${pom.version}</version>
             <copyrightYear>2006</copyrightYear>
-            <minimumJavaVersion>1.4</minimumJavaVersion>
-            <url>http://triplesec.safehaus.org</url>
-            <email>dev@safehaus.org</email>
+            <minimumJavaVersion>1.5</minimumJavaVersion>
+            <url>http://directory.apache.org</url>
+            <email>dev@directory.apache.org</email>
             <description>Triplesec Strong Identity Server</description>
             <authors>
-              <author>Safehaus Development Team</author>
-              <author>akarasulu@safehuas.org</author>
-              <author>ersiner@safehaus.org</author>
-              <author>trustin@safehaus.org</author>
+              <author>Triplesec Development Team</author>
+              <author>akarasulu@apache.org</author>
+              <author>ersiner@apache.org</author>
+              <author>trustin@apache.org</author>
               <author>smustaoglu@safehaus.org</author>
-              <author>tbennett@safehaus.org</author>
+              <author>tbennett@apache.org</author>
+              <author>djencks@apache.org</author>
             </authors>
           </application>
 <!--
@@ -220,13 +221,13 @@
               <installationBundleId>Binaries</installationBundleId>
             </packagedFile>
             <packagedFile>
-              <source>org.safehaus.triplesec:triplesec-tools</source>
+              <source>${pom.groupId}:triplesec-tools</source>
               <destinationPath>bin/triplesec-tools.jar</destinationPath>
               <dependency>true</dependency>
               <installationBundleId>Binaries</installationBundleId>
             </packagedFile>
             <packagedFile>
-              <source>org.safehaus.triplesec:triplesec-swing-admin</source>
+              <source>${pom.groupId}:triplesec-swing-admin</source>
               <destinationPath>bin/triplesec-admin.jar</destinationPath>
               <dependency>true</dependency>
               <installationBundleId>Binaries</installationBundleId>
@@ -235,7 +236,7 @@
             <!-- web application jars -->
 
             <packagedFile>
-              <source>org.safehaus.triplesec:triplesec-webapp-root</source>
+              <source>${pom.groupId}:triplesec-webapp-root</source>
               <destinationPath>webapps/ROOT</destinationPath>
               <dependency>true</dependency>
               <expandable>true</expandable>
@@ -243,7 +244,7 @@
             </packagedFile>
             <packagedFile>
               <source>
-                org.safehaus.triplesec:triplesec-webapp-activation
+                ${pom.groupId}:triplesec-webapp-activation
               </source>
               <destinationPath>webapps/activation</destinationPath>
               <dependency>true</dependency>
@@ -251,14 +252,14 @@
               <installationBundleId>Binaries</installationBundleId>
             </packagedFile>
             <packagedFile>
-              <source>org.safehaus.triplesec:triplesec-webapp-config</source>
+              <source>${pom.groupId}:triplesec-webapp-config</source>
               <destinationPath>webapps/config</destinationPath>
               <dependency>true</dependency>
               <expandable>true</expandable>
               <installationBundleId>Binaries</installationBundleId>
             </packagedFile>
             <packagedFile>
-              <source>org.safehaus.triplesec:triplesec-webapp-demo</source>
+              <source>${pom.groupId}:triplesec-webapp-demo</source>
               <destinationPath>webapps/demo</destinationPath>
               <dependency>true</dependency>
               <expandable>true</expandable>
@@ -266,7 +267,7 @@
             </packagedFile>
             <packagedFile>
               <source>
-                org.safehaus.triplesec:triplesec-webapp-registration
+                ${pom.groupId}:triplesec-webapp-registration
               </source>
               <destinationPath>webapps/registration</destinationPath>
               <dependency>true</dependency>
@@ -278,7 +279,7 @@
 
             <packagedFile>
               <source>
-                org.safehaus.triplesec:triplesec-jaas
+                ${pom.groupId}:triplesec-jaas
               </source>
               <destinationPath>guardian/triplesec-jaas-${pom.version}.jar</destinationPath>
               <dependency>true</dependency>
@@ -287,21 +288,21 @@
 
             <packagedFile>
               <source>
-                org.safehaus.triplesec:triplesec-guardian-api
+                ${pom.groupId}:triplesec-guardian-api
               </source>
               <destinationPath>guardian/triplesec-guardian-api-${pom.version}.jar</destinationPath>
               <dependency>true</dependency>
               <installationBundleId>Binaries</installationBundleId>
             </packagedFile>
             <packagedFile>
-              <source>org.safehaus.triplesec:triplesec-guardian-ldap</source>
+              <source>${pom.groupId}:triplesec-guardian-ldap</source>
               <destinationPath>guardian/triplesec-guardian-ldap-${pom.version}.jar</destinationPath>
               <dependency>true</dependency>
               <installationBundleId>Binaries</installationBundleId>
             </packagedFile>
             <packagedFile>
               <source>org.apache.directory.server:apacheds-server-tools</source>
-              <destinationPath>lib/tools/apacheds-server-tools-1.0-RC3.jar</destinationPath>
+              <destinationPath>lib/tools/apacheds-server-tools-1.0.0.jar</destinationPath>
               <dependency>true</dependency>
               <installationBundleId>Binaries</installationBundleId>
             </packagedFile>
