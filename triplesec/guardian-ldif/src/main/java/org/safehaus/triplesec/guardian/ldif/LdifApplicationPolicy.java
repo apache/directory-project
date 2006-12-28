@@ -20,18 +20,33 @@
 package org.safehaus.triplesec.guardian.ldif;
 
 
+import java.io.File;
+import java.security.Permissions;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+
+import javax.naming.NamingEnumeration;
+import javax.naming.NamingException;
+import javax.naming.directory.Attribute;
+import javax.naming.directory.Attributes;
+
 import org.apache.directory.shared.ldap.ldif.Entry;
 import org.apache.directory.shared.ldap.ldif.LdifReader;
-import org.safehaus.triplesec.guardian.*;
+import org.safehaus.triplesec.guardian.ApplicationPolicy;
+import org.safehaus.triplesec.guardian.GuardianException;
+import org.safehaus.triplesec.guardian.PolicyChangeListener;
+import org.safehaus.triplesec.guardian.Profile;
+import org.safehaus.triplesec.guardian.Role;
+import org.safehaus.triplesec.guardian.Roles;
+import org.safehaus.triplesec.guardian.StringPermission;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.naming.directory.*;
-import javax.naming.NamingException;
-import javax.naming.NamingEnumeration;
-
-import java.io.File;
-import java.util.*;
 
 
 /**
@@ -60,15 +75,16 @@ class LdifApplicationPolicy implements ApplicationPolicy
     /** the {@link Roles} defined for this store's application */
     private Roles roles;
     /** the {@link Profile}s loaded from LDIF */
-    private Map profileMap;
+    private Map<String, Profile> profileMap;
     /** map of userNames to sets of profile ids */
-    private Map userProfilesMap;
+    private Map<String, Set<String>> userProfilesMap;
 
     boolean isClosed = false;
     /** the administrators super profile */
     private Profile adminProfile;
+    private static final Set<String> EMPTY_PROFILE_SET = Collections.unmodifiableSet(new HashSet<String>(0));
 
-    
+
     /**
      * Creates an instance of the LDIF ApplicationPolicyStore.  Two properties are 
      * expected in the info properties.  One is the dn of the application principal.  
@@ -79,14 +95,14 @@ class LdifApplicationPolicy implements ApplicationPolicy
      *   <tr><td>ldifFilePath</td><td>the path to the LDIF file containing the entries to load</td></tr>
      * </table>
      *
-     * @param ctx the base context under which ou=applications and ou=users can be found
+     * @param ldifFile the file with  the data inside
      * @param info additional information needed to load the LDIF file
      * @throws GuardianException if failures are encountered while loading objects from the backing store
      */
     public LdifApplicationPolicy( File ldifFile, Properties info ) throws GuardianException
     {
-        this.userProfilesMap = new HashMap();
-        this.profileMap = new HashMap();
+        this.userProfilesMap = new HashMap<String, Set<String>>();
+        this.profileMap = new HashMap<String, Profile>();
         this.applicationDn = info.getProperty( "applicationPrincipalDN" );
         // extract the applicationName from the applicationPrincipalDN
         this.applicationName = getApplicationName( applicationDn );
@@ -95,46 +111,35 @@ class LdifApplicationPolicy implements ApplicationPolicy
         // loads the ldifs as a map of LdapNames to Attributes
         load();
         // create the admin profile with all permissions as grants and in all roles
-        this.adminProfile = new Profile( this, "admin", "admin", roles, permissions, 
-            new Permissions( applicationName, new Permission[0] ), false );
+        this.adminProfile = new Profile( this, "admin", "admin", roles, permissions,
+            new Permissions(), false );
     }
 
     
-    private Map load() throws GuardianException
+    private void load() throws GuardianException
     {
-        Map roleMap = new HashMap();
-        Map permissionMap = new HashMap();
-        Map profileMap = new HashMap();
-        Map entryMap = new HashMap();
+        Map<String, Attributes> roleMap = new HashMap<String, Attributes>();
+        Map<String, Attributes> permissionMap = new HashMap<String, Attributes>();
+        Map<String, Attributes> profileMap = new HashMap<String, Attributes>();
         try
         {
             LdifReader reader = new LdifReader();
             List entries = reader.parseLdifFile( ldifFile.getAbsolutePath() );
-            for ( int ii = 0; ii < entries.size(); ii++ )
-            {
-                Entry entry = ( Entry ) entries.get( ii );
+            for (Object entry1 : entries) {
+                Entry entry = (Entry) entry1;
                 Attributes attributes = entry.getAttributes();
                 String dn = entry.getDn();
-                entryMap.put( dn, attributes );
-                
-                if ( dn.equals( applicationDn ) )
-                {
+
+                if (dn.equals(applicationDn)) {
 //                    application = attributes;
-                }
-                else if ( dn.endsWith( applicationDn ) )
-                {
-                    Attribute oc = attributes.get( "objectClass" );
-                    if ( oc.contains( "policyPermission" ) )
-                    {
-                        permissionMap.put( dn, attributes );
-                    }
-                    else if ( oc.contains( "policyRole" ) )
-                    {
-                        roleMap.put( dn, attributes );
-                    }
-                    else if ( oc.contains( "policyProfile" ) )
-                    {
-                        profileMap.put( dn, attributes );
+                } else if (dn.endsWith(applicationDn)) {
+                    Attribute oc = attributes.get("objectClass");
+                    if (oc.contains("policyPermission")) {
+                        permissionMap.put(dn, attributes);
+                    } else if (oc.contains("policyRole")) {
+                        roleMap.put(dn, attributes);
+                    } else if (oc.contains("policyProfile")) {
+                        profileMap.put(dn, attributes);
                     }
                 }
             }
@@ -149,7 +154,6 @@ class LdifApplicationPolicy implements ApplicationPolicy
         loadPermissions( permissionMap );
         loadRoles( roleMap );
         loadProfiles( profileMap );
-        return entryMap;
     }
     
 
@@ -158,48 +162,49 @@ class LdifApplicationPolicy implements ApplicationPolicy
      * 
      * @throws GuardianException if there is a problem with a role 
      */
-    private void loadRoles( Map roleMap ) throws GuardianException
+    private void loadRoles( Map<String, Attributes> roleMap ) throws GuardianException
     {
-        Set roleSet = new HashSet();
+        Set<Role> roleSet = new HashSet<Role>();
 
         try
         {
-            Iterator keys = roleMap.keySet().iterator();
-            while ( keys.hasNext() )
-            {
-                String dn = ( String ) keys.next();
-                Attributes entry = ( Attributes ) roleMap.get( dn );
-                String roleName = ( String ) entry.get( "roleName" ).get();
-                Set permSet = new HashSet();
-                Attribute attributes = entry.get( "grants" );
-
-                if ( attributes != null )
-                {
-                    NamingEnumeration grantsEnumeration = entry.get( "grants" ).getAll();
-                    while ( grantsEnumeration.hasMore() )
-                    {
-                        String permName = ( String ) grantsEnumeration.next();
-                        permSet.add( permissions.get( permName ) );
-                        log.debug( "granting permission '" + permName + "' to role '" + roleName
-                                + " in application '" + applicationName + "'" );
+            for (String dn : roleMap.keySet()) {
+                Attributes entry = roleMap.get(dn);
+                String roleName = (String) entry.get("roleName").get();
+                Attribute grantsAttribute = entry.get("grants");
+                Permissions grantedPermissions = new Permissions();
+                if (grantsAttribute != null) {
+                    NamingEnumeration grantsEnumeration = grantsAttribute.getAll();
+                    while (grantsEnumeration.hasMore()) {
+                        String permName = (String) grantsEnumeration.next();
+                        grantedPermissions.add(new StringPermission(permName));
+                        log.debug("granting permission '" + permName + "' to role '" + roleName
+                                + " in application '" + applicationName + "'");
                     }
                 }
-                Permission[] permArray = new Permission[permSet.size()];
-                Permissions grants = new Permissions( applicationName, ( Permission[] ) permSet.toArray( permArray ) );
 
-                Attribute description = entry.get( "description" );
+                Permissions deniedPermissions = new Permissions();
+                Attribute denialsAttribute = entry.get("denials");
+                if (denialsAttribute != null) {
+                    NamingEnumeration denialsEnumeration = denialsAttribute.getAll();
+                    while (denialsEnumeration.hasMore()) {
+                        String permName = (String) denialsEnumeration.next();
+                        deniedPermissions.add(new StringPermission(permName));
+                        log.debug("granting permission '" + permName + "' to role '" + roleName
+                                + " in application '" + applicationName + "'");
+                    }
+                }
+
+                Attribute description = entry.get("description");
                 Role role;
-                if ( description == null || description.size() == 0 )
-                {
-                    role = new Role( this, roleName, grants );
-                }
-                else
-                {
-                    role = new Role( this, roleName, grants, ( String ) description.get() );
+                if (description == null || description.size() == 0) {
+                    role = new Role(this, roleName, grantedPermissions, deniedPermissions);
+                } else {
+                    role = new Role(this, roleName, grantedPermissions, deniedPermissions, (String) description.get());
                 }
 
-                roleSet.add( role );
-                log.debug( "loading role '" + roleName + "' for application '" + applicationName + "'" );
+                roleSet.add(role);
+                log.debug("loading role '" + roleName + "' for application '" + applicationName + "'");
             }
         }
         catch ( NamingException e )
@@ -210,7 +215,7 @@ class LdifApplicationPolicy implements ApplicationPolicy
         }
 
         Role[] roleArray = new Role[roleSet.size()];
-        roleArray = ( Role[] ) roleSet.toArray( roleArray );
+        roleArray = roleSet.toArray( roleArray );
         this.roles = new Roles( applicationName, roleArray );
     }
 
@@ -220,30 +225,23 @@ class LdifApplicationPolicy implements ApplicationPolicy
      * 
      * @throws GuardianException if there is a problem with a permission
      */
-    private void loadPermissions( Map permissionMap ) throws GuardianException
+    private void loadPermissions( Map<String, Attributes> permissionMap ) throws GuardianException
     {
-        Set permSet = new HashSet();
-
+        permissions = new Permissions();
         try
         {
-            Iterator keys = permissionMap.keySet().iterator();
-            while ( keys.hasNext() )
-            {
-                String dn = ( String ) keys.next();
-                Attributes entry = ( Attributes ) permissionMap.get( dn );
-                String permName = ( String ) entry.get( "permName" ).get();
-                Permission perm;
-                Attribute description = entry.get( "description" );
-                if ( description != null )
-                {
-                    perm = new Permission( applicationName, permName, ( String ) description.get() );
+            for (String dn : permissionMap.keySet()) {
+                Attributes entry = permissionMap.get(dn);
+                String permName = (String) entry.get("permName").get();
+                StringPermission perm;
+                Attribute description = entry.get("description");
+                if (description != null) {
+                    perm = new StringPermission(permName);
+                } else {
+                    perm = new StringPermission(permName);
                 }
-                else
-                {
-                    perm = new Permission( applicationName, permName );
-                }
-                log.debug( "loading permission " + permName + " for application " + applicationName );
-                permSet.add( perm );
+                log.debug("loading permission " + permName + " for application " + applicationName);
+                permissions.add(perm);
             }
         }
         catch ( NamingException e )
@@ -253,9 +251,6 @@ class LdifApplicationPolicy implements ApplicationPolicy
             throw new GuardianException( msg, e );
         }
 
-        Permission[] permArray = new Permission[permSet.size()];
-        permArray = ( Permission[] ) permSet.toArray( permArray );
-        this.permissions = new Permissions( applicationName, permArray );
     }
 
 
@@ -285,12 +280,8 @@ class LdifApplicationPolicy implements ApplicationPolicy
     
     private static boolean parseBoolean( String bool )
     {
-        if ( bool.equals( "true" ) )
-        {
-            return true;
-        }
-        
-        return false;
+        return bool.equals("true");
+
     }
 
     
@@ -299,19 +290,15 @@ class LdifApplicationPolicy implements ApplicationPolicy
      * 
      * @throws GuardianException if there is a problem with a profile 
      */
-    private void loadProfiles( Map profileEntryMap ) throws GuardianException
+    private void loadProfiles( Map<String, Attributes> profileEntryMap ) throws GuardianException
     {
-        String[] profileDns = new String[profileEntryMap.size()];
-        profileEntryMap.keySet().toArray( profileDns );
-        
-        for ( int ii = 0; ii < profileDns.length; ii++ )
+
+        for (Map.Entry<String, Attributes> mapEntry: profileEntryMap.entrySet() )
         {
             Profile profile;
-            Permissions grants;
-            Permissions denials;
             Roles roles;
-            String dn = profileDns[ii];
-            Attributes entry = ( Attributes ) profileEntryMap.get( dn );
+            String dn = mapEntry.getKey();
+            Attributes entry = mapEntry.getValue();
             String profileId;
             String userName;
             boolean disabled = false;
@@ -352,16 +339,16 @@ class LdifApplicationPolicy implements ApplicationPolicy
             // -------------------------------------------------------------------------------
 
             Attribute grantsAttribute = entry.get( "grants" );
+            Permissions grants = new Permissions();
             if ( grantsAttribute != null )
             {
-                Set grantsSet = new HashSet();
                 try
                 {
                     NamingEnumeration grantsEnumeration = grantsAttribute.getAll();
                     while ( grantsEnumeration.hasMore() )
                     {
                         String grantedPermName = ( String ) grantsEnumeration.next();
-                        grantsSet.add( this.permissions.get( grantedPermName ) );
+                        grants.add( new StringPermission(grantedPermName ) );
                     }
                 }
                 catch ( NamingException e )
@@ -369,41 +356,29 @@ class LdifApplicationPolicy implements ApplicationPolicy
                     throw new GuardianException( "Failed to get grants for profile: " + dn );
                 }
 
-                Permission[] grantsArray = new Permission[grantsSet.size()];
-                grants = new Permissions( applicationName, ( Permission[] ) grantsSet.toArray( grantsArray ) );
-            }
-            else
-            {
-                grants = new Permissions( applicationName, new Permission[0] );
             }
 
             // -------------------------------------------------------------------------------
-            // process and assemble the profile's granted permissions
+            // process and assemble the profile's denied permissions
             // -------------------------------------------------------------------------------
 
             Attribute denialsAttribute = entry.get( "denials" );
+            Permissions denials = new Permissions();
             if ( denialsAttribute != null )
             {
-                Set denialsSet = new HashSet();
                 try
                 {
                     NamingEnumeration denialsEnumeration = denialsAttribute.getAll();
                     while ( denialsEnumeration.hasMore() )
                     {
                         String deniedPermName = ( String ) denialsEnumeration.next();
-                        denialsSet.add( this.permissions.get( deniedPermName ) );
+                        denials.add( new StringPermission(deniedPermName ) );
                     }
                 }
                 catch ( NamingException e )
                 {
                     throw new GuardianException( "Failed to get denials for profile: " + dn );
                 }
-                Permission[] denialsArray = new Permission[denialsSet.size()];
-                denials = new Permissions( applicationName, ( Permission[] ) denialsSet.toArray( denialsArray ) );
-            }
-            else
-            {
-                denials = new Permissions( applicationName, new Permission[0] );
             }
 
             // -------------------------------------------------------------------------------
@@ -413,7 +388,7 @@ class LdifApplicationPolicy implements ApplicationPolicy
             Attribute rolesAttribute = entry.get( "roles" );
             if ( rolesAttribute != null )
             {
-                Set rolesSet = new HashSet();
+                Set<Role> rolesSet = new HashSet<Role>();
                 try
                 {
                     NamingEnumeration rolesEnumeration = rolesAttribute.getAll();
@@ -428,7 +403,7 @@ class LdifApplicationPolicy implements ApplicationPolicy
                     throw new GuardianException( "Failed to get roles for profile: " + dn );
                 }
                 Role[] rolesArray = new Role[rolesSet.size()];
-                roles = new Roles( applicationName, ( Role[] ) rolesSet.toArray( rolesArray ) );
+                roles = new Roles( applicationName, rolesSet.toArray( rolesArray ) );
             }
             else
             {
@@ -442,7 +417,7 @@ class LdifApplicationPolicy implements ApplicationPolicy
             }
             else
             {
-                String desc = "null";
+                String desc;
                 try
                 {
                     desc = ( String ) description.get();
@@ -456,10 +431,10 @@ class LdifApplicationPolicy implements ApplicationPolicy
             
             profileMap.put( profileId, profile );
             
-            Set profileIdSet = ( Set ) userProfilesMap.get( userName );
+            Set<String> profileIdSet = userProfilesMap.get( userName );
             if ( profileIdSet == null )
             {
-                profileIdSet = new HashSet();
+                profileIdSet = new HashSet<String>();
                 userProfilesMap.put( userName, profileIdSet );
             }
             profileIdSet.add( profileId );
@@ -471,17 +446,17 @@ class LdifApplicationPolicy implements ApplicationPolicy
         }
     }
     
-
-    public Profile getProfile( String userName ) throws GuardianException
+    //TODO previously the parameter was called "userId" but from the userProfilesMap it looks like a user can have lots of profiles
+    public Profile getProfile( String profileId ) throws GuardianException
     {
         if ( isClosed )
         {
             throw new IllegalStateException( "This policy object has been closed." );
         }
 
-        if ( profileMap.containsKey( userName ) )
+        if ( profileMap.containsKey( profileId ) )
         {
-            return ( Profile ) profileMap.get( userName );
+            return profileMap.get( profileId );
         }
 
         return null;
@@ -527,18 +502,18 @@ class LdifApplicationPolicy implements ApplicationPolicy
     }
 
 
-    public Set getDependentProfileNames( Permission permission ) throws GuardianException
+    public Set getDependentProfileNames( StringPermission permission ) throws GuardianException
     {
         throw new RuntimeException( "Not implemented yet!" );
     }
 
 
-    public Set getUserProfileIds( String userName ) throws GuardianException
+    public Set<String> getUserProfileIds( String userName ) throws GuardianException
     {
-        Set profileSet = ( Set ) userProfilesMap.get( userName );
+        Set<String> profileSet = userProfilesMap.get( userName );
         if ( profileSet == null )
         {
-            return Collections.EMPTY_SET;
+            return EMPTY_PROFILE_SET;
         }
         return Collections.unmodifiableSet( profileSet );
     }

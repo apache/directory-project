@@ -22,6 +22,8 @@ package org.safehaus.triplesec.guardian;
 
 import java.io.Serializable;
 import java.security.AccessControlException;
+import java.security.Permission;
+import java.security.Permissions;
 import java.util.Iterator;
 
 
@@ -31,17 +33,17 @@ import java.util.Iterator;
  * to manage access controls for user profiles associated with applications.
  * Profiles associate users with applications.  This class models that profile
  * by linking the user with an application and allowing the assignment of an
- * application specific {@link Role} set and {@link Permission} set to the 
+ * application specific {@link Role} set and {@link StringPermission} set to the
  * profile.
  * </p>  
  * <p>
  * Profiles contain three sets of Permissions and a set of Roles used for 
  * managing an authorization policy of a user.  A Role Based Access Control 
- * (RBAC) model is used to easily manage the Profile.  The three Permission
+ * (RBAC) model is used to easily manage the Profile.  The three StringPermission
  * sets are: grants, denials and the effective calculated permissions for the 
- * profile.  Roles assigned to the Profile lead to the inheritance of Permission
- * granted to Role.  Besides Role based Permission inheritence, additional
- * Permission may be granted or denied to influence the total effective Permission.  
+ * profile.  Roles assigned to the Profile lead to the inheritance of StringPermission
+ * granted to Role.  Besides Role based StringPermission inheritence, additional
+ * StringPermission may be granted or denied to influence the total effective StringPermission.
  * The grants Permissions set contains extra granted Permissions which may not be 
  * inherited by assigned Roles.  The denials Permissions set contains
  * {@link Permissions} that are denied whether they are inherited by assigned
@@ -73,8 +75,10 @@ public class Profile implements Comparable, Cloneable, Serializable
     private final Permissions grants;
     /** the permissions denied by this Profile */
     private final Permissions denials;
-    /** the effective calculated permissions for this Profile */
-    private final Permissions effectivePermissions;
+    /** the calculated effective granted permissions for this Profile */
+    private final Permissions effectiveGrantedPermissions;
+    /** the calculated effective denied permissions for this Profile */
+    private final Permissions effectiveDeniedPermissions;
     /** a brief description of the Profile */
     private final String description;
     /** whether or not this profile is disabled */
@@ -143,32 +147,32 @@ public class Profile implements Comparable, Cloneable, Serializable
         }
         if( grants == null )
         {
-            grants = new Permissions( store.getApplicationName(), null );
+            grants = new Permissions();
         }
-        if( !store.getApplicationName().equals( grants.getApplicationName() ) )
-        {
-            throw new IllegalArgumentException( "Invalid applicationName in grants: " + grants.getApplicationName() );
-        }
-        if( !store.getPermissions().containsAll( grants ) )
-        {
-            throw new IllegalArgumentException(
-                    "store doesn't provide all permissions specified: " +
-                    grants );
-        }
+//        if( !store.getApplicationName().equals( grants.getApplicationName() ) )
+//        {
+//            throw new IllegalArgumentException( "Invalid applicationName in grants: " + grants.getApplicationName() );
+//        }
+//        if( !store.getPermissions().containsAll( grants ) )
+//        {
+//            throw new IllegalArgumentException(
+//                    "store doesn't provide all permissions specified: " +
+//                    grants );
+//        }
         if( denials == null )
         {
-            denials = new Permissions( store.getApplicationName(), null );
+            denials = new Permissions();
         }
-        if( !store.getApplicationName().equals( denials.getApplicationName() ) )
-        {
-            throw new IllegalArgumentException( "Invalid applicationName in denials: " + denials.getApplicationName() );
-        }
-        if( !store.getPermissions().containsAll( denials ) )
-        {
-            throw new IllegalArgumentException(
-                    "store doesn't provide all permissions specified: " +
-                    denials );
-        }
+//        if( !store.getApplicationName().equals( denials.getApplicationName() ) )
+//        {
+//            throw new IllegalArgumentException( "Invalid applicationName in denials: " + denials.getApplicationName() );
+//        }
+//        if( !store.getPermissions().containsAll( denials ) )
+//        {
+//            throw new IllegalArgumentException(
+//                    "store doesn't provide all permissions specified: " +
+//                    denials );
+//        }
         
         this.disabled = disabled;
         this.store = store;
@@ -180,14 +184,20 @@ public class Profile implements Comparable, Cloneable, Serializable
         this.description = description;
 
         // Calculate effective permissions
-        Permissions effectivePermissions = new Permissions( store.getApplicationName(), null );
+        effectiveGrantedPermissions = new Permissions();
         for( Iterator i = roles.iterator(); i.hasNext(); )
         {
             Role r = ( Role ) i.next();
-            effectivePermissions = effectivePermissions.addAll( r.getGrants() );
+            PermissionsUtil.addAll(effectiveGrantedPermissions, r.getGrantedPermissions() );
         }
-        effectivePermissions = effectivePermissions.addAll( grants );
-        this.effectivePermissions = effectivePermissions.removeAll( denials );
+        PermissionsUtil.addAll(effectiveGrantedPermissions, grants );
+        effectiveDeniedPermissions = new Permissions();
+        for( Iterator i = roles.iterator(); i.hasNext(); )
+        {
+            Role r = ( Role ) i.next();
+            PermissionsUtil.addAll(effectiveDeniedPermissions, r.getDeniedPermissions() );
+        }
+        PermissionsUtil.addAll(effectiveDeniedPermissions, denials );
     }
 
     
@@ -270,9 +280,9 @@ public class Profile implements Comparable, Cloneable, Serializable
 
 
     /**
-     * Gets the set of {@link Permission}s granted to this Profile.
+     * Gets the set of {@link StringPermission}s granted to this Profile.
      * 
-     * @return a container of granted {@link Permission} objects
+     * @return a container of granted {@link StringPermission} objects
      */
     public Permissions getGrants()
     {
@@ -284,7 +294,7 @@ public class Profile implements Comparable, Cloneable, Serializable
      * This is the only time and place where negative permissions will ever be
      * found.
      * 
-     * @return a container of denied {@link Permission} objects
+     * @return a container of denied {@link StringPermission} objects
      */
     public Permissions getDenials()
     {
@@ -298,30 +308,16 @@ public class Profile implements Comparable, Cloneable, Serializable
      * granted {@link Permissions} and denied {@link Permissions} of this
      * Profile.
      * 
-     * @return a container of effective {@link Permission} objects for this profile.
+     * @return a container of effective {@link StringPermission} objects for this profile.
      */
-    public Permissions getEffectivePermissions()
+    public Permissions getEffectiveGrantedPermissions()
     {
-        return effectivePermissions;
+        return effectiveGrantedPermissions;
     }
 
-
-    /**
-     * Assertive check to test if this Profile has the effective {@link Permission}.
-     * 
-     * @param permissionName the permission name to check for
-     * @throws AccessControlException if the permission is not granted or
-     *      inherited from an assigned Role
-     */
-    public void checkPermission( String permissionName )
-    {
-        checkPermission(
-                permissionName,
-                "User '" + profileId + "' " +
-                "in application '" + getApplicationName() + '\'' +
-                "does not posess the permission '" + permissionName + "'." );
+    public Permissions getEffectiveDeniedPermissions() {
+        return effectiveDeniedPermissions;
     }
-
 
     /**
      * Get's whether or not this Profile has the permission.
@@ -329,21 +325,9 @@ public class Profile implements Comparable, Cloneable, Serializable
      * @param permission the permission to check for
      * @return true if the permission is granted, false otherwise
      */
-    public boolean hasPermission( Permission permission )
+    public boolean implies( Permission permission )
     {
-        return effectivePermissions.contains( permission );
-    }
-
-
-    /**
-     * Get's whether or not this Profile has the permission.
-     *
-     * @param permissionName the permission to check for
-     * @return true if the permission is granted, false otherwise
-     */
-    public boolean hasPermission( String permissionName )
-    {
-        return effectivePermissions.get( permissionName ) != null;
+        return effectiveGrantedPermissions.implies( permission ) && ! effectiveDeniedPermissions.implies(permission);
     }
 
 
@@ -355,7 +339,7 @@ public class Profile implements Comparable, Cloneable, Serializable
      * @throws AccessControlException if the permission is not granted or
      *      inherited from an assigned Role
      */
-    public void checkPermission( Permission permission )
+    public void checkPermission( StringPermission permission )
     {
         checkPermission(
                 permission,
@@ -369,42 +353,19 @@ public class Profile implements Comparable, Cloneable, Serializable
      * Assertive permission check to test if this Profile has the effective 
      * permission.
      * 
-     * @param permissionName the permission name to check for
-     * @param message to use for AccessControlException if it is thrown
-     * @throws AccessControlException if the permission is not granted or
-     *      inherited from an assigned Role
-     */
-    public void checkPermission( String permissionName, String message )
-    {
-        if ( permissionName == null )
-        {
-            throw new NullPointerException( "permissionName" );    
-        }
-        
-        if ( !effectivePermissions.contains( permissionName ) )
-        {
-            throw new AccessControlException( message );
-        }
-    }
-
-
-    /**
-     * Assertive permission check to test if this Profile has the effective 
-     * permission.
-     * 
      * @param permission the permission to check for
      * @param message to use for AccessControlException if it is thrown
      * @throws AccessControlException if the permission is not granted or
      *      inherited from an assigned Role
      */
-    public void checkPermission( Permission permission, String message )
+    public void checkPermission( StringPermission permission, String message )
     {
         if ( permission == null )
         {
             throw new NullPointerException( "permission" );    
         }
         
-        if ( !effectivePermissions.contains( permission ) )
+        if ( !implies( permission ) )
         {
             throw new AccessControlException( message );
         }
@@ -468,6 +429,6 @@ public class Profile implements Comparable, Cloneable, Serializable
 
     public String toString()
     {
-        return "Profile(" + getProfileId() + ": " + effectivePermissions + ')';
+        return "Profile(" + getProfileId() + ": " + effectiveGrantedPermissions + ')';
     }
 }

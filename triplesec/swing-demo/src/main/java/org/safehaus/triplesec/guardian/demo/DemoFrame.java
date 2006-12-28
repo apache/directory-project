@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
+import java.security.Permission;
 
 import javax.security.auth.login.LoginException;
 import javax.swing.JPanel;
@@ -41,7 +42,7 @@ import javax.swing.JTextPane;
 import org.safehaus.triplesec.guardian.ApplicationPolicy;
 import org.safehaus.triplesec.guardian.ApplicationPolicyFactory;
 import org.safehaus.triplesec.guardian.ChangeType;
-import org.safehaus.triplesec.guardian.Permission;
+import org.safehaus.triplesec.guardian.StringPermission;
 import org.safehaus.triplesec.guardian.PolicyChangeListener;
 import org.safehaus.triplesec.guardian.Profile;
 import org.safehaus.triplesec.guardian.Role;
@@ -197,31 +198,31 @@ public class DemoFrame extends JFrame
             operationsMenu = new JMenu();
             operationsMenu.setText( "Operations" );
 
-            if ( currentProfile.hasPermission( "bend" ) )
+            if ( currentProfile.implies( makePermission("bend" )) )
             {
                 System.out.println( "enabling bend" );
                 operationsMenu.add( getBendMenuItem() );
             }
 
-            if ( currentProfile.hasPermission( "fold" ) )
+            if ( currentProfile.implies( makePermission( "fold" )) )
             {
                 System.out.println( "enabling fold" );
                 operationsMenu.add( getFoldMenuItem() );
             }
 
-            if ( currentProfile.hasPermission( "mutilate" ) )
+            if ( currentProfile.implies( makePermission( "mutilate" )) )
             {
                 System.out.println( "enabling mutilate" );
                 operationsMenu.add( getMutilateMenuItem() );
             }
 
-            if ( currentProfile.hasPermission( "spindle" ) )
+            if ( currentProfile.implies( makePermission( "spindle" )) )
             {
                 System.out.println( "enabling spindle" );
                 operationsMenu.add( getSpindleMenuItem() );
             }
 
-            if ( currentProfile.hasPermission( "twist" ) )
+            if ( currentProfile.implies( makePermission( "twist" )) )
             {
                 System.out.println( "enabling twist" );
                 operationsMenu.add( getTwistMenuItem() );
@@ -230,11 +231,15 @@ public class DemoFrame extends JFrame
         return operationsMenu;
     }
 
+    private Permission makePermission(String s) {
+        return new StringPermission(s);
+    }
+
 
     /**
      * This method initializes jMenuItem	
      * 	
-     * @return javax.swing.JMenuItem	
+     * @return javax.swing.JMenuItem
      */
     private JMenuItem getBendMenuItem()
     {
@@ -525,31 +530,31 @@ public class DemoFrame extends JFrame
     {
         setTitle( "Triplesec Guardian Demo - " + currentProfile.getProfileId() );
         operationsMenu.removeAll();
-        if ( currentProfile.hasPermission( "bend" ) )
+        if ( currentProfile.implies( makePermission( "bend" )) )
         {
             System.out.println( "enabling bend" );
             operationsMenu.add( getBendMenuItem() );
         }
 
-        if ( currentProfile.hasPermission( "fold" ) )
+        if ( currentProfile.implies( makePermission( "fold" )) )
         {
             System.out.println( "enabling fold" );
             operationsMenu.add( getFoldMenuItem() );
         }
 
-        if ( currentProfile.hasPermission( "mutilate" ) )
+        if ( currentProfile.implies( makePermission( "mutilate" )) )
         {
             System.out.println( "enabling mutilate" );
             operationsMenu.add( getMutilateMenuItem() );
         }
 
-        if ( currentProfile.hasPermission( "spindle" ) )
+        if ( currentProfile.implies( makePermission( "spindle" )) )
         {
             System.out.println( "enabling spindle" );
             operationsMenu.add( getSpindleMenuItem() );
         }
 
-        if ( currentProfile.hasPermission( "twist" ) )
+        if ( currentProfile.implies( makePermission( "twist" )) )
         {
             System.out.println( "enabling twist" );
             operationsMenu.add( getTwistMenuItem() );
@@ -581,8 +586,8 @@ public class DemoFrame extends JFrame
         }
 
         public void roleRenamed( ApplicationPolicy policy, Role role, String oldName ) {}
-        public void permissionChanged( ApplicationPolicy policy, Permission permission, ChangeType changeType ) {}
-        public void permissionRenamed( ApplicationPolicy policy, Permission permission, String oldName ){}
+        public void permissionChanged( ApplicationPolicy policy, StringPermission permission, ChangeType changeType ) {}
+        public void permissionRenamed( ApplicationPolicy policy, StringPermission permission, String oldName ){}
         public void profileRenamed( ApplicationPolicy policy, Profile profile, String oldName ){}
     }
 
@@ -590,7 +595,6 @@ public class DemoFrame extends JFrame
     /**
      * This method initializes this
      * 
-     * @return void
      */
     private void initialize()
     {

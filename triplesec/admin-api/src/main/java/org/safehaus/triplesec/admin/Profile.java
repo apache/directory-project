@@ -31,9 +31,8 @@ import org.safehaus.triplesec.admin.dao.ProfileDao;
 public class Profile extends AdministeredEntity
 {
     private final ProfileDao dao;
-    private final Set grants;
-    private final Set denials;
-    private final Set roles;
+    private final Set<PermissionClass> permissionClasses;
+    private final Set<String> roles;
     private final String id;
     private final String user;
     private final String description;
@@ -42,43 +41,37 @@ public class Profile extends AdministeredEntity
     
     
     public Profile( String creatorsName, Date createTimestamp, ProfileDao dao, String applicationName, 
-        String id, String user, String description, Set grants, Set denials, Set roles )
+        String id, String user, String description, Set<PermissionClass> permissionClasses, Set<String> roles )
     {
         this( creatorsName, createTimestamp, null, null, dao, applicationName, id, 
-            user, description, grants, denials, roles, false );
+            user, description, permissionClasses, roles, false );
     }
     
     
     public Profile( String creatorsName, Date createTimestamp, String modifiersName, Date modifyTimestamp, 
         ProfileDao dao, String applicationName, String id, String user, String description, 
-        Set grants, Set denials, Set roles, boolean disabled )
+        Set<PermissionClass> permissionClasses, Set<String> roles, boolean disabled )
     {
         super( creatorsName, createTimestamp, modifiersName, modifyTimestamp );
         this.dao = dao;
         this.applicationName = applicationName;
         this.id = id;
         this.user = user;
-        this.grants = new HashSet( grants );
-        this.denials = new HashSet( denials );
-        this.roles = new HashSet( roles );
+        this.permissionClasses = new HashSet<PermissionClass>( permissionClasses );
+        this.roles = new HashSet<String>( roles );
         this.description = description;
         this.disabled = disabled;
     }
     
     
-    public Set getGrants()
+    public Set<PermissionClass> getPermissionClasses()
     {
-        return Collections.unmodifiableSet( grants );
+        return Collections.unmodifiableSet( permissionClasses );
     }
 
 
-    public Set getDenials()
-    {
-        return Collections.unmodifiableSet( denials );
-    }
 
-
-    public Set getRoles()
+    public Set<String> getRoles()
     {
         return Collections.unmodifiableSet( roles );
     }

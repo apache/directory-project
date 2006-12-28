@@ -24,7 +24,6 @@ import java.util.Date;
 import java.util.Iterator;
 
 import org.safehaus.triplesec.admin.dao.ApplicationDao;
-import org.safehaus.triplesec.admin.dao.PermissionDao;
 import org.safehaus.triplesec.admin.dao.ProfileDao;
 import org.safehaus.triplesec.admin.dao.RoleDao;
 
@@ -33,30 +32,28 @@ public class Application extends AdministeredEntity
 {
     private final RoleDao roleDao;
     private final ProfileDao profileDao;
-    private final PermissionDao permissionDao;
     private final String name;
     private final String description;
     private final String password;
     private final ApplicationDao dao;
     
     
-    public Application( String creatorsName, Date creationTimestamp, ApplicationDao dao, String name, 
-        String description, String password, PermissionDao permissionDao, RoleDao roleDao, ProfileDao profileDao )
+    public Application(String creatorsName, Date creationTimestamp, ApplicationDao dao, String name,
+            String description, String password, RoleDao roleDao, ProfileDao profileDao)
     {
         this( creatorsName, creationTimestamp, null, null, dao, name, description, password,
-            permissionDao, roleDao, profileDao );
+                roleDao, profileDao );
     }
     
     
-    public Application( String creatorsName, Date creationTimestamp, String modifiersName, Date modifyTimestamp, 
-        ApplicationDao dao, String name, String description, String userPassword, PermissionDao permissionDao, 
-        RoleDao roleDao, ProfileDao profileDao )
+    public Application(String creatorsName, Date creationTimestamp, String modifiersName, Date modifyTimestamp,
+            ApplicationDao dao, String name, String description, String userPassword,
+            RoleDao roleDao, ProfileDao profileDao)
     {
         super( creatorsName, creationTimestamp, modifiersName, modifyTimestamp );
         this.name = name;
         this.dao = dao;
         this.description = description;
-        this.permissionDao = permissionDao;
         this.profileDao = profileDao;
         this.roleDao = roleDao;
         this.password = userPassword;
@@ -66,12 +63,6 @@ public class Application extends AdministeredEntity
     // -----------------------------------------------------------------------
     // Package friendly dao accessors
     // -----------------------------------------------------------------------
-    
-    
-    PermissionDao getPermissionDao()
-    {
-        return permissionDao;
-    }
     
     
     RoleDao getRoleDao()
@@ -114,12 +105,6 @@ public class Application extends AdministeredEntity
     // -----------------------------------------------------------------------
     
     
-    public Permission getPermission( String permName ) throws DataAccessException
-    {
-        return permissionDao.load( name, permName );
-    }
-    
-    
     public Role getRole( String roleName ) throws DataAccessException
     {
         return roleDao.load( name, roleName );
@@ -135,12 +120,6 @@ public class Application extends AdministeredEntity
     // -----------------------------------------------------------------------
     // ReadOnly Iterator methods
     // -----------------------------------------------------------------------
-    
-    
-    public Iterator permissionIterator() throws DataAccessException
-    {
-        return new ReadOnlyIterator( permissionDao.permissionIterator( name ) );
-    }
     
     
     public Iterator roleIterator() throws DataAccessException

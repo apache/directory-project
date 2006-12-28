@@ -99,7 +99,6 @@ public class TriplesecIntegration extends TestCase
      * Creates a unit test case that sets up and runs the Triplesec server
      * for each unit test with a fresh database.
      *
-     * @param resourcesDirectory the directory containing triplesec resource files
      * @throws Exception if there are configuration issues with the unit test
      */
     public TriplesecIntegration() throws Exception
@@ -112,7 +111,6 @@ public class TriplesecIntegration extends TestCase
      * Creates a unit test case that sets up and runs the Triplesec server
      * for each unit test with a fresh database.
      *
-     * @param resourcesDirectory the directory containing triplesec resource files
      * @param string the name of the unit test
      * @throws Exception if there are configuration issues with the unit test
      */
@@ -297,10 +295,10 @@ public class TriplesecIntegration extends TestCase
         }
         
         serverHome = new File( targetDirectory, "serverHome" );
-        if ( serverHome.exists() )
-        {
-            FileUtils.deleteDirectory( serverHome );
-        }
+//        if ( serverHome.exists() )
+//        {
+//            FileUtils.deleteDirectory( serverHome );
+//        }
 
         // --------------------------------------------------------------------
         // Create minimal install footprint with configuration files

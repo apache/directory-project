@@ -47,7 +47,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import org.safehaus.triplesec.TriplesecInstallationLayout;
 import org.safehaus.triplesec.admin.Application;
 import org.safehaus.triplesec.admin.Group;
-import org.safehaus.triplesec.admin.Permission;
+import org.safehaus.triplesec.admin.PermissionClass;
 import org.safehaus.triplesec.admin.Profile;
 import org.safehaus.triplesec.admin.Role;
 import org.safehaus.triplesec.admin.User;
@@ -101,7 +101,7 @@ public class AdminFrame extends JFrame implements TreeSelectionListener
     private JButton disconnectButton = null;
     private JMenu connectionMenu = null;
     private JPanel emptyPanel = null;
-    private PermissionPanel permissionPanel = null;
+//    private PermissionPanel permissionPanel = null;
     private RolePanel rolePanel;
     private UserPanel userPanel;
     private ProfilePanel profilePanel;
@@ -110,7 +110,7 @@ public class AdminFrame extends JFrame implements TreeSelectionListener
     private GroupPanel groupPanel;
     private NewGroupPanel newGroupPanel;
     private NewUserPanel newUserPanel;
-    private NewPermissionPanel newPermissionPanel;
+//    private NewPermissionPanel newPermissionPanel;
     private NewRolePanel newRolePanel;
     private NewProfilePanel newProfilePanel;
     private JMenu settingsMenu = null;
@@ -157,7 +157,6 @@ public class AdminFrame extends JFrame implements TreeSelectionListener
     /**
      * This method initializes this
      * 
-     * @return void
      */
     private void initialize()
     {
@@ -493,7 +492,7 @@ public class AdminFrame extends JFrame implements TreeSelectionListener
             rightDetailPanelLayout = new CardLayout();
             rightDetailPanel.setLayout( rightDetailPanelLayout );
             rightDetailPanel.add( getEmptyPanel(), getEmptyPanel().getName() );
-            rightDetailPanel.add( getPermissionPanel(), getPermissionPanel().getName() );
+//            rightDetailPanel.add( getPermissionPanel(), getPermissionPanel().getName() );
             rightDetailPanel.add( getRolePanel(), getRolePanel().getName() );
             rightDetailPanel.add( getProfilePanel(), getProfilePanel().getName() );
             rightDetailPanel.add( getApplicationPanel(), getApplicationPanel().getName() );
@@ -502,7 +501,7 @@ public class AdminFrame extends JFrame implements TreeSelectionListener
             rightDetailPanel.add( getNewApplicationPanel(), getNewApplicationPanel().getName() );
             rightDetailPanel.add( getNewGroupPanel(), getNewGroupPanel().getName() );
             rightDetailPanel.add( getNewUserPanel(), getNewUserPanel().getName() );
-            rightDetailPanel.add( getNewPermissionPanel(), getNewPermissionPanel().getName() );
+//            rightDetailPanel.add( getNewPermissionPanel(), getNewPermissionPanel().getName() );
             rightDetailPanel.add( getNewRolePanel(), getNewRolePanel().getName() );
             rightDetailPanel.add( getNewProfilePanel(), getNewProfilePanel().getName() );
         }
@@ -678,15 +677,15 @@ public class AdminFrame extends JFrame implements TreeSelectionListener
      *  
      * @return javax.swing.JPanel   
      */
-    private PermissionPanel getPermissionPanel()
-    {
-        if ( permissionPanel == null )
-        {
-            permissionPanel = new PermissionPanel();
-            permissionPanel.setName( "permissionPanel" );
-        }
-        return permissionPanel;
-    }
+//    private PermissionPanel getPermissionPanel()
+//    {
+//        if ( permissionPanel == null )
+//        {
+//            permissionPanel = new PermissionPanel();
+//            permissionPanel.setName( "permissionPanel" );
+//        }
+//        return permissionPanel;
+//    }
 
 
     /**
@@ -823,15 +822,15 @@ public class AdminFrame extends JFrame implements TreeSelectionListener
      *  
      * @return javax.swing.JPanel   
      */
-    private NewPermissionPanel getNewPermissionPanel()
-    {
-        if ( newPermissionPanel == null )
-        {
-            newPermissionPanel = new NewPermissionPanel();
-            newPermissionPanel.setName( "newPermissionPanel" );
-        }
-        return newPermissionPanel;
-    }
+//    private NewPermissionPanel getNewPermissionPanel()
+//    {
+//        if ( newPermissionPanel == null )
+//        {
+//            newPermissionPanel = new NewPermissionPanel();
+//            newPermissionPanel.setName( "newPermissionPanel" );
+//        }
+//        return newPermissionPanel;
+//    }
 
 
     /**
@@ -1079,13 +1078,14 @@ public class AdminFrame extends JFrame implements TreeSelectionListener
         }
         
         Object obj = node.getUserObject();
-        if ( obj instanceof Permission )
-        {
-            permissionPanel.setTreeNode( node );
-            permissionPanel.setTree( leftNavigation.getTree() );
-            rightDetailPanelLayout.show( rightDetailPanel, "permissionPanel" );
-        }
-        else if ( obj instanceof Role )
+//        if ( obj instanceof Permission )
+//        {
+//            permissionPanel.setTreeNode( node );
+//            permissionPanel.setTree( leftNavigation.getTree() );
+//            rightDetailPanelLayout.show( rightDetailPanel, "permissionPanel" );
+//        }
+//        else
+        if ( obj instanceof Role )
         {
             rolePanel.setTreeNode( node );
             rolePanel.setTree( leftNavigation.getTree() );
@@ -1135,12 +1135,12 @@ public class AdminFrame extends JFrame implements TreeSelectionListener
                 newUserPanel.setLeftTreeNavigation( leftNavigation );
                 rightDetailPanelLayout.show( rightDetailPanel, "newUserPanel" );
             }
-            else if ( ( ( String ) obj ).equalsIgnoreCase( "Permissions" ) )
-            {
-                newPermissionPanel.setTreeNode( node );
-                newPermissionPanel.setLeftTreeNavigation( leftNavigation );
-                rightDetailPanelLayout.show( rightDetailPanel, "newPermissionPanel" );
-            }
+//            else if ( ( ( String ) obj ).equalsIgnoreCase( "Permissions" ) )
+//            {
+//                newPermissionPanel.setTreeNode( node );
+//                newPermissionPanel.setLeftTreeNavigation( leftNavigation );
+//                rightDetailPanelLayout.show( rightDetailPanel, "newPermissionPanel" );
+//            }
             else if ( ( ( String ) obj ).equalsIgnoreCase( "Roles" ) )
             {
                 newRolePanel.setTreeNode( node );

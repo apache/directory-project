@@ -40,9 +40,9 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.safehaus.triplesec.admin.DataAccessException;
-import org.safehaus.triplesec.admin.Permission;
 import org.safehaus.triplesec.admin.Profile;
 import org.safehaus.triplesec.admin.Role;
+import org.safehaus.triplesec.admin.PermissionClass;
 
 
 public class PermissionDependentsPanel extends JPanel
@@ -54,9 +54,9 @@ public class PermissionDependentsPanel extends JPanel
     private JScrollPane jScrollPane = null;
     private JTable dependentsTable = null;
     private List dependents = new ArrayList();
-    private Permission permission;
+    private PermissionClass permissionClass;
     private DependencyModel dependencyModel = null;
-    
+
 
     /**
      * This is the default constructor
@@ -70,9 +70,9 @@ public class PermissionDependentsPanel extends JPanel
 
     public void setSelectedNode( DefaultMutableTreeNode node )
     {
-        this.permission = ( Permission ) node.getUserObject();
+        this.permissionClass = ( PermissionClass ) node.getUserObject();
         this.dependents.clear();
-        
+
         if ( node == null || node.getParent() == null || node.getParent().getParent() == null )
         {
             return;
@@ -97,16 +97,16 @@ public class PermissionDependentsPanel extends JPanel
                 profilesNode = child;
             }
         }
-        
+
         // -------------------------------------------------------------------
         // Find the role dependents
         // -------------------------------------------------------------------
-        
+
         for ( Enumeration ii = rolesNode.children(); ii.hasMoreElements(); /**/ )
         {
             DefaultMutableTreeNode child = ( DefaultMutableTreeNode ) ii.nextElement();
             Role role = ( Role ) child.getUserObject();
-            if ( role.getGrants().contains( permission.getName() ) )
+            if ( role.getPermissionClasses().contains( permissionClass ) )
             {
                 dependents.add( child );
             }
@@ -115,26 +115,24 @@ public class PermissionDependentsPanel extends JPanel
         // -------------------------------------------------------------------
         // Find the profile dependents
         // -------------------------------------------------------------------
-        
+
         for ( Enumeration ii = profilesNode.children(); ii.hasMoreElements(); /**/ )
         {
             DefaultMutableTreeNode child = ( DefaultMutableTreeNode ) ii.nextElement();
             Profile profile = ( Profile ) ( child ).getUserObject();
-            if ( profile.getGrants().contains( permission.getName() ) || 
-                profile.getDenials().contains( permission.getName() ) )
+            if ( profile.getPermissionClasses().contains( permissionClass ) )
             {
                 dependents.add( child );
             }
         }
-        
+
         dependencyModel.fireTableDataChanged();
     }
-    
-    
+
+
     /**
      * This method initializes this
      * 
-     * @return void
      */
     private void initialize()
     {
@@ -148,7 +146,7 @@ public class PermissionDependentsPanel extends JPanel
     /**
      * This method initializes jPanel	
      * 	
-     * @return javax.swing.JPanel	
+     * @return javax.swing.JPanel
      */
     private JPanel getCenterPanel()
     {
@@ -172,7 +170,7 @@ public class PermissionDependentsPanel extends JPanel
     /**
      * This method initializes jPanel1	
      * 	
-     * @return javax.swing.JPanel	
+     * @return javax.swing.JPanel
      */
     private JPanel getSouthPanel()
     {
@@ -188,7 +186,7 @@ public class PermissionDependentsPanel extends JPanel
     /**
      * This method initializes jButton	
      * 	
-     * @return javax.swing.JButton	
+     * @return javax.swing.JButton
      */
     private JButton getRemoveButton()
     {
@@ -202,22 +200,22 @@ public class PermissionDependentsPanel extends JPanel
                 public void actionPerformed( java.awt.event.ActionEvent e )
                 {
                     String msg = UiUtils.wrap( "Removing dependency relationships will effect " +
-                            "entities other than this permission.  You cannot automatically revert from operation.  " +
+                            "entities other than this permissionClass.  You cannot automatically revert from operation.  " +
                             "Would you like to continue?", 79 );
-                    int response = JOptionPane.showOptionDialog( PermissionDependentsPanel.this, msg, 
-                        "Irreverable operation!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, 
+                    int response = JOptionPane.showOptionDialog( PermissionDependentsPanel.this, msg,
+                        "Irreverable operation!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
                         null, null, null );
                     if ( response == JOptionPane.NO_OPTION )
                     {
                         return;
                     }
-                    
+
                     int[] selectedRows = dependentsTable.getSelectedRows();
                     Set removed = new HashSet();
                     for ( int ii = 0; ii < selectedRows.length; ii++ )
                     {
-                        DefaultMutableTreeNode dependentNode = 
-                            ( DefaultMutableTreeNode ) dependents.get( selectedRows[ii] ); 
+                        DefaultMutableTreeNode dependentNode =
+                            ( DefaultMutableTreeNode ) dependents.get( selectedRows[ii] );
                         Object dependent = dependentNode.getUserObject();
                         try
                         {
@@ -225,31 +223,31 @@ public class PermissionDependentsPanel extends JPanel
                             {
                                 Role role = ( Role ) dependent;
                                 dependentNode.setUserObject( role.modifier()
-                                    .removeGrant( permission.getName() ).modify() );
+                                    .removePermissionClass( permissionClass ).modify() );
                                 removed.add( dependentNode );
                             }
                             else if ( dependent instanceof Profile )
                             {
                                 Profile profile = ( Profile ) dependent;
-                                dependentNode.setUserObject( profile.modifier().removeDenial( permission.getName() )
-                                    .removeGrant( permission.getName() ).modify() );
+                                dependentNode.setUserObject( profile.modifier().removePermissionClass( permissionClass )
+                                    .modify() );
                                 removed.add( dependentNode );
                             }
                         }
                         catch ( DataAccessException dae )
                         {
-                            msg = UiUtils.wrap( "Failed to remove all dependency relationships for permission: "
+                            msg = UiUtils.wrap( "Failed to remove all dependency relationships for permissionClass: "
                                 + dae.getMessage(), 79 );
-                            JOptionPane.showMessageDialog( PermissionDependentsPanel.this, msg, 
+                            JOptionPane.showMessageDialog( PermissionDependentsPanel.this, msg,
                                 "Dependency removal failure!", JOptionPane.ERROR_MESSAGE );
                         }
                     }
-                    
+
                     for ( Iterator ii = removed.iterator(); ii.hasNext(); /**/ )
                     {
                         dependents.remove( ii.next() );
                     }
-                    
+
                     if ( removed.size() > 0 )
                     {
                         dependencyModel.fireTableDataChanged();
@@ -264,7 +262,7 @@ public class PermissionDependentsPanel extends JPanel
     /**
      * This method initializes jScrollPane	
      * 	
-     * @return javax.swing.JScrollPane	
+     * @return javax.swing.JScrollPane
      */
     private JScrollPane getJScrollPane()
     {
@@ -280,7 +278,7 @@ public class PermissionDependentsPanel extends JPanel
     /**
      * This method initializes jTable	
      * 	
-     * @return javax.swing.JTable	
+     * @return javax.swing.JTable
      */
     private JTable getDependentsTable()
     {
@@ -296,7 +294,7 @@ public class PermissionDependentsPanel extends JPanel
         return dependentsTable;
     }
 
-    
+
     class DependencyModel extends AbstractTableModel
     {
         private static final long serialVersionUID = 5348529870374118604L;
@@ -307,7 +305,7 @@ public class PermissionDependentsPanel extends JPanel
         {
             return COLNAMES[columnIndex];
         }
-        
+
         public int getRowCount()
         {
             return dependents.size();
@@ -346,29 +344,22 @@ public class PermissionDependentsPanel extends JPanel
                         return dependent;
                     case ( 2 ):
                         Profile profile = ( Profile ) dependent;
-                        Set grants = profile.getGrants();
-                        Set denials = profile.getDenials();
-                        // odd case to have permission in both grants and denials of role but it's possible
-                        if ( grants.contains( permission.getName() ) && denials.contains( permission.getName() ) )
+                        Set<PermissionClass> permissionClasses = profile.getPermissionClasses();
+                        // odd case to have permissionClass in both permissionClasses and denials of role but it's possible
+                        if ( permissionClasses.contains( permissionClass ) )
                         {
+                            //TODO this needs a new return value
                             return "both";
                         }
-                        else if ( grants.contains( permission.getName() ) )
-                        {
-                            return "grant";
-                        }
-                        else
-                        {
-                            return "denial";
-                        }
-                    default:
                         throw new IndexOutOfBoundsException( "Only 3 columns present so columnIndex is invalid: "
                             + columnIndex );
                 }
+                //TODO wtf?
+                throw new IllegalStateException("what is going on???");
             }
             else
             {
-                throw new IllegalStateException( "Only expecting Role and Profile dependents for Permissions not " 
+                throw new IllegalStateException( "Only expecting Role and Profile dependents for Permissions not "
                     + dependent.getClass() );
             }
         }

@@ -28,25 +28,26 @@ import javax.naming.directory.ModificationItem;
 
 import org.safehaus.triplesec.admin.DataAccessException;
 import org.safehaus.triplesec.admin.Role;
+import org.safehaus.triplesec.admin.PermissionClass;
 
 
 public interface RoleDao
 {
-    Iterator roleIterator( String applicationName ) 
+    Iterator roleIterator( String applicationName )
         throws DataAccessException;
 
-    Role load( String applicationName, String name ) 
+    Role load( String applicationName, String name )
         throws DataAccessException;
 
-    Role add( String applicationName, String name, String currentValue, Set currentValues ) 
+    Role add( String applicationName, String name, String currentValue, Set<PermissionClass> permissionClasses )
         throws DataAccessException;
 
-    Role rename( String newName, Role archetype ) 
+    Role rename( String newName, Role archetype )
         throws DataAccessException;
 
-    Role modify( String creatorsName, Date createTimestamp, String applicationName, String name, 
-        String description, Set grants, ModificationItem[] mods )  throws DataAccessException;
+    Role modify( String creatorsName, Date createTimestamp, String applicationName, String name,
+        String description, Set<PermissionClass> permissionClasses, ModificationItem[] mods )  throws DataAccessException;
 
-    void delete( String applicationName, String name ) 
+    void delete( String applicationName, String name )
         throws DataAccessException;
 }

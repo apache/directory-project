@@ -1,6 +1,6 @@
 dn: ou=applications,dc=example,dc=com
 objectClass: top
-objectClass: organizationalunit
+objectClass: organizationalUnit
 ou: applications
 
 dn: appName=mockApplication,ou=applications,dc=example,dc=com
@@ -103,6 +103,16 @@ grants: mockPerm5
 grants: mockPerm4
 roleName: mockRole4
 
+dn: roleName=mockRole5,ou=roles,appName=mockApplication,ou=applications,dc=example,dc=com
+objectClass: top
+objectClass: policyRole
+grants: mockPerm9
+grants: mockPerm7
+grants: mockPerm5
+grants: mockPerm4
+denials: mockPerm6
+roleName: mockRole5
+
 dn: ou=profiles,appName=mockApplication,ou=applications,dc=example,dc=com
 objectClass: top
 objectClass: organizationalUnit
@@ -148,4 +158,15 @@ roles: mockRole4
 roles: mockRole3
 user: akarasulu
 profileId: mockProfile4
+
+dn: profileId=mockProfile5,ou=profiles,appName=mockApplication,ou=applications,dc=example,dc=com
+objectClass: top
+objectClass: policyProfile
+denials: mockPerm7
+grants: mockPerm0
+roles: mockRole4
+roles: mockRole3
+roles: mockRole5
+user: akarasulu
+profileId: mockProfile5
 

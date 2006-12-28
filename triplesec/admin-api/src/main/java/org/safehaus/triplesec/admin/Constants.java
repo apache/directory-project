@@ -26,8 +26,11 @@ import javax.naming.directory.ModificationItem;
 public interface Constants
 {
     String POLICY_PROFILE_OC = "policyProfile";
-    String POLICY_PERMISSION_OC = "policyPermission";
+//    String POLICY_PERMISSION_OC = "policyPermission";
     String POLICY_ROLE_OC = "policyRole";
+    String PERM_CLASS_OC = "permClass";
+    String PERM_GRANT_OC = "permGrant";
+    String PERM_DENY_OC = "permDeny";
     String SAFEHAUS_PROFILE_OC = "safehausProfile";
     String GROUP_OF_UNIQUE_NAMES_OC = "groupOfUniqueNames";
     String UID_OBJECT_OC = "uidObject";
@@ -76,8 +79,12 @@ public interface Constants
     String MOVING_FACTOR_ID = "safehausFactor";
     String UNIQUE_MEMBER_ID = "uniqueMember";
     String REF_ID = "ref";
-    String GRANTS_ID = "grants";
-    String DENIALS_ID = "denials";
+    String PERM_CLASS_NAME_ID = "permClassName";
+    String GRANT_ID = "grant";
+    String DENY_ID = "deny";
+    String ACTION_ID = "action";
+//    String GRANTS_ID = "grants";
+//    String DENIALS_ID = "denials";
     String ROLES_ID = "roles";
     String USER_ID = "user";
     String DOMAIN_COMPONENT_ID = "dc";
@@ -85,7 +92,7 @@ public interface Constants
     String MODIFY_TIMESTAMP_ID = "modifyTimestamp";
     String MODIFIERS_NAME_ID = "modifiersName";
     String APP_NAME_ID = "appName";
-    String PERM_NAME_ID = "permName";
+//    String PERM_NAME_ID = "permName";
     String ROLE_NAME_ID = "roleName";
     String PROFILEID_ID = "profileId";
     String SAFEHAUS_ID = "safehausUid";

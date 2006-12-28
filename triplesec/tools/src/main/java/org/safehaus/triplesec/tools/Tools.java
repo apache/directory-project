@@ -21,15 +21,11 @@ package org.safehaus.triplesec.tools;
 
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Properties;
 
 import org.apache.commons.cli.CommandLine;
-import org.apache.directory.server.configuration.ServerStartupConfiguration;
 import org.apache.directory.server.tools.BaseCommand;
-import org.apache.directory.server.tools.ToolCommand;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.apache.directory.server.tools.request.BaseToolCommandCL;
 
 
 /**
@@ -74,7 +70,7 @@ public class Tools
             System.exit( 0 );
         }
 
-        ToolCommand cmd = ( ToolCommand ) tools.getCommands().get( command );
+        BaseToolCommandCL cmd = (BaseToolCommandCL) tools.getCommands().get( command );
         if ( cmd == null )
         {
             System.err.println( "Unknown command: " + args[0] );
@@ -96,15 +92,16 @@ public class Tools
         cmd.setVersion( tools.getProductVersion() );
         if ( cmdline.getOptionValue( 'i' ) != null )
         {
-            cmd.setLayout( cmdline.getOptionValue( 'i' ) );
-            if ( !cmd.isQuietEnabled() )
-            {
-                System.out.println( "loading settings from: " + cmd.getLayout().getConfigurationFile() );
-            }
-            ApplicationContext factory = null;
-            URL configUrl = cmd.getLayout().getConfigurationFile().toURL();
-            factory = new FileSystemXmlApplicationContext( configUrl.toString() );
-            cmd.setConfiguration( ( ServerStartupConfiguration ) factory.getBean( "configuration" ) );
+            cmd.processOptions(cmdline);
+//            cmd.setLayout( cmdline.getOptionValue( 'i' ) );
+//            if ( !cmd.isQuietEnabled() )
+//            {
+//                System.out.println( "loading settings from: " + cmd.getLayout().getConfigurationFile() );
+//            }
+//            ApplicationContext factory = null;
+//            URL configUrl = cmd.getLayout().getConfigurationFile().toURL();
+//            factory = new FileSystemXmlApplicationContext( configUrl.toString() );
+//            cmd.setConfiguration( ( ServerStartupConfiguration ) factory.getBean( "configuration" ) );
         }
         else if ( cmdline.hasOption( 'c' ) )
         {
@@ -112,7 +109,7 @@ public class Tools
             System.exit( 1 );
         }
 
-        cmd.execute( cmdline );
+        cmd.execute( cmdline, null );
     }
 
 

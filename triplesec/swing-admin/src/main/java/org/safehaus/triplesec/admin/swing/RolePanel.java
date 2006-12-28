@@ -61,7 +61,7 @@ public class RolePanel extends JPanel
     private JPanel jPanel = null;
     private JTextArea descriptionTextArea = null;
     private JPanel jPanel4 = null;
-    private RoleGrantsPanel roleGrantsPanel;
+//    private RoleGrantsPanel roleGrantsPanel;
     private JTree tree = null;
     private Role role = null;
     private DefaultMutableTreeNode node = null;
@@ -88,7 +88,6 @@ public class RolePanel extends JPanel
     /**
      * This method initializes this
      * 
-     * @return void
      */
     private void initialize()
     {
@@ -257,7 +256,7 @@ public class RolePanel extends JPanel
         {
             centerTabbedPane = new JTabbedPane();
             centerTabbedPane.addTab( "General", null, getGeneralPanelTab(), null );
-            centerTabbedPane.addTab( "Grants", null, getRoleGrantsPanel(), null );
+//            centerTabbedPane.addTab( "Grants", null, getRoleGrantsPanel(), null );
             centerTabbedPane.addTab( "Dependent Profiles",  null, getRoleDependentsPanel(), null );
         }
         return centerTabbedPane;
@@ -274,14 +273,14 @@ public class RolePanel extends JPanel
     }
 
 
-    private RoleGrantsPanel getRoleGrantsPanel()
-    {
-        if ( roleGrantsPanel == null )
-        {
-            roleGrantsPanel = new RoleGrantsPanel();
-        }
-        return roleGrantsPanel;
-    }
+//    private RoleGrantsPanel getRoleGrantsPanel()
+//    {
+//        if ( roleGrantsPanel == null )
+//        {
+//            roleGrantsPanel = new RoleGrantsPanel();
+//        }
+//        return roleGrantsPanel;
+//    }
     
     
     /**
@@ -448,7 +447,7 @@ public class RolePanel extends JPanel
         applicationNameTextField.setText( role.getApplicationName() );
         roleNameTextField.setText( role.getName() );
         descriptionTextArea.setText( role.getDescription() );
-        roleGrantsPanel.populateLists( ( DefaultMutableTreeNode ) node.getParent().getParent(), role.getGrants() );
+//        roleGrantsPanel.populateLists( ( DefaultMutableTreeNode ) node.getParent().getParent(), role.getGrants() );
     }
 
 
@@ -505,14 +504,14 @@ public class RolePanel extends JPanel
 
         // change the description and add remove values from list views then see if anything changed
         RoleModifier modifier = role.modifier().setDescription( descriptionTextArea.getText() );
-        for ( Enumeration ii = roleGrantsPanel.getAvailablePermssionsModel().elements(); ii.hasMoreElements(); /**/)
-        {
-            modifier.removeGrant( ( String ) ii.nextElement() );
-        }
-        for ( Enumeration ii = roleGrantsPanel.getRoleGrantsModel().elements(); ii.hasMoreElements(); /**/)
-        {
-            modifier.addGrant( ( String ) ii.nextElement() );
-        }
+//        for ( Enumeration ii = roleGrantsPanel.getAvailablePermssionsModel().elements(); ii.hasMoreElements(); /**/)
+//        {
+//            modifier.removeGrant( ( String ) ii.nextElement() );
+//        }
+//        for ( Enumeration ii = roleGrantsPanel.getRoleGrantsModel().elements(); ii.hasMoreElements(); /**/)
+//        {
+//            modifier.addGrant( ( String ) ii.nextElement() );
+//        }
 
         if ( modifier.isUpdateNeeded() )
         {

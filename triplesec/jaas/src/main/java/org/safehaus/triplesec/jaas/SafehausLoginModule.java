@@ -121,8 +121,9 @@ public class SafehausLoginModule implements LoginModule
         {
             if ( module.commit() )
             {
-                this.subject.getPrincipals().clear();
-                this.subject.getPrincipals().add( new SafehausPrincipal( this.profile ) );
+                //Clearing the principals means this has to be the only login module, not a reasonable assumption
+//                this.subject.getPrincipals().clear();
+                this.subject.getPrincipals().add( new SafehausPrincipal( profile ) );
                 return true;
             }
             
@@ -140,7 +141,7 @@ public class SafehausLoginModule implements LoginModule
     public boolean login() throws LoginException
     {
         Callback[] callbacks = new Callback[] {
-            profileIdCallback, passwordCallback, realmCallback, passcodeCallback, policyCallback
+            profileIdCallback, passwordCallback, realmCallback, passcodeCallback
         };
         
         // -------------------------------------------------------------------
@@ -222,7 +223,8 @@ public class SafehausLoginModule implements LoginModule
             
             if ( bindAs( "uid=admin,ou=system", "admin" ) )
             {
-                this.subject.getPrincipals().add( new SafehausPrincipal( profile ) );
+                //add in commit(), not here
+//                this.subject.getPrincipals().add( new SafehausPrincipal( profile ) );
                 return true;
             }
             else
@@ -386,8 +388,7 @@ public class SafehausLoginModule implements LoginModule
         passwordCallback = new PasswordCallback( "Password: ", false );
         realmCallback = new RealmCallback();
         passcodeCallback = new PasscodeCallback();
-        policyCallback = new PolicyCallback();
-        
+
         // Save these values for delayed initialization of the Krb5LoginModule
         this.subject = subject;
         this.callbackHandler = callbackHandler;

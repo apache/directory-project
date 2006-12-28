@@ -28,26 +28,27 @@ import javax.naming.directory.ModificationItem;
 
 import org.safehaus.triplesec.admin.DataAccessException;
 import org.safehaus.triplesec.admin.Profile;
+import org.safehaus.triplesec.admin.PermissionClass;
 
 
 public interface ProfileDao
 {
-    Iterator profileIterator( String applicationName ) 
+    Iterator profileIterator( String applicationName )
         throws DataAccessException;
 
-    Iterator profileIterator( String applicationName, String user ) 
+    Iterator profileIterator( String applicationName, String user )
         throws DataAccessException;
 
-    Profile load( String applicationName, String id ) 
+    Profile load( String applicationName, String id )
         throws DataAccessException;
 
-    Profile add( String applicationName, String id, String user, String description, 
-        Set grants, Set denials, Set roles ) throws DataAccessException;
+    Profile add( String applicationName, String id, String user, String description,
+        Set<PermissionClass> permissionClasses, Set<String> roles ) throws DataAccessException;
 
     Profile rename( String newId, Profile archetype ) throws DataAccessException;
 
-    Profile modify( String creatorsName, Date createTimestamp, String applicationName, String id, 
-        String user, String description, Set grants, Set denials, Set roles, boolean disabled, ModificationItem[] mods ) 
+    Profile modify( String creatorsName, Date createTimestamp, String applicationName, String id,
+        String user, String description, Set<PermissionClass> permissionClasses, Set<String> roles, boolean disabled, ModificationItem[] mods )
         throws DataAccessException;
 
     void delete( String name, String id ) throws DataAccessException;

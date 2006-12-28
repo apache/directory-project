@@ -53,7 +53,7 @@ public class LdifConnectionDriver implements ConnectionDriver
     
     public boolean accept( String url )
     {
-        if ( ( url.startsWith( "file://" ) || url.startsWith( "jar:" ) ) && url.endsWith( ".ldif" ) )
+        if ( ( url.startsWith( "file:" ) || url.startsWith( "jar:" ) ) && url.endsWith( ".ldif" ) )
         {
             return true;
         }
@@ -80,7 +80,7 @@ public class LdifConnectionDriver implements ConnectionDriver
             throw new IllegalArgumentException( "An applicationPrincipalDN property value must be provided." );
         }
         
-        if ( url.startsWith( "file://" ) )
+        if ( url.startsWith( "file:" ) )
         {
             File ldifFile = null;
             try

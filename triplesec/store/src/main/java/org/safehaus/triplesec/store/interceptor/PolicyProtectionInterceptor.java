@@ -78,12 +78,13 @@ public class PolicyProtectionInterceptor extends BaseInterceptor
             while( ocList.hasMore() )
             {
                 String value = String.valueOf( ocList.next() );
-                if( "policyPermission".equalsIgnoreCase( value ) )
-                {
-                    checkNewPolicyEntry( next, name, "2.5.4.11=permissions" );
-                    policyEntry = true;
-                }
-                else if( "policyRole".equalsIgnoreCase( value ) )
+//                if( "policyPermission".equalsIgnoreCase( value ) )
+//                {
+//                    checkNewPolicyEntry( next, name, "2.5.4.11=permissions" );
+//                    policyEntry = true;
+//                }
+//                else
+                if( "policyRole".equalsIgnoreCase( value ) )
                 {
                     checkNewPolicyEntry( next, name, "2.5.4.11=roles" );
                     policyEntry = true;
@@ -91,6 +92,18 @@ public class PolicyProtectionInterceptor extends BaseInterceptor
                 else if( "policyProfile".equalsIgnoreCase( value ) )
                 {
                     checkNewPolicyEntry( next, name, "2.5.4.11=profiles" );
+                    policyEntry = true;
+                }
+                else if ("permClass".equalsIgnoreCase( value ))
+                {
+                    policyEntry = true;
+                }
+                else if ("permGrant".equalsIgnoreCase( value ))
+                {
+                    policyEntry = true;
+                }
+                else if ("permDeny".equalsIgnoreCase( value ))
+                {
                     policyEntry = true;
                 }
                 else if( "policyApplication".equalsIgnoreCase( value ) )
@@ -478,7 +491,7 @@ public class PolicyProtectionInterceptor extends BaseInterceptor
         if( !parentName.equalsIgnoreCase( parentDn.getRdn().toString() ) )
         {
             throw new SchemaViolationException( "Parent entry for policyPermissions must be '" +
-                parentName + "': " + name );
+                parentName + "': " + name + "\n\ninstead of " + parentDn.getRdn().toString() );
         }
 
         parentDn.remove( parentDn.size() -1 );

@@ -31,7 +31,7 @@ import org.safehaus.triplesec.admin.dao.ExternalUserDao;
 import org.safehaus.triplesec.admin.dao.GroupDao;
 import org.safehaus.triplesec.admin.dao.HauskeysUserDao;
 import org.safehaus.triplesec.admin.dao.LocalUserDao;
-import org.safehaus.triplesec.admin.dao.PermissionDao;
+import org.safehaus.triplesec.admin.dao.PermissionClassDao;
 import org.safehaus.triplesec.admin.dao.ProfileDao;
 import org.safehaus.triplesec.admin.dao.RoleDao;
 import org.safehaus.triplesec.admin.dao.UserDao;
@@ -43,7 +43,7 @@ public class TriplesecAdmin
     private ApplicationDao applicationDao;
     private RoleDao roleDao;
     private ProfileDao profileDao;
-    private PermissionDao permissionDao;
+    private PermissionClassDao permissionClassDao;
     private GroupDao groupDao;
     private ExternalUserDao externalUserDao;
     private LocalUserDao localUserDao;
@@ -55,7 +55,7 @@ public class TriplesecAdmin
     {
         factory = DaoFactory.createInstance( props );
         applicationDao = factory.getApplicationDao();
-        permissionDao = factory.getPermissionDao();
+        permissionClassDao = factory.getPermissionClassDao();
         roleDao = factory.getRoleDao();
         profileDao = factory.getProfileDao();
         groupDao = factory.getGroupDao();
@@ -114,8 +114,8 @@ public class TriplesecAdmin
     
     public ApplicationModifier newApplication( String name )
     {
-        return new ApplicationModifier( applicationDao, name, 
-            permissionDao, roleDao, profileDao );
+        return new ApplicationModifier( applicationDao, name,
+                roleDao, profileDao );
     }
     
     

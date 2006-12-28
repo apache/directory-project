@@ -22,6 +22,8 @@ package org.safehaus.triplesec.admin.dao.ldap;
 
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Set;
+import java.util.HashSet;
 
 import javax.naming.Context;
 import javax.naming.NameAlreadyBoundException;
@@ -30,7 +32,6 @@ import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.BasicAttributes;
 import javax.naming.directory.DirContext;
-import javax.naming.directory.ModificationItem;
 import javax.naming.directory.SchemaViolationException;
 import javax.naming.directory.SearchControls;
 
@@ -40,25 +41,28 @@ import org.safehaus.triplesec.admin.ConstraintViolationException;
 import org.safehaus.triplesec.admin.DataAccessException;
 import org.safehaus.triplesec.admin.EntryAlreadyExistsException;
 import org.safehaus.triplesec.admin.NoSuchEntryException;
-import org.safehaus.triplesec.admin.Permission;
-import org.safehaus.triplesec.admin.dao.PermissionDao;
+import org.safehaus.triplesec.admin.PermissionClass;
+import org.safehaus.triplesec.admin.PermissionActions;
+import org.safehaus.triplesec.admin.dao.PermissionClassDao;
+import org.safehaus.triplesec.admin.dao.PermissionActionsDao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class LdapPermissionDao implements PermissionDao, LdapDao, Constants
+public class LdapPermissionClassDao implements PermissionClassDao, LdapDao, Constants
 {
     public static final String[] ATTRIBUTES = new String[] { 
-        DESCRIPTION_ID, PERM_NAME_ID, "creatorsName", "createTimestamp", "modifiersName", "modifyTimestamp" 
+        PERM_CLASS_NAME_ID, "creatorsName", "createTimestamp", "modifiersName", "modifyTimestamp"
     };
-    private static final Logger log = LoggerFactory.getLogger( LdapPermissionDao.class );
+    private static final Logger log = LoggerFactory.getLogger( LdapPermissionClassDao.class );
     private final DirContext ctx;
     private final String baseUrl;
     private final String principalName;
+    private final PermissionActionsDao permissionActionsDao;
     
     
-    public LdapPermissionDao( DirContext ctx ) throws DataAccessException
+    public LdapPermissionClassDao( DirContext ctx, PermissionActionsDao permissionActionsDao) throws DataAccessException
     {
         this.ctx = ctx;
 
@@ -89,30 +93,40 @@ public class LdapPermissionDao implements PermissionDao, LdapDao, Constants
             baseUrl = name;
             principalName = principal;
         }
+        this.permissionActionsDao = permissionActionsDao;
     }
     
     
     // -----------------------------------------------------------------------
-    // PermissionDao method implementations
+    // PermissionClassDao method implementations
     // -----------------------------------------------------------------------
 
     
-    public Permission add( String appName, String permName, String description ) 
+    public PermissionClass add( String contextDn, String permClassName, Set<PermissionActions> grants, Set<PermissionActions> denials )
         throws DataAccessException
     {
-        BasicAttributes attrs = new BasicAttributes( OBJECT_CLASS_ID, POLICY_PERMISSION_OC, true );
-        attrs.put( PERM_NAME_ID, permName );
-        if ( description != null )
-        {
-            attrs.put( DESCRIPTION_ID, description );
+        BasicAttributes attrs = new BasicAttributes( OBJECT_CLASS_ID, PERM_CLASS_OC, true );
+        attrs.put( PERM_CLASS_NAME_ID, permClassName );
+
+        if (grants == null) {
+            grants = new HashSet<PermissionActions>();
         }
-        
-        String rdn = getRelativeDn( appName, permName );
+        if (denials == null) {
+            denials = new HashSet<PermissionActions>();
+        }
+
+        String rdn = getRelativeDn( contextDn, permClassName );
         try
         {
             ctx.createSubcontext( rdn, attrs );
-            return new Permission( principalName, new Date( System.currentTimeMillis() ), 
-                this, appName, permName, description );
+            for (PermissionActions permissionActions : grants) {
+                permissionActionsDao.add(rdn, true, permissionActions.getPermissionName(), permissionActions.getActions());
+            }
+            for (PermissionActions permissionActions : denials) {
+                permissionActionsDao.add(rdn, false, permissionActions.getPermissionName(), permissionActions.getActions());
+            }
+            return new PermissionClass( principalName, new Date( System.currentTimeMillis() ), null, null,
+                this, permClassName, grants, denials );
         }
         catch ( NameAlreadyBoundException e )
         {
@@ -129,10 +143,10 @@ public class LdapPermissionDao implements PermissionDao, LdapDao, Constants
     }
     
     
-    public void delete( String appName, String permName ) 
+    public void delete( String contextDn, String permClassName )
         throws DataAccessException
     {
-        String rdn = getRelativeDn( appName, permName );
+        String rdn = getRelativeDn( contextDn, permClassName );
 
         try
         {
@@ -141,7 +155,7 @@ public class LdapPermissionDao implements PermissionDao, LdapDao, Constants
         catch ( SchemaViolationException e )
         {
             String msg = "Could not delete " + rdn + " under " + baseUrl;
-            msg += ".  Other entities depend on " + permName;
+            msg += ".  Other entities depend on " + permClassName;
             log.error( msg, e );
             throw new ConstraintViolationException( msg );
         }
@@ -153,46 +167,46 @@ public class LdapPermissionDao implements PermissionDao, LdapDao, Constants
         }
     }
 
-    
-    public Permission modify( String creatorsName, Date createTimestamp, String appName, 
-        String permName, String description, ModificationItem[] mods ) throws DataAccessException
+    //TODO signature wrong and not implemented
+    public PermissionClass modify( String creatorsName, Date createTimestamp, String contextDn,
+        String permClassName  ) throws DataAccessException
     {
-        String rdn = getRelativeDn( appName, permName );
+        String rdn = getRelativeDn( contextDn, permClassName );
         
-        try
-        {
-            ctx.modifyAttributes( rdn, mods );
-        }
-        catch ( SchemaViolationException e )
-        {
-            String msg = "Could not modify " + rdn + " under " + baseUrl;
-            msg += " The modification violates constraints.";
-            log.error( msg, e );
-            throw new ConstraintViolationException( msg );
-        }
-        catch ( NameNotFoundException e )
-        {
-            String msg = "Entry " + rdn + " under " + baseUrl + " does not exist";
-            log.error( msg, e );
-            throw new NoSuchEntryException( msg );
-        }
-        catch ( NamingException e )
-        {
-            String msg = "Could not modify " + rdn + " under " + baseUrl;
-            log.error( msg, e );
-            throw new NoSuchEntryException( msg );
-        }
+//        try
+//        {
+//            ctx.modifyAttributes( rdn, mods );
+//        }
+//        catch ( SchemaViolationException e )
+//        {
+//            String msg = "Could not modify " + rdn + " under " + baseUrl;
+//            msg += " The modification violates constraints.";
+//            log.error( msg, e );
+//            throw new ConstraintViolationException( msg );
+//        }
+//        catch ( NameNotFoundException e )
+//        {
+//            String msg = "Entry " + rdn + " under " + baseUrl + " does not exist";
+//            log.error( msg, e );
+//            throw new NoSuchEntryException( msg );
+//        }
+//        catch ( NamingException e )
+//        {
+//            String msg = "Could not modify " + rdn + " under " + baseUrl;
+//            log.error( msg, e );
+//            throw new NoSuchEntryException( msg );
+//        }
         
-        return new Permission( creatorsName, createTimestamp, this.principalName, 
-            new Date( System.currentTimeMillis() ), this, appName, permName, description );
+        return new PermissionClass( creatorsName, createTimestamp, this.principalName,
+            new Date( System.currentTimeMillis() ), this, permClassName, null, null  );
     }
     
     
-    public Permission rename( String newPermName, Permission perm ) 
+    public PermissionClass rename( String contextDn, String newPermClassName, PermissionClass permClass )
         throws DataAccessException
     {
-        String oldRdn = getRelativeDn( perm.getApplicationName(), perm.getName() );
-        String newRdn = getRelativeDn( perm.getApplicationName(), newPermName );
+        String oldRdn = getRelativeDn( contextDn, permClass.getPermissionClassName() );
+        String newRdn = getRelativeDn( contextDn, newPermClassName );
         
         try
         {
@@ -223,31 +237,37 @@ public class LdapPermissionDao implements PermissionDao, LdapDao, Constants
             throw new DataAccessException( msg );
         }
         
-        return new Permission( perm.getCreatorsName(), perm.getCreateTimestamp(), principalName, 
+        return new PermissionClass( permClass.getCreatorsName(), permClass.getCreateTimestamp(), principalName,
             new Date( System.currentTimeMillis() ), 
-            this, perm.getApplicationName(), newPermName, perm.getDescription() );
+            this, newPermClassName, permClass.getGrants(), permClass.getDenials() );
     }
     
     
-    public Permission load( String appName, String permName )
+    public PermissionClass load( String contextDn, String permClassName )
         throws DataAccessException
     {
-        String description = null;
-        String creatorsName = null;
-        Date createTimestamp = null;
-        String modifiersName = null;
-        Date modifyTimestamp = null;
-        String rdn = getRelativeDn( appName, permName );
-        Attributes attrs = null;
-        
+        String creatorsName;
+        Date createTimestamp;
+        String modifiersName;
+        Date modifyTimestamp;
+        String rdn = getRelativeDn( contextDn, permClassName );
+        Attributes attrs;
+        Set<PermissionActions> grants = new HashSet<PermissionActions>();
+        Set<PermissionActions> denials = new HashSet<PermissionActions>();
+
         try
         {
             attrs = ctx.getAttributes( rdn, ATTRIBUTES );
-            description = LdapUtils.getSingleValued( DESCRIPTION_ID, attrs );
             creatorsName = LdapUtils.getPrincipal( CREATORS_NAME_ID, attrs );
             createTimestamp = LdapUtils.getDate( CREATE_TIMESTAMP_ID, attrs );
             modifiersName = LdapUtils.getPrincipal( MODIFIERS_NAME_ID, attrs );
             modifyTimestamp = LdapUtils.getDate( MODIFY_TIMESTAMP_ID, attrs );
+            for (Iterator<PermissionActions> grantsIterator = permissionActionsDao.permissionActionsIterator(rdn, true); grantsIterator.hasNext(); ) {
+                grants.add(grantsIterator.next());
+            }
+            for (Iterator<PermissionActions> denialsIterator = permissionActionsDao.permissionActionsIterator(rdn, false); denialsIterator.hasNext(); ) {
+                grants.add(denialsIterator.next());
+            }
         }
         catch ( NameNotFoundException e )
         {
@@ -261,16 +281,17 @@ public class LdapPermissionDao implements PermissionDao, LdapDao, Constants
             log.error( msg, e );
             throw new DataAccessException( msg );
         }
-        
-        return new Permission( creatorsName, createTimestamp, modifiersName, modifyTimestamp, this, 
-            appName, permName, description );
+
+
+        return new PermissionClass( creatorsName, createTimestamp, modifiersName, modifyTimestamp, this,
+            permClassName, grants, denials );
     }
     
     
-    public boolean has( String appName, String permName )
+    public boolean has( String appName, String permClassName )
         throws DataAccessException
     {
-        String rdn = getRelativeDn( appName, permName );
+        String rdn = getRelativeDn( appName, permClassName );
         
         try
         {
@@ -288,43 +309,23 @@ public class LdapPermissionDao implements PermissionDao, LdapDao, Constants
     }
     
     
-    public Iterator permissionNameIterator( String appName ) throws DataAccessException
+    public Iterator permissionClassNameIterator( String contextDn ) throws DataAccessException
     {
-        String base = getRelativeDn( appName );
         SearchControls controls = new SearchControls();
         controls.setSearchScope( SearchControls.ONELEVEL_SCOPE );
         try
         {
-            return new JndiIterator( this, PERM_NAME_ID, ctx.search( base, 
-                "(& (permName=*) (objectClass=policyPermission) )", controls ), appName );
+            return new JndiIterator( this, PERM_CLASS_NAME_ID, ctx.search( contextDn,
+                "(& (permClassName=*) (objectClass=permClass) )", controls ), contextDn );
         }
         catch ( NamingException e )
         {
-            String msg = "Failed to search " + base + " under " + baseUrl;
+            String msg = "Failed to search " + contextDn + " under " + baseUrl;
             log.error( msg, e );
             throw new DataAccessException( msg );
         }
     }
 
-
-    public Iterator permissionIterator( String appName ) throws DataAccessException
-    {
-        String base = getRelativeDn( appName );
-        SearchControls controls = new SearchControls();
-        controls.setReturningAttributes( ATTRIBUTES );
-        controls.setSearchScope( SearchControls.ONELEVEL_SCOPE );
-        try
-        {
-            return new JndiIterator( this, ctx.search( base, 
-                "(& (permName=*) (objectClass=policyPermission) )", controls ), appName );
-        }
-        catch ( NamingException e )
-        {
-            String msg = "Failed to search " + base + " under " + baseUrl;
-            log.error( msg, e );
-            throw new DataAccessException( msg );
-        }
-    }
 
 
     // -----------------------------------------------------------------------
@@ -332,34 +333,24 @@ public class LdapPermissionDao implements PermissionDao, LdapDao, Constants
     // -----------------------------------------------------------------------
 
     
-    private String getRelativeDn( String appName, String permName )
+    private String getRelativeDn( String contextDn, String permName )
     {
         StringBuffer buf = new StringBuffer();
-        buf.append( "permName=" ).append( permName );
-        buf.append( ",ou=Permissions,appName=" ).append( appName );
-        buf.append( ",ou=Applications" );
+        buf.append( "permClassName=" ).append( permName );
+        buf.append(",").append( contextDn );
         return buf.toString();
     }
     
-    
-    private String getRelativeDn( String appName )
-    {
-        StringBuffer buf = new StringBuffer();
-        buf.append( "ou=Permissions,appName=" ).append( appName );
-        buf.append( ",ou=Applications" );
-        return buf.toString();
-    }
-    
+
     
     // -----------------------------------------------------------------------
     // LdapDao method implementations
     // -----------------------------------------------------------------------
 
-    
+    //TODO load grants, denies.
     public Object getEntryObject( Object extra, Attributes attrs )
     {
         String permName = null;
-        String description = null;
         String creatorsName = null;
         Date createTimestamp = null;
         String modifiersName = null;
@@ -367,8 +358,7 @@ public class LdapPermissionDao implements PermissionDao, LdapDao, Constants
         
         try
         {
-            permName = ( String ) attrs.get( PERM_NAME_ID ).get();
-            description = LdapUtils.getSingleValued( DESCRIPTION_ID, attrs );
+            permName = ( String ) attrs.get( PERM_CLASS_NAME_ID ).get();
             creatorsName = LdapUtils.getPrincipal( CREATORS_NAME_ID, attrs );
             createTimestamp = LdapUtils.getDate( CREATE_TIMESTAMP_ID, attrs );
             modifiersName = LdapUtils.getPrincipal( MODIFIERS_NAME_ID, attrs );
@@ -380,8 +370,8 @@ public class LdapPermissionDao implements PermissionDao, LdapDao, Constants
             log.error( msg, e );
         }
         
-        return new Permission( creatorsName, createTimestamp, modifiersName, modifyTimestamp, this, 
-            ( String ) extra, permName, description );
+        return new PermissionClass( creatorsName, createTimestamp, modifiersName, modifyTimestamp, this,
+            permName, null, null );
     }
     
     

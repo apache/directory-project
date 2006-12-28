@@ -52,12 +52,8 @@ public class LdapConnectionDriver implements ConnectionDriver
 
     public boolean accept( String url )
     {
-        if ( url.startsWith( "ldap://" ) )
-        {
-            return true;
-        }
+        return url.startsWith("ldap://");
 
-        return false;
     }
 
     public ApplicationPolicy newStore( String url, Properties info ) throws GuardianException
@@ -91,7 +87,7 @@ public class LdapConnectionDriver implements ConnectionDriver
         env.put( Context.SECURITY_PRINCIPAL, info.get( "applicationPrincipalDN" ) );
         env.put( Context.SECURITY_CREDENTIALS, info.get( "applicationCredentials" ) );
 
-        InitialDirContext ictx = null;
+        InitialDirContext ictx;
         try
         {
             ictx = new InitialDirContext( env );

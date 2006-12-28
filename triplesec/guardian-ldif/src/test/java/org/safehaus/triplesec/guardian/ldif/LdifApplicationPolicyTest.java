@@ -26,9 +26,12 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
+import java.net.URL;
 
 import org.safehaus.triplesec.guardian.ApplicationPolicyFactory;
 import org.safehaus.triplesec.guardian.Profile;
+import org.safehaus.triplesec.guardian.StringPermission;
+import org.safehaus.triplesec.guardian.PermissionsUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +46,7 @@ public class LdifApplicationPolicyTest extends TestCase
 {
     Logger log = LoggerFactory.getLogger( LdifApplicationPolicyTest.class );
     LdifApplicationPolicy policy;
+    private static final String APP_NAME = "mockApplication";
 
 
     public LdifApplicationPolicyTest( String string ) throws Exception
@@ -63,7 +67,8 @@ public class LdifApplicationPolicyTest extends TestCase
         Properties props = new Properties();
         props.setProperty( "applicationPrincipalDN", "appName=mockApplication,ou=applications,dc=example,dc=com" );
         Class.forName( "org.safehaus.triplesec.guardian.ldif.LdifConnectionDriver" );
-        String url = System.getProperty( "ldif.url", "file://src/test/resources/server.ldif" );
+        URL ldifURL = getClass().getClassLoader().getResource("server.ldif");
+        String url = ldifURL.toString();
         log.info( "using url for ldif file: " + url );
         policy = ( LdifApplicationPolicy ) ApplicationPolicyFactory.newInstance( url, props );
     }
@@ -84,12 +89,13 @@ public class LdifApplicationPolicyTest extends TestCase
         {
             ids.add( ii.next() );
         }
-        assertEquals( 5, ids.size() );
+        assertEquals( 6, ids.size() );
         assertTrue( ids.contains( "mockProfile0" ) );
         assertTrue( ids.contains( "mockProfile1" ) );
         assertTrue( ids.contains( "mockProfile2" ) );
         assertTrue( ids.contains( "mockProfile3" ) );
         assertTrue( ids.contains( "mockProfile4" ) );
+        assertTrue( ids.contains( "mockProfile5" ) );
         assertFalse( ids.contains( "bogus" ) );
     }
 
@@ -121,8 +127,8 @@ public class LdifApplicationPolicyTest extends TestCase
     public void testProfile0()
     {
         Profile p = policy.getProfile( "mockProfile0" );
-        assertTrue( p.getEffectivePermissions().isEmpty() );
-        assertEquals( 5, policy.getRoles().size() );
+        assertTrue( PermissionsUtil.isEmpty(p.getEffectiveGrantedPermissions()) );
+        assertEquals( 6, policy.getRoles().size() );
         assertEquals( p, policy.getProfile( "mockProfile0" ) );
     }
 
@@ -130,10 +136,10 @@ public class LdifApplicationPolicyTest extends TestCase
     public void testProfile1()
     {
         Profile p = policy.getProfile( "mockProfile1" );
-        assertEquals( 2, p.getEffectivePermissions().size() );
-        assertTrue( p.hasPermission( "mockPerm0" ) );
-        assertTrue( p.hasPermission( "mockPerm1" ) );
-        assertFalse( p.hasPermission( "mockPerm3") );
+        assertEquals( 2, PermissionsUtil.size(p.getEffectiveGrantedPermissions()) );
+        assertTrue( p.implies( new StringPermission("mockPerm0" )));
+        assertTrue( p.implies( new StringPermission("mockPerm1" )));
+        assertFalse( p.implies( new StringPermission("mockPerm3")));
         assertEquals( p, policy.getProfile( "mockProfile1" ) );
     }
 
@@ -141,10 +147,10 @@ public class LdifApplicationPolicyTest extends TestCase
     public void testProfile2()
     {
         Profile p = policy.getProfile( "mockProfile2" );
-        assertEquals( 2, p.getEffectivePermissions().size() );
-        assertTrue( p.hasPermission( "mockPerm0" ) );
-        assertTrue( p.hasPermission( "mockPerm1" ) );
-        assertFalse( p.hasPermission( "mockPerm3") );
+        assertEquals( 2, PermissionsUtil.size(p.getEffectiveGrantedPermissions()) );
+        assertTrue( p.implies( new StringPermission("mockPerm0" )));
+        assertTrue( p.implies( new StringPermission("mockPerm1" )));
+        assertFalse( p.implies( new StringPermission("mockPerm3")));
         assertEquals( p, policy.getProfile( "mockProfile2" ) );
     }
 
@@ -152,12 +158,12 @@ public class LdifApplicationPolicyTest extends TestCase
     public void testProfile3()
     {
         Profile p = policy.getProfile( "mockProfile3" );
-        assertEquals( 4, p.getEffectivePermissions().size() );
-        assertTrue( p.hasPermission( "mockPerm0" ) );
-        assertTrue( p.hasPermission( "mockPerm7" ) );
-        assertTrue( p.hasPermission( "mockPerm2" ) );
-        assertTrue( p.hasPermission( "mockPerm3" ) );
-        assertFalse( p.hasPermission( "mockPerm4" ) );
+        assertEquals( 4, PermissionsUtil.size(p.getEffectiveGrantedPermissions()) );
+        assertTrue( p.implies( new StringPermission("mockPerm0" )));
+        assertTrue( p.implies( new StringPermission("mockPerm7" )));
+        assertTrue( p.implies( new StringPermission("mockPerm2" )));
+        assertTrue( p.implies( new StringPermission("mockPerm3" )));
+        assertFalse( p.implies( new StringPermission("mockPerm4" )));
         assertEquals( p, policy.getProfile( "mockProfile3" ) );
     }
 
@@ -165,26 +171,46 @@ public class LdifApplicationPolicyTest extends TestCase
     public void testProfile4()
     {
         Profile p = policy.getProfile( "mockProfile4" );
-        assertEquals( 7, p.getEffectivePermissions().size() );
-        assertTrue( p.hasPermission( "mockPerm0" ) );
-        assertFalse( p.hasPermission( "mockPerm1" ) );
-        assertTrue( p.hasPermission( "mockPerm2" ) );
-        assertTrue( p.hasPermission( "mockPerm3" ) );
-        assertTrue( p.hasPermission( "mockPerm4" ) );
-        assertTrue( p.hasPermission( "mockPerm5" ) );
-        assertTrue( p.hasPermission( "mockPerm6" ) );
-        assertFalse( p.hasPermission( "mockPerm7" ) );
-        assertFalse( p.hasPermission( "mockPerm8" ) );
-        assertTrue( p.hasPermission( "mockPerm9" ) );
-        assertFalse( p.hasPermission( "mockPerm14" ) );
+        assertEquals( 8, PermissionsUtil.size(p.getEffectiveGrantedPermissions()) );
+        assertEquals( 1, PermissionsUtil.size(p.getEffectiveDeniedPermissions()) );
+        assertTrue( p.implies( new StringPermission("mockPerm0" )));
+        assertFalse( p.implies( new StringPermission("mockPerm1" )));
+        assertTrue( p.implies( new StringPermission("mockPerm2" )));
+        assertTrue( p.implies( new StringPermission("mockPerm3" )));
+        assertTrue( p.implies( new StringPermission("mockPerm4" )));
+        assertTrue( p.implies( new StringPermission("mockPerm5" )));
+        assertTrue( p.implies( new StringPermission("mockPerm6" )));
+        assertFalse( p.implies( new StringPermission("mockPerm7" )));
+        assertFalse( p.implies( new StringPermission("mockPerm8" )));
+        assertTrue( p.implies( new StringPermission("mockPerm9" )));
+        assertFalse( p.implies( new StringPermission("mockPerm14" )));
         assertEquals( p, policy.getProfile( "mockProfile4" ) );
     }
     
-    
+    public void testProfile5()
+    {
+        Profile p = policy.getProfile( "mockProfile5" );
+        assertEquals( 8, PermissionsUtil.size(p.getEffectiveGrantedPermissions()) );
+        assertEquals( 2, PermissionsUtil.size(p.getEffectiveDeniedPermissions()) );
+        assertTrue( p.implies( new StringPermission("mockPerm0" )));
+        assertFalse( p.implies( new StringPermission("mockPerm1" )));
+        assertTrue( p.implies( new StringPermission("mockPerm2" )));
+        assertTrue( p.implies( new StringPermission("mockPerm3" )));
+        assertTrue( p.implies( new StringPermission("mockPerm4" )));
+        assertTrue( p.implies( new StringPermission("mockPerm5" )));
+        assertFalse( p.implies( new StringPermission("mockPerm6" )));
+        assertFalse( p.implies( new StringPermission("mockPerm7" )));
+        assertFalse( p.implies( new StringPermission("mockPerm8" )));
+        assertTrue( p.implies( new StringPermission("mockPerm9" )));
+        assertFalse( p.implies( new StringPermission("mockPerm14" )));
+        assertEquals( p, policy.getProfile( "mockProfile5" ) );
+    }
+
+
     public void testGetUserProfileIds() 
     {
-        Set ids = policy.getUserProfileIds( "akarasulu" );
-        assertEquals( 5, ids.size() );
+        Set<String> ids = policy.getUserProfileIds( "akarasulu" );
+        assertEquals( 6, ids.size() );
         ids = policy.getUserProfileIds( "trustin" );
         assertEquals( 0, ids.size() );
     }

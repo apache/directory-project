@@ -46,12 +46,13 @@ import javax.swing.tree.DefaultTreeModel;
 import org.safehaus.triplesec.admin.Application;
 import org.safehaus.triplesec.admin.ApplicationModifier;
 import org.safehaus.triplesec.admin.DataAccessException;
-import org.safehaus.triplesec.admin.Permission;
 import org.safehaus.triplesec.admin.Profile;
 import org.safehaus.triplesec.admin.ProfileModifier;
 import org.safehaus.triplesec.admin.Role;
 import org.safehaus.triplesec.admin.RoleModifier;
 import org.safehaus.triplesec.admin.TriplesecAdmin;
+import org.safehaus.triplesec.admin.PermissionClass;
+
 import javax.swing.JPasswordField;
 
 
@@ -113,7 +114,6 @@ public class NewApplicationPanel extends JPanel
     /**
      * This method initializes this
      * 
-     * @return void
      */
     private void initialize()
     {
@@ -249,35 +249,35 @@ public class NewApplicationPanel extends JPanel
         // Iterated and copy app's perms and create in new app
         // -------------------------------------------------------------------
         
-        DefaultMutableTreeNode permsNode = null;
-        DefaultMutableTreeNode newPermsNode = null;
+//        DefaultMutableTreeNode permsNode = null;
+//        DefaultMutableTreeNode newPermsNode = null;
         DefaultTreeModel model = ( DefaultTreeModel ) leftTreeNavigation.getTree().getModel();
-        for ( Enumeration ii = copiedApplicationNode.children(); ii.hasMoreElements(); /**/ )
-        {
-            DefaultMutableTreeNode child = ( DefaultMutableTreeNode ) ii.nextElement();
-            if ( ( ( String ) child.getUserObject() ).equals( "Permissions" ) )
-            {
-                permsNode = child;
-            }
-        }
-        for ( Enumeration ii = newApplicationNode.children(); ii.hasMoreElements(); /**/ )
-        {
-            DefaultMutableTreeNode child = ( DefaultMutableTreeNode ) ii.nextElement();
-            if ( ( ( String ) child.getUserObject() ).equals( "Permissions" ) )
-            {
-                newPermsNode = child;
-            }
-        }
-        for ( Enumeration ii = permsNode.children(); ii.hasMoreElements(); /**/ )
-        {
-            DefaultMutableTreeNode copiedPermissionNode = ( DefaultMutableTreeNode ) ii.nextElement();
-            Permission copiedPermission = ( Permission ) copiedPermissionNode.getUserObject();
-            Permission newPermission = newApplication.modifier()
-                .newPermission( copiedPermission.getName() )
-                .setDescription( copiedPermission.getDescription() ).add();
-            model.insertNodeInto( new DefaultMutableTreeNode( newPermission ), newPermsNode, 0 );
-        }
-        
+//        for ( Enumeration ii = copiedApplicationNode.children(); ii.hasMoreElements(); /**/ )
+//        {
+//            DefaultMutableTreeNode child = ( DefaultMutableTreeNode ) ii.nextElement();
+//            if ( ( ( String ) child.getUserObject() ).equals( "Permissions" ) )
+//            {
+//                permsNode = child;
+//            }
+//        }
+//        for ( Enumeration ii = newApplicationNode.children(); ii.hasMoreElements(); /**/ )
+//        {
+//            DefaultMutableTreeNode child = ( DefaultMutableTreeNode ) ii.nextElement();
+//            if ( ( ( String ) child.getUserObject() ).equals( "Permissions" ) )
+//            {
+//                newPermsNode = child;
+//            }
+//        }
+//        for ( Enumeration ii = permsNode.children(); ii.hasMoreElements(); /**/ )
+//        {
+//            DefaultMutableTreeNode copiedPermissionNode = ( DefaultMutableTreeNode ) ii.nextElement();
+//            Permission copiedPermission = ( Permission ) copiedPermissionNode.getUserObject();
+//            Permission newPermission = newApplication.modifier()
+//                .newPermission( copiedPermission.getName() )
+//                .setDescription( copiedPermission.getDescription() ).add();
+//            model.insertNodeInto( new DefaultMutableTreeNode( newPermission ), newPermsNode, 0 );
+//        }
+//
         // -------------------------------------------------------------------
         // Iterate and copy app's roles and create in new app
         // -------------------------------------------------------------------
@@ -306,9 +306,9 @@ public class NewApplicationPanel extends JPanel
             Role copiedRole = ( Role ) copiedRoleNode.getUserObject();
             RoleModifier modifier = newApplication.modifier().newRole( copiedRole.getName() )
                 .setDescription( copiedRole.getDescription() );
-            for ( Iterator jj = copiedRole.getGrants().iterator(); jj.hasNext(); /**/ )
+            for ( Iterator<PermissionClass> jj = copiedRole.getPermissionClasses().iterator(); jj.hasNext(); /**/ )
             {
-                modifier.addGrant( ( String ) jj.next() );
+                modifier.addPermissionClass(  jj.next() );
             }
             Role newRole = modifier.add();
             model.insertNodeInto( new DefaultMutableTreeNode( newRole ), newRolesNode, 0 );
@@ -343,13 +343,9 @@ public class NewApplicationPanel extends JPanel
             ProfileModifier modifier = newApplication.modifier()
                 .newProfile( copiedProfile.getId(), copiedProfile.getUser() )
                 .setDescription( copiedProfile.getDescription() );
-            for ( Iterator jj = copiedProfile.getGrants().iterator(); jj.hasNext(); /**/ )
+            for ( Iterator<PermissionClass> jj = copiedProfile.getPermissionClasses().iterator(); jj.hasNext(); /**/ )
             {
-                modifier.addGrant( ( String ) jj.next() );
-            }
-            for ( Iterator jj = copiedProfile.getDenials().iterator(); jj.hasNext(); /**/ )
-            {
-                modifier.addDenial( ( String ) jj.next() );
+                modifier.addPermissionClass(  jj.next() );
             }
             for ( Iterator jj = copiedProfile.getRoles().iterator(); jj.hasNext(); /**/ )
             {

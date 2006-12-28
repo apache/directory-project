@@ -22,37 +22,35 @@ package org.safehaus.triplesec.admin.dao;
 
 import java.util.Date;
 import java.util.Iterator;
-
-import javax.naming.directory.ModificationItem;
+import java.util.Set;
 
 import org.safehaus.triplesec.admin.DataAccessException;
-import org.safehaus.triplesec.admin.Permission;
+import org.safehaus.triplesec.admin.PermissionActions;
+import org.safehaus.triplesec.admin.PermissionClass;
 
 
-public interface PermissionDao
+public interface PermissionClassDao
 {
-    public abstract Permission add( String applicationName, String name, String description ) 
+    PermissionClass add( String contextDn, String permClassName, Set<PermissionActions> grants, Set<PermissionActions> denials )
         throws DataAccessException;
 
-    public abstract void delete( String applicationName, String name ) 
+    void delete( String contextDn, String permClassName )
         throws DataAccessException;
 
-    public abstract Permission modify( String creatorsName, Date createTimestamp, String applicationName, 
-        String name, String description, ModificationItem[] mods )
+    PermissionClass modify( String creatorsName, Date createTimestamp, String contextDn,
+        String permClassName )
         throws DataAccessException;
 
-    public abstract Permission rename( String newName, Permission permission )
+    PermissionClass rename(  String contextDn, String newPermClassName, PermissionClass permClass )
         throws DataAccessException;
 
-    public abstract Permission load( String applicationName, String name ) 
+    PermissionClass load( String applicationName, String name )
         throws DataAccessException;
 
-    public abstract boolean has( String applicationName, String name ) 
+    boolean has( String applicationName, String name )
         throws DataAccessException;
 
-    public abstract Iterator permissionNameIterator( String applicationName ) 
+    Iterator permissionClassNameIterator( String applicationName )
         throws DataAccessException;
-    
-    public abstract Iterator permissionIterator( String applicationName ) 
-        throws DataAccessException;
+
 }

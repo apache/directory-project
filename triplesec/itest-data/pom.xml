@@ -24,33 +24,8 @@
     <artifactId>build</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <artifactId>triplesec-guardian-ldif</artifactId>
-  <name>Triplesec Guardian LDIF Driver</name>
-  <description>
-    A driver which uses an LDAP LDIF as the policy store.
-  </description>
+  <artifactId>triplesec-itest-data</artifactId>
+  <name>Triplesec Itest Data</name>
   <packaging>jar</packaging>  
-  <dependencies>
-    <dependency>
-      <artifactId>nlog4j</artifactId>
-      <groupId>org.slf4j</groupId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <artifactId>shared-ldap</artifactId>
-      <groupId>org.apache.directory.shared</groupId>
-    </dependency>
-    <dependency>
-      <artifactId>triplesec-guardian-api</artifactId>
-      <groupId>${pom.groupId}</groupId>
-      <version>${pom.version}</version>
-    </dependency>
-  </dependencies>
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
+
 </project>

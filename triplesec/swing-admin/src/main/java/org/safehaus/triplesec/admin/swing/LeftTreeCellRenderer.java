@@ -32,7 +32,7 @@ import org.safehaus.triplesec.admin.ExternalUser;
 import org.safehaus.triplesec.admin.Group;
 import org.safehaus.triplesec.admin.HauskeysUser;
 import org.safehaus.triplesec.admin.LocalUser;
-import org.safehaus.triplesec.admin.Permission;
+import org.safehaus.triplesec.admin.PermissionClass;
 import org.safehaus.triplesec.admin.Profile;
 import org.safehaus.triplesec.admin.Role;
 
@@ -189,14 +189,14 @@ public class LeftTreeCellRenderer extends DefaultTreeCellRenderer
                 setIcon( applicationContainerClosedIcon );
             }
         }
-        else if ( leaf && isPermission( value ) ) 
+        else if ( leaf && isPermissionClass( value ) )
         {
             setIcon( permissionIcon );
-            Permission permission = getPermission( value );
-            if ( permission.getDescription() != null )
-            {
-                setToolTipText( permission.getDescription() );
-            }
+            PermissionClass permission = getPermission( value );
+//            if ( permission.getDescription() != null )
+//            {
+//                setToolTipText( permission.getDescription() );
+//            }
         }
         else if ( isApplication( value ) )
         {
@@ -357,10 +357,10 @@ public class LeftTreeCellRenderer extends DefaultTreeCellRenderer
     }
 
 
-    private boolean isPermission( Object obj )
+    private boolean isPermissionClass( Object obj )
     {
         DefaultMutableTreeNode node = ( DefaultMutableTreeNode ) obj;
-        if ( node.getUserObject() instanceof Permission )
+        if ( node.getUserObject() instanceof PermissionClass )
         {
             return true;
         }
@@ -401,10 +401,10 @@ public class LeftTreeCellRenderer extends DefaultTreeCellRenderer
     }
     
     
-    private Permission getPermission( Object obj )
+    private PermissionClass getPermission( Object obj )
     {
         DefaultMutableTreeNode node = ( DefaultMutableTreeNode ) obj;
-        return ( Permission ) node.getUserObject();
+        return ( PermissionClass ) node.getUserObject();
     }
     
     

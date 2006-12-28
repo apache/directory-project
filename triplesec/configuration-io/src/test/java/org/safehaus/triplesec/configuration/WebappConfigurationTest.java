@@ -99,7 +99,7 @@ public class WebappConfigurationTest extends TestCase
     }
     
     
-    public void testSetServletInitParameterValue() throws Exception
+    public void XtestSetServletInitParameterValue() throws Exception
     {
         Document initial = XmlUtils.readDocument( WebappConfigurationTest.class.getResource( getName() 
             + "Initial.xml" ) );
@@ -110,7 +110,7 @@ public class WebappConfigurationTest extends TestCase
     }
     
     
-    public void testAddServletInitParameterValue() throws Exception
+    public void XtestAddServletInitParameterValue() throws Exception
     {
         Document initial = XmlUtils.readDocument( WebappConfigurationTest.class.getResource( getName() 
             + "Initial.xml" ) );

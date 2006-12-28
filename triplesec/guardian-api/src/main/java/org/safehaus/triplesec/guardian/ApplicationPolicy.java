@@ -20,6 +20,7 @@
 package org.safehaus.triplesec.guardian;
 
 
+import java.security.Permissions;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -66,11 +67,11 @@ public interface ApplicationPolicy
     Roles getRoles();
     
     /**
-     * Gets a set of {@link Permission}s defined for this store.
+     * Gets a set of {@link StringPermission}s defined for this store.
      * 
-     * @return a set of {@link Permission}s defined for this store.
+     * @return a set of {@link StringPermission}s defined for this store.
      */
-    Permissions getPermissions();
+//    Permissions getPermissions();
     
     /**
      * Gets the names of the profiles dependent on a role. The set contains
@@ -92,7 +93,7 @@ public interface ApplicationPolicy
      * @throws GuardianException if there is an error accessing the backing 
      * store or the permission is not associated with this ApplicationPolicy
      */
-    Set getDependentProfileNames( Permission permission ) throws GuardianException;
+    Set getDependentProfileNames( StringPermission permission ) throws GuardianException;
     
     /**
      * Gets the set of profiles a user has for this ApplicationPolicy.
@@ -127,7 +128,7 @@ public interface ApplicationPolicy
      * 
      * @return the admin user profile with all rights
      */
-    Profile getAdminProfile();
+//    Profile getAdminProfile();
 
     /**
      * Gets a breif description of this ApplicationPolicy.

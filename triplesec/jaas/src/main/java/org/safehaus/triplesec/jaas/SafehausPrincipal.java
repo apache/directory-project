@@ -33,8 +33,9 @@ import org.safehaus.triplesec.guardian.Profile;
  */
 public class SafehausPrincipal implements Principal
 {
+
     /** the Guardian authorization profile for this principal */
-    private Profile profile;
+    private final Profile profile;
 
 
     SafehausPrincipal( Profile profile )

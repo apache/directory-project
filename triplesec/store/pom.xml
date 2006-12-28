@@ -30,6 +30,12 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
+      <artifactId>triplesec-itest-data</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
       <artifactId>triplesec-testdata</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>

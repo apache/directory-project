@@ -140,8 +140,10 @@ public abstract class DaoFactory
     }
     
     
-    public abstract PermissionDao getPermissionDao() throws DataAccessException;
+    public abstract PermissionClassDao getPermissionClassDao() throws DataAccessException;
     
+    public abstract PermissionActionsDao getPermissionActionsDao() throws DataAccessException;
+
     public abstract ApplicationDao getApplicationDao() throws DataAccessException;
 
     public abstract RoleDao getRoleDao() throws DataAccessException;

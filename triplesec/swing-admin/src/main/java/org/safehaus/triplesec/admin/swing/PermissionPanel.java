@@ -39,8 +39,8 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import org.safehaus.triplesec.admin.DataAccessException;
-import org.safehaus.triplesec.admin.Permission;
-import org.safehaus.triplesec.admin.PermissionModifier;
+import org.safehaus.triplesec.admin.PermissionClass;
+//import org.safehaus.triplesec.admin.PermissionModifier;
 
 
 public class PermissionPanel extends JPanel
@@ -75,7 +75,6 @@ public class PermissionPanel extends JPanel
     /**
      * This method initializes this
      * 
-     * @return void
      */
     private void initialize()
     {
@@ -147,7 +146,7 @@ public class PermissionPanel extends JPanel
             {
                 public void actionPerformed( java.awt.event.ActionEvent e )
                 {
-                    setPermissionFields();
+//                    setPermissionFields();
                 }
             } );
         }
@@ -403,16 +402,16 @@ public class PermissionPanel extends JPanel
     }
 
 
-    private void setPermissionFields()
-    {
-        generalPanel.setFields( permission );
-        applicationNameTextField.setText( permission.getApplicationName() );
-        permissionNameTextField.setText( permission.getName() );
-        descriptionTextArea.setText( permission.getDescription() );
-    }
+//    private void setPermissionFields()
+//    {
+//        generalPanel.setFields( permissionClass );
+//        applicationNameTextField.setText( permissionClass.getApplicationName() );
+//        permissionNameTextField.setText( permissionClass.getName() );
+//        descriptionTextArea.setText( permissionClass.getDescription() );
+//    }
 
     private JTree tree = null;
-    private Permission permission = null;
+    private PermissionClass permissionClass = null;
     private DefaultMutableTreeNode node = null;
     private JLabel jLabel = null;
     private JTextField statusTextField = null;
@@ -432,8 +431,8 @@ public class PermissionPanel extends JPanel
     public void setTreeNode( DefaultMutableTreeNode node )
     {
         this.node = node;
-        this.permission = ( Permission ) node.getUserObject();
-        setPermissionFields();
+        this.permissionClass = ( PermissionClass ) node.getUserObject();
+//        setPermissionFields();
         this.permissionDependentsPanel.setSelectedNode( node );
     }
 
@@ -456,40 +455,40 @@ public class PermissionPanel extends JPanel
 
     public void saveAction()
     {
-        PermissionModifier modifier = permission.modifier().setDescription( descriptionTextArea.getText() );
-        if ( modifier.isUpdateNeeded() )
+//        PermissionModifier modifier = permissionClass.modifier().setDescription( descriptionTextArea.getText() );
+//        if ( modifier.isUpdateNeeded() )
+//        {
+//            try
+//            {
+//                permissionClass = modifier.modify();
+//            }
+//            catch ( DataAccessException e )
+//            {
+//                JOptionPane.showMessageDialog( this, UiUtils.wrap( "Failed to modify permissionClass:\n" + e.getMessage(),
+//                    79 ), "Permission modification failure!", JOptionPane.ERROR_MESSAGE );
+//                return;
+//            }
+//            node.setUserObject( permissionClass );
+//        }
+//
+        if ( !permissionClass.getPermissionClassName().equals( permissionNameTextField.getText() ) )
         {
-            try
-            {
-                permission = modifier.modify();
-            }
-            catch ( DataAccessException e )
-            {
-                JOptionPane.showMessageDialog( this, UiUtils.wrap( "Failed to modify permission:\n" + e.getMessage(),
-                    79 ), "Permission modification failure!", JOptionPane.ERROR_MESSAGE );
-                return;
-            }
-            node.setUserObject( permission );
+//            try
+//            {
+//                permissionClass = permissionClass.modifier().rename( permissionNameTextField.getText() );
+//                ( ( DefaultTreeModel ) tree.getModel() ).valueForPathChanged( new TreePath( node.getPath() ),
+//                    permissionClass );
+//            }
+//            catch ( DataAccessException e )
+//            {
+//                JOptionPane.showMessageDialog( this, UiUtils.wrap( "Failed to rename permissionClass:\n" + e.getMessage(),
+//                    79 ), "Permission rename failure!", JOptionPane.ERROR_MESSAGE );
+//                return;
+//            }
         }
 
-        if ( !permission.getName().equals( permissionNameTextField.getText() ) )
-        {
-            try
-            {
-                permission = permission.modifier().rename( permissionNameTextField.getText() );
-                ( ( DefaultTreeModel ) tree.getModel() ).valueForPathChanged( new TreePath( node.getPath() ),
-                    permission );
-            }
-            catch ( DataAccessException e )
-            {
-                JOptionPane.showMessageDialog( this, UiUtils.wrap( "Failed to rename permission:\n" + e.getMessage(),
-                    79 ), "Permission rename failure!", JOptionPane.ERROR_MESSAGE );
-                return;
-            }
-        }
-
-        node.setUserObject( permission );
-        setPermissionFields();
+        node.setUserObject( permissionClass );
+//        setPermissionFields();
     }
 
 
@@ -555,21 +554,21 @@ public class PermissionPanel extends JPanel
             {
                 public void actionPerformed( java.awt.event.ActionEvent e )
                 {
-                    try
-                    {
-                        permission.modifier().delete();
+//                    try
+//                    {
+//                        permissionClass.modifier().delete();
                         DefaultMutableTreeNode parentNode = ( DefaultMutableTreeNode ) node.getParent();
                         DefaultTreeModel treeModel = ( DefaultTreeModel ) tree.getModel();
                         treeModel.removeNodeFromParent( node );
                         TreePath path = new TreePath( parentNode.getPath() );
                         tree.setSelectionPaths( new TreePath[] { path } );
-                    }
-                    catch ( DataAccessException e1 )
-                    {
-                        JOptionPane.showMessageDialog( PermissionPanel.this, 
-                            "Failed to delete permission: " + e1.getMessage(), "Delete Failed", 
-                            JOptionPane.ERROR_MESSAGE );
-                    }
+//                    }
+//                    catch ( DataAccessException e1 )
+//                    {
+//                        JOptionPane.showMessageDialog( PermissionPanel.this,
+//                            "Failed to delete permissionClass: " + e1.getMessage(), "Delete Failed",
+//                            JOptionPane.ERROR_MESSAGE );
+//                    }
                 }
             } );
         }

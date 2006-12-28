@@ -47,7 +47,9 @@ import org.safehaus.triplesec.admin.DataAccessException;
 import org.safehaus.triplesec.admin.EntryAlreadyExistsException;
 import org.safehaus.triplesec.admin.NoSuchEntryException;
 import org.safehaus.triplesec.admin.Profile;
+import org.safehaus.triplesec.admin.PermissionClass;
 import org.safehaus.triplesec.admin.dao.ProfileDao;
+import org.safehaus.triplesec.admin.dao.PermissionClassDao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,15 +59,16 @@ public class LdapProfileDao implements ProfileDao, LdapDao, Constants
 {
     private static final Logger log = LoggerFactory.getLogger( LdapProfileDao.class );
     private static final String[] ATTRIBUTES = new String[] {
-        PROFILEID_ID, DESCRIPTION_ID, USER_ID, GRANTS_ID, DENIALS_ID, ROLES_ID, PASSWORD_ID,
+        PROFILEID_ID, DESCRIPTION_ID, USER_ID, PERM_CLASS_NAME_ID, ROLES_ID, PASSWORD_ID,
         CREATORS_NAME_ID, CREATE_TIMESTAMP_ID, MODIFIERS_NAME_ID, MODIFY_TIMESTAMP_ID
     };
     private final DirContext ctx;
     private final String baseUrl;
     private final String principalName;
+    private final PermissionClassDao permissionClassDao;
     
     
-    public LdapProfileDao( DirContext ctx ) throws DataAccessException
+    public LdapProfileDao( DirContext ctx, PermissionClassDao permissionClassDao) throws DataAccessException
     {
         this.ctx = ctx;
         String name = null;
@@ -94,6 +97,7 @@ public class LdapProfileDao implements ProfileDao, LdapDao, Constants
             baseUrl = name;
             principalName = principal;
         }
+        this.permissionClassDao = permissionClassDao;
     }
 
 
@@ -141,17 +145,16 @@ public class LdapProfileDao implements ProfileDao, LdapDao, Constants
     {
         String description;
         String user;
-        Set roles;
-        Set grants;
-        Set denials;
+        Set<String> roles;
+        Set<PermissionClass> permissionClasses = new HashSet<PermissionClass>();
         String rdn = getRelativeDn( appName, profileId );
-        Attributes attrs = null;
+        Attributes attrs;
         
         String creatorsName;
         String modifiersName;
         Date createTimestamp;
         Date modifyTimestamp;
-        boolean disabled = false;
+        boolean disabled;
         
         try
         {
@@ -159,14 +162,16 @@ public class LdapProfileDao implements ProfileDao, LdapDao, Constants
             user = LdapUtils.getSingleValued( USER_ID, attrs );
             description = LdapUtils.getSingleValued( DESCRIPTION_ID, attrs );
             roles = getMultiValued( ROLES_ID, attrs );
-            grants = getMultiValued( GRANTS_ID, attrs );
-            denials = getMultiValued( DENIALS_ID, attrs );
             disabled = LdapUtils.getBoolean( SAFEHAUS_DISABLED_ID, attrs, false );
             
             creatorsName = LdapUtils.getPrincipal( CREATORS_NAME_ID, attrs );
             modifiersName = LdapUtils.getPrincipal( MODIFIERS_NAME_ID, attrs );
             createTimestamp = LdapUtils.getDate( CREATE_TIMESTAMP_ID, attrs );
             modifyTimestamp = LdapUtils.getDate( MODIFY_TIMESTAMP_ID, attrs );
+
+            for (Iterator iterator = permissionClassDao.permissionClassNameIterator(rdn); iterator.hasNext(); ) {
+                permissionClasses.add((PermissionClass) iterator.next());
+            }
         }
         catch ( NameNotFoundException e )
         {
@@ -182,12 +187,12 @@ public class LdapProfileDao implements ProfileDao, LdapDao, Constants
         }
         
         return new Profile( creatorsName, createTimestamp, modifiersName, modifyTimestamp, this, 
-            appName, profileId, user, description, grants, denials, roles, disabled );
+            appName, profileId, user, description, permissionClasses, roles, disabled );
     }
 
 
-    public Profile add( String appName, String profileId, String user, String description, Set grants, Set denials,
-        Set roles ) throws DataAccessException
+    public Profile add( String appName, String profileId, String user, String description, Set<PermissionClass> permissionClasses,
+        Set<String> roles ) throws DataAccessException
     {
         BasicAttributes attrs = new BasicAttributes( OBJECT_CLASS_ID, POLICY_PROFILE_OC, true );
         attrs.put( PROFILEID_ID, profileId );
@@ -197,15 +202,18 @@ public class LdapProfileDao implements ProfileDao, LdapDao, Constants
             attrs.put( DESCRIPTION_ID, description );
         }
         addMultiValued( ROLES_ID, attrs, roles );
-        addMultiValued( GRANTS_ID, attrs, grants );
-        addMultiValued( DENIALS_ID, attrs, denials );
 
         String rdn = getRelativeDn( appName, profileId );
+
+        for (PermissionClass permissionClass : permissionClasses) {
+            permissionClassDao.add(rdn, permissionClass.getPermissionClassName(), permissionClass.getGrants(), permissionClass.getDenials());
+        }
+
         try
         {
             ctx.createSubcontext( rdn, attrs );
             return new Profile( principalName, new Date( System.currentTimeMillis() ), this, appName, 
-                profileId, user, description, grants, denials, roles );
+                profileId, user, description, permissionClasses, roles );
         }
         catch ( NameAlreadyBoundException e )
         {
@@ -258,14 +266,14 @@ public class LdapProfileDao implements ProfileDao, LdapDao, Constants
         
         return new Profile( profile.getCreatorsName(), profile.getCreateTimestamp(), principalName, 
             new Date( System.currentTimeMillis() ), this, profile.getApplicationName(), newProfileId, 
-            profile.getUser(), profile.getDescription(), profile.getGrants(), 
-            profile.getDenials(), profile.getRoles(), profile.isDisabled() );
+            profile.getUser(), profile.getDescription(), profile.getPermissionClasses(),
+            profile.getRoles(), profile.isDisabled() );
     }
 
 
     public Profile modify( String creatorsName, Date createTimestamp, String appName, String profileId, 
-        String user, String description, Set grants, Set denials,
-        Set roles, boolean disabled, ModificationItem[] mods ) throws DataAccessException
+        String user, String description, Set<PermissionClass> permissionClasses,
+        Set<String> roles, boolean disabled, ModificationItem[] mods ) throws DataAccessException
     {
         String rdn = getRelativeDn( appName, profileId );
         
@@ -294,7 +302,7 @@ public class LdapProfileDao implements ProfileDao, LdapDao, Constants
         }
         
         return new Profile( creatorsName, createTimestamp, principalName, new Date( System.currentTimeMillis() ), 
-            this, appName, profileId, user, description, grants, denials, roles, disabled );
+            this, appName, profileId, user, description, permissionClasses, roles, disabled );
     }
 
 
@@ -346,15 +354,15 @@ public class LdapProfileDao implements ProfileDao, LdapDao, Constants
     }
     
     
-    private Set getMultiValued( String id, Attributes attrs ) throws NamingException 
+    private Set<String> getMultiValued( String id, Attributes attrs ) throws NamingException
     {
-        Set values = Collections.EMPTY_SET;
+        Set<String> values = Collections.EMPTY_SET;
         if ( attrs.get( id ) != null )
         {
-            values = new HashSet();
+            values = new HashSet<String>();
             for ( NamingEnumeration ii = attrs.get( id ).getAll(); ii.hasMore(); /**/ )
             {
-                values.add( ii.next() );
+                values.add( (String) ii.next() );
             }
             return Collections.unmodifiableSet( values );
         }
@@ -388,7 +396,7 @@ public class LdapProfileDao implements ProfileDao, LdapDao, Constants
     }
     
 
-    private void addMultiValued( String id, Attributes attrs, Set values )
+    private void addMultiValued( String id, Attributes attrs, Set<String> values )
     {
         if ( values == null )
         {
@@ -397,9 +405,8 @@ public class LdapProfileDao implements ProfileDao, LdapDao, Constants
         if ( ! values.isEmpty() )
         {
             BasicAttribute attr = new BasicAttribute( id );
-            for ( Iterator ii = values.iterator(); ii.hasNext(); /**/ )
-            {
-                attr.add( ii.next() );
+            for (Object value : values) {
+                attr.add(value);
             }
             attrs.put( attr );
         }
@@ -416,10 +423,8 @@ public class LdapProfileDao implements ProfileDao, LdapDao, Constants
         String profileId = null;
         String user = null;
         String description = null;
-        Set roles = Collections.EMPTY_SET;
-        Set grants = Collections.EMPTY_SET;
-        Set denials = Collections.EMPTY_SET;
-        
+        Set<String> roles = Collections.EMPTY_SET;
+
         String creatorsName = null;
         String modifiersName = null;
         Date createTimestamp = null;
@@ -432,8 +437,6 @@ public class LdapProfileDao implements ProfileDao, LdapDao, Constants
             user =  ( String ) attrs.get( USER_ID ).get();
             description = getSingleValued( DESCRIPTION_ID, attrs );
             roles = getMultiValued( ROLES_ID, attrs );
-            grants = getMultiValued( GRANTS_ID, attrs );
-            denials = getMultiValued( DENIALS_ID, attrs );
             disabled = LdapUtils.getBoolean( SAFEHAUS_DISABLED_ID, attrs, false );
             
             creatorsName = LdapUtils.getPrincipal( CREATORS_NAME_ID, attrs );
@@ -448,7 +451,7 @@ public class LdapProfileDao implements ProfileDao, LdapDao, Constants
         }
         
         return new Profile( creatorsName, createTimestamp, modifiersName, modifyTimestamp, this, 
-            ( String ) extra, profileId, user, description, grants, denials, roles, disabled );
+            ( String ) extra, profileId, user, description, new HashSet<PermissionClass>(), roles, disabled );
     }
 
 

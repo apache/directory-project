@@ -46,6 +46,7 @@ import org.safehaus.triplesec.admin.DataAccessException;
 import org.safehaus.triplesec.admin.Profile;
 import org.safehaus.triplesec.admin.ProfileModifier;
 import org.safehaus.triplesec.admin.User;
+import org.safehaus.triplesec.admin.PermissionClass;
 
 import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
@@ -101,7 +102,6 @@ public class ProfilePanel extends JPanel
     /**
      * This method initializes this
      * 
-     * @return void
      */
     private void initialize()
     {
@@ -462,10 +462,10 @@ public class ProfilePanel extends JPanel
         // load the grants, denials and roles into respective panels
         // -------------------------------------------------------------------
 
-        Set grants = profile.getGrants();
-        profileGrantsPanel.populateLists( applicationNode, grants );
-        Set denials = profile.getDenials();
-        profileDenialsPanel.populateLists( applicationNode, denials );
+        Set<PermissionClass> grants = profile.getPermissionClasses();
+//        profileGrantsPanel.populateLists( applicationNode, grants );
+//        Set denials = profile.getDenials();
+//        profileDenialsPanel.populateLists( applicationNode, denials );
         Set roles = profile.getRoles();
         profileRolesPanel.populateLists( applicationNode, roles );
 
@@ -551,23 +551,23 @@ public class ProfilePanel extends JPanel
         ProfileModifier modifier = profile.modifier().setDescription( descriptionTextArea.getText() );
         modifier.setUser( ( String ) usersComboBox.getSelectedItem() );
         modifier.setDisable( disabledCheckBox.isSelected() );
-        for ( Enumeration ii = profileGrantsPanel.getAvailableModel().elements(); ii.hasMoreElements(); /**/)
-        {
-            modifier.removeGrant( ( String ) ii.nextElement() );
-        }
-        for ( Enumeration ii = profileGrantsPanel.getExistingModel().elements(); ii.hasMoreElements(); /**/)
-        {
-            modifier.addGrant( ( String ) ii.nextElement() );
-        }
-
-        for ( Enumeration ii = profileDenialsPanel.getAvailableModel().elements(); ii.hasMoreElements(); /**/)
-        {
-            modifier.removeDenial( ( String ) ii.nextElement() );
-        }
-        for ( Enumeration ii = profileDenialsPanel.getExistingModel().elements(); ii.hasMoreElements(); /**/)
-        {
-            modifier.addDenial( ( String ) ii.nextElement() );
-        }
+//        for ( Enumeration ii = profileGrantsPanel.getAvailableModel().elements(); ii.hasMoreElements(); /**/)
+//        {
+//            modifier.removeGrant( ( String ) ii.nextElement() );
+//        }
+//        for ( Enumeration ii = profileGrantsPanel.getExistingModel().elements(); ii.hasMoreElements(); /**/)
+//        {
+//            modifier.addGrant( ( String ) ii.nextElement() );
+//        }
+//
+//        for ( Enumeration ii = profileDenialsPanel.getAvailableModel().elements(); ii.hasMoreElements(); /**/)
+//        {
+//            modifier.removeDenial( ( String ) ii.nextElement() );
+//        }
+//        for ( Enumeration ii = profileDenialsPanel.getExistingModel().elements(); ii.hasMoreElements(); /**/)
+//        {
+//            modifier.addDenial( ( String ) ii.nextElement() );
+//        }
 
         for ( Enumeration ii = profileRolesPanel.getAvailableRolesModel().elements(); ii.hasMoreElements(); /**/)
         {

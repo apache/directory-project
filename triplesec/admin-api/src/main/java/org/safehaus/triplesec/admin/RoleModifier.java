@@ -37,7 +37,7 @@ public class RoleModifier implements Constants
     private final String name;
     private final String applicationName;
     private SingleValuedField description;
-    private MultiValuedField grants;
+    private MultiValuedField<PermissionClass> permissionClasses;
     private boolean persisted = false;
     
     
@@ -48,7 +48,7 @@ public class RoleModifier implements Constants
         this.applicationName = applicationName;
         this.name = name;
         this.description = new SingleValuedField( DESCRIPTION_ID, null );
-        this.grants = new MultiValuedField( GRANTS_ID, Collections.EMPTY_SET );
+        this.permissionClasses = new MultiValuedField<PermissionClass>( PERM_CLASS_NAME_ID, Collections.EMPTY_SET );
     }
     
     
@@ -59,7 +59,7 @@ public class RoleModifier implements Constants
         this.applicationName = archetype.getApplicationName();
         this.name = archetype.getName();
         this.description = new SingleValuedField( DESCRIPTION_ID, archetype.getDescription() );
-        this.grants = new MultiValuedField( GRANTS_ID, archetype.getGrants() );
+        this.permissionClasses = new MultiValuedField<PermissionClass>( PERM_CLASS_NAME_ID, archetype.getPermissionClasses() );
     }
     
     
@@ -70,26 +70,26 @@ public class RoleModifier implements Constants
     }
 
     
-    public RoleModifier addGrant( String grant )
+    public RoleModifier addPermissionClass( PermissionClass permissionClass )
     {
-        if ( grant == null )
+        if ( permissionClass == null )
         {
             return this;
         }
 
-        grants.addValue( grant );
+        permissionClasses.addValue( permissionClass );
         return this;
     }
     
     
-    public RoleModifier removeGrant( String grant )
+    public RoleModifier removePermissionClass( PermissionClass permissionClass )
     {
-        if ( grant == null )
+        if ( permissionClass == null )
         {
             return this;
         }
 
-        grants.removeValue( grant );
+        permissionClasses.removeValue( permissionClass );
         return this;
     }
     
@@ -108,9 +108,9 @@ public class RoleModifier implements Constants
         }
         
         List mods = new ArrayList();
-        if ( grants.isUpdateNeeded() )
+        if ( permissionClasses.isUpdateNeeded() )
         {
-            mods.add( grants.getModificationItem() );
+            mods.add( permissionClasses.getModificationItem() );
         }
         if ( description.isUpdateNeeded() )
         {
@@ -135,7 +135,7 @@ public class RoleModifier implements Constants
     
     public boolean isUpdateNeeded()
     {
-        return grants.isUpdateNeeded() || description.isUpdateNeeded();
+        return permissionClasses.isUpdateNeeded() || description.isUpdateNeeded();
     }
     
     
@@ -151,7 +151,7 @@ public class RoleModifier implements Constants
         {
             throw new IllegalStateException( INVALID_MSG );
         }
-        Role role = dao.add( applicationName, name, description.getCurrentValue(), grants.getCurrentValues() );
+        Role role = dao.add( applicationName, name, description.getCurrentValue(), permissionClasses.getCurrentValues() );
         persisted = true;
         return role;
     }
@@ -183,7 +183,7 @@ public class RoleModifier implements Constants
             throw new IllegalStateException( INVALID_MSG );
         }
         Role role = dao.modify( archetype.getCreatorsName(), archetype.getCreateTimestamp(), applicationName, 
-            name, description.getCurrentValue(), grants.getCurrentValues(), getModificationItems() );
+            name, description.getCurrentValue(), permissionClasses.getCurrentValues(), getModificationItems() );
         persisted = true;
         return role;
     }

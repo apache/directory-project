@@ -246,56 +246,33 @@ public class Roles implements Cloneable, Serializable
     }
 
     
-    public Roles getDependentRoles( String permName )
-    {
-        List dependents = new ArrayList();
-        for ( Iterator ii = this.roles.values().iterator(); ii.hasNext(); /**/ )
-        {
-            Role role = ( Role ) ii.next(); 
-            if ( role.hasPermission( permName ) )
-            {
-                dependents.add( role );
-            }
-        }
-        
-        if ( dependents.size() == 0 )
-        {
-            return new Roles( getApplicationName(), EMPTY_ROLE_ARRAY );
-        }
-        
-        Role[] roleArray = new Role[dependents.size()];
-        dependents.toArray( roleArray );
-        return new Roles( getApplicationName(), roleArray );
-    }
-    
-    
-    public Roles getDependentRoles( Permission perm )
-    {
-        if ( ! perm.getApplicationName().equals( getApplicationName() ) )
-        {
-            throw new IllegalArgumentException( "The permission '" + perm.getName() + "' is not " +
-                    "\nassociated with this application.  It is associated with " + perm.getApplicationName() );
-        }
-        
-        List dependents = new ArrayList();
-        for ( Iterator ii = this.roles.values().iterator(); ii.hasNext(); /**/ )
-        {
-            Role role = ( Role ) ii.next(); 
-            if ( role.hasPermission( perm ) )
-            {
-                dependents.add( role );
-            }
-        }
-        
-        if ( dependents.size() == 0 )
-        {
-            return new Roles( getApplicationName(), EMPTY_ROLE_ARRAY );
-        }
-        
-        Role[] roleArray = new Role[dependents.size()];
-        dependents.toArray( roleArray );
-        return new Roles( getApplicationName(), roleArray );
-    }
+//    public Roles getDependentRoles( StringPermission perm )
+//    {
+//        if ( ! perm.getApplicationName().equals( getApplicationName() ) )
+//        {
+//            throw new IllegalArgumentException( "The permission '" + perm.getName() + "' is not " +
+//                    "\nassociated with this application.  It is associated with " + perm.getApplicationName() );
+//        }
+//
+//        List dependents = new ArrayList();
+//        for ( Iterator ii = this.roles.values().iterator(); ii.hasNext(); /**/ )
+//        {
+//            Role role = ( Role ) ii.next();
+//            if ( role.hasPermission( perm ) )
+//            {
+//                dependents.add( role );
+//            }
+//        }
+//
+//        if ( dependents.size() == 0 )
+//        {
+//            return new Roles( getApplicationName(), EMPTY_ROLE_ARRAY );
+//        }
+//
+//        Role[] roleArray = new Role[dependents.size()];
+//        dependents.toArray( roleArray );
+//        return new Roles( getApplicationName(), roleArray );
+//    }
     
 
     // ------------------------------------------------------------------------

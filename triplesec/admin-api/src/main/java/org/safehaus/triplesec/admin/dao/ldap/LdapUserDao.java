@@ -81,7 +81,7 @@ public class LdapUserDao extends AbstractLdapDao implements UserDao, Constants
         }
         catch ( NoPermissionException e )
         {
-            String msg = "User load failed. Permission denied.";
+            String msg = "User load failed. StringPermission denied.";
             log.error( msg, e );
             throw new PermissionDeniedException( msg );
         }
@@ -111,7 +111,7 @@ public class LdapUserDao extends AbstractLdapDao implements UserDao, Constants
         }
         catch ( NoPermissionException e )
         {
-            String msg = "User lookup failed. Permission denied.";
+            String msg = "User lookup failed. StringPermission denied.";
             log.error( msg, e );
             throw new PermissionDeniedException( msg );
         }

@@ -30,25 +30,25 @@ public class PermissionTest extends AbstractEntityTest
 
     protected Object newInstanceA1()
     {
-        return new Permission( "app1", "perm1" );
+        return new StringPermission("perm1" );
     }
 
 
     protected Object newInstanceA2()
     {
-        return new Permission( "app1", "perm1" );
+        return new StringPermission("perm1" );
     }
 
 
     protected Object newInstanceB1()
     {
-        return new Permission( "app1", "perm2" );
+        return new StringPermission("perm2" );
     }
 
 
     protected Object newInstanceB2()
     {
-        return new Permission( "app2", "perm1" );
+        return new StringPermission("perm2" );
     }
 
 
@@ -56,49 +56,47 @@ public class PermissionTest extends AbstractEntityTest
     {
         try
         {
-            new Permission( "test", null );
+            new StringPermission(null );
             fail( "Exception is not thrown." );
         }
         catch ( NullPointerException e )
         {
             // OK
         }
-        try
-        {
-            new Permission( null, "test" );
-            fail( "Exception is not thrown." );
-        }
-        catch ( NullPointerException e )
-        {
-            // OK
-        }
-        try
-        {
-            new Permission( "test", "" );
-            fail( "Exception is not thrown." );
-        }
-        catch ( IllegalArgumentException e )
-        {
-            // OK
-        }
-        try
-        {
-            new Permission( "", "test" );
-            fail( "Exception is not thrown." );
-        }
-        catch ( IllegalArgumentException e )
-        {
-            // OK
-        }
+//        try
+//        {
+//            new StringPermission("test" );
+//            fail( "Exception is not thrown." );
+//        }
+//        catch ( NullPointerException e )
+//        {
+//            // OK
+//        }
+//        try
+//        {
+//            new StringPermission("" );
+//            fail( "Exception is not thrown." );
+//        }
+//        catch ( IllegalArgumentException e )
+//        {
+//            // OK
+//        }
+//        try
+//        {
+//            new StringPermission("test" );
+//            fail( "Exception is not thrown." );
+//        }
+//        catch ( IllegalArgumentException e )
+//        {
+//            // OK
+//        }
     }
 
 
     public void testPropeties()
     {
-        Permission p = new Permission( "a", "b", "c" );
-        assertEquals( "a", p.getApplicationName() );
+        StringPermission p = new StringPermission("b");
         assertEquals( "b", p.getName() );
-        assertEquals( "c", p.getDescription() );
     }
 
 

@@ -140,33 +140,33 @@ objectclass ( 1.2.6.1.4.1.22555.1.1.1.4.201 NAME 'policyUser'
     MUST ( uid )
     MAY  ( userPassword $ description $ safehausDisabled ) )
 
-attributetype ( 1.2.6.1.4.1.22555.1.1.1.3.201
-        NAME 'permName'
-        DESC 'the case sensitive name of a permission within the system'
-        EQUALITY caseExactMatch
-        SUBSTR caseExactSubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE )
+#attributetype ( 1.2.6.1.4.1.22555.1.1.1.3.201
+#        NAME 'permName'
+#        DESC 'the case sensitive name of a permission within the system'
+#        EQUALITY caseExactMatch
+#        SUBSTR caseExactSubstringsMatch
+#        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE )
 
-objectclass ( 1.2.6.1.4.1.22555.1.1.1.4.202 NAME 'policyPermission'
-    SUP top
-    AUXILIARY
-    MUST ( permName )
-    MAY ( description )
-    )
+#objectclass ( 1.2.6.1.4.1.22555.1.1.1.4.202 NAME 'policyPermission'
+#    SUP top
+#    AUXILIARY
+#    MUST ( permName )
+#    MAY ( description )
+#    )
 
-attributetype ( 1.2.6.1.4.1.22555.1.1.1.3.202
-        NAME 'grants'
-        DESC 'the permissions granted to a role or a profile'
-        EQUALITY caseExactMatch
-        SUBSTR caseExactSubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+#attributetype ( 1.2.6.1.4.1.22555.1.1.1.3.202
+#        NAME 'grants'
+#        DESC 'the permissions granted to a role or a profile'
+#        EQUALITY caseExactMatch
+#        SUBSTR caseExactSubstringsMatch
+#        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
 
-attributetype ( 1.2.6.1.4.1.22555.1.1.1.3.203
-        NAME 'denials'
-        DESC 'the permissions denied for a profile'
-        EQUALITY caseExactMatch
-        SUBSTR caseExactSubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+#attributetype ( 1.2.6.1.4.1.22555.1.1.1.3.203
+#        NAME 'denials'
+#        DESC 'the permissions denied for a role or a profile'
+#        EQUALITY caseExactMatch
+#        SUBSTR caseExactSubstringsMatch
+#        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
 
 attributetype ( 1.2.6.1.4.1.22555.1.1.1.3.204
         NAME 'roleName'
@@ -200,11 +200,58 @@ objectclass ( 1.2.6.1.4.1.22555.1.1.1.4.203 NAME 'policyRole'
     SUP top
     AUXILIARY
     MUST ( roleName )
-    MAY  ( grants $ description ) )
+    MAY  ( description ) )
 
 objectclass ( 1.2.6.1.4.1.22555.1.1.1.4.204 NAME 'policyProfile'
     SUP top
     AUXILIARY
     MUST ( profileId $ user )
-    MAY  ( grants $ denials $ roles $ userPassword $ description $ safehausDisabled ) )
+    MAY  ( roles $ userPassword $ description $ safehausDisabled ) )
 
+attributetype ( 1.2.6.1.4.1.22555.1.1.1.3.208
+        NAME 'permClassName'
+        DESC 'java class for a set of permission'
+        EQUALITY caseExactMatch
+        SUBSTR caseExactSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+
+attributetype ( 1.2.6.1.4.1.22555.1.1.1.3.209
+        NAME 'grant'
+        DESC 'name for a granted permission'
+        EQUALITY caseExactMatch
+        SUBSTR caseExactSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+
+attributetype ( 1.2.6.1.4.1.22555.1.1.1.3.210
+        NAME 'deny'
+        DESC 'name for a denied permission'
+        EQUALITY caseExactMatch
+        SUBSTR caseExactSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+
+attributetype ( 1.2.6.1.4.1.22555.1.1.1.3.211
+        NAME 'action'
+        DESC 'action for a permission'
+        EQUALITY caseExactMatch
+        SUBSTR caseExactSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+
+objectclass ( 1.2.6.1.4.1.22555.1.1.1.4.205 NAME 'permClass'
+    SUP top
+    AUXILIARY
+    MUST ( permClassName )
+    )
+
+objectclass ( 1.2.6.1.4.1.22555.1.1.1.4.206 NAME 'permGrant'
+    SUP top
+    AUXILIARY
+    MUST ( grant )
+    MAY  ( action )
+    )
+
+objectclass ( 1.2.6.1.4.1.22555.1.1.1.4.207 NAME 'permDeny'
+    SUP top
+    AUXILIARY
+    MUST ( deny )
+    MAY  ( action )
+    )

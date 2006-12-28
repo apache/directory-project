@@ -221,8 +221,8 @@
         <value>uid</value>
         <value>profileId</value>
         <value>roles</value>
-        <value>grants</value>
-        <value>denials</value>
+        <!--<value>grants</value>-->
+        <!--<value>denials</value>-->
         <value>krb5PrincipalName</value>
       </set>
     </property>

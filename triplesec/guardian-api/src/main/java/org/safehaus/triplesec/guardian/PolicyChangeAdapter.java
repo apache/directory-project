@@ -40,12 +40,12 @@ public class PolicyChangeAdapter implements PolicyChangeListener
     }
 
 
-    public void permissionChanged( ApplicationPolicy policy, Permission permission, ChangeType changeType )
+    public void permissionChanged( ApplicationPolicy policy, StringPermission permission, ChangeType changeType )
     {
     }
 
 
-    public void permissionRenamed( ApplicationPolicy policy, Permission permission, String oldName )
+    public void permissionRenamed( ApplicationPolicy policy, StringPermission permission, String oldName )
     {
     }
 

@@ -260,7 +260,7 @@ public class Service implements DaemonApplication
         }
         else
         {
-            throw new Exception( "Can't figure out where to fine my installation." ); 
+            throw new Exception( "Can't figure out where to find my installation." );
         }
 
         cfg.setShutdownHookEnabled( enableShutdownHook );

@@ -43,8 +43,8 @@ import javax.swing.tree.DefaultTreeModel;
 
 import org.safehaus.triplesec.admin.Application;
 import org.safehaus.triplesec.admin.DataAccessException;
-import org.safehaus.triplesec.admin.Permission;
-import org.safehaus.triplesec.admin.PermissionModifier;
+import org.safehaus.triplesec.admin.PermissionClass;
+//import org.safehaus.triplesec.admin.PermissionClassModifier;
 
 
 public class NewPermissionPanel extends JPanel
@@ -92,7 +92,6 @@ public class NewPermissionPanel extends JPanel
     /**
      * This method initializes this
      * 
-     * @return void
      */
     private void initialize()
     {
@@ -388,24 +387,24 @@ public class NewPermissionPanel extends JPanel
         
         DefaultMutableTreeNode appNode = ( DefaultMutableTreeNode ) node.getParent();
         Application application = ( Application ) appNode.getUserObject();
-        Permission permission;
-        PermissionModifier modifier = application.modifier().newPermission( permissionNameTextField.getText() )
-            .setDescription( descriptionTextArea.getText() );
-        try
-        {
-            permission = modifier.add();
-            DefaultMutableTreeNode permissionNode = new DefaultMutableTreeNode( permission );
-            DefaultTreeModel model = ( DefaultTreeModel ) leftTreeNavigation.getTree().getModel();
-            model.insertNodeInto( permissionNode, node, 0 );
-            existingPermissionsTableModel.fireTableDataChanged();
-        }
-        catch ( DataAccessException e )
-        {
-            JOptionPane.showMessageDialog( this,
-                UiUtils.wrap( "Failed to create permission:\n" + e.getMessage(), 79 ),
-                "Permission creation failure!", JOptionPane.ERROR_MESSAGE );
-            return;
-        }
+        PermissionClass permission;
+//        PermissionClassModifier modifier = application.modifier().newPermission( permissionNameTextField.getText() )
+//            .setDescription( descriptionTextArea.getText() );
+//        try
+//        {
+//            permission = modifier.add();
+//            DefaultMutableTreeNode permissionNode = new DefaultMutableTreeNode( permission );
+//            DefaultTreeModel model = ( DefaultTreeModel ) leftTreeNavigation.getTree().getModel();
+//            model.insertNodeInto( permissionNode, node, 0 );
+//            existingPermissionsTableModel.fireTableDataChanged();
+//        }
+//        catch ( DataAccessException e )
+//        {
+//            JOptionPane.showMessageDialog( this,
+//                UiUtils.wrap( "Failed to create permission:\n" + e.getMessage(), 79 ),
+//                "Permission creation failure!", JOptionPane.ERROR_MESSAGE );
+//            return;
+//        }
         permissionNameTextField.setText( null );
         statusTextField.setText( null );
     }
@@ -482,14 +481,14 @@ public class NewPermissionPanel extends JPanel
             {
                 public void valueChanged( ListSelectionEvent e )
                 {
-                    int index = existingPermissionsTable.getSelectionModel().getAnchorSelectionIndex();
-                    if ( existingPermissionsTableModel.getRowCount() == 0 || index < 0 )
-                    {
-                        return;
-                    }
-                    Permission permission = ( Permission ) existingPermissionsTableModel.getValueAt( index, 0 );
-                    permissionNameTextField.setText( "CopyOf" + permission.getName() );
-                    descriptionTextArea.setText( permission.getDescription() );
+//                    int index = existingPermissionsTable.getSelectionModel().getAnchorSelectionIndex();
+//                    if ( existingPermissionsTableModel.getRowCount() == 0 || index < 0 )
+//                    {
+//                        return;
+//                    }
+//                    PermissionClass permission = ( PermissionClass ) existingPermissionsTableModel.getValueAt( index, 0 );
+//                    permissionNameTextField.setText( "CopyOf" + permission.getName() );
+//                    descriptionTextArea.setText( permission.getDescription() );
                 }
             } );
             existingPermissionsTable.setModel( getExistingPermissionsTableModel() );

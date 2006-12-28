@@ -21,6 +21,7 @@ package org.safehaus.triplesec.guardian;
 
 
 import java.security.AccessControlException;
+import java.security.Permissions;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
@@ -41,32 +42,32 @@ public class RoleTest extends AbstractEntityTest
 
     protected Object newInstanceA1()
     {
-        return new Role( STORE1, "role1", null );
+        return new Role( STORE1, "role1", null, null);
     }
 
     protected Object newInstanceA2()
     {
-        return new Role( STORE1, "role1", null );
+        return new Role( STORE1, "role1", null, null);
     }
 
     protected Object newInstanceB1()
     {
-        return new Role( STORE1, "role2", null );
+        return new Role( STORE1, "role2", null, null);
     }
 
     protected Object newInstanceB2()
     {
-        return new Role( STORE2, "role1", null );
+        return new Role( STORE2, "role1", null, null);
     }
 
     public void testInstantiation()
     {
-        Permissions perms = new Permissions( "app1", null );
+        Permissions perms = new Permissions();
 
         // Test null parameters
         try
         {
-            new Role( null, "role1", perms );
+            new Role( null, "role1", perms, null);
             fail( "Execption is not thrown." );
         }
         catch( NullPointerException e )
@@ -75,7 +76,7 @@ public class RoleTest extends AbstractEntityTest
         }
         try
         {
-            new Role( STORE1, null, perms );
+            new Role( STORE1, null, perms, null);
             fail( "Execption is not thrown." );
         }
         catch( NullPointerException e )
@@ -86,91 +87,90 @@ public class RoleTest extends AbstractEntityTest
         // Test empty fields
         try
         {
-            new Role( STORE2, "", perms );
+            new Role( STORE2, "", perms, null);
             fail( "Execption is not thrown." );
         }
         catch( IllegalArgumentException e )
         {
             // OK
         }
-        try
-        {
-            new Role( new TestApplicationPolicyStore( "" ), "role1", perms );
-            fail( "Execption is not thrown." );
-        }
-        catch( IllegalArgumentException e )
-        {
-            // OK
-        }
+//        try
+//        {
+//            new Role( new TestApplicationPolicyStore( "" ), "role1", perms );
+//            fail( "Execption is not thrown." );
+//        }
+//        catch( IllegalArgumentException e )
+//        {
+//            // OK
+//        }
         
         // Test unknown permissions
-        try
-        {
-            Permissions wrongPerms = new Permissions( "app1", new Permission[] {
-                    new Permission( "app1", "wrongPerm" ),
-            });
-                                                                             
-            new Role( STORE1, "role1", wrongPerms );
-            fail( "Execption is not thrown." );
-        }
-        catch( IllegalArgumentException e )
-        {
-            // OK
-        }
+        //TODO could be resuscitated if we had an impliesAll method.
+//        try
+//        {
+//            Permissions wrongPerms = new Permissions( "app1", new StringPermission[] {
+//                    new StringPermission( "app1", "wrongPerm" ),
+//            });
+//
+//            new Role( STORE1, "role1", wrongPerms );
+//            fail( "Execption is not thrown." );
+//        }
+//        catch( IllegalArgumentException e )
+//        {
+//            // OK
+//        }
         
 
         // Test mismatching application names.
-        try
-        {
-            new Role( STORE2, "role1", perms );
-            fail( "Execption is not thrown." );
-        }
-        catch( IllegalArgumentException e )
-        {
-            // OK
-        }
+//        try
+//        {
+//            new Role( STORE2, "role1", perms );
+//            fail( "Execption is not thrown." );
+//        }
+//        catch( IllegalArgumentException e )
+//        {
+//            // OK
+//        }
 
-        Role r = new Role( STORE1, "role1", null );
-        assertEquals( 0, r.getGrants().size() );
+        Role r = new Role( STORE1, "role1", null, null);
+        assertEquals( 0, PermissionsUtil.size(r.getGrantedPermissions()) );
+        assertEquals( 0, PermissionsUtil.size(r.getDeniedPermissions()) );
     }
 
     public void testProperties()
     {
-        Permission perm1= new Permission( "app1", "perm1" );
-        Permissions perms = new Permissions( "app1", new Permission[] {
-                perm1,
-                new Permission( "app1", "perm2" ),
-                new Permission( "app1", "perm3" ), } );
+        StringPermission perm1= new StringPermission("perm1" );
+        Permissions perms = new Permissions();
+                perms.add(perm1);
+                perms.add(new StringPermission("perm2" ));
+                perms.add(new StringPermission("perm3" ));
 
-        Role r = new Role( STORE1, "role1", perms, "test description" );
+        Role r = new Role( STORE1, "role1", perms, null, "test description" );
         assertEquals( "app1", r.getApplicationName() );
         assertEquals( "role1", r.getName() );
-        assertEquals( perms, r.getGrants() );
+        assertEquals( perms, r.getGrantedPermissions() );
         assertEquals( "test description", r.getDescription() );
         assertTrue( r.hasPermission( perm1 ) ) ;
-        assertTrue( r.hasPermission( perm1.getName() ) ) ;
     }
 
     public void testRolePermissions()
     {
-        Permission perm = new Permission( "app1", "perm1" );
-        Permission wrongPerm = new Permission( "app1", "perm2" );
-        Permissions perms = new Permissions( "app1", new Permission[] { perm, } );
+        StringPermission perm = new StringPermission("perm1" );
+        StringPermission wrongPerm = new StringPermission("perm2" );
+        Permissions perms = new Permissions();
+        perms.add(perm);
 
-        Role r = new Role( STORE1, "role1", perms );
+        Role r = new Role( STORE1, "role1", perms, null);
 
         // Check existing permissions
         r.checkPermission( perm );
-        assertTrue( r.hasPermission( perm.getName() ) );
         assertTrue( r.hasPermission( perm ) );
         r.checkPermission( perm, "unused" );
-        r.checkPermission( perm.getName() );
-        r.checkPermission( perm.getName(), "unused" );
 
         // Check null parameters
         try
         {
-            r.checkPermission( ( Permission ) null );
+            r.checkPermission( ( StringPermission ) null );
             fail( "Exception is not thrown." );
         }
         catch( NullPointerException e )
@@ -179,32 +179,13 @@ public class RoleTest extends AbstractEntityTest
         }
         try
         {
-            r.checkPermission( ( String ) null );
+            r.checkPermission( ( StringPermission ) null, "unused" );
             fail( "Exception is not thrown." );
         }
         catch( NullPointerException e )
         {
             // OK
         }
-        try
-        {
-            r.checkPermission( ( Permission ) null, "unused" );
-            fail( "Exception is not thrown." );
-        }
-        catch( NullPointerException e )
-        {
-            // OK
-        }
-        try
-        {
-            r.checkPermission( ( String ) null, "unused" );
-            fail( "Exception is not thrown." );
-        }
-        catch( NullPointerException e )
-        {
-            // OK
-        }
-
         // Check non-existing permissions
         try
         {
@@ -224,24 +205,6 @@ public class RoleTest extends AbstractEntityTest
         {
             // OK
         }
-        try
-        {
-            r.checkPermission( wrongPerm.getName() );
-            fail( "Exception is not thrown." );
-        }
-        catch( AccessControlException e )
-        {
-            // OK
-        }
-        try
-        {
-            r.checkPermission( wrongPerm.getName(), "unused" );
-            fail( "Exception is not thrown." );
-        }
-        catch( AccessControlException e )
-        {
-            // OK
-        }
     }
     
     
@@ -250,7 +213,7 @@ public class RoleTest extends AbstractEntityTest
     {
         Role ra = ( Role ) a;
         Role rb = ( Role ) b;
-        assertEquals( ra.getGrants(), rb.getGrants() );
+        assertEquals( ra.getGrantedPermissions(), rb.getGrantedPermissions() );
     }
 
     private static class TestApplicationPolicyStore implements
@@ -273,14 +236,12 @@ public class RoleTest extends AbstractEntityTest
             return null;
         }
 
-        public Permissions getPermissions()
-        {
-            Permission[] perms = new Permission[] {
-                    new Permission( appName, "perm1" ),
-                    new Permission( appName, "perm2" ),
-                    new Permission( appName, "perm3" ),
-            };
-            return new Permissions( appName, perms );
+        public Permissions getPermissions() {
+            Permissions perms = new Permissions();
+            perms.add(new StringPermission("perm1"));
+            perms.add(new StringPermission("perm2"));
+            perms.add(new StringPermission("perm3"));
+            return perms;
         }
 
         public Profile getProfile( String userName )
@@ -310,7 +271,7 @@ public class RoleTest extends AbstractEntityTest
             return null;
         }
 
-        public Set getDependentProfileNames( Permission permission ) throws GuardianException
+        public Set getDependentProfileNames( StringPermission permission ) throws GuardianException
         {
             return null;
         }

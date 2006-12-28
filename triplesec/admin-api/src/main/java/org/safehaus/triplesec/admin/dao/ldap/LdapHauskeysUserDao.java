@@ -302,7 +302,7 @@ public class LdapHauskeysUserDao extends AbstractLdapDao implements HauskeysUser
         }
         catch ( NoPermissionException e )
         {
-            String msg = "Rename failed. Permission denied.";
+            String msg = "Rename failed. StringPermission denied.";
             log.error( msg, e );
             throw new PermissionDeniedException( msg );
         }
@@ -402,7 +402,7 @@ public class LdapHauskeysUserDao extends AbstractLdapDao implements HauskeysUser
         }
         catch ( NoPermissionException e )
         {
-            String msg = "Modify failed. Permission denied to " + rdn + " under " + baseUrl;
+            String msg = "Modify failed. StringPermission denied to " + rdn + " under " + baseUrl;
             log.error( msg, e );
             throw new PermissionDeniedException( msg );
         }
@@ -438,7 +438,7 @@ public class LdapHauskeysUserDao extends AbstractLdapDao implements HauskeysUser
         }
         catch ( NoPermissionException e )
         {
-            String msg = "Delete failed. Permission denied to delete " + rdn + " under " + baseUrl;
+            String msg = "Delete failed. StringPermission denied to delete " + rdn + " under " + baseUrl;
             log.error( msg, e );
             throw new PermissionDeniedException( msg );
         }

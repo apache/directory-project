@@ -22,6 +22,9 @@ package org.safehaus.triplesec.demo;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.Permission;
+import java.security.Permissions;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Properties;
 
@@ -34,7 +37,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.safehaus.triplesec.guardian.ApplicationPolicy;
 import org.safehaus.triplesec.guardian.ApplicationPolicyFactory;
-import org.safehaus.triplesec.guardian.Permissions;
 import org.safehaus.triplesec.guardian.Profile;
 import org.safehaus.triplesec.guardian.Roles;
 import org.safehaus.triplesec.jaas.SafehausPrincipal;
@@ -142,18 +144,18 @@ public class LoginServlet extends HttpServlet
         // print out the grants in the profile
         out.println( "<p>Profile Grants:</p><ul>" );
         Permissions grants = profile.getGrants();
-        for ( Iterator ii = grants.iterator(); ii.hasNext(); /**/ )
+        for ( Enumeration<Permission> ii = grants.elements(); ii.hasMoreElements(); /**/ )
         {
-            out.println( "<li>" + ii.next() + "</li>" );
+            out.println( "<li>" + ii.nextElement() + "</li>" );
         }
         out.println( "</ul>" );
             
         // print out the denials in the profile
         out.println( "<p>Profile Denials:</p><ul>" );
         Permissions denials = profile.getDenials();
-        for ( Iterator ii = denials.iterator(); ii.hasNext(); /**/ )
+        for ( Enumeration<Permission> ii = denials.elements(); ii.hasMoreElements(); /**/ )
         {
-            out.println( "<li>" + ii.next() + "</li>" );
+            out.println( "<li>" + ii.nextElement() + "</li>" );
         }
         out.println( "</ul>" );
             

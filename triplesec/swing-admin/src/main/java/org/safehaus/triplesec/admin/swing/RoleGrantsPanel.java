@@ -35,7 +35,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import org.safehaus.triplesec.admin.Permission;
+import org.safehaus.triplesec.admin.PermissionClass;
 
 
 public class RoleGrantsPanel extends JPanel
@@ -90,14 +90,14 @@ public class RoleGrantsPanel extends JPanel
         // in the set of grants of the role
         // -------------------------------------------------------------------
 
-        for ( Enumeration ii = permissionsNode.children(); ii.hasMoreElements(); /**/ )
-        {
-            Permission permission = ( Permission ) ( ( DefaultMutableTreeNode ) ii.nextElement() ).getUserObject();
-            if ( ! grants.contains( permission.getName() ) )
-            {
-                applicationPermissionsModel.addElement( permission.getName() );
-            }
-        }
+//        for ( Enumeration ii = permissionsNode.children(); ii.hasMoreElements(); /**/ )
+//        {
+//            Permission permission = ( Permission ) ( ( DefaultMutableTreeNode ) ii.nextElement() ).getUserObject();
+//            if ( ! grants.contains( permission.getName() ) )
+//            {
+//                applicationPermissionsModel.addElement( permission.getName() );
+//            }
+//        }
         
         // -------------------------------------------------------------------
         // Now add all the grants to the grants model for the grants list
@@ -128,7 +128,6 @@ public class RoleGrantsPanel extends JPanel
     /**
      * This method initializes this
      * 
-     * @return void
      */
     private void initialize()
     {

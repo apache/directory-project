@@ -29,11 +29,11 @@ import junit.framework.TestCase;
  */
 public abstract class AbstractEntityTest extends TestCase {
 
-    private Object a1;
-    private Object a2;
-    private Object b1;
-    private Object b2;
-    private Object wrong;
+    protected Object a1;
+    protected Object a2;
+    protected Object b1;
+    protected Object b2;
+    protected Object wrong;
 
     protected abstract Object newInstanceA1();
     protected abstract Object newInstanceA2();

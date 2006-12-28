@@ -35,7 +35,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import org.safehaus.triplesec.admin.Permission;
+import org.safehaus.triplesec.admin.PermissionClass;
 
 
 public class ProfilePermissionsPanel extends JPanel
@@ -105,14 +105,14 @@ public class ProfilePermissionsPanel extends JPanel
         // load both lists: do not include perms as available if in grants
         // -------------------------------------------------------------------
         
-        for ( Enumeration ii = permissionsNode.children(); ii.hasMoreElements(); /**/)
-        {
-            Permission permission = ( Permission ) ( ( DefaultMutableTreeNode ) ii.nextElement() ).getUserObject();
-            if ( ! existing.contains( permission.getName() ) )
-            {
-                availableModel.addElement( permission.getName() );
-            }
-        }
+//        for ( Enumeration ii = permissionsNode.children(); ii.hasMoreElements(); /**/)
+//        {
+//            Permission permission = ( Permission ) ( ( DefaultMutableTreeNode ) ii.nextElement() ).getUserObject();
+//            if ( ! existing.contains( permission.getName() ) )
+//            {
+//                availableModel.addElement( permission.getName() );
+//            }
+//        }
         for ( Iterator ii = existing.iterator(); ii.hasNext(); /**/)
         {
             existingModel.addElement( ii.next() );
@@ -135,7 +135,6 @@ public class ProfilePermissionsPanel extends JPanel
     /**
      * This method initializes this
      * 
-     * @return void
      */
     private void initialize()
     {

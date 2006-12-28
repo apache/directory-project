@@ -58,6 +58,8 @@ import org.safehaus.triplesec.store.schema.SafehausSchema;
  */
 public class PolicyProtectionInterceptorITest extends AbstractAdminTestCase
 {
+
+    private static final String STRING_PERMISSION_CLASS_NAME = "org.safehaus.triplesec.guardian.StringPermission";
     private DirContext ctx;
 
 
@@ -94,7 +96,7 @@ public class PolicyProtectionInterceptorITest extends AbstractAdminTestCase
 
         super.overrideEnvironment( Context.OBJECT_FACTORIES, ProfileObjectFactory.class.getName() );
         super.overrideEnvironment( Context.STATE_FACTORIES, ProfileStateFactory.class.getName() );
-        super.setLdifPath( "/interceptor.ldif", getClass() );
+        super.setLdifPath( "/server.ldif", getClass() );
         super.setUp();
 
         Hashtable env = new Hashtable();
@@ -125,20 +127,18 @@ public class PolicyProtectionInterceptorITest extends AbstractAdminTestCase
         ctx.bind( "ou=test,dc=example,dc=com", null, new BasicAttributes( "objectClass", "top" ) );
 
         // Test adding permissions
-        Attributes perm = new BasicAttributes();
-        attr = new BasicAttribute( "objectClass" );
-        attr.add( "top" );
-        attr.add( "policyPermission" );
-        perm.put( attr );
-        perm.put( "permName", "permX" );
-
-        _testAdd( "permName=permX", "permName=mockPerm0", "ou=permissions", perm );
+//        Attributes perm = new BasicAttributes();
+//        attr = new BasicAttribute( "objectClass" );
+//        attr.add( "top" );
+//        attr.add( "policyPermission" );
+//        perm.put( attr );
+//        perm.put( "permName", "permX" );
+//
+//        _testAdd( "permName=permX", "permName=mockPerm0", "ou=permissions", perm );
 
         // Test adding roles
         Attributes role = new BasicAttributes();
-        attr = new BasicAttribute( "objectClass" );
-        attr.add( "top" );
-        attr.add( "policyRole" );
+        attr = getObjectClassAttr("policyRole");
         role.put( attr );
         role.put( "roleName", "roleX" );
 
@@ -146,9 +146,7 @@ public class PolicyProtectionInterceptorITest extends AbstractAdminTestCase
 
         // Test adding profiles
         Attributes profile = new BasicAttributes();
-        attr = new BasicAttribute( "objectClass" );
-        attr.add( "top" );
-        attr.add( "policyProfile" );
+        attr = getObjectClassAttr("policyProfile");
         profile.put( attr );
         profile.put( "profileId", "profileX" );
         profile.put( "user", "akarasulu" );
@@ -158,29 +156,42 @@ public class PolicyProtectionInterceptorITest extends AbstractAdminTestCase
         
         // Test adding a role with non-existing permissions
         role = new BasicAttributes();
-        attr = new BasicAttribute( "objectClass" );
-        attr.add( "top" );
-        attr.add( "policyRole" );
-        role.put( attr );
+        role.put( getObjectClassAttr("policyRole") );
         role.put( "roleName", "roleY" );
-        role.put( "grants", "unknownPerm" );
-        try
-        {
+        //TODO add perm in new way
+//        role.put( "grants", "unknownPerm" );
+//        try
+//        {
             ctx.bind(
                     "roleName=roleY,ou=roles,appName=mockApplication,ou=applications,dc=example,dc=com",
                     null, role);
-            Assert.fail();
-        }
-        catch( SchemaViolationException e )
-        {
+
+        Attributes permClass = new BasicAttributes();
+        permClass.put(getObjectClassAttr("permClass"));
+        permClass.put("permClassName", STRING_PERMISSION_CLASS_NAME);
+        ctx.bind(
+                "permClassName=" + STRING_PERMISSION_CLASS_NAME + ", roleName=roleY,ou=roles,appName=mockApplication,ou=applications,dc=example,dc=com",
+                null, permClass);
+
+        Attributes grant = new BasicAttributes();
+        grant.put(getObjectClassAttr("permGrant"));
+        grant.put("grant", "newPerm");
+        ctx.bind(
+                "grant=newPerm, permClassName=" + STRING_PERMISSION_CLASS_NAME + ", roleName=roleY,ou=roles,appName=mockApplication,ou=applications,dc=example,dc=com",
+                null, grant);
+
+
+            //TODO check that bind should work
+//            Assert.fail();
+//        }
+//        catch( SchemaViolationException e )
+//        {
             // OK
-        }
+//        }
 
         // Test adding a profile with a non-existing role
         profile = new BasicAttributes();
-        attr = new BasicAttribute( "objectClass" );
-        attr.add( "top" );
-        attr.add( "policyProfile" );
+        attr = getObjectClassAttr("policyProfile");
         profile.put( attr );
         profile.put( "profileId", "profileY" );
         profile.put( "roles", "unknownRole" );
@@ -199,52 +210,52 @@ public class PolicyProtectionInterceptorITest extends AbstractAdminTestCase
         
         // Test adding a profile with non-existing permissions
         profile = new BasicAttributes();
-        attr = new BasicAttribute( "objectClass" );
-        attr.add( "top" );
-        attr.add( "policyProfile" );
+        attr = getObjectClassAttr("policyProfile");
         profile.put( attr );
-        profile.put( "uid", "profileY" );
-        profile.put( "grants", "unknownPerm" );
+        profile.put( "profileId", "profileY" );
+        profile.put( "user", "someone" );
+    //TODO add permissions new way, fix test
+//        profile.put( "grants", "unknownPerm" );
         
-        try
-        {
+//        try
+//        {
             ctx.bind(
                     "profileId=profileY,ou=profiles,appName=mockApplication,ou=applications,dc=example,dc=com",
                     null, profile);
-            Assert.fail();
-        }
-        catch( SchemaViolationException e )
-        {
+//            Assert.fail();
+//        }
+//        catch( SchemaViolationException e )
+//        {
             // OK
-        }
+//        }
         
         // Test adding non-existing permission to a role
-        try
-        {
-            ctx.modifyAttributes(
-                    "roleName=mockRole0,ou=roles,appName=mockApplication,ou=applications,dc=example,dc=com",
-                    DirContext.ADD_ATTRIBUTE,
-                    new BasicAttributes( "grants", "unknownPerm" ) );
-            Assert.fail();
-        }
-        catch( SchemaViolationException e )
-        {
+//        try
+//        {
+//            ctx.modifyAttributes(
+//                    "roleName=mockRole0,ou=roles,appName=mockApplication,ou=applications,dc=example,dc=com",
+//                    DirContext.ADD_ATTRIBUTE,
+//                    new BasicAttributes( "grants", "unknownPerm" ) );
+//            Assert.fail();
+//        }
+//        catch( SchemaViolationException e )
+//        {
             // OK
-        }
+//        }
         
         // Test adding non-existing permission to a profile
-        try
-        {
-            ctx.modifyAttributes(
-                    "profileId=mockProfile0,ou=profiles,appName=mockApplication,ou=applications,dc=example,dc=com",
-                    DirContext.ADD_ATTRIBUTE,
-                    new BasicAttributes( "grants", "unknownPerm" ) );
-            Assert.fail();
-        }
-        catch( SchemaViolationException e )
-        {
+//        try
+//        {
+//            ctx.modifyAttributes(
+//                    "profileId=mockProfile0,ou=profiles,appName=mockApplication,ou=applications,dc=example,dc=com",
+//                    DirContext.ADD_ATTRIBUTE,
+//                    new BasicAttributes( "grants", "unknownPerm" ) );
+//            Assert.fail();
+//        }
+//        catch( SchemaViolationException e )
+//        {
             // OK
-        }
+//        }
 
         // Test adding non-existing role to a profile
         try
@@ -259,6 +270,14 @@ public class PolicyProtectionInterceptorITest extends AbstractAdminTestCase
         {
             // OK
         }
+    }
+
+    private Attribute getObjectClassAttr(String objectClass) {
+        Attribute attr;
+        attr = new BasicAttribute( "objectClass" );
+        attr.add( "top" );
+        attr.add( objectClass );
+        return attr;
     }
 
 
@@ -329,23 +348,25 @@ public class PolicyProtectionInterceptorITest extends AbstractAdminTestCase
         ctx.unbind( "uid=akarasulu, ou=Users, dc=example,dc=com" );
 
         // Test deleting permissions not in use
-        ctx.unbind( "permName=mockPerm8,ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com" );
+//        ctx.unbind( "permName=mockPerm8,ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com" );
 
         // Test deleting roles not in use
         ctx.unbind( "roleName=mockRole0,ou=roles,appName=mockApplication,ou=applications,dc=example,dc=com" );
 
         // Test deleting permissions in use
-        try
-        {
-            ctx.unbind( "permName=mockPerm9,ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com" );
-            Assert.fail();
-        }
-        catch ( SchemaViolationException e )
-        {
+//        try
+//        {
+//            ctx.unbind( "permName=mockPerm9,ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com" );
+//            Assert.fail();
+//        }
+//        catch ( SchemaViolationException e )
+//        {
             // OK
-        }
+//        }
 
         // Test deleting roles in use
+        ctx.unbind("grant=mockPerm0, permClassName=org.safehaus.triplesec.guardian.StringPermission, roleName=mockRole1,ou=roles,appName=mockApplication,ou=applications,dc=example, dc=com");
+        ctx.unbind("permClassName=org.safehaus.triplesec.guardian.StringPermission, roleName=mockRole1,ou=roles,appName=mockApplication,ou=applications,dc=example, dc=com");
         try
         {
             ctx.unbind( "roleName=mockRole1,ou=roles,appName=mockApplication,ou=applications,dc=example,dc=com" );
@@ -393,12 +414,12 @@ public class PolicyProtectionInterceptorITest extends AbstractAdminTestCase
         //        {
         //            // OK
         //        }
-        ctx.modifyAttributes(
-            "permName=mockPerm8,ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com",
-            DirContext.ADD_ATTRIBUTE, new BasicAttributes( "objectclass", "inetOrgPerson" ) );
-        ctx.modifyAttributes(
-            "permName=mockPerm8,ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com",
-            DirContext.REMOVE_ATTRIBUTE, new BasicAttributes( "objectclass", "inetOrgPerson" ) );
+//        ctx.modifyAttributes(
+//            "permName=mockPerm8,ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com",
+//            DirContext.ADD_ATTRIBUTE, new BasicAttributes( "objectclass", "inetOrgPerson" ) );
+//        ctx.modifyAttributes(
+//            "permName=mockPerm8,ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com",
+//            DirContext.REMOVE_ATTRIBUTE, new BasicAttributes( "objectclass", "inetOrgPerson" ) );
 
         // Test modifications on roles
         //        ctx.modifyAttributes(
@@ -637,36 +658,36 @@ public class PolicyProtectionInterceptorITest extends AbstractAdminTestCase
         {
             // OK
         }
-        try
-        {
-            ctx.rename( "ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com",
-                "ou=permissionsX,appName=mockApplication,ou=applications,dc=example,dc=com" );
-            Assert.fail();
-        }
-        catch ( SchemaViolationException e )
-        {
+//        try
+//        {
+//            ctx.rename( "ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com",
+//                "ou=permissionsX,appName=mockApplication,ou=applications,dc=example,dc=com" );
+//            Assert.fail();
+//        }
+//        catch ( SchemaViolationException e )
+//        {
             // OK
-        }
+//        }
 
         // Test renaming entries not in use
-        ctx.rename( "permName=mockPerm8, ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com",
-            "permName=mockPermX, ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com" );
+//        ctx.rename( "permName=mockPerm8, ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com",
+//            "permName=mockPermX, ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com" );
         ctx.rename( "roleName=mockRole0, ou=roles,appName=mockApplication,ou=applications,dc=example,dc=com",
             "roleName=mockRoleX, ou=roles,appName=mockApplication,ou=applications,dc=example,dc=com" );
         ctx.rename( "profileId=mockProfile0, ou=profiles,appName=mockApplication,ou=applications,dc=example,dc=com",
             "profileId=mockProfileX, ou=profiles,appName=mockApplication,ou=applications,dc=example,dc=com" );
 
         // Test renaming entries in use
-        try
-        {
-            ctx.rename( "permName=mockPerm9, ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com",
-                "permName=mockPermY, ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com" );
-            Assert.fail();
-        }
-        catch ( SchemaViolationException e )
-        {
+//        try
+//        {
+//            ctx.rename( "permName=mockPerm9, ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com",
+//                "permName=mockPermY, ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com" );
+//            Assert.fail();
+//        }
+//        catch ( SchemaViolationException e )
+//        {
             // OK
-        }
+//        }
         try
         {
             ctx.rename( "roleName=mockRole1, ou=roles,appName=mockApplication,ou=applications,dc=example,dc=com",
@@ -705,36 +726,36 @@ public class PolicyProtectionInterceptorITest extends AbstractAdminTestCase
         {
             // OK
         }
-        try
-        {
-            ctx.rename( "ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com",
-                "ou=permissions,ou=applications,dc=example,dc=com" );
-            Assert.fail();
-        }
-        catch ( SchemaViolationException e )
-        {
+//        try
+//        {
+//            ctx.rename( "ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com",
+//                "ou=permissions,ou=applications,dc=example,dc=com" );
+//            Assert.fail();
+//        }
+//        catch ( SchemaViolationException e )
+//        {
             // OK
-        }
+//        }
 
         // Test renaming entries not in use
-        ctx.rename( "permName=mockPerm8, ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com",
-            "permName=mockPerm8, ou=applications,dc=example,dc=com" );
+//        ctx.rename( "permName=mockPerm8, ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com",
+//            "permName=mockPerm8, ou=applications,dc=example,dc=com" );
         ctx.rename( "roleName=mockRole0, ou=roles,appName=mockApplication,ou=applications,dc=example,dc=com",
             "roleName=mockRole0, ou=applications,dc=example,dc=com" );
         ctx.rename( "profileId=mockProfile0, ou=profiles,appName=mockApplication,ou=applications,dc=example,dc=com",
             "profileId=mockProfile0, ou=applications,dc=example,dc=com" );
 
         // Test renaming entries in use
-        try
-        {
-            ctx.rename( "permName=mockPerm9, ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com",
-                "permName=mockPerm9, appName=mockApplication,ou=applications,dc=example,dc=com" );
-            Assert.fail();
-        }
-        catch ( SchemaViolationException e )
-        {
+//        try
+//        {
+//            ctx.rename( "permName=mockPerm9, ou=permissions,appName=mockApplication,ou=applications,dc=example,dc=com",
+//                "permName=mockPerm9, appName=mockApplication,ou=applications,dc=example,dc=com" );
+//            Assert.fail();
+//        }
+//        catch ( SchemaViolationException e )
+//        {
             // OK
-        }
+//        }
         try
         {
             ctx.rename( "roleName=mockRole1, ou=roles,appName=mockApplication,ou=applications,dc=example,dc=com",

@@ -27,7 +27,6 @@ import java.util.List;
 import javax.naming.directory.ModificationItem;
 
 import org.safehaus.triplesec.admin.dao.ApplicationDao;
-import org.safehaus.triplesec.admin.dao.PermissionDao;
 import org.safehaus.triplesec.admin.dao.ProfileDao;
 import org.safehaus.triplesec.admin.dao.RoleDao;
 
@@ -37,7 +36,6 @@ public class ApplicationModifier implements Constants
     private final String name;
     private final SingleValuedField description;
     private final SingleValuedField password;
-    private final PermissionDao permissionDao;
     private final RoleDao roleDao;
     private final ProfileDao profileDao;
     private final ApplicationDao dao;
@@ -51,13 +49,12 @@ public class ApplicationModifier implements Constants
     // -----------------------------------------------------------------------
     
     
-    ApplicationModifier( ApplicationDao dao, String name, PermissionDao permissionDao, 
-        RoleDao roleDao, ProfileDao profileDao )
+    ApplicationModifier(ApplicationDao dao, String name,
+            RoleDao roleDao, ProfileDao profileDao)
     {
         this.name = name;
         this.dao = dao;
         this.archetype = null;
-        this.permissionDao = permissionDao;
         this.roleDao = roleDao;
         this.profileDao = profileDao;
         this.password = new SingleValuedField( PASSWORD_ID, null );
@@ -70,7 +67,6 @@ public class ApplicationModifier implements Constants
         this.name = archetype.getName();
         this.dao = dao;
         this.archetype = archetype;
-        this.permissionDao = archetype.getPermissionDao();
         this.roleDao = archetype.getRoleDao();
         this.profileDao = archetype.getProfileDao();
         this.password = new SingleValuedField( PASSWORD_ID, archetype.getPassword() );
@@ -104,18 +100,7 @@ public class ApplicationModifier implements Constants
         return this;
     }
     
-    
-    public PermissionModifier newPermission( String permName ) 
-    {
-        if ( persisted )
-        {
-            throw new IllegalStateException( "This modifier has persisted changes and is no longer valid." );
-        }
-        return new PermissionModifier( permissionDao, name, permName );
-    }
-    
-    
-    public RoleModifier newRole( String roleName ) 
+    public RoleModifier newRole( String roleName )
     {
         if ( persisted )
         {
@@ -138,12 +123,6 @@ public class ApplicationModifier implements Constants
     // -----------------------------------------------------------------------
     // Mutable Iterator access methods
     // -----------------------------------------------------------------------
-    
-    
-    public Iterator permissionIterator() throws DataAccessException
-    {
-        return permissionDao.permissionIterator( name );
-    }
     
     
     public Iterator roleIterator() throws DataAccessException

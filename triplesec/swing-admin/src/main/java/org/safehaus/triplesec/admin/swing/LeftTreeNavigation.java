@@ -217,12 +217,12 @@ public class LeftTreeNavigation extends JPanel implements Observer
                 model.insertNodeInto( new DefaultMutableTreeNode( jj.next() ), rolesNode, 0 );
             }
 
-            DefaultMutableTreeNode permissionsNode = new DefaultMutableTreeNode( "Permissions" );
-            model.insertNodeInto( permissionsNode, appNode, 0 );
-            for ( Iterator jj = app.permissionIterator(); jj.hasNext(); /**/ )
-            {
-                model.insertNodeInto( new DefaultMutableTreeNode( jj.next() ), permissionsNode, 0 );
-            }
+//            DefaultMutableTreeNode permissionsNode = new DefaultMutableTreeNode( "Permissions" );
+//            model.insertNodeInto( permissionsNode, appNode, 0 );
+//            for ( Iterator jj = app.permissionIterator(); jj.hasNext(); /**/ )
+//            {
+//                model.insertNodeInto( new DefaultMutableTreeNode( jj.next() ), permissionsNode, 0 );
+//            }
         }
     }
     
@@ -257,12 +257,12 @@ public class LeftTreeNavigation extends JPanel implements Observer
             model.insertNodeInto( new DefaultMutableTreeNode( jj.next() ), rolesNode, 0 );
         }
 
-        DefaultMutableTreeNode permissionsNode = new DefaultMutableTreeNode( "Permissions" );
-        model.insertNodeInto( permissionsNode, appNode, 0 );
-        for ( Iterator jj = app.permissionIterator(); jj.hasNext(); /**/ )
-        {
-            model.insertNodeInto( new DefaultMutableTreeNode( jj.next() ), permissionsNode, 0 );
-        }
+//        DefaultMutableTreeNode permissionsNode = new DefaultMutableTreeNode( "Permissions" );
+//        model.insertNodeInto( permissionsNode, appNode, 0 );
+//        for ( Iterator jj = app.permissionIterator(); jj.hasNext(); /**/ )
+//        {
+//            model.insertNodeInto( new DefaultMutableTreeNode( jj.next() ), permissionsNode, 0 );
+//        }
     }
     
     

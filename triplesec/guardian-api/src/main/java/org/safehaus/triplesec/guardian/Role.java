@@ -22,6 +22,7 @@ package org.safehaus.triplesec.guardian;
 
 import java.io.Serializable;
 import java.security.AccessControlException;
+import java.security.Permissions;
 
 
 /**
@@ -37,15 +38,13 @@ public class Role implements Comparable, Cloneable, Serializable
 {
     private static final long serialVersionUID = 6190625586883412135L;
 
-    /** an empty byte array used as a placeholder for empty grants */
-    private static final Permission[] EMPTY_PERMISSION_ARRAY = new Permission[0];
-    
     /** the name of this Role */
     private final String name;
     /** the store the Role is defined for */
     private final ApplicationPolicy store;
-    /** the permissions granted for this role */
-    private final Permissions permissions;
+    /** the grantedPermissions granted for this role */
+    private final Permissions grantedPermissions;
+    private final Permissions deniedPermissions;
     /** a brief description of the Role */
     private final String description;
 
@@ -55,10 +54,11 @@ public class Role implements Comparable, Cloneable, Serializable
      * 
      * @param store the parent store this role is defined for
      * @param name the name of this role
-     * @param permissions a set of permissions granted for this role
+     * @param grantedPermissions
+     * @param deniedPermissions
      * @param description a breif description of the role
      */
-    public Role( ApplicationPolicy store, String name, Permissions permissions, String description )
+    public Role(ApplicationPolicy store, String name, Permissions grantedPermissions, Permissions deniedPermissions, String description)
     {
         if( store == null )
         {
@@ -73,28 +73,33 @@ public class Role implements Comparable, Cloneable, Serializable
             throw new IllegalArgumentException( "name is empty." );
         }
         
-        if( permissions == null )
+        if( grantedPermissions == null )
         {
-            permissions = new Permissions(
-                    store.getApplicationName(), EMPTY_PERMISSION_ARRAY );
+            grantedPermissions = new Permissions();
         }
-        if( !store.getApplicationName().equals( permissions.getApplicationName() ) )
+        if( deniedPermissions == null )
         {
-            throw new IllegalArgumentException(
-                    "Invalid applicationName in permissions: " +
-                    permissions.getApplicationName() );
+            deniedPermissions = new Permissions();
         }
-        
-        if( !store.getPermissions().containsAll( permissions ) )
-        {
-            throw new IllegalArgumentException(
-                    "store doesn't provide all permissions specified: " +
-                    permissions );
-        }
+//        if( !store.getApplicationName().equals( grantedPermissions.getApplicationName() ) )
+//        {
+//            throw new IllegalArgumentException(
+//                    "Invalid applicationName in grantedPermissions: " +
+//                    grantedPermissions.getApplicationName() );
+//        }
+
+        //This is meaningless if grantedPermissions.implies is used rather than equality.
+//        if( !store.getPermissions().containsAll( grantedPermissions ) )
+//        {
+//            throw new IllegalArgumentException(
+//                    "store doesn't provide all grantedPermissions specified: " +
+//                    grantedPermissions );
+//        }
         
         this.store = store;
         this.name = name;
-        this.permissions = permissions;
+        this.grantedPermissions = grantedPermissions;
+        this.deniedPermissions = deniedPermissions;
         this.description = description;
     }
 
@@ -104,11 +109,12 @@ public class Role implements Comparable, Cloneable, Serializable
      *
      * @param store the parent store this role is defined for
      * @param name the name of this role
-     * @param permissions a set of permissions granted for this role
+     * @param grantedPermissions
+     * @param deniedPermissions
      */
-    public Role( ApplicationPolicy store, String name, Permissions permissions )
+    public Role(ApplicationPolicy store, String name, Permissions grantedPermissions, Permissions deniedPermissions)
     {
-        this ( store, name, permissions, null );
+        this ( store, name, grantedPermissions, deniedPermissions, null );
     }
 
 
@@ -146,15 +152,18 @@ public class Role implements Comparable, Cloneable, Serializable
 
 
     /**
-     * Gets a set of permissions granted to this role.
+     * Gets a set of grantedPermissions granted to this role.
      * 
-     * @return a set of permissions granted to this role.
+     * @return a set of grantedPermissions granted to this role.
      */
-    public Permissions getGrants()
+    public Permissions getGrantedPermissions()
     {
-        return permissions;
+        return grantedPermissions;
     }
 
+    public Permissions getDeniedPermissions() {
+        return deniedPermissions;
+    }
 
     /**
      * Assertive permission check to test if this role has the effective
@@ -163,7 +172,7 @@ public class Role implements Comparable, Cloneable, Serializable
      * @param permission the permission to check for
      * @throws AccessControlException if the permission is not granted
      */
-    public void checkPermission( Permission permission )
+    public void checkPermission( StringPermission permission )
     {
         checkPermission(
                 permission,
@@ -176,41 +185,12 @@ public class Role implements Comparable, Cloneable, Serializable
     /**
      * Get's whether or not this Role has the permission.
      *
-     * @param permissionName the permission to check for
-     * @return true if the permission is granted,false otherwise
-     */
-    public boolean hasPermission( String permissionName )
-    {
-        return permissions.get( permissionName ) != null;
-    }
-
-
-    /**
-     * Get's whether or not this Role has the permission.
-     *
      * @param permission the name of permission to check for
      * @return true if the permission is granted,false otherwise
      */
-    public boolean hasPermission( Permission permission )
+    public boolean hasPermission( StringPermission permission )
     {
-        return permissions.contains( permission );
-    }
-
-
-    /**
-     * Assertive permission check to test if this role has the effective 
-     * permission.
-     * 
-     * @param permissionName the name of the permission to check for
-     * @throws AccessControlException if the permission is not granted
-     */
-    public void checkPermission( String permissionName )
-    {
-        checkPermission(
-                permissionName,
-                "Role '" + name + "' " +
-                "in application '" + getApplicationName() + '\'' +
-                "does not posess the permission '" + permissionName + "'." );
+        return grantedPermissions.implies( permission );
     }
 
 
@@ -222,36 +202,14 @@ public class Role implements Comparable, Cloneable, Serializable
      * @param message to use for AccessControlException if it is thrown
      * @throws AccessControlException if the permission is not granted
      */
-    public void checkPermission( Permission permission, String message )
+    public void checkPermission( StringPermission permission, String message )
     {
         if ( permission == null )
         {
             throw new NullPointerException( "permission" );    
         }
         
-        if ( !permissions.contains( permission ) )
-        {
-            throw new AccessControlException( message );
-        }
-    }
-
-
-    /**
-     * Assertive permission check to test if this role has the effective 
-     * permission.
-     * 
-     * @param permissionName the permission name to check for
-     * @param message to use for AccessControlException if it is thrown
-     * @throws AccessControlException if the permission is not granted
-     */
-    public void checkPermission( String permissionName, String message )
-    {
-        if ( permissionName == null )
-        {
-            throw new NullPointerException( "permissionName" );    
-        }
-        
-        if ( !permissions.contains( permissionName ) )
+        if ( !grantedPermissions.implies( permission ) )
         {
             throw new AccessControlException( message );
         }
@@ -302,8 +260,8 @@ public class Role implements Comparable, Cloneable, Serializable
     }
 
 
-    public Object clone()
-    {
+    @Override
+    public Object clone() throws CloneNotSupportedException {
         try
         {
             return super.clone();
@@ -317,6 +275,6 @@ public class Role implements Comparable, Cloneable, Serializable
 
     public String toString()
     {
-        return "Role(" + getName() + ": " + permissions + ')';
+        return "Role(" + getName() + ": " + grantedPermissions + ')';
     }
 }

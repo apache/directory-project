@@ -19,6 +19,7 @@
  */
 package org.safehaus.triplesec.guardian;
 
+import java.security.Permissions;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Properties;
@@ -176,7 +177,7 @@ public class ApplicationPolicyFactoryTest extends TestCase
                     return null;
                 }
 
-                public Set getDependentProfileNames( Permission permission ) throws GuardianException
+                public Set getDependentProfileNames( StringPermission permission ) throws GuardianException
                 {
                     return null;
                 }

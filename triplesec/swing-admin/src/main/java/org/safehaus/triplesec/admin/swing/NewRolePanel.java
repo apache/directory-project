@@ -75,7 +75,7 @@ public class NewRolePanel extends JPanel
     private JTextField roleNameTextField = null;
     private JLabel jLabel2 = null;
     private JTextField applicationNameTextField = null;
-    private RoleGrantsPanel roleGrantsPanel;
+//    private RoleGrantsPanel roleGrantsPanel;
     
     
     public void setLeftTreeNavigation( LeftTreeNavigation leftTreeNavigation )
@@ -97,7 +97,6 @@ public class NewRolePanel extends JPanel
     /**
      * This method initializes this
      * 
-     * @return void
      */
     private void initialize()
     {
@@ -366,7 +365,7 @@ public class NewRolePanel extends JPanel
         DefaultMutableTreeNode appNode = ( DefaultMutableTreeNode ) node.getParent();
         Application application = ( Application ) appNode.getUserObject();
         applicationNameTextField.setText( application.getName() );
-        roleGrantsPanel.populateLists( appNode, Collections.EMPTY_SET );
+//        roleGrantsPanel.populateLists( appNode, Collections.EMPTY_SET );
     }
 
 
@@ -399,14 +398,14 @@ public class NewRolePanel extends JPanel
         RoleModifier modifier = application.modifier().newRole( roleNameTextField.getText() )
             .setDescription( descriptionTextArea.getText() );
         
-        for ( Enumeration ii = roleGrantsPanel.getRoleGrantsModel().elements(); ii.hasMoreElements(); /**/ )
-        {
-            modifier.addGrant( ( String ) ii.nextElement() );
-        }
-        for ( Enumeration ii = roleGrantsPanel.getAvailablePermssionsModel().elements(); ii.hasMoreElements(); /**/ )
-        {
-            modifier.removeGrant( ( String ) ii.nextElement() );
-        }
+//        for ( Enumeration ii = roleGrantsPanel.getRoleGrantsModel().elements(); ii.hasMoreElements(); /**/ )
+//        {
+//            modifier.addGrant( ( String ) ii.nextElement() );
+//        }
+//        for ( Enumeration ii = roleGrantsPanel.getAvailablePermssionsModel().elements(); ii.hasMoreElements(); /**/ )
+//        {
+//            modifier.removeGrant( ( String ) ii.nextElement() );
+//        }
         
         try
         {
@@ -440,20 +439,20 @@ public class NewRolePanel extends JPanel
             centerTabbedPane = new JTabbedPane();
             centerTabbedPane.addTab( "Existing", null, getExistingPanelTab(),
                 "Copy a role from any one of these existing roles." );
-            centerTabbedPane.addTab( "Grants", null, getRoleGrantsPanel() );
+//            centerTabbedPane.addTab( "Grants", null, getRoleGrantsPanel() );
         }
         return centerTabbedPane;
     }
 
     
-    private RoleGrantsPanel getRoleGrantsPanel()
-    {
-        if ( roleGrantsPanel == null )
-        {
-            roleGrantsPanel = new RoleGrantsPanel();
-        }
-        return roleGrantsPanel;
-    }
+//    private RoleGrantsPanel getRoleGrantsPanel()
+//    {
+//        if ( roleGrantsPanel == null )
+//        {
+//            roleGrantsPanel = new RoleGrantsPanel();
+//        }
+//        return roleGrantsPanel;
+//    }
     
 
     /**
@@ -518,7 +517,7 @@ public class NewRolePanel extends JPanel
                     Role role = ( Role ) existingRolesTableModel.getValueAt( index, 0 );
                     roleNameTextField.setText( "CopyOf" + role.getName() );
                     descriptionTextArea.setText( role.getDescription() );
-                    roleGrantsPanel.populateLists( ( DefaultMutableTreeNode ) node.getParent(), role.getGrants() );
+//                    roleGrantsPanel.populateLists( ( DefaultMutableTreeNode ) node.getParent(), role.getGrants() );
                 }
             } );
             existingRolesTable.setModel( getExistingRolesTableModel() );

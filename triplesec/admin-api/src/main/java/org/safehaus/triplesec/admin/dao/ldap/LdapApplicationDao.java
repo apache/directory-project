@@ -28,7 +28,6 @@ import org.safehaus.triplesec.admin.DataAccessException;
 import org.safehaus.triplesec.admin.EntryAlreadyExistsException;
 import org.safehaus.triplesec.admin.NoSuchEntryException;
 import org.safehaus.triplesec.admin.dao.ApplicationDao;
-import org.safehaus.triplesec.admin.dao.PermissionDao;
 import org.safehaus.triplesec.admin.dao.ProfileDao;
 import org.safehaus.triplesec.admin.dao.RoleDao;
 import org.slf4j.Logger;
@@ -56,20 +55,18 @@ public class LdapApplicationDao implements ApplicationDao, LdapDao, Constants, S
     private static final String[] ATTRIBUTES = new String[] { 
         DESCRIPTION_ID, APP_NAME_ID, PASSWORD_ID, CREATORS_NAME_ID , MODIFIERS_NAME_ID, 
         CREATE_TIMESTAMP_ID, MODIFY_TIMESTAMP_ID };
-    private static final Logger log = LoggerFactory.getLogger( LdapPermissionDao.class );
+    private static final Logger log = LoggerFactory.getLogger( LdapPermissionClassDao.class );
     private final String principalName;
     private final DirContext ctx;
     private final String baseUrl;
-    private final PermissionDao permissionDao;
     private final RoleDao roleDao;
     private final ProfileDao profileDao;
     
     
-    public LdapApplicationDao( DirContext ctx, PermissionDao permissionDao, 
+    public LdapApplicationDao( DirContext ctx,
         RoleDao roleDao, ProfileDao profileDao ) throws DataAccessException
     {
         this.ctx = ctx;
-        this.permissionDao = permissionDao;
         this.roleDao = roleDao;
         this.profileDao = profileDao;
 
@@ -130,7 +127,7 @@ public class LdapApplicationDao implements ApplicationDao, LdapDao, Constants, S
             appCtx.createSubcontext( "ou=Profiles", attrs );
             return new Application( principalName, new Date( System.currentTimeMillis() ), 
                 this, appName, description, userPassword, 
-                permissionDao, roleDao, profileDao );
+                roleDao, profileDao );
         }
         catch ( NameAlreadyBoundException e )
         {
@@ -181,14 +178,14 @@ public class LdapApplicationDao implements ApplicationDao, LdapDao, Constants, S
 
     public Application load( String appName ) throws DataAccessException
     {
-        String description = null;
-        String userPassword = null;
-        String creatorsName = null;
-        Date createTimestamp = null;
-        String modifiersName = null;
-        Date modifyTimestamp = null;
+        String description;
+        String userPassword;
+        String creatorsName;
+        Date createTimestamp;
+        String modifiersName;
+        Date modifyTimestamp;
         String rdn = getRelativeDn( appName );
-        Attributes attrs = null;
+        Attributes attrs;
         
         try
         {
@@ -214,14 +211,14 @@ public class LdapApplicationDao implements ApplicationDao, LdapDao, Constants, S
         }
         
         return new Application( creatorsName, createTimestamp, modifiersName, modifyTimestamp, 
-            this, appName, description, userPassword, permissionDao, roleDao, profileDao );
+            this, appName, description, userPassword, roleDao, profileDao );
     }
 
 
     public boolean has( String appName ) throws DataAccessException
     {
         String rdn = getRelativeDn( appName );
-        Attributes attrs = null;
+        Attributes attrs;
         
         try
         {
@@ -339,7 +336,7 @@ public class LdapApplicationDao implements ApplicationDao, LdapDao, Constants, S
         
         return new Application( app.getCreatorsName(), app.getCreateTimestamp(), app.getModifiersName(), 
             app.getModifyTimestamp(), this, newName, app.getDescription(), app.getPassword(),
-            permissionDao, roleDao, profileDao );
+                roleDao, profileDao );
     }
     
     
@@ -347,7 +344,7 @@ public class LdapApplicationDao implements ApplicationDao, LdapDao, Constants, S
     {
         StringBuffer buf = new StringBuffer();
         buf.append( "appName=" ).append( appName );
-        buf.append( ",ou=Applications" );
+        buf.append( ",ou=applications" );
         return buf.toString();
     }
 
@@ -379,8 +376,8 @@ public class LdapApplicationDao implements ApplicationDao, LdapDao, Constants, S
         }
         
         return new Application( creatorsName, createTimestamp, modifiersName, modifyTimestamp, 
-            this, appName, description, userPassword, 
-            permissionDao, roleDao, profileDao );
+            this, appName, description, userPassword,
+                roleDao, profileDao );
     }
 
 

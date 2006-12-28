@@ -39,9 +39,8 @@ public class ProfileModifier implements Constants
     private final SingleValuedField description;
     private final SingleValuedField user;
     private final SingleValuedField disabled;
-    private final MultiValuedField grants;
-    private final MultiValuedField denials;
-    private final MultiValuedField roles;
+    private final MultiValuedField<PermissionClass> permissionClasses;
+    private final MultiValuedField<String> roles;
     
     private boolean persisted = false;
     
@@ -54,9 +53,8 @@ public class ProfileModifier implements Constants
         this.id = id;
         this.description = new SingleValuedField( DESCRIPTION_ID, null );
         this.user = new SingleValuedField( USER_ID, user );
-        this.grants = new MultiValuedField( GRANTS_ID, Collections.EMPTY_SET );
-        this.denials = new MultiValuedField( DENIALS_ID, Collections.EMPTY_SET );
-        this.roles = new MultiValuedField( ROLES_ID, Collections.EMPTY_SET );
+        this.permissionClasses = new MultiValuedField<PermissionClass>( PERM_CLASS_NAME_ID, Collections.EMPTY_SET );
+        this.roles = new MultiValuedField<String>( ROLES_ID, Collections.EMPTY_SET );
         this.disabled = new SingleValuedField( SAFEHAUS_DISABLED_ID, "FALSE" );
     }
     
@@ -70,9 +68,8 @@ public class ProfileModifier implements Constants
         this.description = new SingleValuedField( DESCRIPTION_ID, archetype.getDescription() );
         this.disabled = new SingleValuedField( SAFEHAUS_DISABLED_ID, String.valueOf( archetype.isDisabled() ) );
         this.user = new SingleValuedField( USER_ID, archetype.getUser() );
-        this.grants = new MultiValuedField( GRANTS_ID, archetype.getGrants() );
-        this.denials = new MultiValuedField( DENIALS_ID, archetype.getDenials() );
-        this.roles = new MultiValuedField( ROLES_ID, archetype.getRoles() );
+        this.permissionClasses = new MultiValuedField<PermissionClass>( PERM_CLASS_NAME_ID, archetype.getPermissionClasses() );
+        this.roles = new MultiValuedField<String>( ROLES_ID, archetype.getRoles() );
     }
     
     
@@ -109,70 +106,36 @@ public class ProfileModifier implements Constants
     }
 
     
-    public ProfileModifier addGrant( String grant )
+    public ProfileModifier addPermissionClass( PermissionClass permissionClass )
     {
         if ( persisted )
         {
             throw new IllegalStateException( INVALID_MSG );
         }
 
-        if ( grant == null )
+        if ( permissionClass == null )
         {
             return this;
         }
 
-        grants.addValue( grant );
+        permissionClasses.addValue( permissionClass );
         return this;
     }
     
     
-    public ProfileModifier removeGrant( String grant )
+    public ProfileModifier removePermissionClass( PermissionClass permissionClass )
     {
         if ( persisted )
         {
             throw new IllegalStateException( INVALID_MSG );
         }
 
-        if ( grant == null )
+        if ( permissionClass == null )
         {
             return this;
         }
 
-        grants.removeValue( grant );
-        return this;
-    }
-    
-    
-    public ProfileModifier addDenial( String denial )
-    {
-        if ( persisted )
-        {
-            throw new IllegalStateException( INVALID_MSG );
-        }
-
-        if ( denial == null )
-        {
-            return this;
-        }
-
-        denials.addValue( denial );
-        return this;
-    }
-    
-    
-    public ProfileModifier removeDenial( String denial )
-    {
-        if ( persisted )
-        {
-            throw new IllegalStateException( INVALID_MSG );
-        }
-
-        if ( denial == null )
-        {
-            return this;
-        }
-
-        denials.removeValue( denial );
+        permissionClasses.removeValue( permissionClass );
         return this;
     }
     
@@ -210,7 +173,7 @@ public class ProfileModifier implements Constants
         return this;
     }
     
-    
+    //TODO changes to permissionClasses not tracked here!
     private ModificationItem[] getModificationItems()
     {
         if ( ! isUpdateNeeded() )
@@ -219,14 +182,6 @@ public class ProfileModifier implements Constants
         }
         
         List mods = new ArrayList();
-        if ( grants.isUpdateNeeded() )
-        {
-            mods.add( grants.getModificationItem() );
-        }
-        if ( denials.isUpdateNeeded() )
-        {
-            mods.add( denials.getModificationItem() );
-        }
         if ( roles.isUpdateNeeded() )
         {
             mods.add( roles.getModificationItem() );
@@ -262,7 +217,7 @@ public class ProfileModifier implements Constants
     
     public boolean isUpdateNeeded()
     {
-        return disabled.isUpdateNeeded() || grants.isUpdateNeeded() || denials.isUpdateNeeded() || 
+        return disabled.isUpdateNeeded() || permissionClasses.isUpdateNeeded() ||
             roles.isUpdateNeeded() || description.isUpdateNeeded() || user.isUpdateNeeded();
     }
 
@@ -280,7 +235,7 @@ public class ProfileModifier implements Constants
             throw new IllegalStateException( INVALID_MSG );
         }
         Profile profile = dao.add( applicationName, id, user.getCurrentValue(), description.getCurrentValue(), 
-            grants.getCurrentValues(), denials.getCurrentValues(), roles.getCurrentValues() );
+            permissionClasses.getCurrentValues(), roles.getCurrentValues() );
         persisted = true;
         return profile;
     }
@@ -313,7 +268,7 @@ public class ProfileModifier implements Constants
         }
         Profile profile = dao.modify( archetype.getCreatorsName(), archetype.getCreateTimestamp(), 
             applicationName, id, user.getCurrentValue(), description.getCurrentValue(), 
-            grants.getCurrentValues(), denials.getCurrentValues(), roles.getCurrentValues(), 
+            permissionClasses.getCurrentValues(), roles.getCurrentValues(),
             parseBoolean( disabled.getCurrentValue().toLowerCase() ), getModificationItems() );
         persisted = true;
         return profile;

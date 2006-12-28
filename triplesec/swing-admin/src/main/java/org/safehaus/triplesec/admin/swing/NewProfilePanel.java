@@ -84,8 +84,8 @@ public class NewProfilePanel extends JPanel
     private JLabel jLabel3 = null;
     private JComboBox usersComboBox = null;
     private DefaultComboBoxModel usersComboBoxModel = new DefaultComboBoxModel();
-    private ProfilePermissionsPanel profileGrantsPanel;
-    private ProfilePermissionsPanel profileDenialsPanel;
+//    private ProfilePermissionsPanel profileGrantsPanel;
+//    private ProfilePermissionsPanel profileDenialsPanel;
     private ProfileRolesPanel profileRolesPanel;
     
     
@@ -108,7 +108,6 @@ public class NewProfilePanel extends JPanel
     /**
      * This method initializes this
      * 
-     * @return void
      */
     private void initialize()
     {
@@ -431,8 +430,8 @@ public class NewProfilePanel extends JPanel
         // Fill up the various panels for grants, denials and roles
         // -------------------------------------------------------------------
 
-        profileGrantsPanel.populateLists( applicationNode, Collections.EMPTY_SET );
-        profileDenialsPanel.populateLists( applicationNode, Collections.EMPTY_SET );
+//        profileGrantsPanel.populateLists( applicationNode, Collections.EMPTY_SET );
+//        profileDenialsPanel.populateLists( applicationNode, Collections.EMPTY_SET );
         profileRolesPanel.populateLists( applicationNode, Collections.EMPTY_SET );
     }
 
@@ -470,14 +469,14 @@ public class NewProfilePanel extends JPanel
         // Iterate through and add denials, grants, and roles in list panels
         // -------------------------------------------------------------------
 
-        for ( Enumeration ii = profileGrantsPanel.getExistingModel().elements(); ii.hasMoreElements(); /**/ )
-        {
-            modifier.addGrant( ( String ) ii.nextElement() );
-        }
-        for ( Enumeration ii = profileDenialsPanel.getExistingModel().elements(); ii.hasMoreElements(); /**/ )
-        {
-            modifier.addDenial( ( String ) ii.nextElement() );
-        }
+//        for ( Enumeration ii = profileGrantsPanel.getExistingModel().elements(); ii.hasMoreElements(); /**/ )
+//        {
+//            modifier.addGrant( ( String ) ii.nextElement() );
+//        }
+//        for ( Enumeration ii = profileDenialsPanel.getExistingModel().elements(); ii.hasMoreElements(); /**/ )
+//        {
+//            modifier.addDenial( ( String ) ii.nextElement() );
+//        }
         for ( Enumeration ii = profileRolesPanel.getProfileRolesModel().elements(); ii.hasMoreElements(); /**/ )
         {
             modifier.addRole( ( String ) ii.nextElement() );
@@ -515,8 +514,8 @@ public class NewProfilePanel extends JPanel
             centerTabbedPane = new JTabbedPane();
             centerTabbedPane.addTab( "Existing", null, getExistingPanelTab(),
                 "Copy a profile from any one of these existing profiles." );
-            centerTabbedPane.addTab( "Grants", null, getProfileGrantsPanel() );
-            centerTabbedPane.addTab( "Denials", null, getProfileDenialsPanel() );
+//            centerTabbedPane.addTab( "Grants", null, getProfileGrantsPanel() );
+//            centerTabbedPane.addTab( "Denials", null, getProfileDenialsPanel() );
             centerTabbedPane.addTab( "Roles", null, getProfileRolesPanel() );
         }
         return centerTabbedPane;
@@ -528,14 +527,14 @@ public class NewProfilePanel extends JPanel
      * 
      * @return javax.swing.JPanel
      */
-    private ProfilePermissionsPanel getProfileGrantsPanel()
-    {
-        if ( profileGrantsPanel == null )
-        {
-            profileGrantsPanel = new ProfilePermissionsPanel();
-        }
-        return profileGrantsPanel;
-    }
+//    private ProfilePermissionsPanel getProfileGrantsPanel()
+//    {
+//        if ( profileGrantsPanel == null )
+//        {
+//            profileGrantsPanel = new ProfilePermissionsPanel();
+//        }
+//        return profileGrantsPanel;
+//    }
 
 
     /**
@@ -543,14 +542,14 @@ public class NewProfilePanel extends JPanel
      * 
      * @return javax.swing.JPanel
      */
-    private ProfilePermissionsPanel getProfileDenialsPanel()
-    {
-        if ( profileDenialsPanel == null )
-        {
-            profileDenialsPanel = new ProfilePermissionsPanel( false );
-        }
-        return profileDenialsPanel;
-    }
+//    private ProfilePermissionsPanel getProfileDenialsPanel()
+//    {
+//        if ( profileDenialsPanel == null )
+//        {
+//            profileDenialsPanel = new ProfilePermissionsPanel( false );
+//        }
+//        return profileDenialsPanel;
+//    }
 
     
     private ProfileRolesPanel getProfileRolesPanel()
@@ -637,8 +636,8 @@ public class NewProfilePanel extends JPanel
                         return;
                     }
                     
-                    profileGrantsPanel.populateLists( applicationNode, profile.getGrants() );
-                    profileDenialsPanel.populateLists( applicationNode, profile.getDenials() );
+//                    profileGrantsPanel.populateLists( applicationNode, profile.getGrants() );
+//                    profileDenialsPanel.populateLists( applicationNode, profile.getDenials() );
                     profileRolesPanel.populateLists( applicationNode, profile.getRoles() );
                 }
             } );

@@ -58,7 +58,7 @@ public interface PolicyChangeListener
      * @param permission the permission that was changed
      * @param changeType the type of change: add, delete or modify.
      */
-    void permissionChanged( ApplicationPolicy policy, Permission permission, ChangeType changeType );
+    void permissionChanged( ApplicationPolicy policy, StringPermission permission, ChangeType changeType );
     
     /**
      * Notification method called when a permission is renamed.
@@ -67,7 +67,7 @@ public interface PolicyChangeListener
      * @param permission the permission that was renamed
      * @param oldName the old name of the permission
      */
-    void permissionRenamed( ApplicationPolicy policy, Permission permission, String oldName );
+    void permissionRenamed( ApplicationPolicy policy, StringPermission permission, String oldName );
 
     /**
      * Notification method called when a profile is added, deleted, or modified.  

@@ -33,32 +33,32 @@ public class Role extends AdministeredEntity
     private final RoleDao dao;
     private final String applicationName;
     private final String name;
-    private final Set grants;
+    private final Set<PermissionClass> permissionClasses;
     private final String description;
 
     
     public Role( String creatorsName, Date createTimestamp, RoleDao dao, String applicationName, 
-        String name, String description, Set grants )
+        String name, String description, Set<PermissionClass> permissionClasses )
     {
-        this( creatorsName, createTimestamp, null, null, dao, applicationName, name, description, grants );
+        this( creatorsName, createTimestamp, null, null, dao, applicationName, name, description, permissionClasses );
     }
     
     
     public Role( String creatorsName, Date createTimestamp, String modifiersName, Date modifyTimestamp, 
-        RoleDao dao, String applicationName, String name, String description, Set grants )
+        RoleDao dao, String applicationName, String name, String description, Set<PermissionClass> permissionClasses )
     {
         super( creatorsName, createTimestamp, modifiersName, modifyTimestamp );
         this.dao = dao;
         this.applicationName = applicationName;
         this.name = name;
         this.description = description;
-        this.grants = new HashSet( grants );
+        this.permissionClasses = new HashSet<PermissionClass>( permissionClasses );
     }
 
 
-    public Set getGrants()
+    public Set<PermissionClass> getPermissionClasses()
     {
-        return Collections.unmodifiableSet( grants );
+        return Collections.unmodifiableSet( permissionClasses );
     }
 
 

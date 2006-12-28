@@ -33,10 +33,11 @@ import org.safehaus.triplesec.admin.dao.ExternalUserDao;
 import org.safehaus.triplesec.admin.dao.GroupDao;
 import org.safehaus.triplesec.admin.dao.HauskeysUserDao;
 import org.safehaus.triplesec.admin.dao.LocalUserDao;
-import org.safehaus.triplesec.admin.dao.PermissionDao;
+import org.safehaus.triplesec.admin.dao.PermissionClassDao;
 import org.safehaus.triplesec.admin.dao.ProfileDao;
 import org.safehaus.triplesec.admin.dao.RoleDao;
 import org.safehaus.triplesec.admin.dao.UserDao;
+import org.safehaus.triplesec.admin.dao.PermissionActionsDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,27 +63,31 @@ public class LdapDaoFactory extends DaoFactory
     }
     
     
-    public PermissionDao getPermissionDao() throws DataAccessException
+    public PermissionClassDao getPermissionClassDao() throws DataAccessException
     {
-        return new LdapPermissionDao( ctx );
+        return new LdapPermissionClassDao( ctx, getPermissionActionsDao() );
     }
-    
-    
+
+    public PermissionActionsDao getPermissionActionsDao() throws DataAccessException {
+        return new LdapPermissionActionsDao(ctx);
+    }
+
+
     public ApplicationDao getApplicationDao() throws DataAccessException
     {
-        return new LdapApplicationDao( ctx, getPermissionDao(), getRoleDao(), getProfileDao() );
+        return new LdapApplicationDao( ctx, getRoleDao(), getProfileDao() );
     }
 
     
     public RoleDao getRoleDao() throws DataAccessException
     {
-        return new LdapRoleDao( ctx ); 
+        return new LdapRoleDao( ctx, getPermissionClassDao() );
     }
 
     
     public ProfileDao getProfileDao() throws DataAccessException
     {
-        return new LdapProfileDao( ctx ); 
+        return new LdapProfileDao( ctx, getPermissionClassDao() );
     }
 
 

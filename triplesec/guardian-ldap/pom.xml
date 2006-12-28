@@ -49,6 +49,12 @@
       <version>${pom.version}</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <artifactId>triplesec-itest-data</artifactId>
+      <groupId>${pom.groupId}</groupId>
+      <version>${pom.version}</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -122,6 +128,35 @@ tests run maven with the -Dintegration switch.
       <activation>
         <property><name>integration</name></property>
       </activation>
+        <build>
+        <plugins>
+            <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>dependency-maven-plugin</artifactId>
+            <executions>
+                <execution>
+                    <id>unpack-itest-data</id>
+                    <phase>compile</phase>
+                    <goals>
+                        <goal>unpack</goal>
+                    </goals>
+                    <configuration>
+                        <artifactItems>
+                            <artifactItem>
+                                <groupId>${pom.groupId}</groupId>
+                                <artifactId>triplesec-itest-data</artifactId>
+                                <version>${pom.version}</version>
+                            </artifactItem>
+                        </artifactItems>
+                        <outputDirectory>${project.build.directory}/serverHome/conf</outputDirectory>
+                    </configuration>
+                </execution>
+
+            </executions>
+        </plugin>
+
+        </plugins>
+        </build>
     </profile>
   </profiles>
 

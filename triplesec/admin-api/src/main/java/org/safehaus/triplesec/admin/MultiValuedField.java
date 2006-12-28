@@ -22,7 +22,6 @@ package org.safehaus.triplesec.admin;
 
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import javax.naming.directory.BasicAttribute;
@@ -30,26 +29,26 @@ import javax.naming.directory.DirContext;
 import javax.naming.directory.ModificationItem;
 
 
-public class MultiValuedField
+public class MultiValuedField<T>
 {
     private final String id;
-    private final Set initial;
-    private Set added;
-    private Set deleted;
-    private Set current;
+    private final Set<T> initial;
+    private Set<T> added;
+    private Set<T> deleted;
+    private Set<T> current;
 
     
-    public MultiValuedField( String id, Set initial )
+    public MultiValuedField( String id, Set<T> initial )
     {
         this.id = id;
-        this.initial = Collections.unmodifiableSet( new HashSet( initial ) );
-        this.current = new HashSet( initial );
-        this.deleted = new HashSet();
-        this.added = new HashSet();
+        this.initial = Collections.unmodifiableSet( new HashSet<T>( initial ) );
+        this.current = new HashSet<T>( initial );
+        this.deleted = new HashSet<T>();
+        this.added = new HashSet<T>();
     }
 
 
-    public boolean addValue( String value )
+    public boolean addValue( T value )
     {
         // if we have the value then exit and return false
         if ( current.contains( value ) )
@@ -72,7 +71,7 @@ public class MultiValuedField
     }
 
 
-    public boolean removeValue( String value )
+    public boolean removeValue( T value )
     {
         // if we don't have the value then return false
         if ( ! current.contains( value ) )
@@ -101,13 +100,13 @@ public class MultiValuedField
     }
     
     
-    public Set getInitialValues()
+    public Set<T> getInitialValues()
     {
         return initial;
     }
     
     
-    public Set getCurrentValues()
+    public Set<T> getCurrentValues()
     {
         return Collections.unmodifiableSet( current );
     }
@@ -123,25 +122,22 @@ public class MultiValuedField
         BasicAttribute attr = new BasicAttribute( id );
         if ( added.size() == 0 && deleted.size() > 0 )
         {
-            for ( Iterator ii = deleted.iterator(); ii.hasNext(); /**/ )
-            {
-                attr.add( ii.next() );
+            for (T aDeleted : deleted) {
+                attr.add(aDeleted);
             }
             return new ModificationItem( DirContext.REMOVE_ATTRIBUTE, attr );
         }
         
         if ( added.size() > 0 && deleted.size() == 0 )
         {
-            for ( Iterator ii = added.iterator(); ii.hasNext(); /**/ )
-            {
-                attr.add( ii.next() );
+            for (T anAdded : added) {
+                attr.add(anAdded);
             }
             return new ModificationItem( DirContext.ADD_ATTRIBUTE, attr );
         }
-        
-        for ( Iterator ii = current.iterator(); ii.hasNext(); /**/ )
-        {
-            attr.add( ii.next() );
+
+        for (T aCurrent : current) {
+            attr.add(aCurrent);
         }
         return new ModificationItem( DirContext.REPLACE_ATTRIBUTE, attr );
     }
