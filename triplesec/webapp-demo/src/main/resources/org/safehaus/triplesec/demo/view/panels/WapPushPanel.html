@@ -1,0 +1,26 @@
+<wicket:extend>
+    <div>
+        <span wicket:id="feedback">[Feedback Panel]</span>
+    </div>
+    <form wicket:id="wapForm">
+        <label for="account">Demo Account</label>
+        <select wicket:id="account" id="account">
+            <option>Account A</option>
+            <option>Account B</option>
+        </select><br/>
+
+        <label for="mobile">Mobile Number</label>
+        <input wicket:id="mobile" id="mobile" type="text" size="10"/><br/>
+        (10 digit US number only)<br/>
+
+        <label for="carrier">Mobile Carrier</label>
+        <select wicket:id="carrier" id="carrier">
+            <option>Carrier A</option>
+            <option>Carrier B</option>
+        </select><br/>
+
+        <input type="submit" name="submit" value="Submit"/>
+    </form>
+    <br/>
+    <a wicket:id="home" href="#">Click here to return to the demo login</a>
+</wicket:extend>

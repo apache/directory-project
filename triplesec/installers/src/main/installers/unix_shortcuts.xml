@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+
+<shortcuts>
+  <programGroup defaultName="${app}" location="applications"/>
+
+  <shortcut
+    name="Start ${app} Server"
+    programGroup="yes"
+    desktop="yes"
+    applications="no"
+    startMenu="no"
+    startup="no"
+    target="$INSTALL_PATH/bin/${server.init}"
+    workingDirectory="$INSTALL_PATH/bin"
+    commandLine=" start"
+    iconFile="$INSTALL_PATH/start.png"
+    type="Application"
+    encoding="UTF-8"
+    description="Start ${app} Server">
+    <createForPack name="Binaries"/>
+  </shortcut>
+
+  <shortcut
+    name="Stop ${app} Server"
+    programGroup="yes"
+    desktop="yes"
+    applications="no"
+    startMenu="no"
+    startup="no"
+    target="$INSTALL_PATH/bin/${server.init}"
+    workingDirectory="$INSTALL_PATH/bin"
+    commandLine=" stop"
+    iconFile="$INSTALL_PATH/stop.png"
+    type="Application"
+    encoding="UTF-8"
+    description="Start ${app} Server">
+    <createForPack name="Binaries"/>
+  </shortcut>
+  
+  <shortcut
+           name="Debug ${app} Server"
+           programGroup="yes"
+           desktop="yes"
+           terminal="true"
+           applications="no"
+           startMenu="no"
+           startup="no"
+           target="$INSTALL_PATH/bin/${server.init}"
+           workingDirectory="$INSTALL_PATH/bin"
+           commandLine=" debug"
+           iconFile="$INSTALL_PATH/debug.png"
+           type="Application"
+           encoding="UTF-8"
+           description="Debug ${app} Server">
+    <createForPack name="Binaries"/>
+  </shortcut>
+  
+  <shortcut
+           name="Triplesec Admin"
+           programGroup="yes"
+           desktop="yes"
+           applications="no"
+           startMenu="no"
+           startup="no"
+           target="$JAVA_HOME/bin/java"
+           commandLine=" -jar &quot;$INSTALL_PATH&quot;/bin/triplesec-admin.jar &quot;$INSTALL_PATH&quot;"
+           iconFile="$INSTALL_PATH/admin-tool.png"
+           workingDirectory="$INSTALL_PATH/bin"
+           type="Application"
+           encoding="UTF-8"
+           description="Triplesec Admin">
+    <createForPack name="Binaries" />
+  </shortcut>
+  
+  <shortcut
+    name="Uninstall"
+    programGroup="yes"
+    desktop="no"
+    applications="no"
+    startMenu="no"
+    startup="no"
+    target="$JAVA_HOME/bin/java"
+    commandLine=" -jar &quot;$INSTALL_PATH/Uninstaller/uninstaller.jar&quot;"
+    initialState="noShow"
+    iconFile="trashcan_full"
+    iconIndex="0"
+    workingDirectory=""
+    type="Application"
+    encoding="UTF-8"
+    description="Uninstall ${app} Server">
+    <createForPack name="Binaries" />
+  </shortcut>
+</shortcuts>

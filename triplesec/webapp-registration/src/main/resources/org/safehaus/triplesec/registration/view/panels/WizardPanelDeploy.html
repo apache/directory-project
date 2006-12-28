@@ -1,0 +1,66 @@
+<!-- 
+  Licensed to the Apache Software Foundation (ASF) under one
+  or more contributor license agreements.  See the NOTICE file
+  distributed with this work for additional information
+  regarding copyright ownership.  The ASF licenses this file
+  to you under the Apache License, Version 2.0 (the
+  "License"); you may not use this file except in compliance
+  with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing,
+  software distributed under the License is distributed on an
+  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  KIND, either express or implied.  See the License for the
+  specific language governing permissions and limitations
+  under the License.
+
+-->
+
+<wicket:extend>
+    <br/>
+    
+    <p>
+      The following information is required to provision (deploy) the
+      One Time Password (OTP) generating application to your handset.  
+      Here you'll pick a name for the application which will be deployed 
+      to your mobile phone or PDA.  You need to provide the mobile number
+      and your service provider (carrier).  You also need to set the pin
+      used to unlock the OTP generator application.
+    </p>
+    <br/>
+    <label for="midletName">Application Name</label>
+    <input wicket:id="midletName" id="midletName" type="text"/><br/>
+
+    <label for="mobile">Mobile Number</label>
+    <input wicket:id="mobile" id="mobile" type="text"/><br/>
+
+    <label for="mobileCarrier">Mobile Carrier</label>
+    <select wicket:id="mobileCarrier" id="mobileCarrier">
+        <option>T-Mobile</option>
+    </select>
+    <br/>
+    <br/>
+    <label for="tokenPin">Token Pin</label>
+    <input wicket:id="tokenPin" id="tokenPin" type="password"/><br/>
+
+    <label for="tokenPinConfirm">Token Pin Confirm</label>
+    <input wicket:id="tokenPinConfirm" id="tokenPinConfirm" type="password"/><br/>
+    <br/>
+    <br/>
+    
+    <p>
+      Your application can be delivered to you via email for upload to your J2ME 
+      device or it can be deployed directly to the device via SMS.  Make sure you
+      have internet service if you opt to deploy via SMS.
+    </p>
+    <br/>
+
+    <label for="deploymentMechanism">Deployment Mechanism</label>
+    <select wicket:id="deploymentMechanism" id="deploymentMechanism">
+        <option>Sms</option>
+    </select>
+    <br/>
+    <br/>
+</wicket:extend>

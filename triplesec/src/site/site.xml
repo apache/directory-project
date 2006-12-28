@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <bannerRight>
+    <name>Safehaus</name>
+    <src>images/safehaus-logo.png</src>
+    <href>http://safehaus.org/</href>
+  </bannerRight>
+ 
+  <body>
+    <links>
+      <item name="Directory" href="http://directory.apache.org"/>
+      <item name="Codehaus" href="http://codehaus.org"/>
+      <item name="Safehaus" href="http://www.safehaus.org"/>
+    </links>
+
+    <menu name="Safehaus Triplesec">
+      <item name="Overview" href="/index.html"/>
+      <item name="Modules" href="/modules.html"/>
+      <item name="API Docs" href="/apidocs/index.html"/>
+    </menu>
+
+    ${reports}
+  </body>
+</project>
+

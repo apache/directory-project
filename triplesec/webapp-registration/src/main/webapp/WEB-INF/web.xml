@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one
+  or more contributor license agreements.  See the NOTICE file
+  distributed with this work for additional information
+  regarding copyright ownership.  The ASF licenses this file
+  to you under the Apache License, Version 2.0 (the
+  "License"); you may not use this file except in compliance
+  with the License.  You may obtain a copy of the License at
+  
+    http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing,
+  software distributed under the License is distributed on an
+  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  KIND, either express or implied.  See the License for the
+  specific language governing permissions and limitations
+  under the License. 
+-->
+<!DOCTYPE web-app
+      PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+      "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+  <display-name>Triplesec Registration</display-name>
+  <servlet>
+    <servlet-name>TriplesecRegistrationApplication</servlet-name>
+    <servlet-class>wicket.protocol.http.WicketServlet</servlet-class>
+    <init-param>
+      <param-name>applicationClassName</param-name>
+      <param-value>org.safehaus.triplesec.registration.view.TriplesecRegistrationApplication</param-value>
+    </init-param>
+    
+    <!-- Init Parameters for LDAP Connectivity -->
+    
+    <init-param>
+      <param-name>ldapHost</param-name>
+      <param-value>localhost</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ldapPort</param-name>
+      <param-value>10389</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ldapBaseDn</param-name>
+      <param-value>dc=example,dc=com</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ldapPrincipalDn</param-name>
+      <param-value>uid=admin,ou=system</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ldapCredentials</param-name>
+      <param-value>secret</param-value>
+    </init-param>
+    
+    <!-- Init Parameters for Realm and Server Presentation URL -->
+    
+    <init-param>
+      <param-name>realm</param-name>
+      <param-value>EXAMPLE.COM</param-value>
+    </init-param>
+    
+    <init-param>
+      <param-name>presentationBaseUrl</param-name>
+      <param-value>undefined</param-value>
+    </init-param>
+    
+    <!-- Init Parameters for Mail Server -->
+    
+    <init-param>
+      <param-name>smtpHost</param-name>
+      <param-value>hertz</param-value>
+    </init-param>
+    <init-param>
+      <param-name>smtpSubject</param-name>
+      <param-value>Triplesec account created</param-value>
+    </init-param>
+    <init-param>
+      <param-name>smtpFrom</param-name>
+      <param-value>dev@safehaus.org</param-value>
+    </init-param>
+    
+    <!-- Init Parameters for SMS Messaging -->
+    
+    <init-param>
+      <param-name>smsUsername</param-name>
+      <param-value>hauskeys</param-value>
+    </init-param>
+    <init-param>
+      <param-name>smsPassword</param-name>
+      <param-value>*****</param-value>
+    </init-param>
+    <init-param>
+      <param-name>smsAccountName</param-name>
+      <param-value>demo</param-value>
+    </init-param>
+    <init-param>
+      <param-name>smsTransportUrl</param-name>
+      <param-value>http://www.nbroadcasting.com/customers/messages/Sender.asp</param-value>
+    </init-param>
+    
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TriplesecRegistrationApplication</servlet-name>
+    <url-pattern>/registration/*</url-pattern>
+  </servlet-mapping>
+</web-app>

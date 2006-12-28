@@ -1,0 +1,6 @@
+There is a test account and maven goal you can use to generate HOTP values.  
+Just issue a 'maven generate' to create the next HOTP value for principal
+akarasulu@EXAMPLE.COM.
+
+	-Alex
+

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+        "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+    <!-- setup wicket application -->
+    <bean id="wicketApplication"
+          class="org.safehaus.triplesec.demo.view.TriplesecDemoApplication"/>
+
+    <!-- setup registry bean -->
+    <bean id="registry" class="org.safehaus.triplesec.demo.service.Registry"
+            factory-method="getInstance">
+
+        <property name="policyManager">
+            <ref bean="policyManager"/>
+        </property>
+
+        <property name="smsManager">
+            <ref bean="smsManager"/>
+        </property>
+
+    </bean>
+
+    <bean id="policyManager" class="org.safehaus.triplesec.demo.service.DefaultPolicyManager">
+
+        <property name="ldapDriver">
+            <value>org.safehaus.triplesec.guardian.ldap.LdapConnectionDriver</value>
+        </property>
+        <property name="url">
+            <value>CONNECTION_URL</value>
+        </property>
+        <property name="realm">
+            <value>REALM</value>
+        </property>
+        <property name="ldapProperties">
+            <props>
+                <prop key="applicationPrincipalDN">APPLICATION_PRINCIPAL_DN</prop>
+                <prop key="applicationCredentials">secret</prop>
+            </props>
+        </property>
+
+    </bean>
+
+    <bean id="smsManager" class="org.safehaus.triplesec.demo.service.DefaultSmsManager">
+
+        <property name="smsTransportUrl">
+            <value>SMS_TRANSPORT_URL</value>
+        </property>
+
+        <property name="smsPassword">
+            <value>SMS_PASSWORD</value>
+        </property>
+
+        <property name="smsUsername">
+          <value>SMS_USERNAME</value>
+        </property>
+
+        <property name="smsAccountName">
+          <value>SMS_ACCOUNT_NAME</value>
+        </property>
+
+        <property name="wapUrl">
+            <value>http://wap.safehaus.org/demo/</value>
+        </property>
+        
+    </bean>
+
+    <!-- setup dao bean -->
+    <bean id="accountDao" class="org.safehaus.triplesec.demo.dao.mock.MockAccountDao"/>
+
+</beans>

@@ -1,0 +1,567 @@
+#
+#  Licensed to the Apache Software Foundation (ASF) under one
+#  or more contributor license agreements.  See the NOTICE file
+#  distributed with this work for additional information
+#  regarding copyright ownership.  The ASF licenses this file
+#  to you under the Apache License, Version 2.0 (the
+#  "License"); you may not use this file except in compliance
+#  with the License.  You may obtain a copy of the License at
+#  
+#    http://www.apache.org/licenses/LICENSE-2.0
+#  
+#  Unless required by applicable law or agreed to in writing,
+#  software distributed under the License is distributed on an
+#  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+#  KIND, either express or implied.  See the License for the
+#  specific language governing permissions and limitations
+#  under the License. 
+#  
+#
+#
+#   EXAMPLE.COM is freely and reserved for testing according to this RFC:
+#
+#   http://www.rfc-editor.org/rfc/rfc2606.txt
+#
+#
+
+#
+# This ACI allows brouse access to the root suffix and one level below that to anyone.
+# At this level there is nothing critical exposed.  Everything that matters is one or
+# more levels below this.
+#
+
+dn: cn=browseRootAci,dc=example,dc=com
+objectClass: top
+objectClass: subentry
+objectClass: accessControlSubentry
+subtreeSpecification: { maximum 1 }
+prescriptiveACI: { identificationTag "browseRoot", precedence 100, authenticationLevel none, itemOrUserFirst userFirst: { userClasses { allUsers }, userPermissions { { protectedItems {entry}, grantsAndDenials { grantReturnDN, grantBrowse } } } } }
+
+dn: ou=Users, dc=example, dc=com
+objectclass: top
+objectclass: organizationalunit
+ou: Users
+
+#
+# This ACI allows users to modify a limited set of attributes in their own user
+# entry as well as read, compare those attributes.  The user's entry must be 
+# browseable and the DN must be returnable.
+#
+
+dn: cn=allowSelfModificationsAci,dc=example,dc=com
+objectClass: top
+objectClass: subentry
+objectClass: accessControlSubentry
+subtreeSpecification: { base "ou=users", maximum 1 }
+prescriptiveACI: { identificationTag "allowSelfModifications", precedence 14, authenticationLevel simple, itemOrUserFirst userFirst: { userClasses { thisEntry }, userPermissions  {  { protectedItems {entry}, grantsAndDenials { grantReturnDN, grantModify, grantBrowse, grantRead, grantDiscloseOnError } }, { protectedItems {allAttributeValues {userPassword, krb5Key, givenName, cn, commonName, surName, sn, objectClass }}, grantsAndDenials { grantModify, grantAdd, grantRemove, grantRead, grantDiscloseOnError, grantCompare } } } } }
+
+#
+# This ACI allows users to access a limited set of attributes in their own user
+# entry as well as compare those attributes.  The user's entry must be browseable 
+# and the DN must be returnable.
+#
+
+dn: cn=allowSelfAccessAci,dc=example,dc=com
+objectClass: top
+objectClass: subentry
+objectClass: accessControlSubentry
+subtreeSpecification: { base "ou=users", maximum 1 }
+prescriptiveACI: { identificationTag "allowSelfAccess", precedence 15, authenticationLevel simple, itemOrUserFirst userFirst: { userClasses { thisEntry }, userPermissions  {  { protectedItems {entry}, grantsAndDenials { grantReturnDN, grantBrowse, grantRead, grantDiscloseOnError } }, { protectedItems {allAttributeValues {uid, userPassword, givenName, cn, commonName, surName, sn, objectClass, creatorsName, modifiersName, createTimestamp, modifyTimestamp, krb5AccountDisabled, description, apacheSamType }}, grantsAndDenials { grantRead, grantDiscloseOnError, grantCompare } } } } }
+
+dn: ou=Groups, dc=example, dc=com
+objectclass: top
+objectclass: organizationalunit
+ou: Groups
+
+dn: cn=superUsers, ou=Groups, dc=example, dc=com
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: superUsers
+uniqueMember: uid=admin, ou=system
+
+dn: cn=userAdmins, ou=Groups, dc=example, dc=com
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: userAdmin
+uniqueMember: uid=admin, ou=system
+
+dn: cn=applicationAdmins, ou=Groups, dc=example, dc=com
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: applicationAdmin
+uniqueMember: uid=admin, ou=system
+
+dn: cn=groupAdmins, ou=Groups, dc=example, dc=com
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: groupAdmin
+uniqueMember: uid=admin, ou=system
+
+#
+# This ACI allows members of the superUsers group to have full modify and read access
+# to the entire realm as does the system administrator principal: uid=admin, ou=system.
+#
+# The only thing these users cannot do is modify the system partition.  They are only
+# restricted to superUser rights within this realm partition
+#
+ 
+dn: cn=superUsersAci,dc=example,dc=com
+objectClass: top
+objectClass: subentry
+objectClass: accessControlSubentry
+subtreeSpecification: { }
+prescriptiveACI: { identificationTag "superUsersAci", precedence 20, authenticationLevel simple,  itemOrUserFirst userFirst: { userClasses { userGroup { "cn=superUsers,ou=groups,dc=example,dc=com" } }, userPermissions { { protectedItems {entry, allUserAttributeTypesAndValues},  grantsAndDenials { grantRead, grantReturnDN, grantBrowse, grantDiscloseOnError, grantCompare, grantAdd, grantRename, grantRemove, grantModify, grantImport, grantExport } } } } }
+
+#
+# This ACI allows members of the userAdmin group to have full modify and read access
+# to user accounts besides their own.  Hence they can administer users in the system.
+#
+ 
+dn: cn=userAdminsAci,dc=example,dc=com
+objectClass: top
+objectClass: subentry
+objectClass: accessControlSubentry
+subtreeSpecification: { base "ou=users", maximum 1 }
+prescriptiveACI: { identificationTag "userAdminsAci", precedence 16, authenticationLevel simple,  itemOrUserFirst userFirst: { userClasses { userGroup { "cn=userAdmins,ou=groups,dc=example,dc=com" } }, userPermissions { { protectedItems {entry, allUserAttributeTypesAndValues},  grantsAndDenials { grantRead, grantReturnDN, grantBrowse, grantDiscloseOnError, grantCompare, grantAdd, grantRename, grantRemove, grantModify, grantImport, grantExport } } } } }
+
+
+#
+# This ACI allows members of the applicationAdmin group to have full modify and read access
+# to all applications in the realm.  Adding users to this group is like a wild card for 
+# application access.
+#
+ 
+dn: cn=applicationAdminsAci,dc=example,dc=com
+objectClass: top
+objectClass: subentry
+objectClass: accessControlSubentry
+subtreeSpecification: { base "ou=applications" }
+prescriptiveACI: { identificationTag "applicationAdminsAci", precedence 17, authenticationLevel simple,  itemOrUserFirst userFirst: { userClasses { userGroup { "cn=applicationAdmins,ou=groups,dc=example,dc=com" } }, userPermissions { { protectedItems {entry, allUserAttributeTypesAndValues},  grantsAndDenials { grantRead, grantReturnDN, grantBrowse, grantDiscloseOnError, grantCompare, grantAdd, grantRename, grantRemove, grantModify, grantImport, grantExport } } } } }
+
+
+#
+# This ACI allows members of the groupAdmins group to have full modify and read access
+# to all groups in the realm other than the superUsers, userAdmins, groupAdmins, and the 
+# applicationAdmins groups.
+#
+# The rational behind this is to prevent these users from changing their or other
+# users' access rights for the entire system by modifying their membership in these 
+# groups. Making someone a groupAdmin should not open the door to their ability to
+# grant themselves or others system wide administrative abilities.
+#
+# Really the groupAdmins group is intended for users that have the ability to manage 
+# group membership in specific application administration groups and that's all.  
+# These types of admins should not have the right to promote others to system level
+# administrators or complete super users.
+#
+ 
+dn: cn=groupAdminsAci,dc=example,dc=com
+objectClass: top
+objectClass: subentry
+objectClass: accessControlSubentry
+subtreeSpecification: { base "ou=groups", specificExclusions { chopBefore: "cn=userAdmins", chopBefore: "cn=groupAdmins", chopBefore: "cn=applicationAdmins", chopBefore: "cn=superUsers" } }
+prescriptiveACI: { identificationTag "groupAdminsAci", precedence 18, authenticationLevel simple,  itemOrUserFirst userFirst: { userClasses { userGroup { "cn=groupAdmins,ou=groups,dc=example,dc=com" } }, userPermissions { { protectedItems {entry, allUserAttributeTypesAndValues},  grantsAndDenials { grantRead, grantReturnDN, grantBrowse, grantDiscloseOnError, grantCompare, grantAdd, grantRename, grantRemove, grantModify, grantImport, grantExport } } } } }
+
+# ----------------------------------------------------------------------------
+# Required Kerberos Server User
+# ----------------------------------------------------------------------------
+
+dn: uid=krbtgt, ou=Users, dc=example,dc=com
+cn: Kerberos Server
+sn: Server
+givenName: Kerberos
+objectClass: top
+objectClass: uidObject
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: krb5Principal
+objectClass: krb5KDCEntry
+ou: Users
+uid: krbtgt
+krb5PrincipalName: krbtgt/EXAMPLE.COM@EXAMPLE.COM
+krb5KeyVersionNumber: 0
+mail: admin@example.com
+userPassword: secret
+
+# ----------------------------------------------------------------------------
+# Sample Hauskeys Users
+# ----------------------------------------------------------------------------
+
+dn: uid=mplanck, ou=Users, dc=example,dc=com
+cn: Max Planck
+sn: Planck
+givenName: Max
+objectClass: top
+objectClass: uidObject
+objectClass: person
+objectClass: organizationalPerson
+objectClass: extensibleObject
+objectClass: inetOrgPerson
+objectClass: krb5Principal
+objectClass: krb5KDCEntry
+objectClass: safehausProfile
+ou: Users
+uid: mplanck
+krb5PrincipalName: mplanck@EXAMPLE.COM
+krb5KeyVersionNumber: 0
+mail: mplanck@example.com
+telephoneNumber: +1 904 982 6882
+facsimileTelephoneNumber: +1 904 982 6883
+roomNumber: 666
+apacheSamType: 7
+safehausUid: mplanck
+safehausRealm: EXAMPLE.COM
+safehausLabel: example realm
+safehausFactor: 27304238
+safehausSecret:: aaaabbbbccccdddd
+safehausFailuresInEpoch: 0
+safehausResynchCount: -1
+safehausTokenPin: 1234
+safehausInfo: test account
+safehausNotifyBy: sms
+userPassword: secret
+
+dn: uid=aeinstein, ou=Users, dc=example,dc=com
+cn: Albert Einstein
+sn: Einstein
+givenName: Albert
+objectClass: top
+objectClass: uidObject
+objectClass: person
+objectClass: organizationalPerson
+objectClass: extensibleObject
+objectClass: inetOrgPerson
+objectClass: krb5Principal
+objectClass: krb5KDCEntry
+objectClass: safehausProfile
+ou: Users
+uid: aeinstein
+krb5PrincipalName: aeinstein@EXAMPLE.COM
+krb5KeyVersionNumber: 0
+mail: aeinstein@example.com
+telephoneNumber: +1 904 982 6882
+facsimileTelephoneNumber: +1 904 982 6883
+roomNumber: 666
+apacheSamType: 7
+safehausUid: aeinstein
+safehausRealm: EXAMPLE.COM
+safehausLabel: example realm
+safehausFactor: 8745127341
+safehausSecret:: eeeeffffgggghhhh
+safehausFailuresInEpoch: 0
+safehausResynchCount: -1
+safehausTokenPin: 1234
+safehausInfo: test account
+safehausNotifyBy: sms
+userPassword: secret
+
+dn: uid=nbohr, ou=Users, dc=example,dc=com
+cn: Neils Bohr
+sn: Bohr
+givenName: Neils
+objectClass: top
+objectClass: uidObject
+objectClass: person
+objectClass: organizationalPerson
+objectClass: extensibleObject
+objectClass: inetOrgPerson
+objectClass: krb5Principal
+objectClass: krb5KDCEntry
+objectClass: safehausProfile
+ou: Users
+uid: nbohr
+krb5PrincipalName: nbohr@EXAMPLE.COM
+krb5KeyVersionNumber: 0
+mail: nbohr@example.com
+telephoneNumber: +1 904 982 6882
+facsimileTelephoneNumber: +1 904 982 6883
+roomNumber: 666
+apacheSamType: 7
+safehausUid: nbohr
+safehausRealm: EXAMPLE.COM
+safehausLabel: example realm
+safehausFactor: 8745127341
+safehausSecret:: iiiijjjjkkkkllll
+safehausFailuresInEpoch: 0
+safehausResynchCount: -1
+safehausTokenPin: 1234
+safehausInfo: test account
+safehausNotifyBy: sms
+userPassword: secret
+
+# ----------------------------------------------------------------------------
+# Sample Local Users (not 2-factor)
+# ----------------------------------------------------------------------------
+
+dn: uid=mborn, ou=Users, dc=example,dc=com
+cn: Max Born
+sn: Born
+givenName: Max
+objectClass: top
+objectClass: uidObject
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: krb5Principal
+objectClass: krb5KDCEntry
+objectClass: safehausProfile
+ou: Users
+uid: mborn
+krb5PrincipalName: mborn@EXAMPLE.COM
+krb5KeyVersionNumber: 0
+mail: mborn@example.com
+telephoneNumber: +1 904 982 6882
+facsimileTelephoneNumber: +1 904 982 6883
+roomNumber: 667
+safehausUid: mborn
+safehausRealm: EXAMPLE.COM
+safehausLabel: example realm
+safehausFactor: 917483720127847
+safehausSecret:: xcJqp45S80e8fahs&@rq1I98awg8)^*
+safehausFailuresInEpoch: 0
+safehausTokenPin: 1234
+safehausResynchCount: -1
+safehausInfo: test account
+safehausNotifyBy: sms
+userPassword: secret
+
+dn: uid=wpauli, ou=Users, dc=example,dc=com
+cn: Wolfgang Pauli
+sn: Pauli
+givenName: Wolfgang
+objectClass: top
+objectClass: uidObject
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: krb5Principal
+objectClass: krb5KDCEntry
+objectClass: safehausProfile
+ou: Users
+uid: wpauli
+krb5PrincipalName: wpauli@EXAMPLE.COM
+krb5KeyVersionNumber: 0
+mail: wpauli@example.com
+telephoneNumber: +1 904 982 6882
+facsimileTelephoneNumber: +1 904 982 6883
+roomNumber: 667
+safehausUid: wpauli
+safehausRealm: EXAMPLE.COM
+safehausLabel: example realm
+safehausFactor: 917483720127847
+safehausSecret:: xcJqp45S80e8fahs&@rq1I98awg8)^*
+safehausFailuresInEpoch: 0
+safehausTokenPin: 1234
+safehausResynchCount: -1
+safehausInfo: test account
+safehausNotifyBy: sms
+userPassword: secret
+
+dn: uid=mcurie, ou=Users, dc=example,dc=com
+cn: Marie Curie
+sn: Curie
+givenName: Marie
+objectClass: top
+objectClass: uidObject
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: krb5Principal
+objectClass: krb5KDCEntry
+objectClass: safehausProfile
+ou: Users
+uid: mcurie
+krb5PrincipalName: mcurie@EXAMPLE.COM
+krb5KeyVersionNumber: 0
+mail: mcurie@example.com
+telephoneNumber: +1 904 982 6882
+facsimileTelephoneNumber: +1 904 982 6883
+roomNumber: 667
+safehausUid: mcurie
+safehausRealm: EXAMPLE.COM
+safehausLabel: example realm
+safehausFactor: 917483720127847
+safehausSecret:: xcJqp45S80e8fahs&@rq1I98awg8)^*
+safehausFailuresInEpoch: 0
+safehausTokenPin: 1234
+safehausResynchCount: -1
+safehausInfo: test account
+safehausNotifyBy: sms
+userPassword: secret
+
+# ----------------------------------------------------------------------------
+# Sample External Users (not 2-factor)
+# ----------------------------------------------------------------------------
+
+dn: uid=pdirac, ou=Users, dc=example,dc=com
+objectClass: top
+objectClass: uidObject
+objectClass: extensibleObject
+objectClass: referral
+uid: pdirac
+ref: ldap://ad.example.com/uid=pdirac, ou=Users, dc=example,dc=com
+
+dn: uid=efermi, ou=Users, dc=example,dc=com
+objectClass: top
+objectClass: uidObject
+objectClass: extensibleObject
+objectClass: referral
+uid: efermi
+ref: ldap://openldap.example.com/uid=efermi, ou=Users, dc=example,dc=com
+
+dn: uid=rfeynman, ou=Users, dc=example,dc=com
+objectClass: top
+objectClass: uidObject
+objectClass: extensibleObject
+objectClass: referral
+uid: rfeynman
+ref: ldap://apacheds.example.com/uid=rfeynman, ou=Users, dc=example,dc=com
+
+# ----------------------------------------------------------------------------
+# Applications
+# ----------------------------------------------------------------------------
+
+dn: ou=Applications,dc=example,dc=com
+objectClass: top
+objectClass: organizationalunit
+ou: applications
+
+dn: appname=demo,ou=Applications,dc=example,dc=com
+objectclass: policyApplication
+objectclass: top
+appname: demo
+description: Demo application.
+userpassword:: c2VjcmV0
+
+dn: ou=permissions,appname=demo,ou=Applications,dc=example,dc=com
+objectclass: organizationalUnit
+objectclass: top
+ou: permissions
+
+dn: permname=bend,ou=permissions,appname=demo,ou=Applications,dc=example,dc=com
+objectclass: policyPermission
+objectclass: top
+permname: bend
+
+dn: permname=fold,ou=permissions,appname=demo,ou=Applications,dc=example,dc=com
+objectclass: policyPermission
+objectclass: top
+permname: fold
+
+dn: permname=mutilate,ou=permissions,appname=demo,ou=Applications,dc=example,dc=com
+objectclass: policyPermission
+objectclass: top
+permname: mutilate
+
+dn: permname=spindle,ou=permissions,appname=demo,ou=Applications,dc=example,dc=com
+objectclass: policyPermission
+objectclass: top
+permname: spindle
+
+dn: permname=twist,ou=permissions,appname=demo,ou=Applications,dc=example,dc=com
+objectclass: policyPermission
+objectclass: top
+permname: twist
+
+dn: ou=roles,appname=demo,ou=Applications,dc=example,dc=com
+objectclass: organizationalUnit
+objectclass: top
+ou: roles
+
+dn: rolename=superuser,ou=roles,appname=demo,ou=Applications,dc=example,dc=com
+objectclass: policyRole
+objectclass: top
+grants: bend
+grants: fold
+grants: mutilate
+grants: spindle
+grants: twist
+rolename: superuser
+
+dn: rolename=untrusted,ou=roles,appname=demo,ou=Applications,dc=example,dc=com
+objectclass: policyRole
+objectclass: top
+grants: bend
+rolename: untrusted
+
+dn: rolename=trusted,ou=roles,appname=demo,ou=Applications,dc=example,dc=com
+objectclass: policyRole
+objectclass: top
+grants: bend
+grants: fold
+grants: mutilate
+rolename: trusted
+
+dn: ou=profiles,appname=demo,ou=Applications,dc=example,dc=com
+objectclass: organizationalUnit
+objectclass: top
+ou: profiles
+
+dn: profileid=nbohr,ou=profiles,appname=demo,ou=Applications,dc=example,dc=com
+objectclass: policyProfile
+objectclass: top
+profileid: nbohr
+roles: trusted
+user: nbohr
+
+dn: profileid=nbohr-superuser,ou=profiles,appname=demo,ou=Applications,dc=example,dc=com
+objectclass: policyProfile
+objectclass: top
+denials: fold
+profileid: nbohr-superuser
+roles: superuser
+user: nbohr
+
+dn: profileid=mborn,ou=profiles,appname=demo,ou=Applications,dc=example,dc=com
+objectclass: policyProfile
+objectclass: top
+grants: twist
+profileid: mborn
+roles: trusted
+user: mborn
+
+dn: profileid=aeinstein,ou=profiles,appname=demo,ou=Applications,dc=example,dc=com
+objectclass: policyProfile
+objectclass: top
+grants: twist
+profileid: aeinstein
+roles: trusted
+user: aeinstein
+
+dn: profileid=mcurie,ou=profiles,appname=demo,ou=Applications,dc=example,dc=com
+objectclass: policyProfile
+objectclass: top
+grants: spindle
+profileid: mcurie
+roles: trusted
+user: mcurie
+
+dn: profileid=wpauli,ou=profiles,appname=demo,ou=Applications,dc=example,dc=com
+objectclass: policyProfile
+objectclass: top
+profileid: wpauli
+roles: untrusted
+user: wpauli
+
+dn: appName=tsecAdminTool,ou=Applications,dc=example,dc=com
+objectClass: policyApplication
+objectClass: top
+appName: safehausAdminUI
+description: Policy for Safehaus web and swing based administration UIs.
+userPassword: secret
+
+dn: ou=Permissions,appName=tsecAdminTool,ou=Applications,dc=example,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: Permissions
+
+dn: ou=Roles,appName=tsecAdminTool,ou=Applications,dc=example,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: Roles
+
+dn: ou=Profiles,appName=tsecAdminTool,ou=Applications,dc=example,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: Profiles

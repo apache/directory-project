@@ -1,0 +1,769 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+
+  Licensed to the Apache Software Foundation (ASF) under one
+  or more contributor license agreements.  See the NOTICE file
+  distributed with this work for additional information
+  regarding copyright ownership.  The ASF licenses this file
+  to you under the Apache License, Version 2.0 (the
+  "License"); you may not use this file except in compliance
+  with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing,
+  software distributed under the License is distributed on an
+  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  KIND, either express or implied.  See the License for the
+  specific language governing permissions and limitations
+  under the License.
+
+-->
+
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.apache.directory.triplesec</groupId>
+  <version>1.0-SNAPSHOT</version>
+  <artifactId>build</artifactId>
+  <name>Triplesec</name>
+  <packaging>pom</packaging>
+
+  <dependencyManagement>
+    <dependencies>
+
+      <dependency>
+        <groupId>wicket</groupId>
+        <artifactId>wicket</artifactId>
+        <version>1.2.3</version>
+      </dependency>
+
+      <dependency>
+        <groupId>wicket</groupId>
+        <artifactId>wicket-spring</artifactId>
+        <version>1.2.3</version>
+      </dependency>
+
+      <dependency>
+        <groupId>wicket</groupId>
+        <artifactId>wicket-extensions</artifactId>
+        <version>1.2.3</version>
+      </dependency>
+
+      <dependency>
+        <groupId>javax.activation</groupId>
+        <artifactId>activation</artifactId>
+        <version>1.1</version>
+      </dependency>
+
+      <dependency>
+        <groupId>javax.mail</groupId>
+        <artifactId>mail</artifactId>
+        <version>1.4</version>
+      </dependency>
+
+      <dependency>
+        <groupId>commons-codec</groupId>
+        <artifactId>commons-codec</artifactId>
+        <version>1.2</version>
+      </dependency>
+
+      <dependency>
+        <groupId>log4j</groupId>
+        <artifactId>log4j</artifactId>
+        <version>1.2.13</version>
+      </dependency>
+
+      <dependency>
+        <groupId>commons-httpclient</groupId>
+        <artifactId>commons-httpclient</artifactId>
+        <version>3.0.1</version>
+      </dependency>
+
+      <dependency>
+        <groupId>ant</groupId>
+        <artifactId>ant</artifactId>
+        <version>1.6.5</version>
+      </dependency>
+
+      <dependency>
+        <groupId>tomcat</groupId>
+        <artifactId>jasper-runtime</artifactId>
+        <version>5.5.15</version>
+      </dependency>
+
+      <dependency>
+        <groupId>tomcat</groupId>
+        <artifactId>jasper-compiler</artifactId>
+        <version>5.5.15</version>
+      </dependency>
+
+      <dependency>
+        <groupId>tomcat</groupId>
+        <artifactId>jasper-compiler-jdt</artifactId>
+        <version>5.5.15</version>
+      </dependency>
+
+      <dependency>
+        <groupId>commons-el</groupId>
+        <artifactId>commons-el</artifactId>
+        <version>1.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>xerces</groupId>
+        <artifactId>xmlParserAPIs</artifactId>
+        <version>2.6.2</version>
+      </dependency>
+    
+      <dependency>
+        <groupId>xerces</groupId>
+        <artifactId>xercesImpl</artifactId>
+        <version>2.6.2</version>
+      </dependency>
+
+
+      <dependency>
+        <groupId>org.apache.geronimo.specs</groupId>
+        <artifactId>geronimo-servlet_2.4_spec</artifactId>
+        <version>1.0.1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.geronimo.specs</groupId>
+        <artifactId>geronimo-jsp_2.0_spec</artifactId>
+        <version>1.0.1</version>
+      </dependency>
+      <dependency>
+        <groupId>jetty</groupId>
+        <artifactId>org.mortbay.jetty</artifactId>
+        <version>5.1.12</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.directory.server</groupId>
+        <artifactId>apacheds-core</artifactId>
+        <version>1.0.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.directory.shared</groupId>
+        <artifactId>shared-ldap</artifactId>
+        <version>0.9.5.3</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.directory.server</groupId>
+        <artifactId>apacheds-core-unit</artifactId>
+        <version>1.0.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.directory.server</groupId>
+        <artifactId>apacheds-kerberos-shared</artifactId>
+        <version>1.0.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.directory.server</groupId>
+        <artifactId>apacheds-protocol-kerberos</artifactId>
+        <version>1.0.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.directory.server</groupId>
+        <artifactId>apacheds-server-ssl</artifactId>
+        <version>1.0.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.directory.server</groupId>
+        <artifactId>apacheds-server-tools</artifactId>
+        <version>1.0.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.directory.server</groupId>
+        <artifactId>apacheds-core-shared</artifactId>
+        <version>1.0.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.directory.server</groupId>
+        <artifactId>apacheds-server-jndi</artifactId>
+        <version>1.0.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.directory.shared</groupId>
+        <artifactId>shared-asn1-codec</artifactId>
+        <version>0.9.5.3</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.directory.daemon</groupId>
+        <artifactId>daemon-bootstrappers</artifactId>
+        <version>1.0.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>1.2</version>
+      </dependency>
+
+      <dependency>
+        <groupId>commons-collections</groupId>
+        <artifactId>commons-collections</artifactId>
+        <version>3.2</version>
+      </dependency>
+
+      <dependency>
+        <groupId>commons-daemon</groupId>
+        <artifactId>commons-daemon</artifactId>
+        <version>1.0.1</version>
+      </dependency>
+
+      <dependency>
+        <groupId>commons-lang</groupId>
+        <artifactId>commons-lang</artifactId>
+        <version>2.1</version>
+      </dependency>
+
+      <dependency>
+        <groupId>commons-cli</groupId>
+        <artifactId>commons-cli</artifactId>
+        <version>1.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>commons-logging</groupId>
+        <artifactId>commons-logging</artifactId>
+        <version>1.0.4</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>nlog4j</artifactId>
+        <version>1.2.25</version>
+      </dependency>
+
+      <dependency>
+        <groupId>antlr</groupId>
+        <artifactId>antlr</artifactId>
+        <version>2.7.6</version>
+      </dependency>
+
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>3.8.1</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.derby</groupId>
+        <artifactId>derby</artifactId>
+        <version>10.1.3.1</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-core</artifactId>
+        <version>1.2.8</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-beans</artifactId>
+        <version>1.2.8</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>1.2.8</version>
+      </dependency>
+        <dependency>
+          <groupId>dom4j</groupId>
+          <artifactId>dom4j</artifactId>
+          <version>1.6</version>
+        </dependency>
+
+        <dependency>
+          <groupId>jcharts</groupId>
+          <artifactId>jcharts</artifactId>
+          <version>0.6.0</version>
+        </dependency>
+        <dependency>
+          <groupId>myfaces</groupId>
+          <artifactId>myfaces-api</artifactId>
+          <version>1.1.0</version>
+        </dependency>
+        <dependency>
+          <groupId>myfaces</groupId>
+          <artifactId>myfaces-impl</artifactId>
+          <version>1.1.0</version>
+        </dependency>
+          <dependency>
+          <groupId>javax.servlet</groupId>
+          <artifactId>jstl</artifactId>
+          <version>1.1.0</version>
+        </dependency>
+        <dependency>
+         <groupId>commons-digester</groupId>
+         <artifactId>commons-digester</artifactId>
+         <version>1.5</version>
+       </dependency>
+       <dependency>
+         <groupId>commons-beanutils</groupId>
+         <artifactId>commons-beanutils</artifactId>
+         <version>1.6.1</version>
+       </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <url>http://triplesec.apache.org/maven2/</url>
+
+  <repositories>
+    <repository>
+      <id>java.net</id>
+      <url>https://maven-repository.dev.java.net/nonav/repository</url>
+      <layout>legacy</layout>
+    </repository>
+  </repositories>
+
+  <distributionManagement>
+    <site>
+      <id>triplesec.website</id>
+      <url>scp://safehaus.org/home/projects/triplesec/public_html/maven</url>
+    </site>
+  </distributionManagement>
+
+  <issueManagement>
+    <system>JIRA</system>
+    <url>http://jira.safehaus.org/browse/TRIPLESEC</url>
+  </issueManagement>
+
+  <inceptionYear>2005</inceptionYear>
+
+  <mailingLists>
+    <mailingList>
+      <name>Safehaus Developers List</name>
+      <subscribe>dev-subscribe@safehaus.org</subscribe>
+      <unsubscribe>dev-unsubscribe@safehaus.org</unsubscribe>
+      <post>dev@safehaus.org</post>
+      <archive>http://www.safehaus.org/pipermail/dev</archive>
+    </mailingList>
+    <mailingList>
+      <name>Safehaus Commits (SVN) List</name>
+      <subscribe>svn-notify-subscribe@safehaus.org</subscribe>
+      <unsubscribe>svn-notify-unsubscribe@safehaus.org</unsubscribe>
+    </mailingList>
+  </mailingLists>
+
+  <!-- ordered alphabetically by id -->
+  <developers>
+    <developer>
+      <id>akarasulu</id>
+    </developer>
+    <developer>
+      <id>ersiner</id>
+    </developer>
+    <developer>
+      <id>elecharny</id>
+    </developer>
+    <developer>
+      <id>trustin</id>
+    </developer>
+    <developer>
+      <id>tbennett</id>
+    </developer>
+  </developers>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+  <scm>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/directory/trunks/triplesec</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory/trunks/triplesec</developerConnection>
+    <url>https://svn.apache.org/viewvc/directory/trunks/triplesec</url>
+  </scm>
+
+    <organization>
+        <name>Apache Software Foundation</name>
+        <url>http://www.apache.org</url>
+    </organization>
+
+
+  <build>
+         <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.2</version>
+                    <configuration>
+                        <forkMode>once</forkMode>
+                        <argLine>-enableassertions -Dgeronimo.bootstrap.logging.enabled=false -Dlog4j.configuration=org/apache/geronimo/test-log4j.properties</argLine>
+                        <workingDirectory>${project.build.directory}</workingDirectory>
+
+                        <!-- Override the default, do not accept Test* as test classes -->
+                        <excludes>
+                            <exclude>**/Abstract*.java</exclude>
+                            <exclude>**/Test*.java</exclude>
+                        </excludes>
+                        <includes>
+                            <include>**/*Test.java</include>
+                        </includes>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>2.1</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <version>1.1</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>2.1</version>
+                    <configuration>
+                        <tarLongFileMode>gnu</tarLongFileMode>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.1</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clover-plugin</artifactId>
+                    <version>2.3</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.0-beta-4</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-one-plugin</artifactId>
+                    <version>1.0</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>2.1</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>2.0.1</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.maven</groupId>
+                            <artifactId>maven-archiver</artifactId>
+                            <!--
+                            FIXME: 2.1 is broken... won't allow custom manifestEntires, need to use
+                                   until war plugin is updated.
+                            -->
+                            <version>2.2</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-idea-plugin</artifactId>
+                    <version>2.0</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-eclipse-plugin</artifactId>
+                    <version>2.2</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>jspc-maven-plugin</artifactId>
+                    <version>1.4.5</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>1.0</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>dependency-maven-plugin</artifactId>
+                    <version>1.0</version>
+                </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>2.0-beta-5</version>
+      </plugin>
+
+       <plugin>
+        <groupId>org.apache.directory.daemon</groupId>
+        <artifactId>daemon-plugin</artifactId>
+        <version>1.5.0-SNAPSHOT</version>
+       </plugin>
+      <plugin>
+        <groupId>org.apache.directory.server</groupId>
+        <artifactId>apacheds-core-plugin</artifactId>
+        <version>1.5.0-SNAPSHOT</version>
+      </plugin>
+
+      <plugin>
+        <groupId>org.mortbay.jetty</groupId>
+        <artifactId>maven-jetty-plugin</artifactId>
+        <version>6.1-SNAPSHOT</version>
+      </plugin>
+
+           </plugins>
+        </pluginManagement>
+
+   <plugins>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>2.0-beta-5</version>
+      </plugin>
+
+      
+      <plugin>
+        <inherited>false</inherited>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>site</phase>
+            <configuration>
+              <tasks>
+                <javadoc destdir="target/site/apidocs" author="true" use="true" windowtitle="Safehaus Triplesec">
+                  <sourcepath>
+                    <dirset dir=".">
+                      <include name="*/src/main/java"/>
+                      <exclude name="directory"/>
+                    </dirset>
+                  </sourcepath>
+                  <package name="org.safehaus.triplesec.*"/>
+                </javadoc>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      
+    </plugins>
+
+  </build>
+
+  <reporting>
+    <excludeDefaults>true</excludeDefaults>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>project-team</report>
+              <report>mailing-list</report>
+              <report>issue-tracking</report>
+              <report>license</report>
+              <report>scm</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
+
+  <profiles>
+    <profile>
+      <id>default</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+    
+      <modules>
+        <module>changelog</module>
+        <module>configuration</module>
+        <module>configuration-io</module>
+        <module>crypto</module>
+        <module>otp</module>
+        <module>profile</module>
+        <module>testdata</module>
+        <module>jaas</module>
+        <module>sms</module>
+        <module>store</module>
+        <module>verifier</module>
+        <module>main</module>
+        <module>integration</module>
+        <module>tools</module>
+        <module>admin-api</module>
+        <module>guardian-api</module>
+        <module>guardian-ldap</module>
+        <module>guardian-ldif</module>
+        <module>utils-hauskeys</module>
+        <module>wicket-tools</module>
+        <module>webapp-root</module>
+        <module>webapp-registration</module>
+        <module>webapp-activation</module>
+        <module>webapp-demo</module>
+        <module>webapp-servlet-demo</module>
+        <module>webapp-wicket-admin</module>
+        <module>webapp-config</module>
+        <module>webapp-changelog</module>
+        <module>swing-admin</module>
+        <module>swing-demo</module>
+      </modules>
+      
+    </profile>
+    <profile>
+      <id>installers</id>
+      <activation>
+        <property><name>installers</name></property>
+      </activation>
+    
+      <modules>
+        <module>changelog</module>
+        <module>configuration</module>
+        <module>configuration-io</module>
+        <module>crypto</module>
+        <module>otp</module>
+        <module>profile</module>
+        <module>testdata</module>
+        <module>jaas</module>
+        <module>sms</module>
+        <module>store</module>
+        <module>verifier</module>
+        <module>main</module>
+        <module>integration</module>
+        <module>tools</module>
+        <module>admin-api</module>
+        <module>guardian-api</module>
+        <module>guardian-ldap</module>
+        <module>guardian-ldif</module>
+        <module>utils-hauskeys</module>
+        <module>wicket-tools</module>
+        <module>webapp-root</module>
+        <module>webapp-registration</module>
+        <module>webapp-activation</module>
+        <module>webapp-demo</module>
+        <module>webapp-servlet-demo</module>
+        <module>webapp-wicket-admin</module>
+        <module>webapp-config</module>
+        <module>webapp-changelog</module>
+        <module>smstrial-schema</module>
+        <module>webapp-smstrial</module>
+        <module>swing-admin</module>
+        <module>swing-demo</module>
+        
+        <module>installers</module>
+      </modules>
+      
+    </profile>
+    <profile>
+      <id>smstrial</id>
+      <activation>
+        <property><name>smstrial</name></property>
+      </activation>
+      
+      <modules>
+        <module>smstrial-schema</module>
+        <module>webapp-smstrial</module>
+      </modules>
+      
+    </profile>
+    <profile>
+      <id>all</id>
+      <activation>
+        <property><name>all</name></property>
+      </activation>
+      
+      <modules>
+        <module>changelog</module>
+        <module>configuration</module>
+        <module>configuration-io</module>
+        <module>crypto</module>
+        <module>otp</module>
+        <module>profile</module>
+        <module>testdata</module>
+        <module>jaas</module>
+        <module>sms</module>
+        <module>store</module>
+        <module>verifier</module>
+        <module>main</module>
+        <module>integration</module>
+        <module>tools</module>
+        <module>admin-api</module>
+        <module>guardian-api</module>
+        <module>guardian-ldap</module>
+        <module>guardian-ldif</module>
+        <module>utils-hauskeys</module>
+        <module>wicket-tools</module>
+        <module>webapp-root</module>
+        <module>webapp-registration</module>
+        <module>webapp-activation</module>
+        <module>webapp-demo</module>
+        <module>webapp-servlet-demo</module>
+        <module>webapp-wicket-admin</module>
+        <module>webapp-config</module>
+        <module>webapp-changelog</module>
+        <module>swing-admin</module>
+        <module>swing-demo</module>
+        
+        <module>smstrial-schema</module>
+        <module>webapp-smstrial</module>
+        
+        <module>installers</module>
+      </modules>
+      
+    </profile>
+  </profiles>
+
+</project>
