@@ -23,6 +23,7 @@ package wicket.examples.wizard.ezwizard.impl;
 
 import wicket.examples.wizard.ezwizard.intf.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
@@ -34,7 +35,7 @@ import java.util.ArrayList;
  * @version 0.5
  * @author Michael Jouravlev
  */
-public abstract class WizardStep implements IWizardStep
+public abstract class WizardStep implements IWizardStep, Serializable
 {
 
     /***************************************************************************

@@ -24,6 +24,7 @@ import wicket.examples.wizard.ezwizard.intf.IWizardStep;
 import wicket.examples.wizard.ezwizard.intf.IWizardTransition;
 import wicket.examples.wizard.ezwizard.intf.IWizardListener;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -39,7 +40,7 @@ import java.util.Iterator;
  * @version 0.5
  * @author Michael Jouravlev
  */
-public class Wizard implements IWizard {
+public class Wizard implements IWizard, Serializable {
 
     /**************************************************************************
      * Error messages

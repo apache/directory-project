@@ -20,6 +20,8 @@
 
 package wicket.examples.wizard.ezwizard.impl;
 
+import java.io.Serializable;
+
 import wicket.examples.wizard.ezwizard.intf.IWizard;
 import wicket.examples.wizard.ezwizard.intf.IWizardStep;
 import wicket.examples.wizard.ezwizard.intf.IWizardTransition;
@@ -34,7 +36,7 @@ import wicket.examples.wizard.ezwizard.intf.IWizardTransition;
  * @version 0.5
  * @author Michael Jouravlev
  */
-public abstract class WizardTransition implements IWizardTransition {
+public abstract class WizardTransition implements IWizardTransition, Serializable {
 
     /**
      * Owner wizard object, reference used to access common business fields
