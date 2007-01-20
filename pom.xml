@@ -12,8 +12,6 @@
   <inceptionYear>2004</inceptionYear>
   <packaging>pom</packaging>
   <modules>
-    <!-- Mina will become a TLP, so no need to compile it here -->
-    <!--module>mina</module-->
     <module>apacheds</module>
     <module>shared</module>
     <module>daemon</module>
