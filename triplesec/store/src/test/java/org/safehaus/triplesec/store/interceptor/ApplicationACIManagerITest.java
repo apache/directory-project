@@ -34,6 +34,7 @@ import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 
 import org.apache.directory.server.core.unit.AbstractAdminTestCase;
+import org.apache.directory.server.core.schema.bootstrap.BootstrapSchema;
 import org.apache.directory.server.core.schema.bootstrap.SystemSchema;
 import org.apache.directory.server.core.schema.bootstrap.CoreSchema;
 import org.apache.directory.server.core.schema.bootstrap.Krb5kdcSchema;
@@ -60,9 +61,10 @@ public class ApplicationACIManagerITest extends AbstractAdminTestCase
     private DirContext ctx;
 
 
+    @SuppressWarnings("unchecked")
     public void setUp() throws Exception
     {
-        Set schemas = super.configuration.getBootstrapSchemas();
+        Set<BootstrapSchema> schemas = super.configuration.getBootstrapSchemas();
         schemas.add( new CoreSchema() );
         schemas.add( new SystemSchema() );
         schemas.add( new Krb5kdcSchema() );
@@ -80,11 +82,11 @@ public class ApplicationACIManagerITest extends AbstractAdminTestCase
         partitionCfg.setContextEntry( ctxEntry );
         partitionCfg.setContextPartition( new JdbmPartition() );
 
-        Set partitions = super.configuration.getContextPartitionConfigurations();
+        Set<MutablePartitionConfiguration> partitions = super.configuration.getContextPartitionConfigurations();
         partitions.add( partitionCfg );
         super.configuration.setContextPartitionConfigurations( partitions );
 
-        List interceptors = super.configuration.getInterceptorConfigurations();
+        List<MutableInterceptorConfiguration> interceptors = super.configuration.getInterceptorConfigurations();
         MutableInterceptorConfiguration interceptorCfg = new MutableInterceptorConfiguration();
         interceptorCfg.setName( "protector" );
         interceptorCfg.setInterceptor( new PolicyProtectionInterceptor() );
@@ -97,7 +99,7 @@ public class ApplicationACIManagerITest extends AbstractAdminTestCase
         super.setLdifPath( "/interceptor.ldif", getClass() );
         super.setUp();
 
-        Hashtable env = new Hashtable();
+        Hashtable<String, Object> env = new Hashtable<String, Object>();
         env.put( Context.INITIAL_CONTEXT_FACTORY, "org.apache.directory.server.core.jndi.CoreContextFactory" );
         env.put( Context.PROVIDER_URL, "" );
         env.put( Context.SECURITY_PRINCIPAL, "uid=admin,ou=system" );
@@ -126,7 +128,7 @@ public class ApplicationACIManagerITest extends AbstractAdminTestCase
         
         LdapDN dn = new LdapDN( "appName="+appName+",ou=Applications,dc=example,dc=com" );
 
-        Hashtable env = new Hashtable();
+        Hashtable<String, Object> env = new Hashtable<String, Object>();
         env.put( Context.INITIAL_CONTEXT_FACTORY, "org.apache.directory.server.core.jndi.CoreContextFactory" );
         env.put( Context.PROVIDER_URL, "dc=example,dc=com" );
         env.put( Context.SECURITY_PRINCIPAL, dn.getUpName() );
@@ -223,7 +225,7 @@ public class ApplicationACIManagerITest extends AbstractAdminTestCase
         
         LdapDN dn = new LdapDN( "appName="+appName+",ou=Applications,dc=example,dc=com" );
 
-        Hashtable env = new Hashtable();
+        Hashtable<String, Object> env = new Hashtable<String, Object>();
         env.put( Context.INITIAL_CONTEXT_FACTORY, "org.apache.directory.server.core.jndi.CoreContextFactory" );
         env.put( Context.PROVIDER_URL, dn.getUpName() );
         env.put( Context.SECURITY_PRINCIPAL, dn.getUpName() );
