@@ -11,11 +11,7 @@
   <name>Apache Directory Build</name>
   <inceptionYear>2004</inceptionYear>
   <packaging>pom</packaging>
-  <modules>
-    <module>apacheds</module>
-    <module>shared</module>
-    <module>daemon</module>
-  </modules>
+
   <dependencies>
    <dependency>
       <groupId>junit</groupId>
