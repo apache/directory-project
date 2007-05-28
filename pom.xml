@@ -4,7 +4,7 @@
 
   <parent>
     <groupId>org.apache</groupId>
-    <artifactId>build</artifactId>
+    <artifactId>apache</artifactId>
     <version>4</version>
   </parent>
 
