@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project>
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -9,16 +9,15 @@
   </parent>
 
   <groupId>org.apache.directory.project</groupId>
-  <version>7</version>
+  <version>7-SNAPSHOT</version>
   <artifactId>project</artifactId>
   <name>Apache Directory Project</name>
   <inceptionYear>2003</inceptionYear>
   <packaging>pom</packaging>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/directory/project/tags/7</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory/project/tags/7</developerConnection>
-    <url>http://svn.apache.org/viewvc/maven/pom/tags/7</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/directory/project/trunk</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory/project/trunk</developerConnection>
   </scm>
  
   <profiles>
