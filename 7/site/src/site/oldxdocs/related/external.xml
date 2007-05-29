@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="akarasulu@apache.org">Alex Karasulu</author>
+    <title>Apache Directory Project: Related External</title>
+  </properties> 
+
+  <body>
+    <section name="External Projects">
+
+      <subsection name="Projects Embedding Eve">
+        <table>
+          <tr>
+            <th width="150">Name</th>
+            <th>Description</th>
+          </tr>
+        </table>
+      </subsection>
+      
+      <subsection name="Projects Using LDAP Code">
+        <table>
+          <tr>
+            <th width="150">Name</th>
+            <th>Description</th>
+          </tr>
+        </table>
+      </subsection>
+      
+      <subsection name="Projects Using Janus">
+        <table>
+          <tr>
+            <th width="150">Name</th>
+            <th>Description</th>
+          </tr>
+        </table>
+      </subsection>
+      
+      <subsection name="Projects Using Naming Commons">
+        <table>
+          <tr>
+            <th width="150">Name</th>
+            <th>Description</th>
+          </tr>
+        </table>
+      </subsection>
+      
+      <subsection name="Projects Using Snickers">
+        <table>
+          <tr>
+            <th width="150">Name</th>
+            <th>Description</th>
+          </tr>
+        </table>
+      </subsection>
+      
+      <subsection name="Articles regarding Directory">
+        <table>
+          <tr>
+            <th width="150">Link</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td><a href="http://www.internetnews.com/dev-news/article.php/3463441">New Apache Directory Server Issued</a></td>
+            <td>Article on first release (0.8) of ApacheDS while in incubator</td>
+          </tr>
+        </table>
+      </subsection>
+      
+    </section>
+  </body>
+</document>
+

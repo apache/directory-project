@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="akarasulu@apache.org">Alex Karasulu</author>
+    <title>Apache Directory Project: Sandbox</title>
+  </properties> 
+
+  <body>
+    <section name="Sandbox">
+     <p>
+       The Sandbox is where we play with radical new ideas that result in long 
+       "random thought" [RT] email threads.
+     </p>
+     <subsection name="Sandbox Projects">
+       <table>
+         <tr>
+	  <th>Project</th>
+	  <th>Description</th>
+	  <th>Developers</th>
+	 </tr>
+	 <tr>
+	  <td>abc123</td>
+	  <td>Just a place holder</td>
+	  <td>akarasulu</td>
+	 </tr>
+       </table>
+     </subsection>
+    </section>
+  </body>
+</document>

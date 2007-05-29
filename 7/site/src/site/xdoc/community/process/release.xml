@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="akarasulu@apache.org">Alex Karasulu</author>
+    <title>Apache Directory Project: Release Management</title>
+  </properties> 
+        <body>
+	  <section name="Not written yet....">
+	    <p>We haven't got our release process written down yet.</p>
+	  </section>
+	  <section name="Relevant links">
+	    <ul>
+<li><a href="http://jakarta.apache.org/site/decisions.html">Jakarta decision process</a></li>
+<li><a href="http://httpd.apache.org/dev/release.html">HTTPD release policy</a></li>
+<li><a href="http://cvs.apache.org/~bodewig/mirror.html">Distribution Mirroring HOWTO</a></li>
+<li><a href="http://cvs.apache.org/builds/">Nightly builds</a></li>
+<li><a href="http://gump.covalent.net/jars/latest/">Nightly builds: jars@covalent</a></li>
+<li><a href="http://freshmeat.net/articles/view/392/">Freshmeat on software builds</a></li>
+<li><a href="http://java.sun.com/docs/books/tutorial/jar/sign/signing.html">Java tutorial: jar signing</a></li>
+<li><a href="http://java.sun.com/j2se/1.4/docs/tooldocs/tools.html#security">JDK Security tool docs</a></li>
+<li><a href="http://cvs.apache.org/viewcvs.cgi/jakarta-tomcat-4.0/RELEASE-PLAN-4.1.txt">Tomcat 4 release plan</a></li>
+	    </ul>
+	  </section>
+	  <section name="Noel's thoughts">
+	    <p>Noel J. Bergman wrote to avalon-dev:</p>
+	    <source>
+[snip]
+Here are a few items to consider for the Release Plan:
+
+  1) Identify bugs and incompatibilities.
+  2) Decide which ones will be fixed.
+  3) Decide what other changes are necessary, e.g., packaging.
+  4) Make the code changes.
+  5) Test
+  6) Update the documentation and web site.
+
+[snip]
+Here are a few useful links:
+
+  Jakarta: http://jakarta.apache.org/site/decisions.html
+  Apache HTTPD release policies: http://httpd.apache.org/dev/release.html
+  Mirroring: http://cvs.apache.org/~bodewig/mirror.html
+
+[snip]
+	--- Noel
+	    </source>
+	  </section>
+        </body>
+</document>
