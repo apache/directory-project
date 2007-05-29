@@ -16,8 +16,8 @@
   <packaging>pom</packaging>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/directory/project</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory/project</developerConnection>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/directory/project/trunk</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory/project/trunk</developerConnection>
   </scm>
  
 </project>
