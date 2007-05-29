@@ -28,6 +28,9 @@
           <plugin>
             <artifactId>maven-gpg-plugin</artifactId>
             <version>1.0-alpha-3</version>
+            <configuration>
+              <tagBase>https://svn.apache.org/repos/asf/directory/project/releases</tagBase>
+            </configuration>
             <executions>
               <execution>
                 <goals>
