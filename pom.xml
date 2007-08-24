@@ -22,8 +22,12 @@
     <url>http://svn.apache.org/viewvc/directory/project/trunk/</url>
   </scm>
 
-  <!-- please only put pluginManagement info in this pom for plugins shared among shared, apacheds, and daemon subprojects-->
-  <!-- dependencyManagement is likely to change too quickly to be useful in this pom -->
+  <!-- =======================  WARNING ========================== -->
+  <!-- Only put pluginManagement info in this pom for plugins      -->
+  <!-- shared among shared, apacheds, and daemon subprojects       -->
+  <!-- dependencyManagement is likely to change too quickly to be  -->
+  <!-- useful in this pom                                          -->
+  <!-- =======================  WARNING ========================== -->
 
   <build>
     <pluginManagement>
