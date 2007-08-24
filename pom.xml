@@ -9,16 +9,16 @@
   </parent>
 
   <groupId>org.apache.directory.project</groupId>
-  <version>9-SNAPSHOT</version>
+  <version>8</version>
   <artifactId>project</artifactId>
   <name>Apache Directory Project</name>
   <inceptionYear>2003</inceptionYear>
   <packaging>pom</packaging>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/directory/project/trunk</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory/project/trunk</developerConnection>
-    <url>http://svn.apache.org/viewvc/directory/project/trunk/</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/directory/project/releases/8</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory/project/releases/8</developerConnection>
+    <url>http://svn.apache.org/viewvc/directory/project/releases/8</url>
   </scm>
 
   <!-- =======================  WARNING ========================== -->
