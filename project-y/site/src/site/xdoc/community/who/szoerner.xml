@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <properties>
+    <author email="szoerner@apache.org">Stefan Zoerner</author>
+    <title>Apache Directory Project: Contributors</title>
+    <description>Stefan Zoerner contributes to the Apache Directory Project, which aims to produce a high performance and production quality LDAP server written in Java.</description>
+  </properties>
+  <body> 
+
+    <section name="Stefan Zoerner">
+
+      <p>(szoerner at apache dot org)</p>
+
+      <p>
+        Stefan's main focus is end user experience for the LDAP server. 
+        One of his goals is to make the Apache Directory Server behave as an arbitrary LDAP client would expect.
+        Therefore he started to create a test suite for black box and regression testing.
+      </p>
+
+      <subsection name="Some Background">
+      <p>
+	    Stefan Zoerner lives with his family near Hamburg, Germany. 
+	    He collects ancient postcards and Sun workstations and likes to write IT related articles (about LDAP topics, sometimes).
+	    In May 2004, Stefan published a German LDAP book for Java developers
+	    (<a href="http://www.entwickler-press.de/buecher/ldap/">LDAP fuer Java-Entwickler</a>), 
+	    the second edition appeared in November 2005:
+	  </p>
+	  <p><a href="http://www.entwickler-press.de/buecher/ldap/"><img src="../../images/szoerner_cover_ldap2_100x149.gif"/></a></p>
+	  <p>
+	    The book itself is server independent, and Stefan was interested whether
+	    the examples work on Apache Directory Server as well. This is how he found the project. 	    
+	  </p>
+      <p> 
+        In his commercial life, Stefan is an Advisory IT Architect at IBM e-business 
+        Innovation Center in Hamburg, Germany. 
+      </p>
+      </subsection>
+
+    </section>
+  </body>
+</document>

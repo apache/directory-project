@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <properties>
+    <author email="trustin@apache.org">Trustin Lee</author>
+    <title>Apache Directory Project: Contributors</title>
+  </properties>
+  <body> 
+    <section name="Trustin Lee">
+      <p>
+        (trustin at apache dot org)          
+      </p>
+
+      <p> 
+        Trustin is a lead developer for the Apache SEDA framework, and he is
+        working on MINA (Multipurpose Infrastructure for Network Applications)
+        to improve SEDA framework from ground-up.
+      </p>
+      
+      <p>
+        Trustin was born in 1980.  He started programming with built-in BASIC
+        interpreter in MSX mini computer when he was 8 years old.  He enjoyed
+        game programming and problem solving using assembly language, C, and
+        C++.  Finally, he wins bronze medal at Korea information olympiad in
+        1998.
+      </p>
+      
+      <p>
+        He worked for several companies as a part time worker who
+        writes high-performance network server applications and a few web
+        applications after he started to major computer science in Yonsei
+        university in South Korea.  After graduation, he is working for Arreo
+        Communications, Inc which is one of the biggest SMS (mobile short
+        message service) provider in Korea.
+      </p>
+
+      <p>
+        Trustin spends his free time taking photos with his lovely SLR camera
+        and listening to his favorite compact discs (Japanese pop and Jazz).
+      </p>
+    </section>
+    <section name="Background">
+      <p>
+        Trustin was getting bored implementing tedious legacy protocols.  He
+        thought he could save himself by creating a generic framework for
+        network applications.  The name of the framework was 'Netty' and
+        it has been improved for a couple of years until java.nio package is
+        introduced.
+      </p>
+      
+      <p>
+        NIO changed lots of things, and it impacted Netty.  New version of
+        Netty was named to Netty2 and released as open source.  It gave Trustin
+        the experience of open source community and made him fascinated by it.
+      </p>
+      
+      <p>
+        Enrique Rodriguez was one of the users of Netty2, and he brought great 
+        fortune to Trustin.  He metioned Netty2 when he approached Alex
+        Karasulu, who was the lead for the Apache Directory project.  Alex was
+        developing SEDA framework as a network application framework at that
+        time.  He proposed Trustin to get the power of both together and make
+        the best network application framework available, and the work is in
+        progress actively.
+      </p>
+    </section>
+  </body>
+</document>
+

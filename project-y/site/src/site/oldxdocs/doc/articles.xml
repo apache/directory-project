@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="akarasulu@apache.org">Alex Karasulu</author>
+    <title>Apache Directory Project: Articles</title>
+  </properties> 
+
+  <body>
+    <section name="Directory Articles">
+     <p>
+       Some articals about various naming and directory topics.
+     </p>
+
+     <subsection name="General Documentation">
+      <ul>
+        <li>
+          Coming soon ...
+        </li>
+      </ul>
+     </subsection>
+    </section>
+  </body>
+</document>

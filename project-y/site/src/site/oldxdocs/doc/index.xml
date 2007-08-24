@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="akarasulu@apache.org">Alex Karasulu</author>
+    <title>Apache Directory Project: Documentation</title>
+  </properties> 
+
+  <body>
+    <section name="Directory Documentation">
+     <p>
+       Coming soon ...
+     </p>
+     <table>
+       <tr>
+         <th>Resource</th>
+         <th>Description</th>
+       </tr>
+       <tr>
+         <td>
+            <a href="http://wiki.apache.org/directory">Wiki</a>
+         </td>
+         <td>
+          The Directory Wiki contains a growing collection of information
+          about roadmaps, development discussions, general ideas and other 
+          inspirational material.  Feel free to contribute!
+         </td>
+       </tr>
+     </table>
+
+     <subsection name="Articles">
+       <table>
+         <tr>
+           <th>Resource</th>
+           <th>Description</th>
+         </tr>
+         
+         <tr>
+           <td> 
+             Coming soon ...
+          </td>
+          <td>
+             Coming soon ...
+          </td>
+        </tr>
+
+       </table>
+     </subsection>
+    </section>
+  </body>
+</document>
