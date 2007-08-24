@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="akarasulu@apache.org">Alex Karasulu</author>
+    <title>Apache Directory Project: Community History</title>
+  </properties>
+
+<body>
+
+<section name="History">
+
+<p>
+    This document tracks the history of the Directory project. The
+    Directory project was originally started with the need for a
+    Java LDAP Server.  Explain more history.
+</p>
+
+<p>
+    Over time the Java ...
+</p>
+</section>
+
+</body>
+</document>

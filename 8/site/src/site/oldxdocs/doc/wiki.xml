@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="akarasulu@apache.org">Alex Karasulu</author>
+    <title>Apache Directory Project: Wiki</title>
+  </properties> 
+
+  <body>
+    <section name="Directory Wiki">
+      <p>The <a href="http://wiki.apache.org/directory">Directory Wiki</a> 
+        contains a growing collection of information about the Directory 
+        Project, roadmaps, development discussions, general ideas and other 
+        inspirational material.
+      </p>
+    </section>
+  </body>
+</document>
+

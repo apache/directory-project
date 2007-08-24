@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <properties>
+    <author email="akarasulu@apache.org">Alex Karasulu</author>
+    <title>Apache Directory Project: Contributors</title>
+  </properties>
+  <body> 
+    <section name="Stephen McConnell">
+      <p>(mcconnell at apache dot org)</p>
+      <subsection name="Activities">
+      <p>
+Responsible for the coordination and management of many international development projects dealing with large-scale collaborative software development.  These projects have involved community building, bootstrap financing (venture capital, government programmes, industrial sponsorship and partnerships), financial coordination and adminstration, operations, and technical direction.  
+      </p>
+      <p>
+Technical expertise includes an in-depth knowledge of CORBA core infrastructure, the IDL and PSDL languages, related common services (naming, PSS, Time, Notification, interceptor and activator frameworks).  Comprehensive knowledge of component management systems, component lifecycle concepts, container solutions, component assembly strategies, component isolation, and federation mechanisms. Experience with Java, J2EE, Servlet and related development tools.
+      </p>
+ 
+      <p>
+Software Engineering and Best Practices experience is derived from the management and coordination of several large projects in the service management area -  provided the opportunity to explore different approaches to service management.  This has included assessment of the technical, human and social factors that contribute to functional, usable, and maintainable business systems and in-depth work related to Component and Service Oriented Programming (COP and SOP) and the related principals of SOC and IoC.
+      </p>
+
+      <p>
+Early experience related to advanced research in the area of distributed multi-agent systems served as the foundations business-level application strategies and related peer-to-peer architectures. Responsible for the initiation of several research and development projects in this area, culminating in the OSM development of a peer-to-peer service management platform.
+      </p>
+    </subsection>
+    <subsection name="Projects">
+<p>
+Lead several international projects related to service management and distribution (from advanced research through to practical application trials).  The most relevant of these projects are listed in the following table.
+</p>
+  <table>
+    <tr><th>Subject</th><th>Description</th></tr>
+     <tr><td>Open Source Initative</td>
+        <td>Originator and lead developer of the <a href="http://avalon.apache.org/merlin">Apache Avalon Merlin</a> component management platform - an advanced solution dealing with auto-assembly, premptive deployment strategies, based on a full model-driven component architecture. Member of the <a href="http://avalon.apache.org/index.html">Avalon PMC</a> and <a href="http://incubator.apache.org/directory/index.html">Apache Directory PMC"</a>.  Founding member of the <a href="http://openorb.sourceforge.net/">Community OpenORB Project</a>.</td>
+    </tr>
+    <tr><td>Interactive Environments for Distributed Process Management</td>
+        <td>The development of an interactive environment for business-to-business service management. Project coordinated by OSM SARL.  Research aspects undertaken by Imperial College London.  Project involved development of architectural approaches to service policy declaration and the establishment of formal standards in the community and collaboration areas under the <a href="http://www.omg.org">OMG</a>.
+         </td>
+    </tr>
+    <tr><td>Cross-Enterprise Digital Product Management</td>
+         <td>A Developer Platform capable of auto-generating complex business systems; an Enterprise Platform capable of executing generated business processes. The project involved approximately 50 participants across 13 partner organisations spanning Europe and the United States.  Responsibilities included consortium establishment, administration, management and technical lead.</td>
+     </tr>
+     <tr><td>The Open Software Architecture Forum</td>
+        <td>Resolution of a common methodology and architectures for embedded systems dealing with distributed internet based services. The project established a reference architecture for the European Commission OMI Project and completed several demonstrations and proof of concept solutions validating the integration of distributed service management into intelligent devices. Responsibilities covered project direction and technical lead.</td>
+      </tr>
+     </table>
+    </subsection>
+    <subsection name="Snapshot">
+      <p><img src="images/mcconnell.jpg"/></p>
+    </subsection>
+    </section>
+  </body>
+</document>
+
+
+

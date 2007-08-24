@@ -1,0 +1,277 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+    <html>
+      <head>
+          <title>Apache Directory - Apache Directory Downloads</title>
+        <style type="text/css">
+          @import url("./style/tigris.css");
+          @import url("./style/maven.css");
+          @import url("./style/osm.css");
+        </style>
+        <link rel="stylesheet" href="./style/print.css" type="text/css" media="print"></link>
+          <meta name="author" value="Alex Karasulu"></meta>
+          <meta name="email" value="akarasulu@apache.org"></meta>
+      </head>
+
+      <body marginwidth="0" class="composite" marginheight="0">
+        <div id="banner">
+          <table height="103" border="0" width="100%" cellpadding="8" cellspacing="0">
+            <tr>
+              <td>
+                  <a href="http://incubator.apache.org/directory">
+                    <img border="0" alt="The Apache Directory Project" 
+                      src="./images/apache-Directory-logo.png" align="left"></img>
+                  </a>
+              </td>
+              <td>
+                <div id="login" align="right">
+                  <a href="http://apachecon.com/2003/US/index.html">
+                    <img border="0" src="http://www.apache.org/~ceki/ac2003/ac2003-150.gif"></img>
+                  </a>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div id="breadcrumbs">
+          <table border="0" width="100%" cellpadding="4" cellspacing="0">
+            <tr>
+              <td>
+                <div align="right">
+      <a href="http://apache.org/"> Apache </a> |
+      <a href="index.html"> Directory </a> |
+      <a href="product/framework/index.html"> Framework </a> |
+      <a href="product/containers/index.html"> Containers </a> |
+      <a href="product/components/index.html"> Components </a>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <table border="0" width="100%" cellpadding="8" cellspacing="0">
+          <tr valign="top">
+            <td width="200" id="leftcol">
+              <div id="navcolumn">
+    <div>
+      <strong>About Directory</strong>
+    <div>
+      <small><a href="index.html">Overview</a></small>
+    </div>
+    <div>
+      <small><a href="news.html">Latest News</a></small>
+    </div>
+    <div>
+      <small><a href="community/index.html">Community</a></small>
+    </div>
+    <div>
+      <small><a href="product/index.html">Products</a></small>
+    </div>
+    <div>
+      <small><a href="doc/index.html">Documentation</a></small>
+    </div>
+    </div>
+    <div>
+      <strong>Resources</strong>
+    <div>
+      <small><a href="license.html">License</a></small>
+    </div>
+    <div>
+      <small><a href="download.cgi">Downloads</a></small>
+    </div>
+    <div>
+      <small><a href="cvs.html">CVS</a></small>
+    </div>
+    <div>
+      <small><a href="http://wiki.apache.org/Directory">WIKI</a></small>
+    </div>
+    <div>
+      <small><a href="sandbox/index.html">Sandbox</a></small>
+    </div>
+    <div>
+      <small><a href="mailing-lists.html">Mailing Lists</a></small>
+    </div>
+    <div>
+      <small><a href="http://nagoya.apache.org/bugzilla/reports.cgi?product=Directory&amp;amp;output=most_doomed&amp;amp;links=1&amp;amp;banner=1&amp;amp;quip=0">Bug Database</a></small>
+    </div>
+    <div>
+      <small><a href="related/index.html">Related Projects</a></small>
+    </div>
+    </div>
+              </div>
+            </td>
+            <td>
+              <div id="bodycol">
+                <div class="app">
+    <div class="h3">
+        <h3>
+          <a name="download">Directory Download Site</a>
+        </h3>
+
+    <div>
+     <!-- START DOWNLOAD PAGE CONTENT -->
+
+      <p>Use the links below to download a binary distribution of
+      Directory from one of our mirrors.  It's a good idea to
+      <a href="[location]#Verify Releases">verify the integrity</a>
+      of the downloaded files using signatures downloaded from our
+      main distribution directory.</p>
+
+      <p>Directory is distributed as <code>zip</code> and <code>tar.gz</code>
+      archives - the contents are the same. Please note that the <code>tar.gz</code>
+      archives contain file names longer than 100 characters and have been
+      created using GNU tar extensions.  They must be untarred with a GNU
+      compatible version of <code>tar</code>.</p>
+
+      <p>If you do not see the file you need in the links below, please
+      see the <a href="http://www.apache.org/dist/Directory/">master
+      distribution directory</a> or, preferably, its
+      <a href="[preferred]/Directory/">mirror</a>.</p>
+
+<a name="Mirror"></a><h4>Mirror</h4>
+      <p>You are currently using the <strong>[preferred]</strong>.
+      If you encounter a problem with this mirror, please select another
+      mirror.  If all mirrors are failing, there are <em>backup</em>
+      mirrors (at the end of the mirrors list) that should be available.</p>
+
+      <form action="[location]" method="get" id="SelectMirror">
+<p>Other mirrors: <select name="Preferred"></p>
+[if-any http]
+  [for http]<option value="[http]">[http]</option>[end]
+[end]
+[if-any ftp]
+  [for ftp]<option value="[ftp]">[ftp]</option>[end]
+[end]
+[if-any backup]
+  [for backup]<option value="[backup]">[backup] (backup)</option>[end]
+[end]
+        </select>
+        <input type="submit" value="Change">
+      </form>
+
+<a name="Projects"></a><h4>License</h4>
+
+<p>All Directory products are distributed under the terms of a slightly
+modified Apache Software License (version 1.1). See our
+<a href="license.html">License</a> page, or the LICENSE.txt files
+included in each distribution.</p>
+
+<a name="Projects"></a><h4>Projects</h4>
+
+<p>Here's a list of the most commonly requested distributions. You can
+<a href="[preferred]/Directory/">browse</a> the repository for a full
+range of our various distributions, including older versions.</p>
+
+<p>Please note: we're still filling up this list; its incomplete
+at the moment.</p>
+
+<!-- lets maintain alphabetical order, peeps! -->
+<table border="1" width="100%" cellspacing="2" cellpadding="3">
+    <tr class="a">
+      <th>Product</th>
+      <th>Binary</th>
+      <th>Source</th>
+      <th>Jars</th>
+    </tr>
+    <tr class="a">
+<td><a href="/fortress/">Directory-Fortress</a></td>
+<td><a href="[preferred]/Directory/fortress/binaries">binaries</a></td>
+<td><a href="[preferred]/Directory/fortress/source">broswe</a></td>
+<td><a href="[preferred]/Directory/fortress/jars">jars</a></td>
+   </tr>
+    <tr class="b">
+<td><a href="/framework/">Directory-Framework</a></td>
+<td><a href="[preferred]/Directory/framework/binaries">binaries</a></td>
+<td><a href="[preferred]/Directory/framework/source">source</a></td>
+<td><a href="[preferred]/Directory/framework/jars">jars</a></td>
+   </tr>
+    <tr class="a">
+<td><a href="/logkit/">Directory-Logkit</a></td>
+<td><a href="[preferred]/Directory/logkit/binaries">binaries</a></td>
+<td><a href="[preferred]/Directory/logkit/source">broswe</a></td>
+<td><a href="[preferred]/Directory/logkit/jars">jars</a></td>
+   </tr>
+    <tr class="a">
+<td><a href="/merlin/">Directory-Merlin</a></td>
+<td><a href="[preferred]/Directory/merlin/binaries">binaries</a></td>
+<td><a href="[preferred]/Directory/merlin/source">broswe</a></td>
+<td><a href="[preferred]/Directory/merlin/jars">jars</a></td>
+   </tr>
+    <tr class="a">
+<td><a href="/phoenix/">Directory-Phoenix</a></td>
+<td><a href="[preferred]/Directory/phoenix/binaries">binaries</a></td>
+<td><a href="[preferred]/Directory/phoenix/source">broswe</a></td>
+<td><a href="[preferred]/Directory/phoenix/jars">jars</a></td>
+   </tr>
+</table>
+
+<a name="Verify Releases"></a><h4>Verify Releases</h4>
+
+<p>It is essential that you verify the integrity of the downloaded
+files using the PGP or MD5 signatures.</p>
+<p>The PGP signatures can be verified using PGP or GPG.  First
+download the <a href="http://www.apache.org/dist/Directory/KEYS">KEYS</a>
+as well as the <code>asc</code> signature file for the particular
+distribution.  Make sure you get these files from the
+<a href="http://www.apache.org/dist/Directory/">main distribution
+directory</a>, rather than from a mirror. Then verify the signatures
+using</p>
+<p><code>
+% pgpk -a KEYS<br />
+% pgpv name-of-distributed-file.tar.gz.asc<br />
+</code>
+<em>or</em><br />
+<code>
+% pgp -ka KEYS<br />
+% pgp name-of-distributed-file.tar.gz.asc<br />
+</code>
+<em>or</em><br />
+<code>
+% gpg --import KEYS<br />
+% gpg --verify name-of-distributed-file.tar.gz.asc
+</code></p>
+
+<!--
+
+Using an automated process to retrieve files from mirrors is
+considered unsafe by the infrastructure team, as it is very
+easy to become a 'malicious mirror' and that could have grave
+consequences to users.
+
+Maven needs a way to verify distributions against md5 and/or asc
+files retrieved from the main distribution location before we
+re-enable this.
+
+<a name="Maven Repository"></a><h4>Maven Repository</h4>
+
+<p>The Directory distribution layout is compatible with the
+<a href="http://maven.apache.org/">Maven</a> repository format. To
+enable maven to automatically use your chosen distribution mirror
+as a remote repository, add a line to your project.properties file:
+</p>
+
+<p><code>
+maven.repo.remote = [preferred]/Directory,http://www.ibiblio.org/maven
+</code></p>-->
+
+<p>Doing so will ensure that your maven-enabled projects will always
+be able to find the latest Directory binaries.</p>
+     <!-- END DOWNLOAD PAGE CONTENT -->
+    </div>
+
+    </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+        <div id="footer">
+          <table border="0" cellpadding="4" cellspacing="0">
+            <tr>
+              <td>
+                       1997-2003, The Apache Directory Project
+              </td>
+            </tr>
+          </table>
+        </div>
+      </body>
+    </html>

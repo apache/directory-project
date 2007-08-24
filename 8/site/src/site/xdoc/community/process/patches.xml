@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="akarasulu@apache.org">Alex Karasulu</author>
+    <title>Apache Directory Project: Patches</title>
+  </properties> 
+       <body>
+	  <section name="JIRA">
+	    <p>It's the issue tracking system we use, and
+	    we ask that you do, too.<br/>
+	    <br/>
+	    <a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10400"><strong>Enter a bug</strong></a><br/>
+	    <br/>
+	    but please make sure the bug you're reporting doesn't exist yet, you include
+	    all relevant information, etc. See
+	    <a href="http://nagoya.apache.org/wiki/apachewiki.cgi?HowDoISubmitUsefulBugReports">this page</a>
+	    for more on how to submit bug reports, or try Google.</p>
+	  </section>
+	  <section name="Submitting patches">
+	    <p>Generate patches using <code>cvs diff -u</code>, or <code>diff -u</code>.
+	    Please create your patches relative to the root of the cvs module the patch
+	    should be applied to. Please compile changes to multiple files
+	    in a single patch file. Make sure the patch adheres to the coding standards,
+	    and includes appropriate javadoc.</p>
+	    
+	    <p>When you've built the patch, file a new bug report in JIRA if one
+	    does not exist yet, explain the reason behind the patch, how the patch fixes
+	    the issues, and add the patch as an attachment.</p>
+	    
+	    <p>If your patch is not getting applied or there is no response, start nagging
+	    the developers (politely, please :D) on the developers mailing list.</p>
+	    
+	    <section name="Documentation patches">
+	      <p>Please submit documentation patches against the xml sourcefiles used
+	      for generating the documentation, and not against the documentation
+	      itself.</p>
+	    </section>
+	  </section>
+        </body>
+
+</document>
