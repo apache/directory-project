@@ -16,9 +16,9 @@
   <packaging>pom</packaging>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/directory/project/branches/bigbang</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory/project/branches/bigbang</developerConnection>
-    <url>http://svn.apache.org/viewvc/directory/project/branches/bigbang</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/directory/project/trunk</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory/project/trunk</developerConnection>
+    <url>http://svn.apache.org/viewvc/directory/project/trunk</url>
   </scm>
 
   <!-- =======================  WARNING ========================== -->
