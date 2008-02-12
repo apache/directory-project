@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="akarasulu@apache.org">Alex Karasulu</author>
+    <title>Kerberos Provider Services</title>
+  </properties>
+  
+  <body>
+    <section name="Kerberos Services">
+      <p> 
+        The Directory Project consists a couple Kerberos related services. 
+      </p>
+      
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+        </tr>
+        
+        <tr>
+          <td>
+            <a href="providers/kerberos/index.html">Kerberos Provider</a>
+          </td>
+          <td>
+            <p>
+              A Kerberos 5 service provider plugin or in other words a key 
+              distribution center, based on 
+              <a href="http://www.faqs.org/rfcs/rfc1510.html">RFC 1510</a> 
+              which stores its data within ApacheDS. 
+            </p>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <a href="providers/changepw/index.html">Changepw Provider</a>
+          </td>
+          <td>
+            <p>
+              Change password is a protocol that uses Kerberos infrastructure 
+              to allow users to securely set new passwords. This ApacheDS 
+              provider implements the changepw protocol defined in 
+              <a href="http://www.faqs.org/rfcs/rfc3244.html">RFC 3244</a>.
+            </p>
+          </td>
+        </tr>
+
+      </table>
+    </section>
+  </body>
+</document>

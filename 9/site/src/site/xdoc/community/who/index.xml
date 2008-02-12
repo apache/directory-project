@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="akarasulu@apache.org">Alex Karasulu</author>
+    <title>Apache Directory Project: Who we are</title>
+  </properties> 
+  <body>
+    <section name="Active Committers">
+      <p>
+      The current Directory committers are: 
+      adc, akarasulu, bayard, bloritsch, brett, 
+      elecharny, erodriguez, ersiner, jmachols, niklas, noel, 
+      psteitz, szoerner, trustin, vtence, wesmckean
+      </p>
+    </section>
+    <section name="Inactive Committers">
+      <p>
+      The current inactive Directory committers (an inactive committer is
+      someone who hasn't done a cvs commit in three months, or hasn't
+      bothered to move himself from this list to the one above) are:
+      none yet.
+      </p>
+    </section>
+    <section name="Emeritus Committers">
+      <p>
+       The current emeritus committers (an emeritus committer is
+      someone who is not active within the Directory Project anymore)
+      are: none yet.
+      </p>
+    </section>
+    <section name="Contributors">
+      <p>
+      Contributors are: Nick Faiz
+      </p>
+      <p>
+      If you are a contributor but are not listed, submit a patch for the site docs.
+      </p>
+    </section>
+  </body>
+
+</document>
