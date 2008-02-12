@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <properties>
+    <title>Apache Directory Project: Contributors</title>
+  </properties>
+  <body> 
+    <section name="Phil Steitz">
+      <p>(psteitz at apache dot org)</p>
+      <p>
+        Phil works on Naming. 
+      </p>
+      <p>
+        <a href="http://www.apache.org/~psteitz">Phil's Apache home page</a>
+      </p>
+    </section>
+  </body>
+</document>
+
