@@ -68,8 +68,8 @@
           <td>
             <p> A DNS implementation based on <a
               href="http://www.faqs.org/rfcs/rfc1034.html">RFC 1034</a>. Apache DNS
-              serves host name to address mappings and other resource record types
-              using resource records stored in the Apache Directory backing store.</p>
+              serves host name to address mappings and other resource recordForward types
+              using resource recordForwards stored in the Apache Directory backing store.</p>
           </td>
         </tr>
         <tr>
