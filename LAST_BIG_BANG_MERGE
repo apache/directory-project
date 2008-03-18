@@ -1,0 +1,12 @@
+This file shows the last time I merged from the big bang branch here as a commit
+number:
+
+   https://svn.apache.org/repos/asf/directory/project/branches/bigbang/
+
+
+Tue Mar 18 00:52:06 EDT 2008
+----------------------------
+svn merge -r 613581:638215 https://svn.apache.org/repos/asf/directory/project/branches/bigbang .
+$Rev$
+$Date$
+
