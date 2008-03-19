@@ -21,6 +21,16 @@
     <url>http://svn.apache.org/viewvc/directory/project/branches/bigbang</url>
   </scm>
 
+  <distributionManagement>
+    <snapshotRepository>
+      <id>apache.directory.snapshot.repo</id>
+      <name>Snapshot repository for the Apache Directory project</name>
+      <uniqueVersion>false</uniqueVersion>
+      <url>scpexe://vm094.oxylos.org/var/www/html/mirror-maven2</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+
   <!-- =======================  WARNING ========================== -->
   <!-- Only put pluginManagement info in this pom for plugins      -->
   <!-- shared among shared, apacheds, and daemon subprojects       -->
