@@ -29,7 +29,7 @@
         <type>mail</type>
         <sendOnError>true</sendOnError>
         <sendOnFailure>true</sendOnFailure>
-        <sendOnSuccess>false</sendOnSuccess>
+        <sendOnSuccess>true</sendOnSuccess>
         <sendOnWarning>false</sendOnWarning>
         <configuration>
           <!-- FIXME as soon as we have a list for this -->
