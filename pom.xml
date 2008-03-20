@@ -21,6 +21,24 @@
     <url>http://svn.apache.org/viewvc/directory/project/branches/bigbang</url>
   </scm>
 
+  <ciManagement>
+    <system>continuum</system>
+    <url>http://vm094.oxylos.org/continuum/</url>
+    <notifiers>
+      <notifier>
+        <type>mail</type>
+        <sendOnError>true</sendOnError>
+        <sendOnFailure>true</sendOnFailure>
+        <sendOnSuccess>false</sendOnSuccess>
+        <sendOnWarning>false</sendOnWarning>
+        <configuration>
+          <!-- FIXME as soon as we have a list for this -->
+          <address>felixk@apache.org</address>
+        </configuration>
+      </notifier>
+    </notifiers>
+  </ciManagement>  
+  
   <distributionManagement>
     <snapshotRepository>
       <id>apache.directory.snapshot.repo</id>
