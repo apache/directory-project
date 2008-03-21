@@ -269,7 +269,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-remote-resources-plugin</artifactId>
-          <version>1.0-beta-2</version>
+          <version>1.0</version>
           <executions>
             <execution>
               <goals>
@@ -277,10 +277,8 @@
               </goals>
               <configuration>
                 <resourceBundles>
-                  <resourceBundle>org.apache:apache-jar-resource-bundle:1.2</resourceBundle>
+                  <resourceBundle>org.apache:apache-jar-resource-bundle:1.4</resourceBundle>
                 </resourceBundles>
-                <!-- hack to share the same corrections among all modules -->
-                <appendedResourcesDirectory>${basedir}/../src/main/appended-resources</appendedResourcesDirectory>
               </configuration>
             </execution>
           </executions>
@@ -293,14 +291,63 @@
             <argLine>-Xmx1024m</argLine>
           </configuration>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-stage-plugin</artifactId>
+          <version>1.0-alpha-1</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>rat-maven-plugin</artifactId>
+          <version>1.0-alpha-3</version>
+          <configuration>
+            <excludeSubProjects>false</excludeSubProjects>
+          </configuration>
+        </plugin>
+
+        <plugin>
+            <groupId>org.apache.geronimo.genesis.plugins</groupId>
+            <artifactId>tools-maven-plugin</artifactId>
+            <version>1.4</version>
+        </plugin>
       </plugins>
     </pluginManagement>
 
     <plugins>
       <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>rat-maven-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+          <groupId>org.apache.geronimo.genesis.plugins</groupId>
+          <artifactId>tools-maven-plugin</artifactId>
+          <executions>
+              <execution>
+                  <id>verify-legal-files</id>
+                  <phase>verify</phase>
+                  <goals>
+                      <goal>verify-legal-files</goal>
+                  </goals>
+                  <configuration>
+                      <!-- Fail the build if no legal files were found -->
+                      <strict>true</strict>
+                  </configuration>
+              </execution>
+          </executions>
+      </plugin>
+
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-remote-resources-plugin</artifactId>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-stage-plugin</artifactId>
+      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
