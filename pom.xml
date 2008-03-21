@@ -48,7 +48,6 @@
     </snapshotRepository>
   </distributionManagement>
 
-
   <!-- =======================  WARNING ========================== -->
   <!-- Only put pluginManagement info in this pom for plugins      -->
   <!-- shared among shared, apacheds, and daemon subprojects       -->
@@ -201,6 +200,14 @@
 
     </plugins>
   </build>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>apache.directory.plugins</id>
+      <name>Plugin repository for the Apache Directory Studio plugin</name>
+      <url>http://vm094.oxylos.org/mirror-maven2/</url>
+    </pluginRepository>
+  </pluginRepositories>
 
   <profiles>
     <profile>
