@@ -110,12 +110,6 @@
     </developer>
   </developers>
   
-  <contributors>
-    <contributor>
-      <name>Nick Faiz</name>
-    </contributor>
-  </contributors>
-
   <licenses>
     <license>
       <name>Apache License, Version 2.0</name>
