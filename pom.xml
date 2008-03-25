@@ -45,8 +45,7 @@
         <sendOnSuccess>true</sendOnSuccess>
         <sendOnWarning>false</sendOnWarning>
         <configuration>
-          <!-- FIXME as soon as we have a list for this -->
-          <address>felixk@apache.org</address>
+          <address>notifications@directory.apache.org</address>
         </configuration>
       </notifier>
     </notifiers>
@@ -80,6 +79,11 @@
       <otherArchives>
         <otherArchive>http://www.archivum.info/commits@directory.apache.org/</otherArchive>
       </otherArchives>
+    </mailingList>
+    <mailingList>
+      <name>The Directory Notifications (CI) List</name>
+      <subscribe>notifications-subscribe@directory.apache.org</subscribe>
+      <unsubscribe>notifications-unsubscribe@directory.apache.org</unsubscribe>
     </mailingList>
   </mailingLists>
 
