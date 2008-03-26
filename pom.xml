@@ -45,12 +45,7 @@
         <sendOnSuccess>true</sendOnSuccess>
         <sendOnWarning>false</sendOnWarning>
         <configuration>
-        <!-- 
           <address>notifications@directory.apache.org</address>
-        -->
-          <address>felix@otego.com</address>
-          <from-name>CI vm094.oxylos.org</from-name>
-          <from-mailbox>dev@directory.apache.org</from-mailbox>
         </configuration>
       </notifier>
     </notifiers>
