@@ -244,7 +244,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>2.3</version>
+          <version>2.4</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -254,9 +254,6 @@
         <plugin>
           <artifactId>maven-gpg-plugin</artifactId>
           <version>1.0-alpha-4</version>
-          <configuration>
-            <tagBase>https://svn.apache.org/repos/asf/directory/project/releases</tagBase>
-          </configuration>
           <executions>
             <execution>
               <goals>
@@ -280,6 +277,9 @@
                 <goal>process</goal>
               </goals>
               <configuration>
+                <properties>
+                  <projectName>${projectName}</projectName>
+                </properties>
                 <resourceBundles>
                   <resourceBundle>org.apache:apache-jar-resource-bundle:1.4</resourceBundle>
                 </resourceBundles>
@@ -311,9 +311,9 @@
         </plugin>
 
         <plugin>
-            <groupId>org.apache.geronimo.genesis.plugins</groupId>
-            <artifactId>tools-maven-plugin</artifactId>
-            <version>1.4</version>
+          <groupId>org.apache.geronimo.genesis.plugins</groupId>
+          <artifactId>tools-maven-plugin</artifactId>
+          <version>1.4</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -325,21 +325,21 @@
       </plugin>
 
       <plugin>
-          <groupId>org.apache.geronimo.genesis.plugins</groupId>
-          <artifactId>tools-maven-plugin</artifactId>
-          <executions>
-              <execution>
-                  <id>verify-legal-files</id>
-                  <phase>verify</phase>
-                  <goals>
-                      <goal>verify-legal-files</goal>
-                  </goals>
-                  <configuration>
-                      <!-- Fail the build if no legal files were found -->
-                      <strict>true</strict>
-                  </configuration>
-              </execution>
-          </executions>
+        <groupId>org.apache.geronimo.genesis.plugins</groupId>
+        <artifactId>tools-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>verify-legal-files</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>verify-legal-files</goal>
+            </goals>
+            <configuration>
+              <!-- Fail the build if no legal files were found -->
+              <strict>true</strict>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
 
       <plugin>
@@ -355,23 +355,48 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
-        <configuration>
-          <tagBase>https://svn.apache.org/repos/asf/directory/project/releases</tagBase>
-        </configuration>
       </plugin>
     </plugins>
   </build>
 
   <profiles>
+
     <profile>
       <id>release</id>
+
       <build>
         <plugins>
+
           <plugin>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <version>1.0-alpha-4</version>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-release-plugin</artifactId>
             <configuration>
-              <tagBase>https://svn.apache.org/repos/asf/directory/project/releases</tagBase>
+              <useReleaseProfile>false</useReleaseProfile>
+              <goals>deploy</goals>
+              <arguments>-Prelease</arguments>
+            </configuration>
+          </plugin>
+
+          <!-- We want a source jar -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+          <!-- We want to sign the artifact, the POM, and all attached artifacts -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <inherited>true</inherited>
+            <configuration>
+              <passphrase>${gpg.passphrase}</passphrase>
             </configuration>
             <executions>
               <execution>
@@ -381,9 +406,81 @@
               </execution>
             </executions>
           </plugin>
+
+          <!-- In the future... -->
+          <!-- We want to deploy the artifact to a staging location for perusal -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-deploy-plugin</artifactId>
+            <inherited>true</inherited>
+            <configuration>
+              <!-- uncomment to enable "staged" release process -->
+              <!--<altDeploymentRepository>${deploy.altRepository}</altDeploymentRepository>-->
+              <updateReleaseInfo>true</updateReleaseInfo>
+            </configuration>
+          </plugin>
+
+          <!-- We want the JavaDoc JAR published with the release -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <inherited>true</inherited>
+            <configuration>
+              <source>1.5</source>
+            </configuration>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
         </plugins>
       </build>
     </profile>
+
+    <profile>
+      <id>full</id>
+
+      <build>
+        <plugins>
+
+          <!-- We want a source jar -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+          <!-- We want the JavaDoc JAR published with the release -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <inherited>true</inherited>
+            <configuration>
+              <source>1.5</source>
+            </configuration>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
   </profiles>
 
   <pluginRepositories>
@@ -416,7 +513,7 @@
       </plugin>
     </plugins>
   </reporting>
-  
+
   <distributionManagement>
     <snapshotRepository>
       <id>apache.directory.snapshot.repo</id>
