@@ -32,7 +32,7 @@
   <artifactId>project</artifactId>
   <packaging>pom</packaging>
   <name>Apache Directory Project</name>
-  <version>10-SNAPSHOT</version>
+  <version>10</version>
 
   <ciManagement>
     <system>continuum</system>
@@ -176,9 +176,9 @@
   </contributors>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/directory/project/branches/bigbang</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory/project/branches/bigbang</developerConnection>
-    <url>http://svn.apache.org/viewvc/directory/project/branches/bigbang</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/directory/project/tags/10</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory/project/tags/10</developerConnection>
+    <url>http://svn.apache.org/viewvc/directory/project/tags/10</url>
   </scm>
 
   <build>
