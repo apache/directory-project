@@ -32,7 +32,7 @@
   <artifactId>project</artifactId>
   <packaging>pom</packaging>
   <name>Apache Directory Project</name>
-  <version>11</version>
+  <version>12-SNAPSHOT</version>
 
   <ciManagement>
     <system>continuum</system>
