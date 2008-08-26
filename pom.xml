@@ -48,6 +48,16 @@
           <address>notifications@directory.apache.org</address>
         </configuration>
       </notifier>
+      <notifier>
+        <type>mail</type>
+        <sendOnError>true</sendOnError>
+        <sendOnFailure>true</sendOnFailure>
+        <sendOnSuccess>true</sendOnSuccess>
+        <sendOnWarning>true</sendOnWarning>
+        <configuration>
+          <address>felix@otego.com</address>
+        </configuration>
+      </notifier>
     </notifiers>
   </ciManagement>
 
