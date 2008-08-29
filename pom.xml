@@ -511,6 +511,10 @@
           </reportSet>
         </reportSets>
       </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>rat-maven-plugin</artifactId>
+      </plugin>
     </plugins>
   </reporting>
 
