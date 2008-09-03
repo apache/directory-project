@@ -371,6 +371,11 @@
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>rat-maven-plugin</artifactId>
+            <configuration>
+              <excludes>
+                <exclude>**/target/**/*</exclude>
+              </excludes>
+            </configuration>
             <executions>
               <execution>
                 <phase>verify</phase>
@@ -530,6 +535,9 @@
         <artifactId>rat-maven-plugin</artifactId>
         <configuration>
 	  <excludeSubProjects>false</excludeSubProjects>
+          <excludes>
+            <exclude>**/target/**/*</exclude>
+          </excludes>
         </configuration>
       </plugin>
     </plugins>
