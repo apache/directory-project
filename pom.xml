@@ -373,7 +373,17 @@
             <artifactId>rat-maven-plugin</artifactId>
             <configuration>
               <excludes>
+                <!-- MAVEN_DEFAULT_EXCLUDES -->
                 <exclude>**/target/**/*</exclude>
+                <exclude>**/cobertura.ser</exclude>
+                <!-- ECLIPSE_DEFAULT_EXCLUDES -->
+                <exclude>**/.classpath</exclude>
+                <exclude>**/.project</exclude>
+                <exclude>**/.settings/**/*</exclude>
+                <!-- IDEA_DEFAULT_EXCLUDES -->
+                <exclude>**/*.iml</exclude>
+                <exclude>**/*.ipr</exclude>
+                <exclude>**/*.iws</exclude>
               </excludes>
             </configuration>
             <executions>
@@ -384,8 +394,8 @@
                 </goals>
               </execution>
             </executions>
-	  </plugin>
-	   
+         </plugin>
+   
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-release-plugin</artifactId>
@@ -534,9 +544,19 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>rat-maven-plugin</artifactId>
         <configuration>
-	  <excludeSubProjects>false</excludeSubProjects>
-          <excludes>
+        <excludeSubProjects>false</excludeSubProjects>
+        <excludes>
+            <!-- MAVEN_DEFAULT_EXCLUDES -->
             <exclude>**/target/**/*</exclude>
+            <exclude>**/cobertura.ser</exclude>
+            <!-- ECLIPSE_DEFAULT_EXCLUDES -->
+            <exclude>**/.classpath</exclude>
+            <exclude>**/.project</exclude>
+            <exclude>**/.settings/**/*</exclude>
+            <!-- IDEA_DEFAULT_EXCLUDES -->
+            <exclude>**/*.iml</exclude>
+            <exclude>**/*.ipr</exclude>
+            <exclude>**/*.iws</exclude>
           </excludes>
         </configuration>
       </plugin>
