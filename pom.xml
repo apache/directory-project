@@ -384,6 +384,8 @@
                 <exclude>**/*.iml</exclude>
                 <exclude>**/*.ipr</exclude>
                 <exclude>**/*.iws</exclude>
+                <!-- MANIFEST_MF_EXCLUDES -->
+                <exclude>**/MANIFEST.MF</exclude>
               </excludes>
             </configuration>
             <executions>
@@ -557,6 +559,8 @@
             <exclude>**/*.iml</exclude>
             <exclude>**/*.ipr</exclude>
             <exclude>**/*.iws</exclude>
+            <!-- MANIFEST_MF_EXCLUDES -->
+            <exclude>**/MANIFEST.MF</exclude>
           </excludes>
         </configuration>
       </plugin>
