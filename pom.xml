@@ -32,7 +32,7 @@
   <artifactId>project</artifactId>
   <packaging>pom</packaging>
   <name>Apache Directory Project</name>
-  <version>12</version>
+  <version>13-SNAPSHOT</version>
 
   <ciManagement>
     <system>continuum</system>
@@ -176,9 +176,9 @@
   </contributors>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/directory/project/tags/12</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory/project/tags/12</developerConnection>
-    <url>http://svn.apache.org/viewvc/directory/project/tags/12</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/directory/project/trunk</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory/project/trunk</developerConnection>
+    <url>http://svn.apache.org/viewvc/directory/project/trunk</url>
   </scm>
 
   <build>
