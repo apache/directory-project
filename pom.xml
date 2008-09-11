@@ -32,7 +32,7 @@
   <artifactId>project</artifactId>
   <packaging>pom</packaging>
   <name>Apache Directory Project</name>
-  <version>12-SNAPSHOT</version>
+  <version>12</version>
 
   <ciManagement>
     <system>continuum</system>
@@ -176,9 +176,9 @@
   </contributors>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/directory/project/trunk</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory/project/trunk</developerConnection>
-    <url>http://svn.apache.org/viewvc/directory/project/trunk</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/directory/project/tags/12</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory/project/tags/12</developerConnection>
+    <url>http://svn.apache.org/viewvc/directory/project/tags/12</url>
   </scm>
 
   <build>
@@ -367,24 +367,20 @@
       <build>
         <plugins>
 
-          <!-- We want do the rat:check -->
+          <!-- We want do the rat check 
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>rat-maven-plugin</artifactId>
             <configuration>
-              <excludes>
-                <!-- MAVEN_DEFAULT_EXCLUDES -->
+              <excludes> 
                 <exclude>**/target/**/*</exclude>
                 <exclude>**/cobertura.ser</exclude>
-                <!-- ECLIPSE_DEFAULT_EXCLUDES -->
                 <exclude>**/.classpath</exclude>
                 <exclude>**/.project</exclude>
                 <exclude>**/.settings/**/*</exclude>
-                <!-- IDEA_DEFAULT_EXCLUDES -->
                 <exclude>**/*.iml</exclude>
                 <exclude>**/*.ipr</exclude>
                 <exclude>**/*.iws</exclude>
-                <!-- MANIFEST_MF_EXCLUDES -->
                 <exclude>**/MANIFEST.MF</exclude>
               </excludes>
             </configuration>
@@ -397,6 +393,7 @@
               </execution>
             </executions>
          </plugin>
+         -->
    
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
