@@ -367,24 +367,20 @@
       <build>
         <plugins>
 
-          <!-- We want do the rat:check -->
+          <!-- We want do the rat check 
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>rat-maven-plugin</artifactId>
             <configuration>
-              <excludes>
-                <!-- MAVEN_DEFAULT_EXCLUDES -->
+              <excludes> 
                 <exclude>**/target/**/*</exclude>
                 <exclude>**/cobertura.ser</exclude>
-                <!-- ECLIPSE_DEFAULT_EXCLUDES -->
                 <exclude>**/.classpath</exclude>
                 <exclude>**/.project</exclude>
                 <exclude>**/.settings/**/*</exclude>
-                <!-- IDEA_DEFAULT_EXCLUDES -->
                 <exclude>**/*.iml</exclude>
                 <exclude>**/*.ipr</exclude>
                 <exclude>**/*.iws</exclude>
-                <!-- MANIFEST_MF_EXCLUDES -->
                 <exclude>**/MANIFEST.MF</exclude>
               </excludes>
             </configuration>
@@ -397,6 +393,7 @@
               </execution>
             </executions>
          </plugin>
+         -->
    
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
