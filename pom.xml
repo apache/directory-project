@@ -32,7 +32,7 @@
   <artifactId>project</artifactId>
   <packaging>pom</packaging>
   <name>Apache Directory Project</name>
-  <version>13-SNAPSHOT</version>
+  <version>13</version>
 
   <ciManagement>
     <system>continuum</system>
@@ -176,9 +176,9 @@
   </contributors>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/directory/project/trunk</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory/project/trunk</developerConnection>
-    <url>http://svn.apache.org/viewvc/directory/project/trunk</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/directory/project/tags/13</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory/project/tags/13</developerConnection>
+    <url>http://svn.apache.org/viewvc/directory/project/tags/13</url>
   </scm>
 
   <build>
@@ -317,9 +317,9 @@
         </plugin>
 
         <plugin>
-        	<groupId>org.apache.maven.plugins</groupId>
-        	<artifactId>maven-site-plugin</artifactId>
-        	<version>2.0-beta-7</version>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>2.0-beta-7</version>
         </plugin>
       </plugins>
     </pluginManagement>
