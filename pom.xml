@@ -187,6 +187,15 @@
     <!-- http://cwiki.apache.org/confluence/x/0dc         -->
     <!-- ================================================ -->
     <release.altDeploymentRepository />
+    
+    <!-- ================================================ -->
+    <!-- Set default encoding for reports and generated   -->
+    <!-- source files                                     -->
+    <!-- http://docs.codehaus.org/x/FQAgBQ                -->
+    <!-- http://docs.codehaus.org/x/GQAFAw                -->
+    <!-- ================================================ -->
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
   <build>
