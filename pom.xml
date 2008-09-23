@@ -567,6 +567,8 @@
               <report>issue-tracking</report>
               <report>index</report>
               <report>scm</report>
+              <report>cim</report>
+              <report>plugin-management</report>
             </reports>
           </reportSet>
         </reportSets>
