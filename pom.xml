@@ -548,6 +548,12 @@
       <id>apache.directory.plugins</id>
       <name>Plugin repository for the Apache Directory Studio plugin</name>
       <url>http://vm094.oxylos.org/mirror-maven2/</url>
+      <releases>
+      	<enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
     </pluginRepository>
   </pluginRepositories>
 
