@@ -45,7 +45,7 @@
         <sendOnSuccess>true</sendOnSuccess>
         <sendOnWarning>false</sendOnWarning>
         <configuration>
-          <address>notifications@directory.apache.org</address>
+          <address>commits@directory.apache.org</address>
         </configuration>
       </notifier>
     </notifiers>
