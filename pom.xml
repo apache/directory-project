@@ -37,6 +37,8 @@
   <ciManagement>
     <system>continuum</system>
     <url>http://vm094.oxylos.org/continuum/</url>
+    <!-- Comment notifiers -> No default notifier is taken by a CI system, but must be configured
+                              by the CI system 
     <notifiers>
       <notifier>
         <type>mail</type>
@@ -49,6 +51,7 @@
         </configuration>
       </notifier>
     </notifiers>
+    -->
   </ciManagement>
 
   <inceptionYear>2003</inceptionYear>
