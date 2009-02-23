@@ -212,6 +212,18 @@
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-antlr-plugin</artifactId>
+          <version>2.0-beta-1</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>generate</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-antrun-plugin</artifactId>
           <version>1.2</version>
         </plugin>
@@ -219,6 +231,11 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-assembly-plugin</artifactId>
           <version>2.2-beta-2</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>2.2</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -236,6 +253,17 @@
             <showDeprecations>true</showDeprecations>
             <encoding>ISO-8859-1</encoding>
           </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>2.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.4</version>
+          <inherited>true</inherited>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -258,20 +286,16 @@
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-source-plugin</artifactId>
-          <version>2.0.4</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>2.5</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-project-info-reports-plugin</artifactId>
+          <artifactId>maven-jxr-plugin</artifactId>
           <version>2.1</version>
         </plugin>
         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-gpg-plugin</artifactId>
           <version>1.0-alpha-4</version>
           <executions>
@@ -284,8 +308,23 @@
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-pmd-plugin</artifactId>
+          <version>2.4</version>
+          <configuration>
+            <linkXref>true</linkXref>
+            <sourceEncoding>utf-8</sourceEncoding>
+            <targetJdk>1.5</targetJdk>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-project-info-reports-plugin</artifactId>
+          <version>2.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-release-plugin</artifactId>
-          <version>2.0-beta-7</version>
+          <version>2.0-beta-8</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -309,24 +348,35 @@
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.4.3</version>
-          <configuration>
-            <argLine>-Xmx1024m</argLine>
-          </configuration>
+          <artifactId>maven-shade-plugin</artifactId>
+          <version>1.2</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>2.0-beta-7</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>2.0.4</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-stage-plugin</artifactId>
           <version>1.0-alpha-1</version>
         </plugin>
-
         <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>rat-maven-plugin</artifactId>
-          <version>1.0-alpha-3</version>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-report-plugin</artifactId>
+          <version>2.4.3</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.4.3</version>
           <configuration>
-            <excludeSubProjects>false</excludeSubProjects>
+            <argLine>-Xmx1024m</argLine>
           </configuration>
         </plugin>
 
@@ -337,9 +387,52 @@
         </plugin>
 
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-site-plugin</artifactId>
-          <version>2.0-beta-7</version>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>cobertura-maven-plugin</artifactId>
+          <version>2.2</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>findbugs-maven-plugin</artifactId>
+          <version>1.2</version>
+          <configuration>
+            <xmlOutput>false</xmlOutput>
+            <!--
+              <xmlOutput>true|false</xmlOutput>
+              <xmlOutputDirectory>directory location of xml findbugs report</xmlOutputDirectory>
+              <threshold>High|Normal|Low|Exp|Ignore</threshold>
+              <effort>Min|Default|Max</effort>
+              <excludeFilterFile>findbugs-exclude.xml</excludeFilterFile>
+              <includeFilterFile>findbugs-include.xml</includeFilterFile>
+              <visitors>FindDeadLocalStores,UnreadFields</visitors>
+              <omitVisitors>FindDeadLocalStores,UnreadFields</omitVisitors>
+              <onlyAnalyze>org.codehaus.mojo.findbugs.*</onlyAnalyze>
+              <pluginList>/libs/fb-contrib/fb-contrib-2.8.0.jar</pluginList>
+              <debug>true|false</debug>
+              <relaxed>true|false</relaxed>
+            -->
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>rat-maven-plugin</artifactId>
+          <version>1.0-alpha-3</version>
+          <configuration>
+            <excludeSubProjects>false</excludeSubProjects>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>taglist-maven-plugin</artifactId>
+          <version>2.3</version>
+          <configuration>
+            <tags>
+              <tag>TODO</tag>
+              <tag>@todo</tag>
+              <tag>@deprecated</tag>
+              <tag>FIXME</tag>
+            </tags>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -472,7 +565,6 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-deploy-plugin</artifactId>
-            <version>2.4</version>
             <inherited>true</inherited>
             <configuration>
               <!-- uncomment to enable "staged" release process -->
@@ -485,7 +577,6 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <version>2.5</version>
             <inherited>true</inherited>
             <configuration>
               <source>1.5</source>
@@ -526,7 +617,6 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <version>2.5</version>
             <inherited>true</inherited>
             <configuration>
               <source>1.5</source>
