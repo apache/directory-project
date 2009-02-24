@@ -19,12 +19,17 @@
   under the License.
 -->
 
+<!-- ================================================ -->
+<!-- The use an alternative deployment repository see -->
+<!-- http://cwiki.apache.org/confluence/x/0dc         -->
+<!-- ================================================ -->
+    
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <parent>
     <groupId>org.apache</groupId>
     <artifactId>apache</artifactId>
-    <version>4</version>
+    <version>5</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -36,7 +41,7 @@
 
   <ciManagement>
     <system>continuum</system>
-    <url>http://vm094.oxylos.org/continuum/</url>
+    <url>http://vmbuild.apache.org/continuum</url>
     <!-- Comment notifiers -> No default notifier is taken by a CI system, but must be configured
                               by the CI system 
     <notifiers>
@@ -185,12 +190,6 @@
   </scm>
 
   <properties>
-    <!-- ================================================ -->
-    <!-- The use an alternative deployment repository see -->
-    <!-- http://cwiki.apache.org/confluence/x/0dc         -->
-    <!-- ================================================ -->
-    <release.altDeploymentRepository />
-    
     <!-- ================================================ -->
     <!-- Set default encoding for reports and generated   -->
     <!-- source files                                     -->
@@ -516,10 +515,8 @@
   </build>
 
   <profiles>
-
     <profile>
       <id>release</id>
-
       <build>
         <plugins>
 
@@ -578,7 +575,6 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
-            <version>1.0-alpha-4</version>
             <inherited>true</inherited>
             <configuration>
               <passphrase>${gpg.passphrase}</passphrase>
@@ -628,7 +624,6 @@
 
     <profile>
       <id>full</id>
-
       <build>
         <plugins>
 
@@ -665,22 +660,7 @@
         </plugins>
       </build>
     </profile>
-
   </profiles>
-
-  <pluginRepositories>
-    <pluginRepository>
-      <id>apache.directory.plugins</id>
-      <name>Plugin repository for the Apache Directory Studio plugin</name>
-      <url>http://vm094.oxylos.org/mirror-maven2/</url>
-      <releases>
-      	<enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </pluginRepository>
-  </pluginRepositories>
 
   <reporting>
     <excludeDefaults>true</excludeDefaults>
@@ -728,14 +708,5 @@
       </plugin>
     </plugins>
   </reporting>
-
-  <distributionManagement>
-    <snapshotRepository>
-      <id>apache.directory.snapshot.repo</id>
-      <name>Snapshot repository for the Apache Directory project</name>
-      <uniqueVersion>false</uniqueVersion>
-      <url>scpexe://vm094.oxylos.org/var/www/html/mirror-maven2</url>
-    </snapshotRepository>
-  </distributionManagement>
 
 </project>
