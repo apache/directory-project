@@ -19,10 +19,10 @@
   under the License.
 -->
 
-<!-- ==========================================-->
-<!-- The customize deployment see              -->
-<!-- http://cwiki.apache.org/confluence/x/zbEB -->
-<!-- ==========================================-->
+<!-- ===================================================-->
+<!-- The customize snapshot and site deployment see     -->
+<!-- http://cwiki.apache.org/confluence/x/zbEB          -->
+<!-- ================================================== -->
     
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
@@ -190,6 +190,12 @@
   </scm>
 
   <properties>
+     <!-- ======================================================= -->
+    <!-- The use an alternative release deployment repository see -->
+    <!-- http://cwiki.apache.org/confluence/x/0dc                 -->
+    <!-- ======================================================== -->
+    <release.altDeploymentRepository />
+
     <!-- ================================================ -->
     <!-- Set default encoding for reports and generated   -->
     <!-- source files                                     -->
