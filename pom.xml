@@ -37,7 +37,7 @@
   <artifactId>project</artifactId>
   <packaging>pom</packaging>
   <name>Apache Directory Project</name>
-  <version>15</version>
+  <version>16-SNAPSHOT</version>
 
   <ciManagement>
     <system>continuum</system>
@@ -179,9 +179,9 @@
   </contributors>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/directory/project/tags/15</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory/project/tags/15</developerConnection>
-    <url>http://svn.apache.org/viewvc/directory/project/tags/15</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/directory/project/trunk</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory/project/trunk</developerConnection>
+    <url>http://svn.apache.org/viewvc/directory/project/trunk</url>
   </scm>
 
   <properties>
