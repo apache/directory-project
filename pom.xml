@@ -88,11 +88,6 @@
         <otherArchive>http://www.archivum.info/commits@directory.apache.org/</otherArchive>
       </otherArchives>
     </mailingList>
-    <mailingList>
-      <name>The Directory Notifications (CI) List</name>
-      <subscribe>notifications-subscribe@directory.apache.org</subscribe>
-      <unsubscribe>notifications-unsubscribe@directory.apache.org</unsubscribe>
-    </mailingList>
   </mailingLists>
 
   <developers>
