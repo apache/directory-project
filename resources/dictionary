@@ -34,3 +34,6 @@ surefire
 noinspection
 marshaller
 btree
+multivalued
+univalued
+nulling
