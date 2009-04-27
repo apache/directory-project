@@ -170,6 +170,10 @@
       <id>wesmckean</id>
       <url>http://directory.apache.org/community%26resources/the-team.html</url>
     </developer>
+    <developer>
+      <id>agariboldi</id>
+      <name>Andrea Amerigo Aristodemo Gariboldi</name>
+    </developer>
   </developers>
 
   <contributors>
