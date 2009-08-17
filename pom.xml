@@ -553,7 +553,7 @@
          </plugin>
          -->
    
-<!--
+
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-release-plugin</artifactId>
@@ -563,7 +563,7 @@
               <arguments>-Prelease ${release.altDeploymentRepository}</arguments>
             </configuration>
           </plugin>
--->
+          
           <!-- We want a source jar -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
