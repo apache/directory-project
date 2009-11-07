@@ -41,7 +41,7 @@
 
   <ciManagement>
     <system>continuum</system>
-    <url>http://vmbuild.apache.org/continuum</url>
+    <url>http://vmbuild.apache.org/continuum/projectGroupSummary.action?projectGroupId=139</url>
     <!-- Comment notifiers -> No default notifier is taken by a CI system, but must be configured
                               by the CI system 
     <notifiers>
@@ -151,6 +151,15 @@
       <id>psteitz</id>
       <url>http://directory.apache.org/community%26resources/the-team.html</url>
     </developer>
+    <developer>
+      <id>seelmann</id>
+      <name>Stefan Seelmann</name>
+      <url>http://directory.apache.org/community%26resources/the-team.html</url>
+      <roles>
+        <role>PMC Member</role>
+      </roles>
+      <timezone>+1</timezone>
+    </developer>    
     <developer>
       <id>szoerner</id>
       <url>http://directory.apache.org/community%26resources/the-team.html</url>
