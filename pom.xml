@@ -37,7 +37,7 @@
   <artifactId>project</artifactId>
   <packaging>pom</packaging>
   <name>Apache Directory Project</name>
-  <version>18-SNAPSHOT</version>
+  <version>17-SNAPSHOT</version>
 
   <ciManagement>
     <system>continuum</system>
