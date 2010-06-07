@@ -28,7 +28,6 @@
  * ${todo} ${type_name}.
  *
  * @author &lt;a href="mailto:dev@directory.apache.org"&gt;Apache Directory Project&lt;/a&gt;
- * @version $$Rev$$, $$Date$$
  */</template><template autoinsert="true" context="fieldcomment_context" deleted="false" description="Comment for fields" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.fieldcomment" name="fieldcomment">/**
  * 
  */</template><template autoinsert="false" context="methodcomment_context" deleted="false" description="Comment for non-overriding methods" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.methodcomment" name="methodcomment">/**
