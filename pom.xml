@@ -41,7 +41,7 @@
 
   <ciManagement>
     <system>continuum</system>
-    <url>http://vmbuild.apache.org/continuum/projectGroupSummary.action?projectGroupId=139</url>
+    <url>http://vmbuild.apache.org/continuum/projectGroupSummary.action?projectGroupId=6</url>
     <!-- Comment notifiers -> No default notifier is taken by a CI system, but must be configured
                               by the CI system 
     <notifiers>
