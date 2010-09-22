@@ -38,10 +38,16 @@
   <packaging>pom</packaging>
   <name>Apache Directory Project</name>
   <version>18-SNAPSHOT</version>
+  <url>http://directory.apache.org/</url>
+
+  <description>
+    The Apache Directory Project provides directory solutions entirely written in Java. These include a directory server, which has been certified as LDAP v3 compliant 
+    by the Open Group (Apache Directory Server), and Eclipse-based directory tools (Apache Directory Studio).
+  </description>
 
   <ciManagement>
-    <system>continuum</system>
-    <url>http://vmbuild.apache.org/continuum/projectGroupSummary.action?projectGroupId=6</url>
+    <system>hudson</system>
+    <url>https://hudson.apache.org/hudson/view/Directory</url>
     <!-- Comment notifiers -> No default notifier is taken by a CI system, but must be configured
                               by the CI system 
     <notifiers>
@@ -343,6 +349,7 @@
     <!-- ================================================ -->
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <skin.version>1.0.1</skin.version>
   </properties>
 
   <build>
@@ -785,6 +792,8 @@
               <report>scm</report>
               <report>cim</report>
               <report>plugin-management</report>
+              <report>dependency-management</report>
+              <report>summary</report>
             </reports>
           </reportSet>
         </reportSets>
@@ -812,6 +821,21 @@
           </excludes>
         </configuration>
       </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>versions-maven-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>dependency-updates-report</report>
+              <report>plugin-updates-report</report>
+              <report>property-updates-report</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+
     </plugins>
   </reporting>
 
