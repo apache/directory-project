@@ -75,6 +75,7 @@
       <post>dev@directory.apache.org</post>
       <archive>http://mail-archives.apache.org/mod_mbox/directory-dev</archive>
       <otherArchives>
+        <otherArchive>http://www.mail-archive.com/dev@directory.apache.org/</otherArchive>
         <otherArchive>http://www.archivum.info/dev@directory.apache.org/</otherArchive>
       </otherArchives>
     </mailingList>
@@ -85,6 +86,20 @@
       <unsubscribe>users-unsubscribe@directory.apache.org</unsubscribe>
       <post>users@directory.apache.org</post>
       <archive>http://mail-archives.apache.org/mod_mbox/directory-users</archive>
+      <otherArchives>
+        <otherArchive>http://www.mail-archive.com/users@directory.apache.org/</otherArchive>
+      </otherArchives>
+    </mailingList>
+
+    <mailingList>
+      <name>The Directory API List</name>
+      <subscribe>api-subscribe@directory.apache.org</subscribe>
+      <unsubscribe>api-unsubscribe@directory.apache.org</unsubscribe>
+      <post>api@directory.apache.org</post>
+      <archive>http://mail-archives.apache.org/mod_mbox/directory-api</archive>
+      <otherArchives>
+        <otherArchive>http://www.mail-archive.com/api@directory.apache.org/</otherArchive>
+      </otherArchives>
     </mailingList>
 
     <mailingList>
@@ -93,6 +108,7 @@
       <unsubscribe>commits-unsubscribe@directory.apache.org</unsubscribe>
       <archive>http://mail-archives.apache.org/mod_mbox/directory-commits</archive>
       <otherArchives>
+        <otherArchive>http://www.mail-archive.com/commits@directory.apache.org/</otherArchive>
         <otherArchive>http://www.archivum.info/commits@directory.apache.org/</otherArchive>
       </otherArchives>
     </mailingList>
@@ -102,6 +118,17 @@
     <developer>
       <id>adc</id>
       <name>Alan Cabrera</name>
+      <url>http://directory.apache.org/community%26resources/the-team.html</url>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>agariboldi</id>
+      <name>Andrea Amerigo Aristodemo Gariboldi</name>
       <url>http://directory.apache.org/community%26resources/the-team.html</url>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
@@ -155,6 +182,17 @@
     </developer>
 
     <developer>
+      <id>ccustine</id>
+      <name>Chris Custine</name>
+      <url>http://directory.apache.org/community%26resources/the-team.html</url>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>PMC Member</role>
+      </roles>
+    </developer>
+
+    <developer>
       <id>ckoppelt</id>
       <name>Christine Koppelt</name>
       <url>http://directory.apache.org/community%26resources/the-team.html</url>
@@ -162,6 +200,17 @@
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
         <role>PMC Member</role>
+      </roles>
+    </developer>
+
+     <developer>
+      <id>djencks</id>
+      <name>David Jencks</name>
+      <url>http://directory.apache.org/community%26resources/the-team.html</url>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
       </roles>
     </developer>
 
@@ -213,6 +262,28 @@
     <developer>
       <id>jmachols</id>
       <name>Jeff Machols</name>
+      <url>http://directory.apache.org/community%26resources/the-team.html</url>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>kayyagari</id>
+      <name>Kiran Ayyagari</name>
+      <url>http://directory.apache.org/community%26resources/the-team.html</url>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>PMC Member</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>malderson</id>
+      <name>Martin Alderson</name>
       <url>http://directory.apache.org/community%26resources/the-team.html</url>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
@@ -310,16 +381,6 @@
       </roles>
     </developer>
 
-    <developer>
-      <id>agariboldi</id>
-      <name>Andrea Amerigo Aristodemo Gariboldi</name>
-      <url>http://directory.apache.org/community%26resources/the-team.html</url>
-      <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
-      <roles>
-        <role>Committer</role>
-      </roles>
-    </developer>
   </developers>
 
   <contributors>
