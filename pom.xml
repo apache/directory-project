@@ -115,32 +115,10 @@
   </mailingLists>
 
   <developers>
-    <developer>
-      <id>adc</id>
-      <name>Alan Cabrera</name>
-      <url>http://directory.apache.org/community%26resources/the-team.html</url>
-      <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
-      <roles>
-        <role>Committer</role>
-      </roles>
-    </developer>
-
-    <developer>
-      <id>agariboldi</id>
-      <name>Andrea Amerigo Aristodemo Gariboldi</name>
-      <url>http://directory.apache.org/community%26resources/the-team.html</url>
-      <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
-      <roles>
-        <role>Committer</role>
-      </roles>
-    </developer>
-
+    <!-- PMC Chair -->
     <developer>
       <id>akarasulu</id>
       <name>Alex Karasulu</name>
-      <url>http://directory.apache.org/community%26resources/the-team.html</url>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -148,43 +126,10 @@
       </roles>
     </developer>
 
-    <developer>
-      <id>bayard</id>
-      <name>Henri Yandell</name>
-      <url>http://directory.apache.org/community%26resources/the-team.html</url>
-      <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
-      <roles>
-        <role>Committer</role>
-      </roles>
-    </developer>
-
-    <developer>
-      <id>bloritsch</id>
-      <name>Berin Loritsch</name>
-      <url>http://directory.apache.org/community%26resources/the-team.html</url>
-      <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
-      <roles>
-        <role>Committer</role>
-      </roles>
-    </developer>
-
-    <developer>
-      <id>brett</id>
-      <name>Brett Porter</name>
-      <url>http://directory.apache.org/community%26resources/the-team.html</url>
-      <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
-      <roles>
-        <role>Emeritus</role>
-      </roles>
-    </developer>
-
+    <!-- PMC -->
     <developer>
       <id>ccustine</id>
       <name>Chris Custine</name>
-      <url>http://directory.apache.org/community%26resources/the-team.html</url>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -195,29 +140,16 @@
     <developer>
       <id>ckoppelt</id>
       <name>Christine Koppelt</name>
-      <url>http://directory.apache.org/community%26resources/the-team.html</url>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
         <role>PMC Member</role>
-      </roles>
-    </developer>
-
-     <developer>
-      <id>djencks</id>
-      <name>David Jencks</name>
-      <url>http://directory.apache.org/community%26resources/the-team.html</url>
-      <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
-      <roles>
-        <role>Committer</role>
       </roles>
     </developer>
 
     <developer>
       <id>elecharny</id>
       <name>Emmanuel Lecharny</name>
-      <url>http://directory.apache.org/community%26resources/the-team.html</url>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -226,31 +158,8 @@
     </developer>
 
     <developer>
-      <id>erodriguez</id>
-      <name>Enrique Rodriguez</name>
-      <url>http://directory.apache.org/community%26resources/the-team.html</url>
-      <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
-      <roles>
-        <role>Committer</role>
-      </roles>
-    </developer>
-
-    <developer>
-      <id>ersiner</id>
-      <name>Ersin Er</name>
-      <url>http://directory.apache.org/community%26resources/the-team.html</url>
-      <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
-      <roles>
-        <role>Emeritus</role>
-      </roles>
-    </developer>
-
-    <developer>
       <id>felixk</id>
       <name>Felix Knecht</name>
-      <url>http://directory.apache.org/community%26resources/the-team.html</url>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -260,20 +169,8 @@
     </developer>
 
     <developer>
-      <id>jmachols</id>
-      <name>Jeff Machols</name>
-      <url>http://directory.apache.org/community%26resources/the-team.html</url>
-      <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
-      <roles>
-        <role>Committer</role>
-      </roles>
-    </developer>
-
-    <developer>
       <id>kayyagari</id>
       <name>Kiran Ayyagari</name>
-      <url>http://directory.apache.org/community%26resources/the-team.html</url>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -282,31 +179,18 @@
     </developer>
 
     <developer>
-      <id>malderson</id>
-      <name>Martin Alderson</name>
-      <url>http://directory.apache.org/community%26resources/the-team.html</url>
-      <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
-      <roles>
-        <role>Committer</role>
-      </roles>
-    </developer>
-
-    <developer>
       <id>noel</id>
       <name>Noel Bergman</name>
-      <url>http://directory.apache.org/community%26resources/the-team.html</url>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
-        <role>Committer</role>
+        <role>PMC Member</role>
       </roles>
     </developer>
 
     <developer>
       <id>pamarcelot</id>
       <name>Pierre-Arnaud Marcelot</name>
-      <url>http://directory.apache.org/community%26resources/the-team.html</url>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -317,18 +201,16 @@
     <developer>
       <id>psteitz</id>
       <name>Philippe Steitz</name>
-      <url>http://directory.apache.org/community%26resources/the-team.html</url>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
-        <role>Committer</role>
+        <role>PMC Member</role>
       </roles>
     </developer>
 
     <developer>
       <id>seelmann</id>
       <name>Stefan Seelmann</name>
-      <url>http://directory.apache.org/community%26resources/the-team.html</url>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -340,18 +222,178 @@
     <developer>
       <id>szoerner</id>
       <name>Stefan Zoerner</name>
-      <url>http://directory.apache.org/community%26resources/the-team.html</url>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
         <role>PMC Member</role>
       </roles>
     </developer>
+    
+	<!-- Committer -->
+    <developer>
+      <id>adc</id>
+      <name>Alan Cabrera</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>agariboldi</id>
+      <name>Andrea Amerigo Aristodemo Gariboldi</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>bloritsch</id>
+      <name>Berin Loritsch</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>djencks</id>
+      <name>David Jencks</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>erodriguez</id>
+      <name>Enrique Rodriguez</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>jmachols</id>
+      <name>Jeff Machols</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>malderson</id>
+      <name>Martin Alderson</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>mcconnell</id>
+      <name>Jesse McConnell</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>nhope</id>
+      <name>Norval Hope</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>nicolaken</id>
+      <name>Nicola Ken Barozzi</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>oersoy</id>
+      <name>Ole K. Ersoy</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>rjan</id>
+      <name>Jan S. Rellermeyer</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>wesmckean</id>
+      <name>Wes McKean</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <!--  Emeritus -->
+    <developer>
+      <id>brett</id>
+      <name>Brett Porter</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Emeritus</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>ersiner</id>
+      <name>Ersin Er</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Emeritus</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>jim</id>
+      <name>Jim Jagielski</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Emeritus</role>
+      </roles>
+    </developer>
 
     <developer>
       <id>trustin</id>
       <name>Trustin Lee</name>
-      <url>http://directory.apache.org/community%26resources/the-team.html</url>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -362,7 +404,6 @@
     <developer>
       <id>vtence</id>
       <name>Vincent Tence</name>
-      <url>http://directory.apache.org/community%26resources/the-team.html</url>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -370,24 +411,7 @@
       </roles>
     </developer>
 
-    <developer>
-      <id>wesmckean</id>
-      <name>Wes McKean</name>
-      <url>http://directory.apache.org/community%26resources/the-team.html</url>
-      <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
-      <roles>
-        <role>Committer</role>
-      </roles>
-    </developer>
-
   </developers>
-
-  <contributors>
-    <contributor>
-      <name>Nick Faiz</name>
-    </contributor>
-  </contributors>
 
   <scm>
     <connection>scm:svn:http://svn.apache.org/repos/asf/directory/project/trunk</connection>
