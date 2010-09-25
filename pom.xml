@@ -37,7 +37,7 @@
   <artifactId>project</artifactId>
   <packaging>pom</packaging>
   <name>Apache Directory Project</name>
-  <version>18-SNAPSHOT</version>
+  <version>18</version>
   <url>http://directory.apache.org/</url>
 
   <description>
@@ -414,9 +414,9 @@
   </developers>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/directory/project/trunk</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory/project/trunk</developerConnection>
-    <url>http://svn.apache.org/viewvc/directory/project/trunk</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/directory/project/tags/project-18</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory/project/tags/project-18</developerConnection>
+    <url>http://svn.apache.org/viewvc/directory/project/tags/project-18</url>
   </scm>
 
   <properties>
