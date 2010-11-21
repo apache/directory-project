@@ -33,22 +33,18 @@
     <name>Apache Directory</name>
     <homepage rdf:resource="http://directory.apache.org" />
     <asfext:pmc rdf:resource="http://directory.apache.org" />
+    <shortdesc>LDAP and Kerberos, entirely in Java</shortdesc>
+    <description>The Apache Directory Project provides directory solutions entirely written in Java. These include a directory server, which has been certified as LDAP v3 compliant by the Open Group (Apache Directory Server), and Eclipse-based directory tools (Apache Directory Studio).</description>
     <bug-database rdf:resource="http://issues.apache.org/jira/browse/DIR" />
-    <mailing-list rdf:resource="http://directory.apache.org/mail-lists.html" />
+    <mailing-list rdf:resource="http://directory.apache.org/community%26resources/mailing-lists-and-irc.html" />
     <download-page rdf:resource="http://www.apache.org/dyn/closer.cgi/directory" />
     <programming-language>Java</programming-language>
     <category rdf:resource="http://projects.apache.org/category/network-server" />
-    <release>
-      <Version>
-        <name>Apache Directory Server</name>
-        <created>2006-03-01</created>
-        <revision>1.0-RC1</revision>
-      </Version>
-    </release>
+    <category rdf:resource="http://projects.apache.org/category/network-client" />
     <repository>
       <SVNRepository>
         <location rdf:resource="http://svn.apache.org/repos/asf/directory"/>
-        <browse rdf:resource="http://svn.apache.org/viewcvs.cgi/directory"/>
+        <browse rdf:resource="http://svn.apache.org/viewvc/directory"/>
       </SVNRepository>
     </repository>
     <maintainer>
@@ -57,11 +53,17 @@
           <foaf:mbox rdf:resource="mailto:akarasulu@apache.org"/>
       </foaf:Person>
     </maintainer>
-    <asfext:standard>
-      <asfext:title>Lightweight Directory Access Protocol (v3)</asfext:title>
+    <asfext:implements><asfext:Standard>
+      <asfext:title>Lightweight Directory Access Protocol (LDAP): The Protocol</asfext:title>
       <asfext:body>IETF</asfext:body>
-      <asfext:id>RFC 3377</asfext:id>
-      <asfext:url rdf:resource="http://www.ietf.org/rfc/rfc3377.txt"/>
-    </asfext:standard>
+      <asfext:id>RFC 4511</asfext:id>
+      <asfext:url rdf:resource="http://www.ietf.org/rfc/rfc4511.txt"/>
+    </asfext:Standard></asfext:implements>
+    <asfext:implements><asfext:Standard>
+      <asfext:title>The Kerberos Network Authentication Service (V5)</asfext:title>
+      <asfext:body>IETF</asfext:body>
+      <asfext:id>RFC 4120</asfext:id>
+      <asfext:url rdf:resource="http://www.ietf.org/rfc/rfc4120.txt"/>
+    </asfext:Standard></asfext:implements>
   </Project>
 </rdf:RDF>
