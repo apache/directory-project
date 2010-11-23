@@ -150,3 +150,7 @@ lifecycle
 hardcoded
 cn
 dependees
+codecs
+mina
+antlr
+addons
