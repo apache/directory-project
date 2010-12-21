@@ -34,7 +34,7 @@
     <homepage rdf:resource="http://directory.apache.org" />
     <asfext:pmc rdf:resource="http://directory.apache.org" />
     <shortdesc>LDAP and Kerberos, entirely in Java</shortdesc>
-    <description>The Apache Directory Project provides directory solutions entirely written in Java. These include a directory server, which has been certified as LDAP v3 compliant by the Open Group (Apache Directory Server), and Eclipse-based directory tools (Apache Directory Studio).</description>
+    <description>The Apache Directory project provides directory solutions entirely written in Java. These include a directory server, which has been certified as LDAP v3 compliant by the Open Group (ApacheDS), and Eclipse-based directory tools (Apache Directory Studio).</description>
     <bug-database rdf:resource="http://issues.apache.org/jira/browse/DIR" />
     <mailing-list rdf:resource="http://directory.apache.org/community%26resources/mailing-lists-and-irc.html" />
     <download-page rdf:resource="http://www.apache.org/dyn/closer.cgi/directory" />
