@@ -6,4 +6,5 @@ eclipse-classes
 *.log
 *.iml
 *.ipr
+dependency-reduced-pom.xml
 META-INF
