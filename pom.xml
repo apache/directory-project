@@ -76,7 +76,6 @@
       <archive>http://mail-archives.apache.org/mod_mbox/directory-dev</archive>
       <otherArchives>
         <otherArchive>http://www.mail-archive.com/dev@directory.apache.org/</otherArchive>
-        <otherArchive>http://www.archivum.info/dev@directory.apache.org/</otherArchive>
       </otherArchives>
     </mailingList>
 
@@ -109,7 +108,6 @@
       <archive>http://mail-archives.apache.org/mod_mbox/directory-commits</archive>
       <otherArchives>
         <otherArchive>http://www.mail-archive.com/commits@directory.apache.org/</otherArchive>
-        <otherArchive>http://www.archivum.info/commits@directory.apache.org/</otherArchive>
       </otherArchives>
     </mailingList>
   </mailingLists>
