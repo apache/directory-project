@@ -167,3 +167,7 @@ oidlist
 strs
 encodable
 decorator
+lockable
+enum
+encodeable
+vals
