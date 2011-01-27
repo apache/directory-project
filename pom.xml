@@ -616,7 +616,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>2.2</version>
+          <version>3.0-beta-3</version>
         </plugin>
 
         <plugin>
@@ -866,39 +866,6 @@
 
   <profiles>
     <profile>
-      <id>maven-3</id>
-      <activation>
-        <file>
-          <!--  This employs that the basedir expression is only recognized by Maven 3.x (see MNG-2363) -->
-          <exists>${basedir}</exists>
-        </file>
-      </activation>
-      <build>
-        <pluginManagement>
-          <plugins>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-site-plugin</artifactId>
-              <version>3.0-beta-3</version>
-            </plugin>
-          </plugins>
-        </pluginManagement>
-        <plugins>
-          <plugin>
-            <artifactId>maven-site-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>attach-descriptor</id>
-                <goals>
-                  <goal>attach-descriptor</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
       <id>release</id>
       <build>
         <plugins>
@@ -1045,78 +1012,5 @@
       </build>
     </profile>
   </profiles>
-
-  <reporting>
-    <excludeDefaults>true</excludeDefaults>
-    <plugins>
-      <!--
-        Note to myself: 
-        Plugin configuration in pluginManagement section are *not* applied to reporting plugins!
-        See http://jira.codehaus.org/browse/MSITE-443
-       -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.2</version>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>project-team</report>
-              <report>mailing-list</report>
-              <report>license</report>
-              <report>dependencies</report>
-              <report>issue-tracking</report>
-              <report>index</report>
-              <report>scm</report>
-              <report>cim</report>
-              <report>plugin-management</report>
-              <report>dependency-management</report>
-              <report>summary</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.rat</groupId>
-        <artifactId>apache-rat-plugin</artifactId>
-        <version>0.7</version>
-        <configuration>
-          <excludeSubProjects>false</excludeSubProjects>
-          <excludes>
-            <!-- MAVEN_DEFAULT_EXCLUDES -->
-            <exclude>**/target/**/*</exclude>
-            <exclude>**/cobertura.ser</exclude>
-            <!-- ECLIPSE_DEFAULT_EXCLUDES -->
-            <exclude>**/.classpath</exclude>
-            <exclude>**/.project</exclude>
-            <exclude>**/.settings/**/*</exclude>
-            <!-- IDEA_DEFAULT_EXCLUDES -->
-            <exclude>**/*.iml</exclude>
-            <exclude>**/*.ipr</exclude>
-            <exclude>**/*.iws</exclude>
-            <!-- MANIFEST_MF_EXCLUDES -->
-            <exclude>**/MANIFEST.MF</exclude>
-          </excludes>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>versions-maven-plugin</artifactId>
-        <version>1.2</version>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>dependency-updates-report</report>
-              <report>plugin-updates-report</report>
-              <report>property-updates-report</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-
-    </plugins>
-  </reporting>
 
 </project>
