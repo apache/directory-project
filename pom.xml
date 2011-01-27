@@ -803,62 +803,18 @@
         <artifactId>maven-site-plugin</artifactId>
         <configuration>
           <reportPlugins>
-            <plugin>
+            <reportPlugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-project-info-reports-plugin</artifactId>
-              <reportSets>
-                <reportSet>
-                    <reports>
-                    <report>project-team</report>
-                    <report>mailing-list</report>
-                    <report>license</report>
-                    <report>dependencies</report>
-                    <report>issue-tracking</report>
-                    <report>index</report>
-                    <report>scm</report>
-                    <report>cim</report>
-                    <report>plugin-management</report>
-                    <report>dependency-management</report>
-                    <report>summary</report>
-                  </reports>
-                </reportSet>
-              </reportSets>
-            </plugin>
-            <plugin>
+            </reportPlugin>
+            <reportPlugin>
               <groupId>org.apache.rat</groupId>
               <artifactId>apache-rat-plugin</artifactId>
-              <configuration>
-                <excludeSubProjects>false</excludeSubProjects>
-                <excludes>
-                  <!-- MAVEN_DEFAULT_EXCLUDES -->
-                  <exclude>**/target/**/*</exclude>
-                  <exclude>**/cobertura.ser</exclude>
-                  <!-- ECLIPSE_DEFAULT_EXCLUDES -->
-                  <exclude>**/.classpath</exclude>
-                  <exclude>**/.project</exclude>
-                  <exclude>**/.settings/**/*</exclude>
-                  <!-- IDEA_DEFAULT_EXCLUDES -->
-                  <exclude>**/*.iml</exclude>
-                  <exclude>**/*.ipr</exclude>
-                  <exclude>**/*.iws</exclude>
-                  <!-- MANIFEST_MF_EXCLUDES -->
-                  <exclude>**/MANIFEST.MF</exclude>
-                </excludes>
-              </configuration>
-            </plugin>
-            <plugin>
+            </reportPlugin>
+            <reportPlugin>
               <groupId>org.codehaus.mojo</groupId>
               <artifactId>versions-maven-plugin</artifactId>
-              <reportSets>
-                <reportSet>
-                  <reports>
-                    <report>dependency-updates-report</report>
-                    <report>plugin-updates-report</report>
-                    <report>property-updates-report</report>
-                  </reports>
-                </reportSet>
-              </reportSets>
-            </plugin>
+            </reportPlugin>
           </reportPlugins>
         </configuration>
       </plugin>
