@@ -165,3 +165,5 @@ oids
 superclasses
 oidlist
 strs
+encodable
+decorator
