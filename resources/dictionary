@@ -171,3 +171,7 @@ lockable
 enum
 encodeable
 vals
+stateful
+inactivated
+kdc
+criticality
