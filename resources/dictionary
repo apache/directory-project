@@ -175,3 +175,7 @@ stateful
 inactivated
 kdc
 criticality
+unstack
+subcontext
+uid
+dc
