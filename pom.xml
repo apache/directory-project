@@ -406,6 +406,10 @@
     <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory/project/trunk</developerConnection>
     <url>http://svn.apache.org/viewvc/directory/project/trunk</url>
   </scm>
+  
+  <prerequisites>
+    <maven>3.0.0</maven>
+  </prerequisites>
 
   <properties>
      <!-- ======================================================= -->
