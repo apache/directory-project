@@ -29,7 +29,7 @@
   <parent>
     <groupId>org.apache</groupId>
     <artifactId>apache</artifactId>
-    <version>7</version>
+    <version>8</version>
     <relativePath/>
   </parent>
 
@@ -439,7 +439,7 @@
   <build>
     <!-- =======================  WARNING ========================== -->
     <!-- Only put pluginManagement info in this pom for plugins      -->
-    <!-- shared among shared, apacheds, and daemon subprojects       -->
+    <!-- shared among shared, apacheds, and studio subprojects       -->
     <!-- dependencyManagement is likely to change too quickly to be  -->
     <!-- useful in this pom                                          -->
     <!-- =======================  WARNING ========================== -->
@@ -534,6 +534,12 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-ejb-plugin</artifactId>
           <version>2.3</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>1.0</version>
         </plugin>
 
         <plugin>
@@ -690,6 +696,12 @@
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
           <version>1.5</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>clirr-maven-plugin</artifactId>
+          <version>2.3</version>
         </plugin>
 
         <plugin>
