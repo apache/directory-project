@@ -92,17 +92,6 @@
     </mailingList>
 
     <mailingList>
-      <name>The Directory API List</name>
-      <subscribe>api-subscribe@directory.apache.org</subscribe>
-      <unsubscribe>api-unsubscribe@directory.apache.org</unsubscribe>
-      <post>api@directory.apache.org</post>
-      <archive>http://mail-archives.apache.org/mod_mbox/directory-api</archive>
-      <otherArchives>
-        <otherArchive>http://www.mail-archive.com/api@directory.apache.org/</otherArchive>
-      </otherArchives>
-    </mailingList>
-
-    <mailingList>
       <name>The Directory Commits (SVN) List</name>
       <subscribe>commits-subscribe@directory.apache.org</subscribe>
       <unsubscribe>commits-unsubscribe@directory.apache.org</unsubscribe>
@@ -417,6 +406,10 @@
     <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory/project/tags/19</developerConnection>
     <url>http://svn.apache.org/viewvc/directory/project/tags/19</url>
   </scm>
+  
+  <prerequisites>
+    <maven>3.0.0</maven>
+  </prerequisites>
 
   <properties>
      <!-- ======================================================= -->
@@ -796,19 +789,6 @@
             </configuration>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-eclipse-plugin</artifactId>
-        <configuration>
-          <skip>false</skip>
-          <pde>true</pde>
-          <!-- Workaround for http://jira.codehaus.org/browse/MECLIPSE-94 -->
-          <eclipseProjectDir>..</eclipseProjectDir>
-          <!-- We don't want any sources or javadocs jars -->
-          <downloadSources>false</downloadSources>
-          <downloadJavadocs>false</downloadJavadocs>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
