@@ -38,7 +38,7 @@
   <artifactId>project</artifactId>
   <packaging>pom</packaging>
   <name>Apache Directory Project</name>
-  <version>20-SNAPSHOT</version>
+  <version>19-SNAPSHOT</version>
   <url>http://directory.apache.org/</url>
 
   <description>
