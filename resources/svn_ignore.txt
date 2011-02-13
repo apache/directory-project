@@ -1,4 +1,7 @@
 target
+maven-eclipse.xml
+lib
+.externalToolBuilders
 felix-cache
 .project
 .classpath
