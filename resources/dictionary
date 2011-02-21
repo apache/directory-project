@@ -186,3 +186,5 @@ felix
 configs
 osgi
 offline
+newrdn
+deleteoldrdn
