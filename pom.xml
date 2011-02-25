@@ -966,6 +966,26 @@
         </plugins>
       </build>
     </profile>
+    
+    <!-- Specific profile used to append a string to project name -->
+    <profile>
+      <id>append-to-project-name</id>
+      <activation>
+        <property>
+          <name>append.to.project.name</name>
+        </property>
+      </activation>
+      <build>
+         <plugins>
+          <plugin>
+            <artifactId>maven-eclipse-plugin</artifactId>
+            <configuration>
+              <projectNameTemplate>[artifactId]-${append.to.project.name}</projectNameTemplate>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
   </profiles>
 
 </project>
