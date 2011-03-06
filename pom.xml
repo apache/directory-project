@@ -29,7 +29,7 @@
   <parent>
     <groupId>org.apache</groupId>
     <artifactId>apache</artifactId>
-    <version>8</version>
+    <version>9</version>
     <relativePath />
   </parent>
 
@@ -412,12 +412,6 @@
   </prerequisites>
 
   <properties>
-     <!-- ======================================================= -->
-    <!-- The use an alternative release deployment repository see -->
-    <!-- http://cwiki.apache.org/confluence/x/0dc                 -->
-    <!-- ======================================================== -->
-    <release.altDeploymentRepository />
-
     <!-- ================================================ -->
     <!-- Set default encoding for reports and generated   -->
     <!-- source files                                     -->
@@ -490,7 +484,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
-          <version>2.1</version>
+          <version>2.2</version>
         </plugin>
 
         <plugin>
@@ -568,7 +562,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-plugin-plugin</artifactId>
-          <version>2.6</version>
+          <version>2.7</version>
         </plugin>
 
         <plugin>
@@ -592,13 +586,13 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-remote-resources-plugin</artifactId>
-          <version>1.1</version>
+          <version>1.2</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
-          <version>2.4.3</version>
+          <version>2.5</version>
         </plugin>
 
         <plugin>
@@ -670,6 +664,11 @@
           <version>0.7</version>
           <configuration>
             <excludeSubProjects>false</excludeSubProjects>
+            <excludes>
+              <!-- project excludes -->
+              <exclude>**/resources/svn_ignore.txt</exclude>
+              <exclude>**/resources/Reveal in Finder.launch</exclude>
+            </excludes>
           </configuration>
         </plugin>
 
@@ -796,6 +795,20 @@
           </execution>
         </executions>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.rat</groupId>
+        <artifactId>apache-rat-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>verify</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
@@ -820,153 +833,6 @@
   </build>
 
   <profiles>
-    <profile>
-      <id>release</id>
-      <build>
-        <plugins>
-
-          <!-- We want do the rat check 
-          <plugin>
-            <groupId>org.apache.rat</groupId>
-            <artifactId>apache-rat-plugin</artifactId>
-            <configuration>
-              <excludes> 
-                <exclude>**/target/**/*</exclude>
-                <exclude>**/cobertura.ser</exclude>
-                <exclude>**/.classpath</exclude>
-                <exclude>**/.project</exclude>
-                <exclude>**/.settings/**/*</exclude>
-                <exclude>**/*.iml</exclude>
-                <exclude>**/*.ipr</exclude>
-                <exclude>**/*.iws</exclude>
-                <exclude>**/MANIFEST.MF</exclude>
-              </excludes>
-            </configuration>
-            <executions>
-              <execution>
-                <phase>verify</phase>
-                <goals>
-                  <goal>check</goal>
-                </goals>
-              </execution>
-            </executions>
-         </plugin>
-         -->
-   
-
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-release-plugin</artifactId>
-            <configuration>
-              <useReleaseProfile>false</useReleaseProfile>
-              <goals>deploy</goals>
-              <arguments>-Prelease ${release.altDeploymentRepository}</arguments>
-            </configuration>
-          </plugin>
-          
-          <!-- We want a source jar -->
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-source-plugin</artifactId>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>jar</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-
-          <!-- We want to sign the artifact, the POM, and all attached artifacts -->
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <inherited>true</inherited>
-            <configuration>
-              <passphrase>${gpg.passphrase}</passphrase>
-            </configuration>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>sign</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-
-          <!-- In the future... -->
-          <!-- We want to deploy the artifact to a staging location for perusal -->
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-deploy-plugin</artifactId>
-            <inherited>true</inherited>
-            <configuration>
-              <!-- uncomment to enable "staged" release process -->
-              <!--<altDeploymentRepository>${deploy.altRepository}</altDeploymentRepository>-->
-              <updateReleaseInfo>true</updateReleaseInfo>
-            </configuration>
-          </plugin>
-
-          <!-- We want the JavaDoc JAR published with the release -->
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <inherited>true</inherited>
-            <configuration>
-              <source>1.5</source>
-            </configuration>
-            <executions>
-              <execution>
-                <id>attach-javadocs</id>
-                <goals>
-                  <goal>jar</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-    <profile>
-      <id>full</id>
-      <build>
-        <plugins>
-
-          <!-- We want a source jar -->
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-source-plugin</artifactId>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>jar</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-
-          <!-- We want the JavaDoc JAR published with the release -->
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <inherited>true</inherited>
-            <configuration>
-              <source>1.5</source>
-            </configuration>
-            <executions>
-              <execution>
-                <id>attach-javadocs</id>
-                <goals>
-                  <goal>jar</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    
     <!-- Specific profile used to append a string to project name -->
     <profile>
       <id>append-to-project-name</id>
