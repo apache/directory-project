@@ -38,7 +38,7 @@
   <artifactId>project</artifactId>
   <packaging>pom</packaging>
   <name>Apache Directory Project</name>
-  <version>30</version>
+  <version>31-SNAPSHOT</version>
   <url>http://directory.apache.org/</url>
 
   <description>
@@ -402,9 +402,9 @@
   </developers>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/directory/project/tags/30</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory/project/tags/30</developerConnection>
-    <url>http://svn.apache.org/viewvc/directory/project/tags/30</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/directory/project/trunk</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory/project/trunk</developerConnection>
+    <url>http://svn.apache.org/viewvc/directory/project/trunk</url>
   </scm>
   
   <prerequisites>
