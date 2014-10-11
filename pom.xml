@@ -29,7 +29,7 @@
   <parent>
     <groupId>org.apache</groupId>
     <artifactId>apache</artifactId>
-    <version>11</version>
+    <version>15</version>
     <relativePath />
   </parent>
 
@@ -105,6 +105,17 @@
   <developers>
     <!-- PMC Chair -->
     <developer>
+      <id>pamarcelot</id>
+      <name>Pierre-Arnaud Marcelot</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Chairman</role>
+      </roles>
+    </developer>
+
+    <!-- PMC -->
+    <developer>
       <id>akarasulu</id>
       <name>Alex Karasulu</name>
       <organization>ASF</organization>
@@ -114,7 +125,6 @@
       </roles>
     </developer>
 
-    <!-- PMC -->
     <developer>
       <id>ccustine</id>
       <name>Chris Custine</name>
@@ -177,26 +187,6 @@
     </developer>
 
     <developer>
-      <id>pamarcelot</id>
-      <name>Pierre-Arnaud Marcelot</name>
-      <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-
-    <developer>
-      <id>psteitz</id>
-      <name>Philippe Steitz</name>
-      <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-
-    <developer>
       <id>seelmann</id>
       <name>Stefan Seelmann</name>
       <organization>ASF</organization>
@@ -217,10 +207,20 @@
       </roles>
     </developer>
     
-	<!-- Committer -->
+    <!-- Committers -->
     <developer>
       <id>adc</id>
       <name>Alan Cabrera</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>aadomowski</id>
+      <name>Aleksender Adamowski</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -239,8 +239,8 @@
     </developer>
 
     <developer>
-      <id>bloritsch</id>
-      <name>Berin Loritsch</name>
+      <id>antoine</id>
+      <name>Antoine Levy Lambert</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -259,8 +259,8 @@
     </developer>
 
     <developer>
-      <id>erodriguez</id>
-      <name>Enrique Rodriguez</name>
+      <id>gokturk</id>
+      <name>G&ouml;kt&uuml;rk Gezer</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -269,8 +269,8 @@
     </developer>
 
     <developer>
-      <id>jmachols</id>
-      <name>Jeff Machols</name>
+      <id>lucastheisen</id>
+      <name>Lucas Theisen</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -289,38 +289,8 @@
     </developer>
 
     <developer>
-      <id>mcconnell</id>
-      <name>Jesse McConnell</name>
-      <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
-      <roles>
-        <role>Committer</role>
-      </roles>
-    </developer>
-
-    <developer>
-      <id>nhope</id>
-      <name>Norval Hope</name>
-      <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
-      <roles>
-        <role>Committer</role>
-      </roles>
-    </developer>
-
-    <developer>
-      <id>nicolaken</id>
-      <name>Nicola Ken Barozzi</name>
-      <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
-      <roles>
-        <role>Committer</role>
-      </roles>
-    </developer>
-
-    <developer>
-      <id>oersoy</id>
-      <name>Ole K. Ersoy</name>
+      <id>pierresmits</id>
+      <name>Pierre Smits</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -339,8 +309,18 @@
     </developer>
 
     <developer>
-      <id>wesmckean</id>
-      <name>Wes McKean</name>
+      <id>saya</id>
+      <name>Selcuk Aya</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>smckinney</id>
+      <name>Shawn McKinney</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -360,6 +340,16 @@
     </developer>
 
     <developer>
+      <id>erodriguez</id>
+      <name>Enrique Rodriguez</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>emeritus</role>
+      </roles>
+    </developer>
+
+    <developer>
       <id>ersiner</id>
       <name>Ersin Er</name>
       <organization>ASF</organization>
@@ -370,8 +360,98 @@
     </developer>
 
     <developer>
+      <id>mcconnell</id>
+      <name>Jesse McConnell</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Emeritus</role>
+      </roles>
+    </developer>
+
+    <developer>
       <id>jim</id>
       <name>Jim Jagielski</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Emeritus</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>jmachols</id>
+      <name>Jeff Machols</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Emeritus</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>hennejg</id>
+      <name>J&ouml;rg Henne</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Emeritus</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>niclas</id>
+      <name>Niclas Hedman</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Emeritus</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>nicolaken</id>
+      <name>Nicola Ken Barozzi</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Emeritus</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>nhope</id>
+      <name>Norval Hope</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Emeritus</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>oersoy</id>
+      <name>Ole K. Ersoy</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Emeritus</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>psteitz</id>
+      <name>Philippe Steitz</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Emeritus</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>rscott</id>
+      <name>G. Richard Scott</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -392,6 +472,16 @@
     <developer>
       <id>vtence</id>
       <name>Vincent Tence</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Emeritus</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>wesmckean</id>
+      <name>Wes McKean</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -849,7 +939,8 @@
         </plugins>
       </build>
     </profile>
-    <!-- Override of the 'apache-release' profile used to launch the Apache RAT plugin -->
+ 
+   <!-- Override of the 'apache-release' profile used to launch the Apache RAT plugin -->
     <profile>
       <id>apache-release</id>
       <build>
