@@ -147,7 +147,7 @@
 
     <developer>
       <id>elecharny</id>
-      <name>Emmanuel Lecharny</name>
+      <name>Emmanuel L&#233;charny</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -199,7 +199,7 @@
 
     <developer>
       <id>szoerner</id>
-      <name>Stefan Zoerner</name>
+      <name>Stefan Z&#x153;rner</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -260,7 +260,7 @@
 
     <developer>
       <id>gokturk</id>
-      <name>G&ouml;kt&uuml;rk Gezer</name>
+      <name>G&#214;kt&#252;rk Gezer</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -391,7 +391,7 @@
 
     <developer>
       <id>hennejg</id>
-      <name>J&ouml;rg Henne</name>
+      <name>J&#214;rg Henne</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
