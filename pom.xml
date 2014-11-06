@@ -38,7 +38,7 @@
   <artifactId>project</artifactId>
   <packaging>pom</packaging>
   <name>Apache Directory Project</name>
-  <version>33-SNAPSHOT</version>
+  <version>33</version>
   <url>http://directory.apache.org/</url>
 
   <description>
@@ -147,7 +147,7 @@
 
     <developer>
       <id>elecharny</id>
-      <name>Emmanuel L&#233;charny</name>
+      <name>Emmanuel Lécharny</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -199,7 +199,7 @@
 
     <developer>
       <id>szoerner</id>
-      <name>Stefan Z&#x153;rner</name>
+      <name>Stefan Zœrner</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -260,7 +260,7 @@
 
     <developer>
       <id>gokturk</id>
-      <name>G&#214;kt&#252;rk Gezer</name>
+      <name>GÖktürk Gezer</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -391,7 +391,7 @@
 
     <developer>
       <id>hennejg</id>
-      <name>J&#214;rg Henne</name>
+      <name>JÖrg Henne</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -492,9 +492,9 @@
   </developers>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/directory/project/trunk</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory/project/trunk</developerConnection>
-    <url>http://svn.apache.org/viewvc/directory/project/trunk</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/directory/project/tags/33</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory/project/tags/33</developerConnection>
+    <url>http://svn.apache.org/viewvc/directory/project/tags/33</url>
   </scm>
   
   <prerequisites>
