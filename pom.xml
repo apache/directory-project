@@ -29,7 +29,7 @@
   <parent>
     <groupId>org.apache</groupId>
     <artifactId>apache</artifactId>
-    <version>15</version>
+    <version>16</version>
     <relativePath />
   </parent>
 
@@ -177,6 +177,16 @@
     </developer>
 
     <developer>
+      <id>lucastheisen</id>
+      <name>Lucas Theisen</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>PMC member</role>
+      </roles>
+    </developer>
+
+    <developer>
       <id>noel</id>
       <name>Noel Bergman</name>
       <organization>ASF</organization>
@@ -261,16 +271,6 @@
     <developer>
       <id>gokturk</id>
       <name>GÖktürk Gezer</name>
-      <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
-      <roles>
-        <role>Committer</role>
-      </roles>
-    </developer>
-
-    <developer>
-      <id>lucastheisen</id>
-      <name>Lucas Theisen</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -498,7 +498,7 @@
   </scm>
   
   <prerequisites>
-    <maven>3.0.0</maven>
+    <maven>3.0.3</maven>
   </prerequisites>
 
   <properties>
@@ -534,37 +534,37 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-antrun-plugin</artifactId>
-          <version>1.7</version>
+          <version>1.8</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-assembly-plugin</artifactId>
-          <version>2.4</version>
+          <version>2.5.3</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-changes-plugin</artifactId>
-          <version>2.6</version>
+          <version>2.11</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>2.10</version>
+          <version>2.13</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-clean-plugin</artifactId>
-          <version>2.4.1</version>
+          <version>2.6.1</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.1</version>
+          <version>3.2</version>
           <configuration>
             <source>1.6</source>
             <target>1.6</target>
@@ -577,13 +577,13 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
-          <version>2.8</version>
+          <version>2.9</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-deploy-plugin</artifactId>
-          <version>2.8.1</version>
+          <version>2.8.2</version>
           <inherited>true</inherited>
         </plugin>
 
@@ -596,7 +596,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-ear-plugin</artifactId>
-          <version>2.6</version>
+          <version>2.10</version>
         </plugin>
 
         <plugin>
@@ -613,7 +613,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-ejb-plugin</artifactId>
-          <version>2.3</version>
+          <version>2.4</version>
         </plugin>
 
         <plugin>
@@ -631,7 +631,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-install-plugin</artifactId>
-          <version>2.5.1</version>
+          <version>2.5.2</version>
         </plugin>
 
         <plugin>
@@ -643,55 +643,58 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>2.9.1</version>
+          <version>2.10.1</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jxr-plugin</artifactId>
-          <version>2.4</version>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-plugin-plugin</artifactId>
-          <version>2.9</version>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-pmd-plugin</artifactId>
-          <version>2.6</version>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-project-info-reports-plugin</artifactId>
-          <version>2.4</version>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-release-plugin</artifactId>
           <version>2.5</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-plugin-plugin</artifactId>
+          <version>3.4</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-pmd-plugin</artifactId>
+          <version>3.3</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-project-info-reports-plugin</artifactId>
+          <version>2.7</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>2.5.1</version>
+          <configuration>
+            <tagNameFormat>@{project.version}</tagNameFormat>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-remote-resources-plugin</artifactId>
-          <version>1.2.1</version>
+          <version>1.5</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
-          <version>2.6</version>
+          <version>2.7</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-scm-plugin</artifactId>
-          <version>1.5</version>
+          <version>1.9.2</version>
         </plugin>
 
         <plugin>
@@ -703,13 +706,13 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.3</version>
+          <version>3.4</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
-          <version>2.2.1</version>
+          <version>2.4</version>
         </plugin>
 
         <plugin>
@@ -721,13 +724,13 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-report-plugin</artifactId>
-          <version>2.17</version>
+          <version>2.18.1</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.17</version>
+          <version>2.18.1</version>
           <configuration>
             <argLine>-Xmx1024m</argLine>
           </configuration>
@@ -736,13 +739,13 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-war-plugin</artifactId>
-          <version>2.1.1</version>
+          <version>2.5</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
-          <version>2.5.0</version>
+          <version>2.5.3</version>
         </plugin>
 
         <plugin>
@@ -768,7 +771,7 @@
         <plugin>
           <groupId>org.apache.xbean</groupId>
           <artifactId>maven-xbean-plugin</artifactId>
-          <version>3.8</version>
+          <version>4.1</version>
         </plugin>
 
         <plugin>
@@ -780,19 +783,19 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
-          <version>1.7</version>
+          <version>1.9.1</version>
         </plugin>
 
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>clirr-maven-plugin</artifactId>
-          <version>2.3</version>
+          <version>2.6.1</version>
         </plugin>
 
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>cobertura-maven-plugin</artifactId>
-          <version>2.5.1</version>
+          <version>2.6</version>
         </plugin>
 
         <plugin>
@@ -804,7 +807,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>findbugs-maven-plugin</artifactId>
-          <version>2.5.4</version>
+          <version>3.0.0</version>
           <configuration>
             <xmlOutput>false</xmlOutput>
             <!--
@@ -827,13 +830,13 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>javancss-maven-plugin</artifactId>
-          <version>2.0</version>
+          <version>2.1</version>
         </plugin>
 
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>jdepend-maven-plugin</artifactId>
-          <version>2.0-beta-2</version>
+          <version>2.0</version>
         </plugin>
 
         <plugin>
@@ -859,13 +862,13 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>versions-maven-plugin</artifactId>
-          <version>1.2</version>
+          <version>2.1</version>
         </plugin>
   
         <plugin>
           <groupId>com.agilejava.docbkx</groupId>
           <artifactId>docbkx-maven-plugin</artifactId>
-          <version>2.0.13</version>
+          <version>2.0.15</version>
         </plugin>
       </plugins>
     </pluginManagement>
