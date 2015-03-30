@@ -328,6 +328,16 @@
       </roles>
     </developer>
 
+    <developer>
+      <id>semancik</id>
+      <name>Radovan Semancik</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
     <!--  Emeritus -->
     <developer>
       <id>brett</id>
