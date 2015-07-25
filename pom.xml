@@ -269,6 +269,16 @@
     </developer>
 
     <developer>
+      <id>coheigea</id>
+      <name>Colm Ó hÉigeartaigh</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
       <id>antoine</id>
       <name>Antoine Levy Lambert</name>
       <organization>ASF</organization>
@@ -289,6 +299,16 @@
     </developer>
 
     <developer>
+      <id>drankye</id>
+      <name>Kai Zheng</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
       <id>gokturk</id>
       <name>GÖktürk Gezer</name>
       <organization>ASF</organization>
@@ -299,8 +319,28 @@
     </developer>
 
     <developer>
+      <id>hazel</id>
+      <name>Lin Chen</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
       <id>malderson</id>
       <name>Martin Alderson</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>plusplusjiajia</id>
+      <name>plusplusjiajia</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
