@@ -197,6 +197,16 @@
     </developer>
 
     <developer>
+      <id>pierresmits</id>
+      <name>Pierre Smits</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>PMC Member</role>
+      </roles>
+    </developer>
+
+    <developer>
       <id>seelmann</id>
       <name>Stefan Seelmann</name>
       <organization>ASF</organization>
@@ -205,7 +215,17 @@
         <role>PMC Member</role>
       </roles>
       <timezone>+1</timezone>
-    </developer>    
+    </developer>
+
+    <developer>
+      <id>smckinney</id>
+      <name>Shawn McKinney</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>PMC Member</role>
+      </roles>
+    </developer>
 
     <developer>
       <id>szoerner</id>
@@ -289,16 +309,6 @@
     </developer>
 
     <developer>
-      <id>pierresmits</id>
-      <name>Pierre Smits</name>
-      <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
-      <roles>
-        <role>Committer</role>
-      </roles>
-    </developer>
-
-    <developer>
       <id>rjan</id>
       <name>Jan S. Rellermeyer</name>
       <organization>ASF</organization>
@@ -311,16 +321,6 @@
     <developer>
       <id>saya</id>
       <name>Selcuk Aya</name>
-      <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
-      <roles>
-        <role>Committer</role>
-      </roles>
-    </developer>
-
-    <developer>
-      <id>smckinney</id>
-      <name>Shawn McKinney</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
