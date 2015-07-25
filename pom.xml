@@ -47,8 +47,8 @@
   </description>
 
   <ciManagement>
-    <system>hudson</system>
-    <url>https://hudson.apache.org/hudson/view/A-F/view/Directory</url>
+    <system>jenkins</system>
+    <url>https://builds.apache.org/view/A-D/view/Directory/</url>
     <!-- Comment notifiers -> No default notifier is taken by a CI system, but must be configured
                               by the CI system 
     <notifiers>
