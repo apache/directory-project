@@ -105,8 +105,8 @@
   <developers>
     <!-- PMC Chair -->
     <developer>
-      <id>pamarcelot</id>
-      <name>Pierre-Arnaud Marcelot</name>
+      <id>kayyagari</id>
+      <name>Kiran Ayyagari</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -167,16 +167,6 @@
     </developer>
 
     <developer>
-      <id>kayyagari</id>
-      <name>Kiran Ayyagari</name>
-      <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-
-    <developer>
       <id>lucastheisen</id>
       <name>Lucas Theisen</name>
       <organization>ASF</organization>
@@ -189,6 +179,16 @@
     <developer>
       <id>noel</id>
       <name>Noel Bergman</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>PMC Member</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>pamarcelot</id>
+      <name>Pierre-Arnaud Marcelot</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
