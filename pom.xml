@@ -749,7 +749,7 @@
     <!-- ================================================ -->
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <skin.version>1.0.3-SNAPSHOT</skin.version>
+    <skin.version>1.0.3</skin.version>
     <org.apache.directory.checkstyle-configuration.version>0.2</org.apache.directory.checkstyle-configuration.version>
   </properties>
 
