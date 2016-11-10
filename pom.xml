@@ -70,6 +70,38 @@
 
   <mailingLists>
     <mailingList>
+      <name>The Directory Alliance List</name>
+      <subscribe>alliance-subscribe@directory.apache.org</subscribe>
+      <unsubscribe>alliance-unsubscribe@directory.apache.org</unsubscribe>
+      <post>alliance@directory.apache.org</post>
+      <archive>http://mail-archives.apache.org/mod_mbox/directory-alliance</archive>
+      <otherArchives>
+        <otherArchive>http://www.mail-archive.com/alliance@directory.apache.org/</otherArchive>
+      </otherArchives>
+    </mailingList>
+
+    <mailingList>
+      <name>The Directory API List</name>
+      <subscribe>api-subscribe@directory.apache.org</subscribe>
+      <unsubscribe>api-unsubscribe@directory.apache.org</unsubscribe>
+      <post>api@directory.apache.org</post>
+      <archive>http://mail-archives.apache.org/mod_mbox/directory-api</archive>
+      <otherArchives>
+        <otherArchive>http://www.mail-archive.com/api@directory.apache.org/</otherArchive>
+      </otherArchives>
+    </mailingList>
+
+    <mailingList>
+      <name>The Directory Commits (SVN) List</name>
+      <subscribe>commits-subscribe@directory.apache.org</subscribe>
+      <unsubscribe>commits-unsubscribe@directory.apache.org</unsubscribe>
+      <archive>http://mail-archives.apache.org/mod_mbox/directory-commits</archive>
+      <otherArchives>
+        <otherArchive>http://www.mail-archive.com/commits@directory.apache.org/</otherArchive>
+      </otherArchives>
+    </mailingList>
+
+    <mailingList>
       <name>The Directory Developers List</name>
       <subscribe>dev-subscribe@directory.apache.org</subscribe>
       <unsubscribe>dev-unsubscribe@directory.apache.org</unsubscribe>
@@ -81,6 +113,50 @@
     </mailingList>
 
     <mailingList>
+      <name>The Directory Fortress List</name>
+      <subscribe>fortress-subscribe@directory.apache.org</subscribe>
+      <unsubscribe>fortress-unsubscribe@directory.apache.org</unsubscribe>
+      <post>fortress@directory.apache.org</post>
+      <archive>http://mail-archives.apache.org/mod_mbox/directory-fortress</archive>
+      <otherArchives>
+        <otherArchive>http://www.mail-archive.com/fortress@directory.apache.org/</otherArchive>
+      </otherArchives>
+    </mailingList>
+
+    <mailingList>
+      <name>The Directory Kerby List</name>
+      <subscribe>kerby-subscribe@directory.apache.org</subscribe>
+      <unsubscribe>kerby-unsubscribe@directory.apache.org</unsubscribe>
+      <post>kerby@directory.apache.org</post>
+      <archive>http://mail-archives.apache.org/mod_mbox/directory-kerby</archive>
+      <otherArchives>
+        <otherArchive>http://www.mail-archive.com/kerby@directory.apache.org/</otherArchive>
+      </otherArchives>
+    </mailingList>
+
+    <mailingList>
+      <name>The Directory Notifications List</name>
+      <subscribe>notifications-subscribe@directory.apache.org</subscribe>
+      <unsubscribe>notifications-unsubscribe@directory.apache.org</unsubscribe>
+      <post>notifications@directory.apache.org</post>
+      <archive>http://mail-archives.apache.org/mod_mbox/directory-notifications</archive>
+      <otherArchives>
+        <otherArchive>http://www.mail-archive.com/notifications@directory.apache.org/</otherArchive>
+      </otherArchives>
+    </mailingList>
+
+    <mailingList>
+      <name>The Directory Private List</name>
+      <subscribe>private-subscribe@directory.apache.org</subscribe>
+      <unsubscribe>private-unsubscribe@directory.apache.org</unsubscribe>
+      <post>private@directory.apache.org</post>
+      <archive>http://mail-archives.apache.org/mod_mbox/private-notifications</archive>
+      <otherArchives>
+        <otherArchive>http://www.mail-archive.com/private@directory.apache.org/</otherArchive>
+      </otherArchives>
+    </mailingList>
+
+    <mailingList>
       <name>The Directory Users List</name>
       <subscribe>users-subscribe@directory.apache.org</subscribe>
       <unsubscribe>users-unsubscribe@directory.apache.org</unsubscribe>
@@ -88,16 +164,6 @@
       <archive>http://mail-archives.apache.org/mod_mbox/directory-users</archive>
       <otherArchives>
         <otherArchive>http://www.mail-archive.com/users@directory.apache.org/</otherArchive>
-      </otherArchives>
-    </mailingList>
-
-    <mailingList>
-      <name>The Directory Commits (SVN) List</name>
-      <subscribe>commits-subscribe@directory.apache.org</subscribe>
-      <unsubscribe>commits-unsubscribe@directory.apache.org</unsubscribe>
-      <archive>http://mail-archives.apache.org/mod_mbox/directory-commits</archive>
-      <otherArchives>
-        <otherArchive>http://www.mail-archive.com/commits@directory.apache.org/</otherArchive>
       </otherArchives>
     </mailingList>
   </mailingLists>
@@ -121,7 +187,7 @@
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
-        <role>Chairman</role>
+        <role>PMC Member</role>
       </roles>
     </developer>
 
@@ -146,8 +212,8 @@
     </developer>
 
     <developer>
-      <id>elecharny</id>
-      <name>Emmanuel Lécharny</name>
+      <id>coheiga</id>
+      <name>Colm O hEigeartaigh</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -156,14 +222,33 @@
     </developer>
 
     <developer>
-      <id>felixk</id>
-      <name>Felix Knecht</name>
+      <id>elecharny</id>
+      <name>Emmanuel Lecharny</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
-        <role>Emeritus</role>
+        <role>PMC Member</role>
       </roles>
-      <timezone>+1</timezone>
+    </developer>
+
+    <developer>
+      <id>plusplusjiajia</id>
+      <name>plusplusjiajia</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>PMC Member</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>drankye</id>
+      <name>Kai Zheng</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>PMC Member</role>
+      </roles>
     </developer>
 
     <developer>
@@ -187,6 +272,16 @@
     </developer>
 
     <developer>
+      <id>pierresmits</id>
+      <name>Pierre Smits</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>PMC Member</role>
+      </roles>
+    </developer>
+
+    <developer>
       <id>pamarcelot</id>
       <name>Pierre-Arnaud Marcelot</name>
       <organization>ASF</organization>
@@ -197,8 +292,8 @@
     </developer>
 
     <developer>
-      <id>pierresmits</id>
-      <name>Pierre Smits</name>
+      <id>smckinney</id>
+      <name>Shawn McKinney</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -218,18 +313,8 @@
     </developer>
 
     <developer>
-      <id>smckinney</id>
-      <name>Shawn McKinney</name>
-      <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-
-    <developer>
       <id>szoerner</id>
-      <name>Stefan Zœrner</name>
+      <name>Stefan Zoerner</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -259,8 +344,8 @@
     </developer>
 
     <developer>
-      <id>agariboldi</id>
-      <name>Andrea Amerigo Aristodemo Gariboldi</name>
+      <id>aphaskell</id>
+      <name>Alex Haskell</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -269,8 +354,8 @@
     </developer>
 
     <developer>
-      <id>coheigea</id>
-      <name>Colm Ó hÉigeartaigh</name>
+      <id>agariboldi</id>
+      <name>Andrea Amerigo Aristodemo Gariboldi</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -289,6 +374,36 @@
     </developer>
 
     <developer>
+      <id>bloritsch</id>
+      <name>Berin Loritsch</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>cpike</id>
+      <name>Chris Pike</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>charm</id>
+      <name>Christopher Harm</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
       <id>djencks</id>
       <name>David Jencks</name>
       <organization>ASF</organization>
@@ -299,8 +414,8 @@
     </developer>
 
     <developer>
-      <id>drankye</id>
-      <name>Kai Zheng</name>
+      <id>gg</id>
+      <name>Gerard Gagliano</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -310,7 +425,37 @@
 
     <developer>
       <id>gokturk</id>
-      <name>GÖktürk Gezer</name>
+      <name>Göktürk Gezer</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+    
+    <developer>
+      <id>rjan</id>
+      <name>Jan S. Rellermeyer</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>sindberg</id>
+      <name>Jan Sindberg</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>jconlon</id>
+      <name>John E. Conlon</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -339,8 +484,8 @@
     </developer>
 
     <developer>
-      <id>plusplusjiajia</id>
-      <name>plusplusjiajia</name>
+      <id>semancik</id>
+      <name>Radovan Semancik</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -349,8 +494,8 @@
     </developer>
 
     <developer>
-      <id>rjan</id>
-      <name>Jan S. Rellermeyer</name>
+      <id>rmf</id>
+      <name>Richard Feezel</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -369,8 +514,38 @@
     </developer>
 
     <developer>
-      <id>semancik</id>
-      <name>Radovan Semancik</name>
+      <id>ussmith</id>
+      <name>Shawn E Smith</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>smoyer1</id>
+      <name>Steve Moyer</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>tbennett</id>
+      <name>Timothy Bennett</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>yaning</id>
+      <name>Yaning Xu</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -395,7 +570,7 @@
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
-        <role>emeritus</role>
+        <role>Emeritus</role>
       </roles>
     </developer>
 
@@ -408,10 +583,21 @@
         <role>Emeritus</role>
       </roles>
     </developer>
+    
+    <developer>
+      <id>felixk</id>
+      <name>Felix Knecht</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Emeritus</role>
+      </roles>
+      <timezone>+1</timezone>
+    </developer>
 
     <developer>
       <id>mcconnell</id>
-      <name>Jesse McConnell</name>
+      <name>Stephen McConnell</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -431,7 +617,7 @@
 
     <developer>
       <id>jmachols</id>
-      <name>Jeff Machols</name>
+      <name>John Peacock</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -441,7 +627,7 @@
 
     <developer>
       <id>hennejg</id>
-      <name>JÖrg Henne</name>
+      <name>Joerg Henne</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -548,7 +734,7 @@
   </scm>
   
   <prerequisites>
-    <maven>3.0.3</maven>
+    <maven>3.0.5</maven>
   </prerequisites>
 
   <properties>
@@ -577,6 +763,7 @@
     <pluginManagement>
       <plugins>
         <plugin>
+          <!-- Get from https://repo.maven.apache.org/maven2/org/codehaus/mojo/antlr-maven-plugin/ -->
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>antlr-maven-plugin</artifactId>
           <version>2.2</version>
@@ -597,7 +784,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-changes-plugin</artifactId>
-          <version>2.12</version>
+          <version>2.12.1</version>
         </plugin>
 
         <plugin>
@@ -608,7 +795,7 @@
             <dependency>
               <groupId>com.puppycrawl.tools</groupId>
               <artifactId>checkstyle</artifactId>
-              <version>6.8.1</version>
+              <version>7.2</version>
             </dependency>
             <dependency>
               <groupId>org.apache.directory.buildtools</groupId>
@@ -630,7 +817,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.5.1</version>
+          <version>3.6.0</version>
           <configuration>
             <source>1.7</source>
             <target>1.7</target>
