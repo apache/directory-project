@@ -92,7 +92,7 @@
     </mailingList>
 
     <mailingList>
-      <name>The Directory Commits (SVN) List</name>
+      <name>The Directory Commits (SVN and Git) List</name>
       <subscribe>commits-subscribe@directory.apache.org</subscribe>
       <unsubscribe>commits-unsubscribe@directory.apache.org</unsubscribe>
       <archive>http://mail-archives.apache.org/mod_mbox/directory-commits</archive>
@@ -728,11 +728,11 @@
   </developers>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/directory/project/trunk</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directory/project/trunk</developerConnection>
-    <url>http://svn.apache.org/viewvc/directory/project/trunk</url>
+    <connection>scm:git:https://gitbox.apache.org/repos/asf/directory-project.git</connection>
+    <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/directory-project.git</developerConnection>
+    <url>https://gitbox.apache.org/repos/asf/directory-project.git</url>
   </scm>
-  
+
   <prerequisites>
     <maven>3.0.5</maven>
   </prerequisites>
