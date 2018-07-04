@@ -1018,6 +1018,7 @@
             <excludeSubProjects>false</excludeSubProjects>
             <excludes>
               <!-- project excludes -->
+              <exclude>README.md</exclude>
               <exclude>**/resources/svn_ignore.txt</exclude>
               <exclude>**/resources/Reveal in Finder.launch</exclude>
             </excludes>
