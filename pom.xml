@@ -171,8 +171,8 @@
   <developers>
     <!-- PMC Chair -->
     <developer>
-      <id>kayyagari</id>
-      <name>Kiran Ayyagari</name>
+      <id>seelmann</id>
+      <name>Stefan Seelmann</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
@@ -244,6 +244,16 @@
     <developer>
       <id>drankye</id>
       <name>Kai Zheng</name>
+      <organization>ASF</organization>
+      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <roles>
+        <role>PMC Member</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>kayyagari</id>
+      <name>Kiran Ayyagari</name>
       <organization>ASF</organization>
       <organizationUrl>http://www.apache.org/</organizationUrl>
       <roles>
