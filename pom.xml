@@ -39,7 +39,7 @@
   <packaging>pom</packaging>
   <name>Apache Directory Project</name>
   <version>45-SNAPSHOT</version>
-  <url>http://directory.apache.org/</url>
+  <url>https://directory.apache.org/</url>
 
   <description>
     The Apache Directory Project provides directory solutions entirely written in Java. These include a directory server, which has been certified as LDAP v3 compliant 
@@ -74,9 +74,9 @@
       <subscribe>alliance-subscribe@directory.apache.org</subscribe>
       <unsubscribe>alliance-unsubscribe@directory.apache.org</unsubscribe>
       <post>alliance@directory.apache.org</post>
-      <archive>http://mail-archives.apache.org/mod_mbox/directory-alliance</archive>
+      <archive>https://mail-archives.apache.org/mod_mbox/directory-alliance</archive>
       <otherArchives>
-        <otherArchive>http://www.mail-archive.com/alliance@directory.apache.org/</otherArchive>
+        <otherArchive>https://www.mail-archive.com/alliance@directory.apache.org/</otherArchive>
       </otherArchives>
     </mailingList>
 
@@ -85,9 +85,9 @@
       <subscribe>api-subscribe@directory.apache.org</subscribe>
       <unsubscribe>api-unsubscribe@directory.apache.org</unsubscribe>
       <post>api@directory.apache.org</post>
-      <archive>http://mail-archives.apache.org/mod_mbox/directory-api</archive>
+      <archive>https://mail-archives.apache.org/mod_mbox/directory-api</archive>
       <otherArchives>
-        <otherArchive>http://www.mail-archive.com/api@directory.apache.org/</otherArchive>
+        <otherArchive>https://www.mail-archive.com/api@directory.apache.org/</otherArchive>
       </otherArchives>
     </mailingList>
 
@@ -95,9 +95,9 @@
       <name>The Directory Commits (SVN and Git) List</name>
       <subscribe>commits-subscribe@directory.apache.org</subscribe>
       <unsubscribe>commits-unsubscribe@directory.apache.org</unsubscribe>
-      <archive>http://mail-archives.apache.org/mod_mbox/directory-commits</archive>
+      <archive>https://mail-archives.apache.org/mod_mbox/directory-commits</archive>
       <otherArchives>
-        <otherArchive>http://www.mail-archive.com/commits@directory.apache.org/</otherArchive>
+        <otherArchive>https://www.mail-archive.com/commits@directory.apache.org/</otherArchive>
       </otherArchives>
     </mailingList>
 
@@ -106,9 +106,9 @@
       <subscribe>dev-subscribe@directory.apache.org</subscribe>
       <unsubscribe>dev-unsubscribe@directory.apache.org</unsubscribe>
       <post>dev@directory.apache.org</post>
-      <archive>http://mail-archives.apache.org/mod_mbox/directory-dev</archive>
+      <archive>https://mail-archives.apache.org/mod_mbox/directory-dev</archive>
       <otherArchives>
-        <otherArchive>http://www.mail-archive.com/dev@directory.apache.org/</otherArchive>
+        <otherArchive>https://www.mail-archive.com/dev@directory.apache.org/</otherArchive>
       </otherArchives>
     </mailingList>
 
@@ -117,9 +117,9 @@
       <subscribe>fortress-subscribe@directory.apache.org</subscribe>
       <unsubscribe>fortress-unsubscribe@directory.apache.org</unsubscribe>
       <post>fortress@directory.apache.org</post>
-      <archive>http://mail-archives.apache.org/mod_mbox/directory-fortress</archive>
+      <archive>https://mail-archives.apache.org/mod_mbox/directory-fortress</archive>
       <otherArchives>
-        <otherArchive>http://www.mail-archive.com/fortress@directory.apache.org/</otherArchive>
+        <otherArchive>https://www.mail-archive.com/fortress@directory.apache.org/</otherArchive>
       </otherArchives>
     </mailingList>
 
@@ -128,9 +128,9 @@
       <subscribe>kerby-subscribe@directory.apache.org</subscribe>
       <unsubscribe>kerby-unsubscribe@directory.apache.org</unsubscribe>
       <post>kerby@directory.apache.org</post>
-      <archive>http://mail-archives.apache.org/mod_mbox/directory-kerby</archive>
+      <archive>https://mail-archives.apache.org/mod_mbox/directory-kerby</archive>
       <otherArchives>
-        <otherArchive>http://www.mail-archive.com/kerby@directory.apache.org/</otherArchive>
+        <otherArchive>https://www.mail-archive.com/kerby@directory.apache.org/</otherArchive>
       </otherArchives>
     </mailingList>
 
@@ -139,9 +139,9 @@
       <subscribe>notifications-subscribe@directory.apache.org</subscribe>
       <unsubscribe>notifications-unsubscribe@directory.apache.org</unsubscribe>
       <post>notifications@directory.apache.org</post>
-      <archive>http://mail-archives.apache.org/mod_mbox/directory-notifications</archive>
+      <archive>https://mail-archives.apache.org/mod_mbox/directory-notifications</archive>
       <otherArchives>
-        <otherArchive>http://www.mail-archive.com/notifications@directory.apache.org/</otherArchive>
+        <otherArchive>https://www.mail-archive.com/notifications@directory.apache.org/</otherArchive>
       </otherArchives>
     </mailingList>
 
@@ -150,9 +150,9 @@
       <subscribe>private-subscribe@directory.apache.org</subscribe>
       <unsubscribe>private-unsubscribe@directory.apache.org</unsubscribe>
       <post>private@directory.apache.org</post>
-      <archive>http://mail-archives.apache.org/mod_mbox/private-notifications</archive>
+      <archive>https://mail-archives.apache.org/mod_mbox/private-notifications</archive>
       <otherArchives>
-        <otherArchive>http://www.mail-archive.com/private@directory.apache.org/</otherArchive>
+        <otherArchive>https://www.mail-archive.com/private@directory.apache.org/</otherArchive>
       </otherArchives>
     </mailingList>
 
@@ -161,9 +161,9 @@
       <subscribe>users-subscribe@directory.apache.org</subscribe>
       <unsubscribe>users-unsubscribe@directory.apache.org</unsubscribe>
       <post>users@directory.apache.org</post>
-      <archive>http://mail-archives.apache.org/mod_mbox/directory-users</archive>
+      <archive>https://mail-archives.apache.org/mod_mbox/directory-users</archive>
       <otherArchives>
-        <otherArchive>http://www.mail-archive.com/users@directory.apache.org/</otherArchive>
+        <otherArchive>https://www.mail-archive.com/users@directory.apache.org/</otherArchive>
       </otherArchives>
     </mailingList>
   </mailingLists>
@@ -174,7 +174,7 @@
       <id>seelmann</id>
       <name>Stefan Seelmann</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Chairman</role>
       </roles>
@@ -185,7 +185,7 @@
       <id>akarasulu</id>
       <name>Alex Karasulu</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>PMC Member</role>
       </roles>
@@ -195,7 +195,7 @@
       <id>ccustine</id>
       <name>Chris Custine</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>PMC Member</role>
       </roles>
@@ -205,7 +205,7 @@
       <id>ckoppelt</id>
       <name>Christine Koppelt</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>PMC Member</role>
       </roles>
@@ -215,7 +215,7 @@
       <id>coheiga</id>
       <name>Colm O hEigeartaigh</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>PMC Member</role>
       </roles>
@@ -225,7 +225,7 @@
       <id>elecharny</id>
       <name>Emmanuel Lecharny</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>PMC Member</role>
       </roles>
@@ -235,7 +235,7 @@
       <id>plusplusjiajia</id>
       <name>plusplusjiajia</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>PMC Member</role>
       </roles>
@@ -245,7 +245,7 @@
       <id>drankye</id>
       <name>Kai Zheng</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>PMC Member</role>
       </roles>
@@ -255,7 +255,7 @@
       <id>kayyagari</id>
       <name>Kiran Ayyagari</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>PMC Member</role>
       </roles>
@@ -265,7 +265,7 @@
       <id>lucastheisen</id>
       <name>Lucas Theisen</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>PMC member</role>
       </roles>
@@ -275,7 +275,7 @@
       <id>noel</id>
       <name>Noel Bergman</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>PMC Member</role>
       </roles>
@@ -285,7 +285,7 @@
       <id>pierresmits</id>
       <name>Pierre Smits</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>PMC Member</role>
       </roles>
@@ -295,7 +295,7 @@
       <id>pamarcelot</id>
       <name>Pierre-Arnaud Marcelot</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>PMC Member</role>
       </roles>
@@ -305,7 +305,7 @@
       <id>smckinney</id>
       <name>Shawn McKinney</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>PMC Member</role>
       </roles>
@@ -315,7 +315,7 @@
       <id>seelmann</id>
       <name>Stefan Seelmann</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>PMC Member</role>
       </roles>
@@ -326,7 +326,7 @@
       <id>szoerner</id>
       <name>Stefan Zoerner</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>PMC Member</role>
       </roles>
@@ -337,7 +337,7 @@
       <id>adc</id>
       <name>Alan Cabrera</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Committer</role>
       </roles>
@@ -347,7 +347,7 @@
       <id>aadomowski</id>
       <name>Aleksender Adamowski</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Committer</role>
       </roles>
@@ -357,7 +357,7 @@
       <id>aphaskell</id>
       <name>Alex Haskell</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Committer</role>
       </roles>
@@ -367,7 +367,7 @@
       <id>agariboldi</id>
       <name>Andrea Amerigo Aristodemo Gariboldi</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Committer</role>
       </roles>
@@ -377,7 +377,7 @@
       <id>antoine</id>
       <name>Antoine Levy Lambert</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Committer</role>
       </roles>
@@ -387,7 +387,7 @@
       <id>bloritsch</id>
       <name>Berin Loritsch</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Committer</role>
       </roles>
@@ -397,7 +397,7 @@
       <id>cpike</id>
       <name>Chris Pike</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Committer</role>
       </roles>
@@ -407,7 +407,7 @@
       <id>charm</id>
       <name>Christopher Harm</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Committer</role>
       </roles>
@@ -417,7 +417,7 @@
       <id>djencks</id>
       <name>David Jencks</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Committer</role>
       </roles>
@@ -427,7 +427,7 @@
       <id>gg</id>
       <name>Gerard Gagliano</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Committer</role>
       </roles>
@@ -437,7 +437,7 @@
       <id>gokturk</id>
       <name>Göktürk Gezer</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Committer</role>
       </roles>
@@ -447,7 +447,7 @@
       <id>rjan</id>
       <name>Jan S. Rellermeyer</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Committer</role>
       </roles>
@@ -457,7 +457,7 @@
       <id>sindberg</id>
       <name>Jan Sindberg</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Committer</role>
       </roles>
@@ -467,7 +467,7 @@
       <id>jconlon</id>
       <name>John E. Conlon</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Committer</role>
       </roles>
@@ -477,7 +477,7 @@
       <id>hazel</id>
       <name>Lin Chen</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Committer</role>
       </roles>
@@ -487,7 +487,7 @@
       <id>malderson</id>
       <name>Martin Alderson</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Committer</role>
       </roles>
@@ -497,7 +497,7 @@
       <id>semancik</id>
       <name>Radovan Semancik</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Committer</role>
       </roles>
@@ -507,7 +507,7 @@
       <id>rmf</id>
       <name>Richard Feezel</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Committer</role>
       </roles>
@@ -517,7 +517,7 @@
       <id>saya</id>
       <name>Selcuk Aya</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Committer</role>
       </roles>
@@ -527,7 +527,7 @@
       <id>ussmith</id>
       <name>Shawn E Smith</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Committer</role>
       </roles>
@@ -537,7 +537,7 @@
       <id>smoyer1</id>
       <name>Steve Moyer</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Committer</role>
       </roles>
@@ -547,7 +547,7 @@
       <id>tbennett</id>
       <name>Timothy Bennett</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Committer</role>
       </roles>
@@ -557,7 +557,7 @@
       <id>yaning</id>
       <name>Yaning Xu</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Committer</role>
       </roles>
@@ -568,7 +568,7 @@
       <id>brett</id>
       <name>Brett Porter</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Emeritus</role>
       </roles>
@@ -578,7 +578,7 @@
       <id>erodriguez</id>
       <name>Enrique Rodriguez</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Emeritus</role>
       </roles>
@@ -588,7 +588,7 @@
       <id>ersiner</id>
       <name>Ersin Er</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Emeritus</role>
       </roles>
@@ -598,7 +598,7 @@
       <id>felixk</id>
       <name>Felix Knecht</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Emeritus</role>
       </roles>
@@ -609,7 +609,7 @@
       <id>mcconnell</id>
       <name>Stephen McConnell</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Emeritus</role>
       </roles>
@@ -619,7 +619,7 @@
       <id>jim</id>
       <name>Jim Jagielski</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Emeritus</role>
       </roles>
@@ -629,7 +629,7 @@
       <id>jmachols</id>
       <name>John Peacock</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Emeritus</role>
       </roles>
@@ -639,7 +639,7 @@
       <id>hennejg</id>
       <name>Joerg Henne</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Emeritus</role>
       </roles>
@@ -649,7 +649,7 @@
       <id>niclas</id>
       <name>Niclas Hedman</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Emeritus</role>
       </roles>
@@ -659,7 +659,7 @@
       <id>nicolaken</id>
       <name>Nicola Ken Barozzi</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Emeritus</role>
       </roles>
@@ -669,7 +669,7 @@
       <id>nhope</id>
       <name>Norval Hope</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Emeritus</role>
       </roles>
@@ -679,7 +679,7 @@
       <id>oersoy</id>
       <name>Ole K. Ersoy</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Emeritus</role>
       </roles>
@@ -689,7 +689,7 @@
       <id>psteitz</id>
       <name>Philippe Steitz</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Emeritus</role>
       </roles>
@@ -699,7 +699,7 @@
       <id>rscott</id>
       <name>G. Richard Scott</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Emeritus</role>
       </roles>
@@ -709,7 +709,7 @@
       <id>trustin</id>
       <name>Trustin Lee</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Emeritus</role>
       </roles>
@@ -719,7 +719,7 @@
       <id>vtence</id>
       <name>Vincent Tence</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Emeritus</role>
       </roles>
@@ -729,7 +729,7 @@
       <id>wesmckean</id>
       <name>Wes McKean</name>
       <organization>ASF</organization>
-      <organizationUrl>http://www.apache.org/</organizationUrl>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>Emeritus</role>
       </roles>
