@@ -21,10 +21,10 @@
 
 <!-- ===================================================-->
 <!-- The customize snapshot and site deployment see     -->
-<!-- http://cwiki.apache.org/confluence/x/zbEB          -->
+<!-- https://cwiki.apache.org/confluence/x/zbEB          -->
 <!-- ================================================== -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="https://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
 
   <parent>
     <groupId>org.apache</groupId>
@@ -740,8 +740,8 @@
   <scm>
     <connection>scm:git:https://gitbox.apache.org/repos/asf/directory-project.git</connection>
     <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/directory-project.git</developerConnection>
-    <url>https://gitbox.apache.org/repos/asf/directory-project.git</url>
-    <tag>HEAD</tag>
+    <url>https://github.com/apache/directory-project.git/tree/{project.scm.tag}</url>
+    <tag>master</tag>
   </scm>
 
   <prerequisites>
