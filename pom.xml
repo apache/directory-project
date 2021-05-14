@@ -38,7 +38,7 @@
   <artifactId>project</artifactId>
   <packaging>pom</packaging>
   <name>Apache Directory Project</name>
-  <version>45-SNAPSHOT</version>
+  <version>45</version>
   <url>https://directory.apache.org/</url>
 
   <description>
@@ -741,7 +741,7 @@
     <connection>scm:git:https://gitbox.apache.org/repos/asf/directory-project.git</connection>
     <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/directory-project.git</developerConnection>
     <url>https://github.com/apache/directory-project.git/tree/{project.scm.tag}</url>
-    <tag>master</tag>
+    <tag>45</tag>
   </scm>
 
   <prerequisites>
