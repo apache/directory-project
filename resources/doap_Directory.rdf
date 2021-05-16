@@ -16,7 +16,7 @@
    "License"); you may not use this file except in compliance
    with the License.  You may obtain a copy of the License at
    
-     http://www.apache.org/licenses/LICENSE-2.0
+     https://www.apache.org/licenses/LICENSE-2.0
    
    Unless required by applicable law or agreed to in writing,
    software distributed under the License is distributed on an
@@ -27,24 +27,24 @@
 
   =======================================================================
 -->
-  <Project rdf:about="http://Directory.rdf.apache.org/">
+  <Project rdf:about="https://Directory.rdf.apache.org/">
     <created>2006-03-27</created>
     <license rdf:resource="http://usefulinc.com/doap/licenses/asl20" />
     <name>Apache Directory</name>
-    <homepage rdf:resource="http://directory.apache.org" />
-    <asfext:pmc rdf:resource="http://directory.apache.org" />
+    <homepage rdf:resource="https://directory.apache.org" />
+    <asfext:pmc rdf:resource="https://directory.apache.org" />
     <shortdesc>LDAP and Kerberos, entirely in Java</shortdesc>
     <description>The Apache Directory project provides directory solutions entirely written in Java. These include a directory server, which has been certified as LDAP v3 compliant by the Open Group (ApacheDS), and Eclipse-based directory tools (Apache Directory Studio).</description>
-    <bug-database rdf:resource="http://issues.apache.org/jira/browse/DIR" />
-    <mailing-list rdf:resource="http://directory.apache.org/community%26resources/mailing-lists-and-irc.html" />
-    <download-page rdf:resource="http://www.apache.org/dyn/closer.cgi/directory" />
+    <bug-database rdf:resource="https://issues.apache.org/jira/browse/DIR" />
+    <mailing-list rdf:resource="https://directory.apache.org/community%26resources/mailing-lists-and-irc.html" />
+    <download-page rdf:resource="https://www.apache.org/dyn/closer.cgi/directory" />
     <programming-language>Java</programming-language>
-    <category rdf:resource="http://projects.apache.org/category/network-server" />
-    <category rdf:resource="http://projects.apache.org/category/network-client" />
+    <category rdf:resource="https://projects.apache.org/category/network-server" />
+    <category rdf:resource="https://projects.apache.org/category/network-client" />
     <repository>
       <SVNRepository>
-        <location rdf:resource="http://svn.apache.org/repos/asf/directory"/>
-        <browse rdf:resource="http://svn.apache.org/viewvc/directory"/>
+        <location rdf:resource="https://gitbox.apache.org/repos/asf/directory-mavibot.git"/>
+        <browse rdf:resource="https://gitbox.apache.org/repos/asf"/>
       </SVNRepository>
     </repository>
     <maintainer>
