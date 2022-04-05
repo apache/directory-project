@@ -763,6 +763,7 @@
     <!-- ================================================ -->
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.build.outputTimestamp>10</project.build.outputTimestamp>
     <skin.version>1.0.3</skin.version>
     <org.apache.directory.checkstyle-configuration.version>2.0.1</org.apache.directory.checkstyle-configuration.version>
 
