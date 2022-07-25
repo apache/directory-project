@@ -29,7 +29,7 @@
   <parent>
     <groupId>org.apache</groupId>
     <artifactId>apache</artifactId>
-    <version>25</version>
+    <version>27</version>
     <relativePath />
   </parent>
 
@@ -171,8 +171,8 @@
   <developers>
     <!-- PMC Chair -->
     <developer>
-      <id>seelmann</id>
-      <name>Stefan Seelmann</name>
+      <id>smckinney</id>
+      <name>Shawn McKinney</name>
       <organization>ASF</organization>
       <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
@@ -202,6 +202,16 @@
     </developer>
 
     <developer>
+      <id>cpike</id>
+      <name>Chris Pike</name>
+      <organization>ASF</organization>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
       <id>ckoppelt</id>
       <name>Christine Koppelt</name>
       <organization>ASF</organization>
@@ -224,16 +234,6 @@
     <developer>
       <id>elecharny</id>
       <name>Emmanuel Lecharny</name>
-      <organization>ASF</organization>
-      <organizationUrl>https://www.apache.org/</organizationUrl>
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-
-    <developer>
-      <id>plusplusjiajia</id>
-      <name>plusplusjiajia</name>
       <organization>ASF</organization>
       <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
@@ -302,6 +302,26 @@
     </developer>
 
     <developer>
+      <id>plusplusjiajia</id>
+      <name>plusplusjiajia</name>
+      <organization>ASF</organization>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
+      <roles>
+        <role>PMC Member</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>semancik</id>
+      <name>Radovan Semancik</name>
+      <organization>ASF</organization>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
+      <roles>
+        <role>PMC Member</role>
+      </roles>
+    </developer>
+
+    <developer>
       <id>smckinney</id>
       <name>Shawn McKinney</name>
       <organization>ASF</organization>
@@ -333,6 +353,16 @@
     </developer>
     
     <!-- Committers -->
+    <developer>
+      <id>admirhodzic</id>
+      <name>    Admir Hodzic</name>
+      <organization>ASF</organization>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
     <developer>
       <id>adc</id>
       <name>Alan Cabrera</name>
@@ -392,10 +422,10 @@
         <role>Committer</role>
       </roles>
     </developer>
-
+    
     <developer>
-      <id>cpike</id>
-      <name>Chris Pike</name>
+      <id>bdemers</id>
+      <name>Brian Demers</name>
       <organization>ASF</organization>
       <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
@@ -416,6 +446,26 @@
     <developer>
       <id>djencks</id>
       <name>David Jencks</name>
+      <organization>ASF</organization>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>zenglinx</id>
+      <name>Franck Zeng</name>
+      <organization>ASF</organization>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>rscott</id>
+      <name>G. Richard Scott</name>
       <organization>ASF</organization>
       <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
@@ -464,8 +514,28 @@
     </developer>
 
     <developer>
+      <id>liujiayi771</id>
+      <name>Jiayi Liu</name>
+      <organization>ASF</organization>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
       <id>jconlon</id>
       <name>John E. Conlon</name>
+      <organization>ASF</organization>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>lhaeger</id>
+      <name>Lothar Haeger</name>
       <organization>ASF</organization>
       <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
@@ -486,16 +556,6 @@
     <developer>
       <id>malderson</id>
       <name>Martin Alderson</name>
-      <organization>ASF</organization>
-      <organizationUrl>https://www.apache.org/</organizationUrl>
-      <roles>
-        <role>Committer</role>
-      </roles>
-    </developer>
-
-    <developer>
-      <id>semancik</id>
-      <name>Radovan Semancik</name>
       <organization>ASF</organization>
       <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
@@ -554,8 +614,28 @@
     </developer>
 
     <developer>
+      <id>littlezhou</id>
+      <name>Wei Zhou</name>
+      <organization>ASF</organization>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
       <id>yaning</id>
       <name>Yaning Xu</name>
+      <organization>ASF</organization>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>yudhiks</id>
+      <name>Yudhi Karunia Surtan</name>
       <organization>ASF</organization>
       <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
@@ -638,16 +718,6 @@
     <developer>
       <id>hennejg</id>
       <name>Joerg Henne</name>
-      <organization>ASF</organization>
-      <organizationUrl>https://www.apache.org/</organizationUrl>
-      <roles>
-        <role>Emeritus</role>
-      </roles>
-    </developer>
-
-    <developer>
-      <id>niclas</id>
-      <name>Niclas Hedman</name>
       <organization>ASF</organization>
       <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
@@ -790,13 +860,13 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-antrun-plugin</artifactId>
-          <version>3.0.0</version>
+          <version>3.1.0</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-assembly-plugin</artifactId>
-          <version>3.3.0</version>
+          <version>3.4.2</version>
         </plugin>
 
         <plugin>
@@ -813,7 +883,7 @@
             <dependency>
               <groupId>com.puppycrawl.tools</groupId>
               <artifactId>checkstyle</artifactId>
-              <version>8.42</version>
+              <version>9.3</version>
             </dependency>
             <dependency>
               <groupId>org.apache.directory.buildtools</groupId>
@@ -829,7 +899,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-clean-plugin</artifactId>
-          <version>3.1.0</version>
+          <version>3.2.0</version>
         </plugin>
 
         <plugin>
@@ -854,7 +924,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-deploy-plugin</artifactId>
-          <version>3.0.0-M2</version>
+          <version>3.0.0</version>
           <inherited>true</inherited>
         </plugin>
 
@@ -884,13 +954,13 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-ejb-plugin</artifactId>
-          <version>3.1.0</version>
+          <version>3.2.1</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
-          <version>3.0.0</version>
+          <version>3.1.0</version>
         </plugin>
 
         <plugin>
@@ -902,7 +972,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-install-plugin</artifactId>
-          <version>3.0.0-M1</version>
+          <version>3.0.1</version>
         </plugin>
 
         <plugin>
@@ -914,7 +984,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.3.2</version>
+          <version>3.4.0</version>
         </plugin>
 
         <plugin>
@@ -932,19 +1002,19 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-pmd-plugin</artifactId>
-          <version>3.16.0</version>
+          <version>3.17.0</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-project-info-reports-plugin</artifactId>
-          <version>3.2.2</version>
+          <version>3.4.0</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-release-plugin</artifactId>
-          <version>3.0.0-M5</version>
+          <version>3.0.0-M6</version>
           <configuration>
             <tagNameFormat>@{project.version}</tagNameFormat>
           </configuration>
@@ -953,7 +1023,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-remote-resources-plugin</artifactId>
-          <version>1.7.0</version>
+          <version>3.0.0</version>
         </plugin>
 
         <plugin>
@@ -977,7 +1047,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.11.0</version>
+          <version>4.0.0-M2</version>
         </plugin>
 
         <plugin>
@@ -1004,7 +1074,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-report-plugin</artifactId>
-          <version>3.0.0-M5</version>
+          <version>3.0.0-M7</version>
         </plugin>
 
         <plugin>
@@ -1017,7 +1087,7 @@
         <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
-          <version>5.1.4</version>
+          <version>5.1.7</version>
         </plugin>
 
         <plugin>
@@ -1044,13 +1114,13 @@
         <plugin>
           <groupId>org.apache.xbean</groupId>
           <artifactId>maven-xbean-plugin</artifactId>
-          <version>4.20</version>
+          <version>4.21</version>
         </plugin>
 
         <plugin>
           <groupId>org.codehaus.modello</groupId>
           <artifactId>modello-maven-plugin</artifactId>
-          <version>1.11</version>
+          <version>2.0.0</version>
         </plugin>
 
         <plugin>
@@ -1115,13 +1185,13 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>l10n-maven-plugin</artifactId>
-          <version>1.0-alpha-2</version>
+          <version>1.0.0</version>
         </plugin>
 
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>taglist-maven-plugin</artifactId>
-          <version>2.4</version>
+          <version>3.0.0</version>
           <configuration>
             <tags>
               <tag>TODO</tag>
@@ -1135,7 +1205,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>versions-maven-plugin</artifactId>
-          <version>2.10.0</version>
+          <version>2.11.0</version>
         </plugin>
   
         <plugin>
