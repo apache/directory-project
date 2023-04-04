@@ -1,0 +1,15 @@
+#!/bin/sh
+echo "<Import-Package>"
+grep -r "^import " src/main | \
+  grep -v target | \
+  sed "s/^.*\.java:import //" | \
+  sed "s/^static //" | \
+  sed "s/\.[A-Z][A-Za-z_\.]*;$//" | \
+  sed "s/^java\..*$//" | \
+  sed 's/^org.apache.directory.api.\(.*\)/org.apache.directory.api.\1;version=${org.apache.directory.api.version},/' | \
+  sed 's/^org.apache.directory.server.\(.*\)/org.apache.directory.server.\1;version=${project.version},/' | \
+  sed 's/^org.apache.commons.\(.*\)/org.apache.commons.\1;version=${commons.\1.version},/' | \
+  sed 's/^org.slf4j$/org.slf4j;version=${slf4j.api.bundleversion},/' | \
+  sed '/^$/d' | \
+  sort -u
+echo "</Import-Package>"
