@@ -38,7 +38,7 @@
   <artifactId>project</artifactId>
   <packaging>pom</packaging>
   <name>Apache Directory Project</name>
-  <version>47</version>
+  <version>48-SNAPSHOT</version>
   <url>https://directory.apache.org/</url>
 
   <description>
@@ -823,7 +823,7 @@
     <arguments />
 
     <!-- activate Reproducible Builds -->
-    <project.build.outputTimestamp>1680645444</project.build.outputTimestamp>
+    <project.build.outputTimestamp>1680645453</project.build.outputTimestamp>
 
     <!-- ================================================ -->
     <!-- Set default encoding for reports and generated   -->
