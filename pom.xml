@@ -38,7 +38,7 @@
   <artifactId>project</artifactId>
   <packaging>pom</packaging>
   <name>Apache Directory Project</name>
-  <version>48-SNAPSHOT</version>
+  <version>47-SNAPSHOT</version>
   <url>https://directory.apache.org/</url>
 
   <description>
@@ -1065,7 +1065,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-	  <version>3.0.0-M5</version>
+	  <version>3.0.0</version>
           <configuration>
             <argLine>-Xmx1024m</argLine>
             <!-- Activate the use of TCP to transmit events to the plugin -->
