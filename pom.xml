@@ -29,7 +29,7 @@
   <parent>
     <groupId>org.apache</groupId>
     <artifactId>apache</artifactId>
-    <version>30</version>
+    <version>31</version>
     <relativePath />
   </parent>
 
@@ -900,13 +900,13 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-clean-plugin</artifactId>
-          <version>3.3.1</version>
+          <version>3.3.2</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.11.0</version>
+          <version>3.12.1</version>
         </plugin>
 
         <plugin>
@@ -925,7 +925,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-docck-plugin</artifactId>
-          <version>1.1</version>
+          <version>1.2</version>
         </plugin>
 
         <plugin>
@@ -996,19 +996,19 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-plugin-plugin</artifactId>
-          <version>3.9.0</version>
+          <version>3.11.0</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-pmd-plugin</artifactId>
-          <version>3.21.0</version>
+          <version>3.21.2</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-project-info-reports-plugin</artifactId>
-          <version>3.4.5</version>
+          <version>3.5.0</version>
         </plugin>
 
         <plugin>
@@ -1047,7 +1047,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>4.0.0-M9</version>
+          <version>4.0.0-M13</version>
         </plugin>
 
         <plugin>
@@ -1076,7 +1076,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-report-plugin</artifactId>
-          <version>3.1.2</version>
+          <version>3.2.5</version>
         </plugin>
 
         <plugin>
@@ -1110,19 +1110,19 @@
         <plugin>
           <groupId>org.apache.xbean</groupId>
           <artifactId>maven-xbean-plugin</artifactId>
-          <version>4.23</version>
+          <version>4.24</version>
         </plugin>
 
         <plugin>
           <groupId>org.codehaus.modello</groupId>
           <artifactId>modello-maven-plugin</artifactId>
-          <version>2.1.2</version>
+          <version>2.3.0</version>
         </plugin>
 
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
-          <version>3.4.0</version>
+          <version>3.5.0</version>
         </plugin>
 
         <plugin>
