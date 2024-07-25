@@ -833,10 +833,11 @@
     <!-- ================================================ -->
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.release>8</maven.compiler.release>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <skin.version>1.0.3</skin.version>
-    <org.apache.directory.checkstyle-configuration.version>2.0.1</org.apache.directory.checkstyle-configuration.version>
+    <org.apache.directory.checkstyle-configuration.version>2.0.2-SNAPSHOT</org.apache.directory.checkstyle-configuration.version>
 
     <!-- Overload the miminum maven version requirement -->
     <minimalMavenBuildVersion>3.8.0</minimalMavenBuildVersion>
@@ -884,7 +885,7 @@
             <dependency>
               <groupId>com.puppycrawl.tools</groupId>
               <artifactId>checkstyle</artifactId>
-              <version>10.13.0</version>
+              <version>10.14.0</version>
             </dependency>
             <dependency>
               <groupId>org.apache.directory.buildtools</groupId>
@@ -1041,7 +1042,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
-          <version>3.4.1</version>
+          <version>3.5.2</version>
         </plugin>
 
         <plugin>
