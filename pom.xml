@@ -29,7 +29,7 @@
   <parent>
     <groupId>org.apache</groupId>
     <artifactId>apache</artifactId>
-    <version>31</version>
+    <version>33</version>
     <relativePath />
   </parent>
 
@@ -192,6 +192,16 @@
     </developer>
 
     <developer>
+      <id>bdemers</id>
+      <name>Brian Demers</name>
+      <organization>ASF</organization>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
+      <roles>
+        <role>PMC Member</role>
+      </roles>
+    </developer>
+
+    <developer>
       <id>ccustine</id>
       <name>Chris Custine</name>
       <organization>ASF</organization>
@@ -234,6 +244,16 @@
     <developer>
       <id>elecharny</id>
       <name>Emmanuel Lecharny</name>
+      <organization>ASF</organization>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
+      <roles>
+        <role>PMC Member</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>plusplusjiajia</id>
+      <name>Jiajia Li</name>
       <organization>ASF</organization>
       <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
@@ -302,26 +322,6 @@
     </developer>
 
     <developer>
-      <id>plusplusjiajia</id>
-      <name>plusplusjiajia</name>
-      <organization>ASF</organization>
-      <organizationUrl>https://www.apache.org/</organizationUrl>
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-
-    <developer>
-      <id>semancik</id>
-      <name>Radovan Semancik</name>
-      <organization>ASF</organization>
-      <organizationUrl>https://www.apache.org/</organizationUrl>
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-
-    <developer>
       <id>smckinney</id>
       <name>Shawn McKinney</name>
       <organization>ASF</organization>
@@ -331,16 +331,6 @@
       </roles>
     </developer>
 
-    <developer>
-      <id>seelmann</id>
-      <name>Stefan Seelmann</name>
-      <organization>ASF</organization>
-      <organizationUrl>https://www.apache.org/</organizationUrl>
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-      <timezone>+1</timezone>
-    </developer>
 
     <developer>
       <id>szoerner</id>
@@ -776,6 +766,27 @@
     </developer>
 
     <developer>
+      <id>seelmann</id>
+      <name>Stefan Seelmann</name>
+      <organization>ASF</organization>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
+      <roles>
+        <role>Emeritus</role>
+      </roles>
+      <timezone>+1</timezone>
+    </developer>
+    
+    <developer>
+      <id>semancik</id>
+      <name>Radovan Semancik</name>
+      <organization>ASF</organization>
+      <organizationUrl>https://www.apache.org/</organizationUrl>
+      <roles>
+        <role>PMC Member</role>
+      </roles>
+    </developer>
+
+    <developer>
       <id>trustin</id>
       <name>Trustin Lee</name>
       <organization>ASF</organization>
@@ -837,7 +848,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <skin.version>1.0.3</skin.version>
-    <org.apache.directory.checkstyle-configuration.version>2.0.2-SNAPSHOT</org.apache.directory.checkstyle-configuration.version>
+    <org.apache.directory.checkstyle-configuration.version>2.0.2</org.apache.directory.checkstyle-configuration.version>
 
     <!-- Overload the miminum maven version requirement -->
     <minimalMavenBuildVersion>3.8.0</minimalMavenBuildVersion>
@@ -868,7 +879,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-assembly-plugin</artifactId>
-          <version>3.6.0</version>
+          <version>3.7.1</version>
         </plugin>
 
         <plugin>
@@ -880,12 +891,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>3.3.1</version>
+          <version>3.4.0</version>
           <dependencies>
             <dependency>
               <groupId>com.puppycrawl.tools</groupId>
               <artifactId>checkstyle</artifactId>
-              <version>10.14.0</version>
+              <version>10.17.0</version>
             </dependency>
             <dependency>
               <groupId>org.apache.directory.buildtools</groupId>
@@ -901,25 +912,25 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-clean-plugin</artifactId>
-          <version>3.3.2</version>
+          <version>3.4.0</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.12.1</version>
+          <version>3.13.0</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
-          <version>3.6.1</version>
+          <version>3.7.1</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-deploy-plugin</artifactId>
-          <version>3.1.1</version>
+          <version>3.1.2</version>
           <inherited>true</inherited>
         </plugin>
 
@@ -955,67 +966,67 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
-          <version>3.4.1</version>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-failsafe-plugin</artifactId>
-          <version>3.2.5</version>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-gpg-plugin</artifactId>
-          <version>3.1.0</version>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-install-plugin</artifactId>
-          <version>3.1.1</version>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-jar-plugin</artifactId>
-          <version>3.3.0</version>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.6.3</version>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-jxr-plugin</artifactId>
-          <version>3.3.2</version>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-plugin-plugin</artifactId>
-          <version>3.11.0</version>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-pmd-plugin</artifactId>
-          <version>3.21.2</version>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.5.0</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>3.3.1</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>3.2.4</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>3.1.2</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>3.4.2</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>3.8.0</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jxr-plugin</artifactId>
+          <version>3.4.0</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-plugin-plugin</artifactId>
+          <version>4.0.0-beta-1</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-pmd-plugin</artifactId>
+          <version>3.24.0</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-project-info-reports-plugin</artifactId>
+          <version>3.6.2</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-release-plugin</artifactId>
-          <version>3.0.1</version>
+          <version>3.1.1</version>
           <configuration>
             <tagNameFormat>@{project.version}</tagNameFormat>
           </configuration>
@@ -1024,7 +1035,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-remote-resources-plugin</artifactId>
-          <version>3.1.0</version>
+          <version>3.2.0</version>
         </plugin>
 
         <plugin>
@@ -1036,25 +1047,25 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-scm-plugin</artifactId>
-          <version>2.0.1</version>
+          <version>2.1.0</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
-          <version>3.5.2</version>
+          <version>3.6.0</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>4.0.0-M13</version>
+          <version>4.0.0-M16</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
-          <version>3.2.1</version>
+          <version>3.3.1</version>
         </plugin>
 
         <plugin>
@@ -1066,7 +1077,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.2.5</version>
+          <version>3.3.1</version>
           <configuration>
             <argLine>-Xmx1024m</argLine>
             <!-- Activate the use of TCP to transmit events to the plugin -->
@@ -1077,7 +1088,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-report-plugin</artifactId>
-          <version>3.2.5</version>
+          <version>3.3.1</version>
         </plugin>
 
         <plugin>
@@ -1111,19 +1122,19 @@
         <plugin>
           <groupId>org.apache.xbean</groupId>
           <artifactId>maven-xbean-plugin</artifactId>
-          <version>4.24</version>
+          <version>4.25</version>
         </plugin>
 
         <plugin>
           <groupId>org.codehaus.modello</groupId>
           <artifactId>modello-maven-plugin</artifactId>
-          <version>2.3.0</version>
+          <version>2.4.0</version>
         </plugin>
 
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
-          <version>3.5.0</version>
+          <version>3.6.0</version>
         </plugin>
 
         <plugin>
@@ -1188,7 +1199,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>taglist-maven-plugin</artifactId>
-          <version>3.0.0</version>
+          <version>3.1.0</version>
           <configuration>
             <tags>
               <tag>TODO</tag>
@@ -1202,7 +1213,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>versions-maven-plugin</artifactId>
-          <version>2.16.2</version>
+          <version>2.17.1</version>
         </plugin>
   
         <plugin>
