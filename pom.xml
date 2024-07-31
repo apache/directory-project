@@ -38,7 +38,7 @@
   <artifactId>project</artifactId>
   <packaging>pom</packaging>
   <name>Apache Directory Project</name>
-  <version>49-SNAPSHOT</version>
+  <version>49</version>
   <url>https://directory.apache.org/</url>
 
   <description>
@@ -822,7 +822,7 @@
     <connection>scm:git:https://gitbox.apache.org/repos/asf/directory-project.git</connection>
     <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/directory-project.git</developerConnection>
     <url>https://github.com/apache/directory-project.git/tree/{project.scm.tag}</url>
-    <tag>47</tag>
+    <tag>49</tag>
   </scm>
 
   <prerequisites>
@@ -834,7 +834,7 @@
     <arguments />
 
     <!-- activate Reproducible Builds -->
-    <project.build.outputTimestamp>1696435072</project.build.outputTimestamp>
+    <project.build.outputTimestamp>1722412373</project.build.outputTimestamp>
 
     <!-- ================================================ -->
     <!-- Set default encoding for reports and generated   -->
