@@ -895,7 +895,7 @@
             <dependency>
               <groupId>com.puppycrawl.tools</groupId>
               <artifactId>checkstyle</artifactId>
-              <version>10.21.0</version>
+              <version>10.21.1</version>
             </dependency>
             <dependency>
               <groupId>org.apache.directory.buildtools</groupId>
@@ -1097,6 +1097,7 @@
         </plugin>
 
         <!-- Don't use 2.5.4: https://issues.apache.org/jira/browse/FELIX-4882 -->
+        <!-- Don't use 6.0.0: Incompatibility with Java 8 -->
         <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
