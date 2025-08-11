@@ -895,7 +895,7 @@
             <dependency>
               <groupId>com.puppycrawl.tools</groupId>
               <artifactId>checkstyle</artifactId>
-              <version>10.25.0</version>
+              <version>11.0.0</version>
             </dependency>
             <dependency>
               <groupId>org.apache.directory.buildtools</groupId>
@@ -942,7 +942,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-ear-plugin</artifactId>
-          <version>3.3.0</version>
+          <version>3.4.0</version>
         </plugin>
 
         <plugin>
@@ -965,7 +965,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
-          <version>3.5.0</version>
+          <version>3.6.1</version>
         </plugin>
 
         <plugin>
@@ -977,7 +977,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-gpg-plugin</artifactId>
-          <version>3.2.7</version>
+          <version>3.2.8</version>
         </plugin>
 
         <plugin>
@@ -1013,7 +1013,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-pmd-plugin</artifactId>
-          <version>3.26.0</version>
+          <version>3.27.0</version>
         </plugin>
 
         <plugin>
