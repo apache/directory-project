@@ -1110,12 +1110,12 @@
           <version>0.17</version>
           <configuration>
             <excludeSubProjects>false</excludeSubProjects>
-            <excludes>
+            <inputExcludes>
               <!-- project excludes -->
               <exclude>README.md</exclude>
               <exclude>**/resources/svn_ignore.txt</exclude>
               <exclude>**/resources/Reveal in Finder.launch</exclude>
-            </excludes>
+            </inputExcludes>
           </configuration>
         </plugin>
 
