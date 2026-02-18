@@ -29,7 +29,7 @@
   <parent>
     <groupId>org.apache</groupId>
     <artifactId>apache</artifactId>
-    <version>35</version>
+    <version>37</version>
     <relativePath />
   </parent>
 
@@ -895,7 +895,7 @@
             <dependency>
               <groupId>com.puppycrawl.tools</groupId>
               <artifactId>checkstyle</artifactId>
-              <version>12.2.0</version>
+              <version>12.3.1</version>
             </dependency>
             <dependency>
               <groupId>org.apache.directory.buildtools</groupId>
@@ -917,13 +917,13 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.14.1</version>
+          <version>3.15.0</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
-          <version>3.9.0</version>
+          <version>3.10.0</version>
         </plugin>
 
         <plugin>
@@ -1025,7 +1025,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-release-plugin</artifactId>
-          <version>3.2.0</version>
+          <version>3.3.1</version>
           <configuration>
             <tagNameFormat>@{project.version}</tagNameFormat>
           </configuration>
@@ -1128,7 +1128,7 @@
         <plugin>
           <groupId>org.codehaus.modello</groupId>
           <artifactId>modello-maven-plugin</artifactId>
-          <version>2.5.1</version>
+          <version>2.6.0</version>
         </plugin>
 
         <plugin>
@@ -1187,13 +1187,13 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>jdepend-maven-plugin</artifactId>
-          <version>2.1</version>
+          <version>2.2.0</version>
         </plugin>
 
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>l10n-maven-plugin</artifactId>
-          <version>1.1.0</version>
+          <version>1.2.0</version>
         </plugin>
 
         <plugin>
@@ -1213,7 +1213,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>versions-maven-plugin</artifactId>
-          <version>2.20.1</version>
+          <version>2.21.0</version>
         </plugin>
   
         <plugin>
