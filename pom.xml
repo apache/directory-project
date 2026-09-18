@@ -1132,7 +1132,7 @@
         <plugin>
           <groupId>org.apache.xbean</groupId>
           <artifactId>maven-xbean-plugin</artifactId>
-          <version>4.27</version>
+          <version>5.0.0</version>
         </plugin>
 
         <plugin>
